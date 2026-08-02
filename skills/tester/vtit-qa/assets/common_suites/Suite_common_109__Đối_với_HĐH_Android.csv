@@ -1,0 +1,22 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8533,Định vị GPS khi thiết bị tắt GPS, 4: Đối với HĐH Android ,Suite_common_109,1,"1. Vào màn hình Cài đặt của thiết bị --&gt; Chọn Vị trí
+2. Set OFF dịch vụ định vị của thiết bị
+3. Đi đến ứng dụng, mở màn hình sử dụng map hoặc định vị GPS","Icon vị trí hiện tại trên bản đồ xám, không lấy được lat, long hiện tại và hiển thị thông báo: Không lấy đươc vị trí của người dùng"
+8534,Định vị GPS khi  có 3G, 4: Đối với HĐH Android ,Suite_common_109,1,"1. Bật 3G 
+2. Cài đặt cho phép định vị vị trí GPS
+3. Đi đến ứng dụng, mở màn hình sử dụng map hoặc định vị GPS","Icon vị trí hiện tại trên bản đồ sáng, lấy được lat, long hiện tại "
+8535,Định vị GPS khi  có 3G, 4: Đối với HĐH Android ,Suite_common_109,1,"1. Bật 3G 
+2. Không cài đặt cho phép định vị vị trí
+3. Đi đến ứng dụng, mở màn hình sử dụng map hoặc định vị GPS",Hiển thị thông báo: Không lấy đươc vị trí của người dùng
+8536,Định vị GPS khi  có 3G, 4: Đối với HĐH Android ,Suite_common_109,1,"1. Tắt 3G 
+2. Cài đặt cho phép định vị vị trí GPS
+3. Đi đến ứng dụng, mở màn hình sử dụng map hoặc định vị GPS",Hiển thị thông báo: Không lấy đươc vị trí của người dùng
+8537,Định vị GPS khi  có Wifi, 4: Đối với HĐH Android ,Suite_common_109,1,"1. Bật Wifi 
+2. Cài đặt cho phép định vị vị trí GPS
+3. Đi đến ứng dụng, mở màn hình sử dụng map hoặc định vị GPS","Icon vị trí hiện tại trên bản đồ sáng, lấy được lat, long hiện tại "
+8538,Định vị GPS khi  có Wifi, 4: Đối với HĐH Android ,Suite_common_109,1,"1. Bật Wifi 
+2. Không cài đặt cho phép định vị vị trí
+3. Đi đến ứng dụng, mở màn hình sử dụng map hoặc định vị GPS",Hiển thị thông báo: Không lấy đươc vị trí của người dùng
+8539,Định vị GPS khi  có Wifi, 4: Đối với HĐH Android ,Suite_common_109,1,"1. Tắt Wifi 
+2. Cài đặt cho phép định vị vị trí GPS
+3. Đi đến ứng dụng, mở màn hình sử dụng map hoặc định vị GPS",Hiển thị thông báo: Không lấy đươc vị trí của người dùng

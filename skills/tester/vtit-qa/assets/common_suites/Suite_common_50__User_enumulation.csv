@@ -1,0 +1,9 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8256,Kiểm tra thông báo lỗi đăng nhập, 2: User enumulation,Suite_common_50,1,"1. Thực hiện đăng nhập với username không tồn tại.
+2. Thực hiện đăng nhập với password sai, username đúng
+3. Thực hiện đăng nhập với password sai, username sai
+4. Click Đăng nhập",Chỉ thông báo chung sai account đăng nhập
+8257,Kiểm tra thông báo khi đổi mật khẩu khi chưa đăng nhập, 2: User enumulation,Suite_common_50,1,"1. Thực hiện đổi mật khẩu với username không tồn tại.
+2. Thực hiện đổi mật khẩu với password sai, username đúng
+3. Thực hiện đổi mật khẩu với password sai, username sai
+",Chỉ thông báo chung sai account đăng nhập

@@ -1,0 +1,5 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8467,"Kiểm tra hiển thị đúng icon, tên ứng dụng khi ghim ứng dụng vào màn hình start", 3: Kiểm tra hiển thị icon ứng dụng khi ghim vào màn hình khởi động ,Suite_common_92,1,"1. Từ màn hình Danh sách ứng dụng, long touch vào icon ứng dụng
+2. Chọn Ghim vào màn hình Start
+3. Kiểm tra hiển thị icon và tên ứng dụng ở màn hình Start
+",Hiển thị đúng icon và tên ứng dụng ở màn hình Start

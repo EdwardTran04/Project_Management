@@ -1,0 +1,28 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9220,Kiểm tra việc không hiển thị thông báo nâng cấp ứng dụng khi version code của ứng dụng bằng version code trên server, 3: Nâng cấp ứng dụng,Suite_common_386,1,"Đảm bảo version code ứng dụng = version code trên server
+1. Chọn mở ứng dụng",Không hiển thị thông báo nâng cấp ứng dụng
+9221,Kiểm tra việc hiển thị khi version code của ứng dụng nhỏ hơn version code trên server, 3: Nâng cấp ứng dụng,Suite_common_386,1,"Đảm bảo version code ứng dụng &lt; version code trên server
+1. Chọn mở ứng dụng","Hiển thị thông báo nâng cấp ứng dụng với nội dung:
+""Hiện đã có phiên bản ứng dụng mới hơn. Bạn có muốn nâng cấp không ?""
+ 2 button Nâng cấp và Để sau"
+9222,Kiểm tra việc hiển thị khi version code của ứng dụng nhỏ hơn version code trên server, 3: Nâng cấp ứng dụng,Suite_common_386,1,2. Chọn Để sau,"2. Đóng thông báo nâng cấp ứng dụng, hiển thị màn hình đăng nhập vào ứng dụng"
+9223,Kiểm tra việc hiển thị khi version code của ứng dụng nhỏ hơn version code trên server, 3: Nâng cấp ứng dụng,Suite_common_386,1,2.1. Kiểm tra hiển thị dữ liệu khi không cập nhật ứng dụng,"2.1. Ứng dụng vẫn hiển thị các tính năng như phiên bản hiện tại chưa được update mới ( kiểm tra những tính năng mới của phiên bản mới không được cập nhật)
+- Dữ liệu trong DB không thay đổi"
+9224,Kiểm tra việc hiển thị khi version code của ứng dụng nhỏ hơn version code trên server, 3: Nâng cấp ứng dụng,Suite_common_386,1,3. Chọn Nâng cấp,3. Thực hiện link đến trang Google Play hoặc Apple Store có phiên bản mới nhất của ứng dụng
+9225,Kiểm tra việc hiển thị khi version code của ứng dụng nhỏ hơn version code trên server, 3: Nâng cấp ứng dụng,Suite_common_386,1,4. Kiểm tra việc download phiên bản mới,3.1. Hệ thống thực hiện việc dowload phiên bản và hiển thị cập nhật thành công khi đã tải về thành công
+9226," Kiểm tra hiển thị tính năng mới nâng cấp sau khi nâng cấp thành công
+", 3: Nâng cấp ứng dụng,Suite_common_386,1,"Đảm bảo nâng cấp ứng dụng thành công
+1. Kiểm tra việc hiển thị tính năng mới, kiểm tra dữ liệu DB","- Tính năng mới hiển thị trong phiên bản được nâng cấp.
+- Nếu sau khi nâng cấp có thay đổi DB thì dữ liệu trong DB phải có sự thay đổi"
+9227,Kiểm tra việc vẫn hiển thị thông báo nâng cấp ứng dụng ở lần tiếp theo khi người dùng chưa nâng cấp, 3: Nâng cấp ứng dụng,Suite_common_386,1,"Đảm bảo version code ứng dụng &lt; version code trên server
+1. Chọn mở ứng dụng
+2. Bấm Để sau hoặc Thoát ở dialog thông báo nâng cấp ứng dụng
+3. Sau đó thoát khỏi ứng dụng
+4. Chọn lại ứng dụng",Vẫn hiển thị thông báo nâng cấp trên màn hình ứng dụng
+9228,Kiểm tra việc không hiển thị thông báo nâng cấp ứng dụng khi đã nâng cấp ứng dụng thành công, 3: Nâng cấp ứng dụng,Suite_common_386,1,"Đảm bảo phiên bản hiện tại sau khi nâng cấp thành công là phiên bản mới nhất của ứng dụng
+1. Thực hiện nâng cấp ứng dụng thành công
+2. Mở lại Ứng dụng vừa được nâng cấp","Không hiển thị thông báo nâng cấp ứng dụng nữa, ứng dụng mới nâng cấp hoạt động bình thường"
+9229,Kiểm tra khi mất kết nối mạng, 3: Nâng cấp ứng dụng,Suite_common_386,1,"Đảm bảo ngắt kết nối mạng tại dialog thông báo nâng cấp ứng dụng
+1. Chọn Hủy",1. Thực hiện đóng thông báo nâng cấp ứng dụng
+9230,Kiểm tra khi mất kết nối mạng, 3: Nâng cấp ứng dụng,Suite_common_386,1,2. Chọn Đồng ý,"1. Thực hiện thất bại
+2. Hiển thị dialog thông báo lỗi mất kết nối mạng"

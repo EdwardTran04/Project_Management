@@ -1,0 +1,13 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9328,"Kiểm tra màn hình ở trạng thái mặc định
+", 2: Ktra Giao diện ,Suite_common_398,1,"1. Kiểm tra title màn hình
+2. Kiểm tra đầy đủ các trường như prototype
+3. Kiểm tra trạng thái mặc định của các trường","1. Title màn hình: Cây thư mục
+2. Màn hình gồm các thông tin sau:
+- Checkbox
+- Cây thư mục
+- Button Xong
+- Button Đóng 'X'
+3. Trạng thái mặc định của các trường
+- Không check vào checkbox nào
+"

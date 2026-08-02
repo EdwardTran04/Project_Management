@@ -1,0 +1,14 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9141,Kiểm tra tính duy nhất của trường dữ liệu , 3: Kiểm tra các ràng buộc khác ,Suite_common_373,1,"1. Thực hiện import 1 file chứa 1 bản ghi:  Dữ liệu cho trường đang xét trùng với  trường dữ liệu của một bản ghi đã tồn tại ( Chú ý : dữ liệu trùng hoàn toàn hoặc khác nhau hoa thường)
+2. Dữ liệu các trường khác hợp lệ","1. Không Import dữ liệu trên file vào hệ thống
+2. Hiển thị thông báo lỗi ở bản ghi tương ứng lỗi"
+9142,Kiểm tra tính duy nhất của trường dữ liệu , 3: Kiểm tra các ràng buộc khác ,Suite_common_373,1,"1. Thực hiện import 1 file chứa 1 bản ghi:  Dữ liệu cho trường đang xét gần giống với dữ liệu đã tồn tại trong cơ sở dữ liệu ( Ví dụ : Minh hà  - Minh Hạ
+2. Dữ liệu các trường khác hợp lệ","1. Import thành công các bản ghi trên file &amp; lưu vào CSDL chính xác
+"
+9143,"Thực hiện ""Import"" khi trong file excel có >=2 bản ghi trùng trường giá trị đang xét ( trong trường hợp trong hệ thống chưa có bản ghi nào có trường giá trị với giá trị đó )
+", 3: Kiểm tra các ràng buộc khác ,Suite_common_373,1,"Giả sử trong hệ thống chưa có bản ghi nào có giá trị trường đang xét là ""A""
+1. Chọn file Import đúng định dạng và có ít nhất 2 bản ghi có giá trị trường đang xét là ""A""
+2. Nhấn nút ""Import"" hoặc bấm Enter.",Không Import dữ liệu trên file vào hệ thống và hiển thị thông báo lỗi cho các bản ghi trùng.
+9144,"Thực hiện ""Import"" cùng 1 file từ 2 tab hoặc 2 máy", 3: Kiểm tra các ràng buộc khác ,Suite_common_373,1,"1. Từ 2 tab chọn import cùng 1 file
+2. Nhấn nút ""Import"" hoặc bấm Enter.","1. Tab 1 import thành công
+2. Tab 2 thông báo lỗi nếu có check trùng dữ liệu. "

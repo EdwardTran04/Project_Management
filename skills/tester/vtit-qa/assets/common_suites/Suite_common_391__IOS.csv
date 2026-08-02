@@ -1,0 +1,87 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9236,Kiểm tra không hiển thị lịch nhắc nhở khi tắt chế độ lịch nhắc nhở trong thiết bị, 4: IOS,Suite_common_391,1,"1. Vào Setting -&gt; Notifcation Center -&gt; Chọn App đang thao tác -&gt; Allow Notifications 
+2. Tắt chế độ lịch nhắc nhở (không tích chọn vào Show Notification)
+3.Tạo lịch nhắc nhở A sau khi cài đặt
+4. Kiểm tra hiển thị lịch nhắc nhở tại thời điểm mong muốn nhắc nhở","4. Không hiển thị lịch nhắc nhở về thiết bị
+"
+9237,"Kiểm tra không hiển thị lịch nhắc nhở khi bật chế độ lịch nhắc nhở trong thiết bị và tắt nhắc nhở của ứng dụng
+TH1: Tắt chế độ lịch nhắc nhở trong ứng dụng", 4: IOS,Suite_common_391,1,"1.Đảm bảo đã bật chế độ lịch nhắc nhở trong thiết bị
+2. Thực hiện tắt chế độ lịch nhắc nhở trong ứng dụng
+3.Tạo lịch nhắc nhở A sau khi cài đặt
+4. Kiểm tra hiển thị lịch nhắc nhở tại thời điểm mong muốn nhắc nhở","4. Không hiển thị lịch nhắc nhở về thiết bị
+"
+9238,"Kiểm tra hiển thị lịch nhắc nhở khi bật chế độ lịch nhắc nhở trong thiết bị và ứng dụng
+TH2: Bật chế độ lịch nhắc nhở trong ứng dụng", 4: IOS,Suite_common_391,1,"1.Đảm bảo đã bật chế độ lịch nhắc nhở trong thiết bị
+2. Thực hiện bật chế độ lịch nhắc nhở trong ứng dụng
+3.Tạo lịch nhắc nhở A sau khi cài đặt
+4. Kiểm tra hiển thị lịch nhắc nhở tại thời điểm mong muốn nhắc nhở","4. 
+- Hiển thị lịch nhắc nhở về thiết bị
+- Thông báo hiển thị theo dạng Notification Bar /dialog (Tùy thuộc vào lựa chọn hiển thị của người dùng)
+"
+9239,Kiểm tra hiển thị dạng lịch nhắc nhở khi cài đặt Alert Style, 4: IOS,Suite_common_391,1,"1. Vào Setting -&gt; Notifcation Center -&gt; Chọn App đang thao tác -&gt; ALERT STYLE  ( Kiểu cảnh báo )
+2.1 Chọn None
+3.Tạo lịch nhắc nhở sau khi cài đặt 
+4. Kiểm tra hiển thị lịch nhắc nhở tại thời điểm mong muốn nhắc nhở","4. Hiển thị lịch dạng nhắc nhở theo dạng None
+Note: bổ sung thêm kết quả mong đợi khi dữ liệu tràn"
+9240,Kiểm tra hiển thị dạng lịch nhắc nhở khi cài đặt Alert Style, 4: IOS,Suite_common_391,1,"2.2 Chọn Banners ( Biểu ngữ )
+3. Tạo lịch nhắc nhở sau khi cài đặt 
+4. Kiểm tra hiển thị lịch nhắc nhở tại thời điểm mong muốn nhắc nhở","4. Hiển thị lịch nhắc nhở dạng banner ở top màn hình
+
+"
+9241,Kiểm tra hiển thị dạng lịch nhắc nhở khi cài đặt Alert Style, 4: IOS,Suite_common_391,1,"2.3 Chọn Alerts (Cảnh báo )
+3. Tạo lịch nhắc nhở sau khi cài đặt 
+4. Kiểm tra hiển thị lịch nhắc nhở tại thời điểm mong muốn nhắc nhở","4. Hiển thị lịch nhắc nhở theo dạng alertview 
+
+"
+9242,Kiểm tra hiển thị  đúng số lượng lịch nhắc nhở  khi lựa chọn cài đặt số lượng thông báo trong thiết bị, 4: IOS,Suite_common_391,1,"1. Vào Setting -&gt; Notifcation Center (Thông báo ) -&gt; Chọn App đang thao tác -&gt; Show in notification Center(Hiển thị trong trung tâm thông báo ) -&gt; Bật On -&gt; Chọn Include -&gt; 
+2.1 Tích chọn menu [1 Recent item] 
+3.Tạo n(n&gt;1) lịch nhắc nhở sau khi cài đặt 
+4. Kiểm tra hiển thị lịch nhắc nhở tại thời điểm mong muốn nhắc nhở
+",4. Hiển thị  1 lịch nhắc nhở gần nhất về thiết bị
+9243,Kiểm tra hiển thị  đúng số lượng lịch nhắc nhở  khi lựa chọn cài đặt số lượng thông báo trong thiết bị, 4: IOS,Suite_common_391,1,"1. Vào Setting -&gt; Notifcation Center (Thông báo ) -&gt; Chọn App đang thao tác -&gt; Show in notification Center(Hiển thị trong trung tâm thông báo ) -&gt; Bật On -&gt; Chọn Include -&gt; 
+2.1 Tích chọn menu [5 Recent item] 
+3.Tạo n(n&gt;5) lịch nhắc nhở sau khi cài đặt 
+4. Kiểm tra hiển thị lịch nhắc nhở tại thời điểm mong muốn nhắc nhở
+",4. Hiển thị 5 lịch nhắc nhở gần nhất về thiết bị
+9244,Kiểm tra hiển thị  đúng số lượng lịch nhắc nhở  khi lựa chọn cài đặt số lượng thông báo trong thiết bị, 4: IOS,Suite_common_391,1,"1. Vào Setting -&gt; Notifcation Center (Thông báo ) -&gt; Chọn App đang thao tác -&gt; Show in notification Center(Hiển thị trong trung tâm thông báo ) -&gt; Bật On -&gt; Chọn Include -&gt; 
+2.1 Tích chọn menu [10 Recent item] 
+3.Tạo n(n&gt;10) lịch nhắc nhở sau khi cài đặt 
+4. Kiểm tra hiển thị lịch nhắc nhở tại thời điểm mong muốn nhắc nhở
+",4. Hiển thị 10 lịch nhắc nhở gần nhất về thiết bị
+9245,Kiểm tra hiển thị lịch nhắc nhở khi bật Badge App Icon, 4: IOS,Suite_common_391,1,"
+1. Vào Setting -&gt; Notifcation Center -&gt; Chọn App đang thao tác -&gt;Badge AppBadge (Biểu tượng ƯD Phù hiệu )
+2.1 Chọn On
+3.Tạo lịch nhắc nhở sau khi cài đặt 
+4. Kiểm tra hiển thị Badge AppBadge  lịch nhắc nhở tại thời điểm mong muốn nhắc nhở
+","4. Hiển thị số trên icon app
+( Điều kiện  bản tin của server khi gửi đến APNS của Apple có kèm key badge trong đó )
+Note : Nếu server không gửi kèm Key : ""badge"" thì ứng dụng sẽ không thực hiện hiển thị số trên icon app khi có lịch nhắc nhở về (dù đã thiết lập ở thiết bị )"
+9246,Kiểm tra hiển thị lịch nhắc nhở khi tắt Badge App Icon, 4: IOS,Suite_common_391,1,"2.1 Chọn Off
+3.Tạo lịch nhắc nhở sau khi cài đặt 
+4. Kiểm tra hiển thị Badge AppBadge  lịch nhắc nhở tại thời điểm mong muốn","4. Không hiển thị số trên icon app
+"
+9247,Kiểm tra hiển thị lịch nhắc nhở khi bật chế độ âm thanh (sound), 4: IOS,Suite_common_391,1,"
+1. Vào Setting -&gt; Notifcation Center -&gt; Chọn App đang thao tác -&gt; Badge Sound
+2.1 Chọn On
+3.Tạo lịch nhắc nhở sau khi cài đặt 
+4. Kiểm tra hiển thị âm thanh khi có lịch nhắc nhở về","4. Có âm thanh kèm theo khi lịch nhắc nhở được push về thiết bị (tùy vào âm thanh cài đặt sẵn trong thiết bị)
+( Điều kiện  bản tin của server khi gửi đến APNS của Apple có kèm key sound trong đó )
+Note : Nếu server không gửi kèm Key : ""Sound"" thì ứng dụng sẽ không thực hiện rung chuông hoặc âm thanh khi có notification về.(dù đã thiết lập ở thiết bị )
+"
+9248,Kiểm tra hiển thị lịch nhắc nhở khi tắt chế độ âm thanh (sound), 4: IOS,Suite_common_391,1,"2.1 Chọn OFF
+3.Tạo lịch nhắc nhở sau khi cài đặt 
+4. Kiểm tra hiển thị âm thanh khi có lịch nhắc nhở về thiệt bị",4. Không có âm thanh kèm theo khi lịch nhắc nhở được push về thiết bị ( Mặc dù  bản tin của server khi gửi đến APNS của Apple có kèm key Sound trong đó )
+9249,Kiểm tra hiển thị lịch nhắc nhở khi bật chế độ Show on Lock Screen, 4: IOS,Suite_common_391,1,"1. Vào Setting -&gt; Notifcation Center -&gt; Chọn App đang thao tác -&gt;  Show on Lock Screen
+2.1 Chọn On
+3.Tạo lịch nhắc nhở sau khi cài đặt 
+4. Kiểm tra hiển thị âm thanh khi có lịch nhắc nhở về thiệt bị",4. Hiển thị lịch nhắc nhở khi khóa màn hình
+9250,Kiểm tra hiển thị lịch nhắc nhở khi bật chế độ Show on Lock Screen, 4: IOS,Suite_common_391,1,"2.2 Chọn Off
+3.Tạo lịch nhắc nhở sau khi cài đặt 
+4. Kiểm tra hiển thị âm thanh khi có lịch nhắc nhở về thiệt bị",4. Không hiển thị lịch nhắc nhở khi khóa màn hình
+9251,Kiểm tra hiển thị khi nhấn Close trên thông báo Notification , 4: IOS,Suite_common_391,1,"1. Có lịch nhắc nhở
+2. Nhấn Close trên lịch nhắc nhở ",1. Đóng lịch nhắc nhở và tiếp tục hiển thị lịch nhắc nhở nếu người dùng cài đặt nhắc lại lịch (tùy vào thời gian cài đặt là bao lâu)
+9252,Kiểm tra hiển thị khi nhấn View , 4: IOS,Suite_common_391,1,"1. Có lịch nhắc nhở
+2. Nhấn View","1. Đóng lịch nhắc nhở 
+2. Hiển thị màn hình thông tin chi tiết của nội dung lập lịch ( Tùy ĐTYC)"
+9253,Kiểm tra khi không nhấn Close hay View , 4: IOS,Suite_common_391,1,"1. Có lịch nhắc nhở
+2. Không nhấn Close và View",2. Vẫn hiển thị lịch nhắc nhở trên màn hình điện thoại

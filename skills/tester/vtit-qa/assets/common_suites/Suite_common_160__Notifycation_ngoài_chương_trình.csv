@@ -1,0 +1,66 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8566,Kiểm tra notify khi đang sử dụng ứng dụng khác, 3: Notifycation ngoài chương trình,Suite_common_160,1,"1. Không tắt ứng dụng
+2. Home màn hình, sau đó chọn và dùng ứng dụng khác
+3. Kiểm tra thông báo notify","1. Hiển thị thông báo và có notify đủ cho người dùng đọc
+2. Các thông báo realtime không bị lỗi phông chữ,
+3. Lỗi chính tả và nội dung là do server đẩy lên APNS của Apple không thuộc phạm vi xử lý của client ( Nếu thông tin dài thì hiển thị dấu … ở cuối dòng )"
+8567,Kiểm tra trường hợp chạm vào thông báo khi không ở trong ứng dụng, 3: Notifycation ngoài chương trình,Suite_common_160,1,"1. Mở ứng dụng
+2. Bấm Home key để minimize ứng dụng
+3. Có thông báo notify của ứng dụng
+4. Touch vào thông báo khi có thông báo mới","1.1. Đối với các ứng dụng có chức năng màn hình thông báo riêng : mở lại ứng dụng và hiển thị màn hình theo yêu cầu của ứng dụng ( DTYC). Thao tác ứng dụng bình thường
+1.2 Đối với các ứng dụng không có chức năng màn hình thông báo :  Mở lại ứng dụng mà không bị crash, hiển thị màn hình cuối cùng khi home ứng dụng xuống. Thao tác ứng dụng bình thường"
+8568,Kiểm tra trường hợp mở ứng dụng khi touch vào thông báo khi đã tắt ứng dụng, 3: Notifycation ngoài chương trình,Suite_common_160,1,"Đảm bảo thiết bị chưa bị khóa màn hình
+Chưa mở ứng dụng, có thông báo realtime của ứng dụng
+1. Touch vào thông báo khi có thông báo đến
+","1.1. Đối với các ứng dụng có chức năng màn hình thông báo riêng : mở lại ứng dụng và hiển thị màn hình theo yêu cầu của ứng dụng ( DTYC). Thao tác ứng dụng bình thường
+1.2 Đối với các ứng dụng không có chức năng màn hình thông báo :  Mở lại ứng dụng mà không bị crash, hiển thị màn hình cuối cùng khi home ứng dụng xuống. Thao tác ứng dụng bình thường"
+8569,Kiểm tra trường hợp mở ứng dụng khi màn hình của thiết bị đã bị khóa, 3: Notifycation ngoài chương trình,Suite_common_160,1,"Chưa mở ứng dụng, Có thông báo realtime . Đảm bảo màn hình của thiết bị đã bị khóa
+1. Kéo thanh thông báo của thiết bị xuống
+2. Touch vào thông báo khi có thông báo đến
+","1.1. Đối với các ứng dụng có chức năng màn hình thông báo riêng : mở lại ứng dụng và hiển thị màn hình theo yêu cầu của ứng dụng ( DTYC). Thao tác ứng dụng bình thường
+1.2 Đối với các ứng dụng không có chức năng màn hình thông báo :  Mở lại ứng dụng mà không bị crash, hiển thị màn hình cuối cùng khi home ứng dụng xuống. Thao tác ứng dụng bình thường"
+8570,Kiểm tra trường hợp mở ứng dụng khi màn hình của thiết bị đã bị khóa, 3: Notifycation ngoài chương trình,Suite_common_160,1,"Mở ứng dụng
+2. Bấm Lock key
+3. Có thông báo notify
+4. Touch vào thông báo khi có thông báo đến
+","1.1. Đối với các ứng dụng có chức năng màn hình thông báo riêng : mở lại ứng dụng và hiển thị màn hình theo yêu cầu của ứng dụng ( DTYC). Thao tác ứng dụng bình thường
+1.2 Đối với các ứng dụng không có chức năng màn hình thông báo :  Mở lại ứng dụng mà không bị crash, hiển thị màn hình cuối cùng khi home ứng dụng xuống. Thao tác ứng dụng bình thường"
+8571,Kiểm tra việc mất notification mất đi sau khi đã touch vào thông báo, 3: Notifycation ngoài chương trình,Suite_common_160,1,"1.Đăng nhập vào hệ thống
+2.Tạo thông báo mới trên server 
+3.Touch chọn vào thông báo mới vừa được push về 
+6.Mở notification center 
+7.Kiểm tra hiển thị thông tin vừa touch chọn 
+
+",Xóa notification của ứng dụng trên notification center  và giảm số thông báo ( n-1) trên badge app
+8572,Kiểm tra việc mất notification mất đi sau khi đã touch vào thông báo, 3: Notifycation ngoài chương trình,Suite_common_160,1,"1.Đăng nhập vào hệ thống
+2.Tạo thông báo mới trên server 
+3.Mở notification center 
+4.Touch chọn vào thông báo mới vừa được push về 
+5.Kiểm tra hiển thị thông tin vừa touch chọn 
+
+",Xóa notification của ứng dụng trên notification center  và giảm số thông báo ( n-1) trên badge app
+8573,Kiểm tra việc push notification khi ứng dụng có kết nối mạng trở lại, 3: Chung,Suite_common_160,1,"1. Thực hiện push notification từ server khi ứng dụng không có kết nối mạng
+2. Thực hiện kết nối mạng trở lại",Ứng dụng được push notification khi có kết nối mạng trở lại ( phụ thuộc APNS có thể 2 - 3 tiếng )
+8574,Kiểm tra tại một thời điểm có nhiều thông báo được push về, 3: Chung,Suite_common_160,1,1. Từ server push về số lượng thông báo nhiều : 100 ( thời gian push mỗi notification cần cách nhau 1 phút),1.Push thông báo về với tí lệ rớt không quá 20% ( confirm lại tỉ lệ rớt )
+8575,Kiểm tra tại một thời điểm có nhiều thông báo được push về, 3: Chung,Suite_common_160,1,"1. Vào Setting -&gt; Notifcation Center -&gt; Chọn App đang thao tác -&gt; Show in notification Center -&gt; Bật On -&gt; Chọn Include -&gt; 
+2.1  5 Recent item
+3.Tạo dữ liệu push nhiều thông báo về sau khi cài đặt  
+",Hiển thị 5 thông báo gần nhất trên thanh notification center
+8576,Kiểm tra tại một thời điểm có nhiều thông báo được push về, 3: Chung,Suite_common_160,1,"1. Vào Setting -&gt; Notifcation Center -&gt; Chọn App đang thao tác -&gt; Show in notification Center -&gt; Bật On -&gt; Chọn Include -&gt; 
+2.1  10 Recent item
+3.Tạo dữ liệu push nhiều thông báo   về sau khi cài đặt  
+",Hiển thị 10 thông báo gần nhất trên thanh notification center
+8577,Kiểm tra cùng lúc có nhiều thông báo được đẩy về nhiều hơn số lượng thông báo setting cho 1 lần nhận của HDH - IOS, 3: Chung,Suite_common_160,1,"1. Vào Setting -&gt; Notifcation Center -&gt; Chọn App đang thao tác -&gt; Show in notification Center -&gt; Bật On -&gt; Chọn Include -&gt; 
+ a. 1 Recent item
+ b.5 recent items
+ c.10 recent Items 
+2. Lựa chọn Items push về: 10
+3. Từ server pust về số lượng thông báo &gt; số config: 20","Nếu push 20 thông báo nó chỉ hiển thị 10 thông báo : từ tin 20 đến 11 trên thanh notification center
+Touch vào thông báo -&gt; vào chức năng của ứng dụng
+Tải về tất cả các thông báo tùy theo ĐTYC và chức năng hệ thống có màn hình thông báo thì vào thông báo tải về và hiển thị"
+8591,Kiểm tra hiển thị thông tin notify khi push về, 3: Notification trong chương trình WP,Suite_common_160,1,"1. Mở ứng dụng lên. Có thông báo từ server về ứng dụng
+2.1 Kiểm tra hiển thị notification trên thanh Notifcation Header","Hiển thị trên Notification dạng Banner ở đầu màn hình cho người dùng đọc.
+"
+8592,Kiểm tra hiển thị thông tin notify khi push về, 3: Notification trong chương trình WP,Suite_common_160,1,2.2 Kéo xuống và kiểm tra hiển thị notification trên thanh Notifcation Bar,Thông báo không hiển thị trên thanh Notification Bar
+8593,Kiểm tra hiển thị thông tin notify khi push về, 3: Notification trong chương trình WP,Suite_common_160,1,3. Nhấn vào thông báo trên Notification Header,"Hiển thị màn hình chính (hoặc màn hình có chức năng thông báo) của ứng dụng
+"

@@ -1,0 +1,5 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9037,Tìm kiếm khi check chọn lần lượt giá trị trong List radio button, 4: Tìm kiếm theo giá trị của Radio,Suite_common_352,1,"1. Lần lượt Check chọn 1 giá trị trong list Radio button
+2. Click button 'Tìm kiếm'","1. Hiển thị kết quả tìm kiếm thỏa mãn 
+= Giá trị đã chọn
+"

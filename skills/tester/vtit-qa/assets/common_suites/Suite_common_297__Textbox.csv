@@ -1,0 +1,29 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8101,Kiểm tra là trường bắt buộc, 2: Textbox,Suite_common_297,1,"1. Để trống trường dữ liệu
+2. Các thông tin khác được nhập hợp lệ","1. Thông báo:""Dữ liệu chưa được nhập""
+2. Set focus vào trường lỗi"
+8102,"Kiểm tra nhập các ký tự đặc biệt
+
+", 2: Textbox,Suite_common_297,1,"1. Nhập dữ liệu là ký tự đặc biệt %^&amp;*()
+2. Các thông tin khác được nhập hợp lệ","1. Thực hiện thành công
+2. Dữ liệu của trường dữ liệu được view lên bình thường, không bị lỗi font
+"
+8103,Kiểm tra nhập quá maxlength (10 ký tự), 2: Textbox,Suite_common_297,1,"1. Nhập hơn nhiều hơn 10 ký tự cho phép
+2. Các thông tin khác được nhập hợp lệ",Không Cho phép nhập quá giá trị maxlength
+8104,"Kiểm tra khi nhập dữ liệu là các thẻ html, script", 2: Textbox,Suite_common_297,1,"1. Nhập X đúng định dạng  có chứa ký tự đặc biệt, thẻ html: ….
+2. Các thông tin khác được nhập hợp lệ
+","1. Thực hiện thành công
+2. Các ký tự đặc biệt, thẻ html không bị mã hóa khi view lên và khi lưu vào database
+"
+8105,Kiểm tra chức năng Trim space, 2: Textbox,Suite_common_297,1,"1. Nhập dữ liệu hợp lệ và thêm space vào đầu và cuối 
+2. Các thông tin khác được nhập hợp lệ
+","1. Thực hiện thành công
+2. Thực hiện trim space ở đầu và cuối trường dữ liệu
+"
+8106,"Kiểm tra copy nội dung dữ liệu, paste vào textbox", 2: Textbox,Suite_common_297,1,"1. Copy nội dung dữ liệu, paste vào textbox
+2. Các thông tin khác được nhập hợp lệ",1. Thực hiện thành công
+8107,Kiểm tra thực hiện thành công khi dữ liệu là chữ tiếng Việt có dấu, 2: Textbox,Suite_common_297,1,"1. Nhập dữ liệu là chữ tiếng việt có dấu
+2. Các thông tin khác được nhập hợp lệ
+","1. Thực hiện thành công
+2. Dữ liệu của trường dữ liệu được view lên bình thường, không bị lỗi font
+"

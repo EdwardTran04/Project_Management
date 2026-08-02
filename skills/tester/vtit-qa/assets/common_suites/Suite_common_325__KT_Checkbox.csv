@@ -1,0 +1,14 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8341,Kiểm tra giá trị mặc định của check box, 2: KT Checkbox,Suite_common_325,1,Kiểm tra giá trị mặc định của checkbox.,"Check box có thể ở 1 trong 2 trạng thái mặc định sau: Chọn/ Bỏ chọn.
+"
+8342,Kiểm tra thứ tự sắp xếp của các giá trị , 2: KT Checkbox,Suite_common_325,1,Kiểm tra thứ tự sắp xếp của các giá trị,"Tùy thuộc vào DTYC
+- Theo thứ tự API trả ra
+- Thứ tự ABC"
+8343,"Kiểm tra việc kích chọn, bỏ kích chọn trên các checkbox
+", 2: KT Checkbox,Suite_common_325,1,"
+1. Tích chọn,  bỏ chọn trên các checkbox",Checkbox ở trạng thái Chọn/Bỏ chọn.
+8344,Kiểm tra việc kích chọn all check, 2: KT Checkbox,Suite_common_325,1,"1. Tích chọn, bỏ chọn Check All","Tích chọn all: Các check box khác trong danh sách đều được tích chọn.
+Bỏ chọn all: Các checkbox khác trong danh sách đều được bỏ chọn"
+8345,Kiểm tra việc bỏ chọn 1 checkbox trong danh sách khi đang chọn check all, 2: KT Checkbox,Suite_common_325,1,1. Bỏ chọn 1 check box,Checkbox checkall cũng được bỏ chọn
+8346,Kiểm tra việc check CheckAll khi tất cả các checkbox được check, 2: KT Checkbox,Suite_common_325,1,1. Check tất cả các check box,Checkbox checkall cũng được check
+8347,Kiểm tra khi nhấn vào label của option, 2: KT Checkbox,Suite_common_325,1,1. Nhấn vào label của option,"Khi nhấn vào label của option thì cũng phải coi như nhấn được vào option, vì diện tích tương tác lớn thì người dùng thuận tiện thao tác hơn."

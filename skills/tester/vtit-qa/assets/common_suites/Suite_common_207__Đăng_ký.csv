@@ -1,0 +1,154 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8771,"Kiểm tra việc đăng ký thành công, nhập các trường có độ dài bằng maxlength", 1: Đăng ký ,Suite_common_207,1,"Đảm bảo hệ thống có kết nối mạng
+1.  Nhập các trường có độ dài bằng maxlength vào tất cả các trường
+2. Click [Đăng ký]
+"," - Hiển thị thông báo đăng ký thành công.
+  -  Kiểm tra có thể đăng nhập bằng account đăng ký mới này 
+  - ….. 
+"
+8772,"Kiểm tra việc đăng ký thành công, nhập các trường có độ dài bằng tối thiểu độ dài được phép", 1: Đăng ký ,Suite_common_207,1,"Đảm bảo hệ thống có kết nối mạng
+1.  Nhập các trường có độ dài bằng tối thiểu cho phép vào tất cả các trường
+2. Click [Đăng ký]
+"," - Hiển thị thông báo đăng ký thành công.
+  -  Kiểm tra có thể đăng nhập bằng account đăng ký mới này 
+  - ….. 
+"
+8773,"Kiểm tra việc đăng ký thành công, chỉ nhập các trường bắt buộc", 1: Đăng ký ,Suite_common_207,1,"Đảm bảo hệ thống có kết nối mạng
+1. Chỉ nhập các trường bắt buộc
+2. Click [Đăng ký]
+"," - Hiển thị thông báo đăng ký thành công.
+  - Kiểm tra có thể đăng nhập bằng account đăng ký mới này 
+  - ….. 
+"
+8774,Kiểm tra đăng ký thành công khi [Tên đăng nhập] cho phép ký tự đặc biệt, 1: Đăng ký ,Suite_common_207,1,"Điều kiện: ĐTYC cho phép user có các ký tự đặc biệt : liệt kê các ký tự đặc biệt ra …..
+1. Lần lượt Nhập dữ liệu vào  textbox [Tên đăng nhập]: có chứa các ký tự đặc biệt được phép
+2. Nhập các trường khác hợp lệ
+3. Click button [Đăng ký]"," - Hiển thị thông báo đăng ký thành công.
+  - Kiểm tra có thể đăng nhập bằng account đăng ký mới này 
+  - ….. 
+"
+8775,Kiểm tra chức năng Trim space, 1: Đăng ký ,Suite_common_207,1,"1. Nhập dữ liệu hợp lệ và thêm space vào đầu và cuối  các trường cho phép Trim Space.( hoặc thực hiện copy paste một số có chứa space ở đầu, cuối)
+2. Các thông tin khác được nhập hợp lệ
+","1. Thực hiện lưu thành công. Kiểm tra lưu đúng như case lưu DB
+2. Thực hiện trim space ở đầu và cuối trường dữ liệu
+
+
+"
+8776,Kiểm tra không Trim space ( nếu ĐTYC không trím space trường mật khẩu), 1: Đăng ký ,Suite_common_207,1,"1. Nhập dữ liệu hợp lệ và thêm space vào đầu và cuối  các trường không cho  phép Trim Space
+2. Các thông tin khác được nhập hợp lệ
+","1. Thực hiện lưu thành công. Kiểm tra lưu đúng như case lưu DB
+2.  Không thực hiện trim space ở đầu và cuối trường mật khẩu
+3. Kiểm tra có thể đăng nhập bằng account đăng ký mới này 
+
+
+"
+8777,Kiểm tra không Trim space ( nếu ĐTYC không trím space trường mật khẩu), 1: Đăng ký ,Suite_common_207,1,"1. Nhập mật khẩu toàn các ký tự space
+2. Các thông tin khác được nhập hợp lệ
+","1. Thực hiện lưu thành công. Kiểm tra lưu đúng như case lưu DB
+2.  Không thực hiện trim space ở đầu và cuối trường mật khẩu
+3. Kiểm tra có thể đăng nhập bằng account đăng ký mới này 
+
+
+"
+8778,Kiểm tra đăng ký thành công với các trường khác thông tin là tiếng việt có dấu, 1: Đăng ký ,Suite_common_207,1,"Đảm bảo hệ thống có kết nối mạng
+1. Nhập dữ liệu hợp lệ vào  các trường thông tin trong màn hình: nhập tiếng việt có dấu
+2. Click [Đăng ký]
+","1. Thực hiện lưu thành công. Kiểm tra lưu đúng như case lưu DB
+2. Kiểm tra có thể đăng nhập bằng account đăng ký mới này 
+
+
+"
+8779,"Kiểm tra mật khẩu là các ký tự html, script
+
+", 1: Đăng ký ,Suite_common_207,1,"1. Nhập kí tự :
+ 123231231231 
+","1. Cho phép nhập và thực hiện lưu thành công
+2. Kiểm tra đăng nhập thành công với mật khẩu này
+
+"
+8780,"Kiểm tra mật khẩu là ký tự đặc biệt
+
+", 1: Đăng ký ,Suite_common_207,1,"1. Nhập kí tự :
+~!@#$%^&amp;*()_+-`:;""',.?
+2. Các thông tin khác được nhập hợp lệ
+3. Nhấn button [Ghi lại]
+
+","1. Cho phép nhập và thực hiện lưu thành công
+2. Kiểm tra đăng nhập thành công với mật khẩu này
+"
+8781,"Kiểm tra yêu cầu nhập mật khẩu mạnh:
+- Yêu cầu tối thiểu n ký tự
+- Bao gồm chữ , số và ký tự đặc biệt
+
+( Chú ý : chỉ đưa vào khi hệ thống có yêu cầu, khi đó không cần 2 case ký tự đặc biệt, html ở trên)", 1: Đăng ký ,Suite_common_207,1,"1. Nhập mật khẩu toàn là kí tự chữ hoặc toàn kí tự số hoặc toàn kí tự đặc biệt hoặc chỉ có 2 trong 3 loại 
+2. Các thông tin khác được nhập hợp lệ","Thông báo lỗi
+Set focus vào trường lỗi hoặc highlight trường lỗi.
+"
+8782,"Kiểm tra yêu cầu nhập mật khẩu mạnh:
+- Yêu cầu tối thiểu n ký tự
+- Bao gồm chữ , số và ký tự đặc biệt
+
+( Chú ý : chỉ đưa vào khi hệ thống có yêu cầu, khi đó không cần 2 case ký tự đặc biệt, html ở trên)", 1: Đăng ký ,Suite_common_207,1,"1. Nhập mật khẩu với độ dài = 8 ký tự (Bao gồm đầy đủ cả chữ, số và kí tự đặc biệt: @#$%^&amp;*()_+~&gt;&lt;""? )
+2. Các thông tin khác được nhập hợp lệ","Thực hiện thành công đăng ký thành công
+Kiểm tra login thành công với tài khoản mới"
+8783,"Kiểm tra yêu cầu nhập mật khẩu mạnh:
+- Yêu cầu tối thiểu n ký tự
+- Bao gồm chữ , số và ký tự đặc biệt
+
+( Chú ý : chỉ đưa vào khi hệ thống có yêu cầu, khi đó không cần 2 case ký tự đặc biệt, html ở trên)", 1: Đăng ký ,Suite_common_207,1,"1. Nhập trường mật khẩu với độ dài &gt; 8 ký tự (Bao gồm đầy đủ cả chữ ( chữ hoa hoặc chữ thường hoặc gồm cả chữ hoa chữ thường), số và kí tự đặc biệt )
+2. Các thông tin khác được nhập hợp lệ","Thực hiện thành công đăng ký thành công
+Kiểm tra login thành công với tài khoản mới"
+8784,Kiểm tra khi mật khẩu là tiếng việt có dấu, 1: Đăng ký ,Suite_common_207,1,"1. Mật khẩu: Là tiếng Việt có dấu + số + kí tự đặc biệt
+2. Các thông tin khác được nhập hợp lệ","Thực hiện thành công đăng ký thành công
+Kiểm tra login thành công với tài khoản mới"
+8785,"Kiểm tra việc đăng ký thất bại khi [Mật Khẩu],[Xác nhận] không tương ứng với nhau. Mật khẩu phân biệt chữ hoa thường
+
+", 1: Đăng ký ,Suite_common_207,1,"Đảm bảo hệ thống có kết nối mạng
+1. Nhập dữ liệu hợp lệ vào trường [mật Khẩu] : abc@123456
+2. Nhập dữ liệu hợp lệ vào[Xác Nhận] và không tương ứng với [Mật khẩu]:
+ABC@123456 or 123456565@ 
+
+3. Các trường còn lại nhập vào hợp lệ
+4. Click [Đăng ký]",4. Hiển thị thông báo lỗi từ server trả về và vẫn hiển thị ở màn hình đăng ký
+8786,"Kiểm tra việc đăng ký khi [Mật Khẩu],[Xác nhận] không tương ứng với nhau với nhau ở ký tự space
+", 1: Đăng ký ,Suite_common_207,1,"Trường hợp : Hệ thống trim space 
+1. Nhập dữ liệu hợp lệ vào trường [mật Khẩu] : abc@123456
+2. Nhập dữ liệu hợp lệ vào[Xác Nhận] 
+[space]abc@123456[space]
+
+3. Các trường còn lại nhập vào hợp lệ
+4. Click [Đăng ký]","Thực hiện thành công đăng ký thành công
+Kiểm tra login thành công với tài khoản mới"
+8787,"Kiểm tra việc đăng ký khi [Mật Khẩu],[Xác nhận] không tương ứng với nhau với nhau ở ký tự space
+", 1: Đăng ký ,Suite_common_207,1,"Trường hợp : Hệ thống  không trim  space 
+1. Nhập dữ liệu hợp lệ vào trường [mật Khẩu] : abc@123456
+2. Nhập dữ liệu hợp lệ vào[Xác Nhận] 
+[space]abc@123456[space]
+
+3. Các trường còn lại nhập vào hợp lệ
+4. Click [Đăng ký]",4. Hiển thị thông báo lỗi từ server trả về và vẫn hiển thị ở màn hình đăng ký
+8788,"Kiểm tra việc đăng ký thất bại khi người dùng nhập vào các thông tin trùng với các thông tin đã tồn tại trong hệ thống (thông tin đã đăng ký thành công). 
+
+Ví dụ : Tên tài khoản hoặc Số điện thoại không được phép trùng
+( phụ thuộc vào yêu cầu bắt trùng những thông tin gì?
+
+( Tham khảo thêm case check trùng ở common test case Validate_Function/ sheet TC Function)
+", 1: Đăng ký ,Suite_common_207,1,"Đảm bảo hệ thống có kết nối mạng.
+Có tài khoản đã đăng ký với số điện thoại : 0983832309
+1. Nhập dữ liệu hợp lệ vào các trường thông và trùng với các thông tin đã đăng ký thành công trước đây: 84983832309 hoặc 983832309
+2. Click [Đăng ký]",2. Hiển thị thông báo lỗi từ server trả về và vẫn hiển thị ở màn hình đăng ký
+8789,"Kiểm tra việc đăng ký thất bại khi người dùng nhập vào các thông tin trùng với các thông tin đã tồn tại trong hệ thống (thông tin đã đăng ký thành công). 
+
+Ví dụ : Tên tài khoản hoặc Số điện thoại không được phép trùng
+( phụ thuộc vào yêu cầu bắt trùng những thông tin gì?
+
+( Tham khảo thêm case check trùng ở common test case Validate_Function/ sheet TC Function)
+", 1: Đăng ký ,Suite_common_207,1,"Đảm bảo hệ thống có kết nối mạng
+Đã tồn tại user : hanoi12
+1. Nhập dữ liệu hợp lệ vào các trường thông và trùng với các thông tin đã đăng ký thành công trước đây: HANOI12 hoặc hanoi12
+2. Click [Đăng ký]",2. Hiển thị thông báo lỗi từ server trả về và vẫn hiển thị ở màn hình đăng ký
+8790,Kiểm tra tạo trùng thông tin tài khoản từ 2 client, 1: Đăng ký ,Suite_common_207,1,"1. client 1 : Tạo tài khoản A
+2. client 2: Tạo tài khoản A
+
+Từ 2 thiết bị cùng nhấn Đăng ký","Thiết bị 1: Đăng ký thành công 
+Thiết bị 2: Thông báo lỗi"

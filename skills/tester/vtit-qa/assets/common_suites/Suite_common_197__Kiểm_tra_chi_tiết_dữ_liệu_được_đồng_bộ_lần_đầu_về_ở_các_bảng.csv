@@ -1,0 +1,326 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8666,Trường hợp đồng bộ các bản ghi : dữ liệu chỉ có ở các trường có thiết kế là not null, 4: Kiểm tra chi tiết dữ liệu được đồng bộ lần đầu về ở các bảng ,Suite_common_197,1,"Chuẩn bị: các bản ghi chỉ có dữ liệu ở các trường khi thiết kế yêu cầu not null
+
+1. Kiểm tra dữ liệu sau khi đồng bộ
+2. Script : câu lệnh so sánh dữ liệu giữa DB server và DB client sau khi đồng bộ","Đồng bộ toàn bộ dữ liệu bảng Can bo (các row, column đều phải giống bản gốc trên DB server)
+
+Khi mở DB trên SQL lite Manger của FF , các trường không có giá trị , hiển thị highlight màu hồng
+
+Số lượng bản ghi giữa DB server và Client phải giống nhau theo đúng điều kiện đồng bộ"
+8667,"Trường hợp đồng bộ các bản ghi : dữ liệu có ở tất cả các trường, dữ liệu đầy đủ theo maxlength của trường trên DB server", 4: Kiểm tra chi tiết dữ liệu được đồng bộ lần đầu về ở các bảng ,Suite_common_197,1,"Chuẩn bị: dữ liệu ở bảng cần đồng bộ ở DB server:
++ có dữ liệu ở tất cả các trường với độ dài tối đa theo maxlength
++ trường text : tiếng việt có dấu
++ trường date : đúng định dạng theo yêu cầu
++ trường trạng thái : có đầy đủ các trạng thái theo yêu cầu
+
+1. Kiểm tra dữ liệu sau khi đồng bộ
+2. Script : câu lệnh so sánh dữ liệu giữa DB server và DB client sau khi đồng bộ","Đồng bộ toàn bộ dữ liệu bảng Can bo (các row, column đều phải giống bản gốc trên DB server)
+
+Số lượng bản ghi giữa DB server và Client phải giống nhau theo đúng điều kiện đồng bộ"
+8668,Kiểm tra đồng bộ số lượng bản ghi max nhất có thể tạo được dữ liệu tại thời điểm test ( confirm lại với dev và giải pháp để đưa ra con số test), 4: Kiểm tra chi tiết dữ liệu được đồng bộ lần đầu về ở các bảng ,Suite_common_197,1,"Chuẩn bị : chuẩn bị dữ liệu tối đa có thể ở bảng dữ liệu ở DB server:
+1. Kiểm tra dữ liệu sau khi đồng bộ
+2. Script : câu lệnh so sánh dữ liệu giữa DB server và DB client sau khi đồng bộ","Đồng bộ toàn bộ dữ liệu bảng Can bo (các row, column đều phải giống bản gốc trên DB server)
+
+Số lượng bản ghi giữa DB server và Client phải giống nhau theo đúng điều kiện đồng bộ"
+8669,Kiểm tra thực hiện đồng bộ dữ liệu khi DB server không có dữ liệu nào, 4: Luồng đông bộ lần đầu,Suite_common_197,1,"Đảm bảo có kết nối mạng. 
+DB server bảng dữ liệu cần đồng bộ ko có dữ liệu
+
+1. Đăng nhập lần đầu vào hệ thống ","1. Hệ thống không thực hiện đồng bộ dữ liệu thành công cho tất cả các bảng dữ liệu
+2. Kiểm tra CSDL:
+*sync_log: không tác động 
+( Hoặc vẫn tác động insert các bảng tương ứng cần đồng bộ vào tùy DTYC)
+"
+8670,Kiểm tra thực hiện đồng bộ dữ liệu khi DB server đã có dữ liệu, 4: Luồng đông bộ lần đầu,Suite_common_197,1,"Đảm bảo có kết nối mạng. 
+DB server bảng dữ liệu cần đồng bộ  có dữ liệu
+
+1. Đăng nhập lần đầu vào hệ thống ","1. Hệ thống thực hiện đồng bộ dữ liệu thành công cho tất cả các bảng dữ liệu
+2. Kiểm tra CSDL:
+* các bảng dữ liệu được đồng bộ : có dữ liệu được đồng bộ về đầy đủ theo DB server
+*sync_log: insert các bản ghi , ghi log đồng bộ
+
+"
+8671,Kiểm tra thực hiện đồng bộ dữ liệu khi DB server đã có dữ liệu, 4: Luồng đông bộ lần đầu,Suite_common_197,1,"Không có kết nối mạng
+DB server bảng dữ liệu cần đồng bộ  có dữ liệu
+
+
+1. Đăng nhập lần đầu vào hệ thống","1. Không đăng nhập thành công.
+2. Thông báo lỗi mất kết nói mạng
+3. Kiểm tra CSDL: 
+* các bảng dữ liệu được đồng bộ : không có dữ liệu
+*sync_log: không tác động"
+8672,Kiểm tra thực hiện đồng bộ khi user đăng nhập các lần sau, 4: Luồng đông bộ các lần đăng nhập sau,Suite_common_197,1,"Đảm bảo có kết nối mạng.
+Có sự thay đổi dữ liệu từ DB server, kể từ lần đăng nhập trước.
+1. Đăng nhập vào hệ thống","1. Hệ thống thực hiện đồng bộ dữ liệu thành công:
+2. Kiểm tra cập nhật bảng : 
+* Kiểm tra từng bảng dữ liệu được đồng bộ: Tương ứng với mỗi bảng trong syn_log, lấy giá trị timestamp để gửi lên yêu cầu lên DBserver : lấy các bản ghi của bảng có trường last_update_time &gt; timestamp để đồng bộ vể. Order các bản ghi đồng bộ theo ngày last_update_time từ xa đến gần ( đồng bộ các bản ghi cũ nhất trước)
+* Bảng syn_log: Tương ứng với bản ghi của Bảng dữ liệu có bản ghi được đồng bộ về db Client cập nhật:
+timestamp :  = last_update_date của bản ghi cuối cùng được đồng bộ của bảng dữ liệu
+
+
+
+
+
+"
+8673,Kiểm tra thực hiện đồng bộ khi user đăng nhập các lần sau, 4: Luồng đông bộ các lần đăng nhập sau,Suite_common_197,1,"Đảm bảo không có kết nối mạng
+Có sự thay đổi dữ liệu từ DB server, kể từ lần đăng nhập trước
+1. Đăng nhập vào hệ thống","1. Hệ thống đăng nhập thành công và không thực hiện đồng bộ dữ liệu
+2. Kiểm tra cập nhật bảng syn_log: 
+timestamp : không cập nhật bằng sysdate của DB server, vẫn giữ nguyên giá trị cũ
+
+"
+8674,Kiểm tra không cập nhật đồng bộ khi không có sự thay đổi dữ liệu về phía DB server, 4: Luồng đông bộ các lần đăng nhập sau,Suite_common_197,1,"Đảm bảo : tất cả các bảng dữ liệu ở DB server đều có last_update_date &lt; syn_log.timestamp của mỗi bảng  ( Client) - không có sự thay đổi dữ liệu kể từ lần đăng nhập cuối cùng
+1. Đăng nhập thành công","1. Không thực hiện đồng bộ dữ liệu
+2. Kiểm tra bảng sysn_log : không cập nhật dữ liệu bất kỳ bản ghi nào"
+8675,Kiểm tra cập nhật đồng bộ khi chỉ có 1 bảng CSDL có sự thay đổi dữ liệu về phía DB server, 4: Luồng đông bộ các lần đăng nhập sau,Suite_common_197,1,"Đảm bảo : chỉ có 1 bảng có  dữ liệu thay đổi có trường last_update_date &gt; syn_log.timestamp - có sự thay đổi dữ liệu
+1. Đăng nhập thành công","1. Chỉ đồng bộ bảng có dữ liệu thay đổi và cập nhật syn_log.timestamp của bảng đó
+2. Các bản khác ko cập nhật gì và không cập nhật  syn_log.timestamp "
+8676,"Kiểm tra Có cho phép đăng nhập bằng các user khác nhau không ? Hay fix một user ? Các loại dữ liệu giữa các user có khác nhau không. Neu khac thi se co cau lenh de lay du lieu tuong ung voi moi user.
+Nếu ứng dụng cho phép đăng nhập nhiều user trên 2 thiết bị phải có case kiểm tra đồng bộ lần lượt với user 1, sau đó thoát ra đăng nhập với user 2", 4: Luồng đông bộ các lần đăng nhập sau,Suite_common_197,1,Tùy nghiệp vụ dự án,Tùy nghiệp vụ dự án
+8677,"Có bản ghi được thêm mới ở DB Server, có  last_update_date > timestamp tương ứng lưu trong DB Client
+
+Trường hợp đồng bộ các bản ghi : dữ liệu chỉ có ở các trường có thiết kế là not null", 4: Kiểm tra chi tiết dữ liệu được đồng bộ về ở các bảng ,Suite_common_197,1,"Đảm bảo có sự thay đổi dữ liệu kể từ lần đồng bộ cuối cùng 
+
+Chuẩn bị: các bản ghi chỉ có dữ liệu ở các trường khi thiết kế yêu cầu not null
+
+1. Kiểm tra dữ liệu sau khi đồng bộ
+2. Script : câu lệnh so sánh dữ liệu giữa DB server và DB client sau khi đồng bộ","Đồng bộ toàn bộ dữ liệu bảng Can bo (các row, column đều phải giống bản gốc trên DB server)
+
+Khi mở DB trên SQL lite Manger của FF , các trường không có giá trị , hiển thị highlight màu hồng
+
+Số lượng bản ghi giữa DB server và Client phải giống nhau theo đúng điều kiện đồng bộ"
+8678,"Có bản ghi được thêm mới ở DB Server, có  last_update_date > timestamp tương ứng lưu trong DB Clien
+
+Trường hợp đồng bộ các bản ghi : dữ liệu có ở tất cả các trường, dữ liệu đầy đủ theo maxlength của trường trên DB server", 4: Kiểm tra chi tiết dữ liệu được đồng bộ về ở các bảng ,Suite_common_197,1,"Đảm bảo có sự thay đổi dữ liệu kể từ lần đồng bộ cuối cùng : &gt; 20 bản ghi ( số lượng bản ghi nhiều), các trường dữ liệu đều đầy đủ và độ dài maxlength, trường text : tiếng việt có dấu
+1. Đăng nhập vào hệ thống
+2. Kiểm tra dữ liệu sau  khi đồng bộ
+3. Script : câu lệnh so sánh dữ liệu giữa DB server và DB client sau khi đồng bộ","- Kiểm tra bảng CanBo ở Db client : Có các bản ghi có last_update_date ở DB server &lt; trường Timestamp trong Client được đồng bộ về
+
+Số lượng bản ghi giữa DB server và Client phải bằng nhau theo sau khi đồng bộ
+
+Chú ý kiểm tra không có duplicate dữ liệu"
+8679,"Có bản ghi được cập nhật  ở DB Server, có  last_update_date > timestamp tương ứng lưu trong DB Client", 4: Kiểm tra chi tiết dữ liệu được đồng bộ về ở các bảng ,Suite_common_197,1,"Đảm bảo có sự thay đổi dữ liệu kể từ lần đồng bộ cuối cùng : &gt; 20 bản ghi ( số lượng bản ghi nhiều), các trường dữ liệu đều đầy đủ và độ dài maxlength, trường text : tiếng việt có dấu
+
+1. Đăng nhập vào hệ thống
+2. Kiểm tra dữ liệu sau khi đồng bộ
+3. Script : câu lệnh so sánh dữ liệu giữa DB server và DB client sau khi đồng bộ","- Kiểm tra bảng CanBo ở Db client :  tương ứng các bản ghi thỏa mãn điều kiện đồng bộ được cập nhật thông tin mới từ DB server
+
+Nếu bản ghi chưa tồn tại trong DB client thì có cập nhật không ????
+Số lượng bản ghi giữa DB server và Client phải bằng nhau theo sau khi đồng bộ
+
+Chú ý kiểm tra không có duplicate dữ liệu"
+8680,"Có bản ghi được cập nhật  ở DB Server, có  last_update_date > timestamp tương ứng lưu trong DB Client", 4: Kiểm tra chi tiết dữ liệu được đồng bộ về ở các bảng ,Suite_common_197,1,"Đảm bảo có sự thay đổi dữ liệu kể từ lần đồng bộ cuối cùng 
+
+Chuẩn bị: các bản ghi chỉ có dữ liệu ở các trường khi thiết kế yêu cầu not null
+
+1. Kiểm tra dữ liệu sau khi đồng bộ
+2. Script : câu lệnh so sánh dữ liệu giữa DB server và DB client sau khi đồng bộ","- Kiểm tra bảng CanBo ở Db client :  tương ứng các bản ghi thỏa mãn điều kiện đồng bộ được cập nhật thông tin mới từ DB server
+
+Khi mở DB trên SQL lite Manger của FF , các trường không có giá trị , hiển thị highlight màu hồng
+
+Số lượng bản ghi giữa DB server và Client phải giống nhau theo đúng điều kiện đồng bộ"
+8681,Kiểm tra Có cho phép đăng nhập bằng các user khác nhau không ? Hay fix một user ? Các loại dữ liệu giữa các user có khác nhau không. Neu khac thi se co cau lenh de lay du lieu tuong ung voi moi user, 4: Kiểm tra chi tiết dữ liệu được đồng bộ về ở các bảng ,Suite_common_197,1,Tùy nghiệp vụ dự án,Tùy nghiệp vụ dự án
+8682,Kiểm tra việc định kì 1' sẽ thực hiện đồng bộ data từ server khi đang sử dụng ứng dụng., 3: Đồng bộ định kỳ sau một thời gian config ,Suite_common_197,1,"1. Đảm bảo có kết nối mạng
+2. Db Server chuẩn bị có  dữ liệu :
+  1 bảng có dữ liệu ( Bảng A)
+  1 bảng chưa có dữ liệu (Bảng B)
+3. Đăng nhập vào hệ thống -&gt; Các bảng dữ liệu  DB Client được đồng bộ:
+Bảng A được đồng bộ dữ liệu 
+Bảng B không được đồng bộ do chưa có dữ liệu  
+4. Db server chuẩn bị có  dữ liệu :
+   Bảng A: có sự thay đổi dữ liệu
+   Bảng B : bổ sung thêm dữ liệu
+5. Kiểm tra kết quả sau 1' kể từ lúc đã đăng nhập vào hệ thống.","1. Hệ thống thực hiện đồng bộ dữ liệu thành công:
+2. Kiểm tra CSDL của DB Client : 
+* Kiểm tra từng bảng dữ liệu được đồng bộ: 
+ Bảng A : Tương ứng với bảng trong syn_log, lấy giá trị timestamp để gửi lên yêu cầu lên DBserver : lấy các bản ghi của bảng A trên DB server có trường last_update_time &gt; timestamp để đồng bộ vể DB Client. Order các bản ghi đồng bộ theo ngày last_update_time từ xa đến gần ( đồng bộ các bản ghi cũ nhất trước)
+ Bảng B : Đồng bộ dữ liệu mới về
+
+* Bảng syn_log: 
+Bảng A, Bảng B: Tương ứng với bản ghi của Bảng dữ liệu có bản ghi được đồng bộ về db Client cập nhật:
+timestamp :  = last_update_date của bản ghi cuối cùng được đồng bộ của bảng dữ liệu
+( Trường hợp bảng B chưa có bản ghi trong synlog thì insert mới)
+
+
+
+
+
+"
+8683,Kiển tra ứng dụng định kỳ đồng bộ mặc dù không sử dụng , 3: Đồng bộ định kỳ sau một thời gian config ,Suite_common_197,1,"1. Đảm bảo có kết nối mạng
+2. Đăng nhập vào hệ thống. DB server chuẩn bị có dữ liệu thay đổi ở các bảng cần đồng bộ
+3. Chọn home hoặc lock màn hình
+4. Sau khoảng 1 phút thì kiểm tra lại DB Client
+","1. Hệ thống thực hiện đồng bộ dữ liệu thành công:
+2. Kiểm tra CSDL: 
+* Kiểm tra từng bảng dữ liệu được đồng bộ: Tương ứng với mỗi bảng trong syn_log, lấy giá trị timestamp để gửi lên yêu cầu lên DBserver : lấy các bản ghi của bảng có trường last_update_time &gt; timestamp để đồng bộ vể. Order các bản ghi đồng bộ theo ngày last_update_time từ xa đến gần ( đồng bộ các bản ghi cũ nhất trước)
+* Bảng syn_log: Tương ứng với bản ghi của Bảng dữ liệu có bản ghi được đồng bộ về db Client cập nhật:
+timestamp :  = last_update_date của bản ghi cuối cùng được đồng bộ của bảng dữ liệu
+
+
+
+
+
+"
+8684,"Kiển tra ứng dụng bị thoát tại giây thứ 30 khi chạy lại thì 30s tiếp theo sẽ thực hiện đồng bộ.
+( Chỉ đối với Android)", 3: Đồng bộ định kỳ sau một thời gian config ,Suite_common_197,1,"1. Đảm bảo có kết nối mạng
+2. Đăng nhập vào hệ thống và đợi 30s. DB server chuẩn bị có dữ liệu thay đổi ở các bảng cần đồng bộ
+3. Thoát khỏi ứng dụng
+4. Mở lại ứng dụng.
+5. Kiểm tra kết quả sau khoảng 30s kể từ lúc mở lại ứng dụng
+( hệ thống có lưu lại thông tin thời gian đồng bộ lần cuối )","1. Hệ thống thực hiện đồng bộ dữ liệu thành công:
+2. Kiểm tra CSDL: 
+* Kiểm tra từng bảng dữ liệu được đồng bộ: Tương ứng với mỗi bảng trong syn_log, lấy giá trị timestamp để gửi yêu cầu lên DBserver : lấy các bản ghi của bảng có trường last_update_time &gt; timestamp để đồng bộ về.
+ Order các bản ghi đồng bộ theo ngày last_update_time từ xa đến gần ( đồng bộ các bản ghi cũ nhất trước)
+* Bảng syn_log: Tương ứng với bản ghi của Bảng dữ liệu có bản ghi được đồng bộ về db Client cập nhật:
+timestamp :  = last_update_date của bản ghi cuối cùng được đồng bộ của bảng dữ liệu
+
+
+
+
+
+"
+8685,Kiểm tra việc đồng bộ định kì không được thực hiện khi không có internet., 3: Đồng bộ định kỳ sau một thời gian config ,Suite_common_197,1,"1. Đảm bảo không có kết nối mạng
+2. Đã đăng nhập vào hệ thống. DB server chuẩn bị có dữ liệu thay đổi ở các bảng cần đồng bộ
+9. Kiểm tra kết quả sau 60s kể từ lúc đăng nhập.","1. Việc gọi đồng bộ không được thực hiện.
+2. Kiểm tra DB Client không có sự thay đổi"
+8686,Kiểm tra có biểu tượng : Đang xử lý khi đang đồng bộ, 4: Biểu tượng Đang xử lý,Suite_common_197,1,"1. Đăng nhập 
+2. Nhấn vào biểu tượng Đang xử lý","Thực hiện đồng bộ dữ liệu, hiển thị biểu tượng Đang xử lý
+Không thao tác được và ko crash chương trình
+"
+8687,Kiểm tra khi đang cập nhật thì mất kết nối khi đăng nhập hệ thống, 4: Kiểm tra đang đồng bộ thì bị ngắt,Suite_common_197,1,"1. Đăng nhập vào hệ thống
+2. Đang thực hiện đồng bộ dữ liệu
+3. Mất kết nối mạng ( đi ra chỗ sóng 3G hoặc wifi yếu). Giả sử đang đồng bộ bảng A có 200 bản ghi, mới đồng bộ được 20 bản ghi","- Ứng dụng chỉ hiện 1 thông báo mất kết nối mạng
+-  Kiểm tra chỉ đồng bộ được 20 bản ghi thay đổi cũ nhất của bảng A có last_update_date &gt; timestamp của bảng A
+- syn_log : tương ứng với bản ghi bảng A, cập nhật timestamp = last_update_date của bản ghi đồng bộ cuối. "
+8688,Kiểm tra khi đang cập nhật thì mất kết nối khi đăng nhập hệ thống, 4: Kiểm tra đang đồng bộ thì bị ngắt,Suite_common_197,1,4. Có lại mạng và chờ một thời gian theo cấu hình đồng bộ của hệ thống,"- Tiếp tục thực hiện quá trình đồng bộ các bản ghi chưa được đồng bộ của các bảng
+- Kiểm tra không có duplicate bản ghi "
+8689,Kiểm tra khi đang cập nhật thì mất kết nối khi đang đồng bộ ngầm, 4: Kiểm tra đang đồng bộ thì bị ngắt,Suite_common_197,1,"1. Đang thực hiện đồng bộ dữ liệu
+2. Mất kết nối mạng. Giả sử đang đồng bộ bảng A có 200 bản ghi, mới đồng bộ được 20 bản ghi","- Ứng dụng chỉ hiện 1 thông báo mất kết nối mạng
+-  Kiểm tra chỉ đồng bộ được 20 bản ghi thay đổi cũ nhất của bảng A có last_update_date &gt; timestamp của bảng A
+- syn_log : tương ứng với bản ghi bảng A, cập nhật timestamp = last_update_date của bản ghi đồng bộ cuối. "
+8690,Kiểm tra khi đang cập nhật thì mất kết nối khi đang đồng bộ ngầm, 4: Kiểm tra đang đồng bộ thì bị ngắt,Suite_common_197,1,4. Có lại mạng và chờ một thời gian theo cấu hình đồng bộ của hệ thống,"- Tiếp tục thực hiện quá trình đồng bộ các bản ghi chưa được đồng bộ của các bảng
+- Kiểm tra không có duplicate bản ghi "
+8691,"Kiểm tra vẫn đồng bộ dữ liệu khi nhấn phím Home, hoặc lock màn hình", 4: Kiểm tra đang đồng bộ thì bị ngắt,Suite_common_197,1,"1. Đăng nhập vào hệ thống. Đang thực hiện đồng bộ dữ liệu
+2. Nhấn phím Home hoặc lock màn hình
+3. Mở lại ứng dụng 
+",Hệ thống vẫn đồng bộ dữ liệu thành công
+8692,"Kiểm tra khi đang thực hiện đồng bộ dữ liệu thì máy hết pin, tắt mắt", 4: Kiểm tra đang đồng bộ thì bị ngắt,Suite_common_197,1,"1. Đang thực hiện đồng bộ dữ liệu
+2. Máy hết pin, tắt máy
+3. Bật lại máy. ","- Thông báo mất kết nối mạng
+-  Kiểm tra chỉ đồng bộ được 20 bản ghi thay đổi cũ nhất của bảng A có last_update_date &gt; timestamp của bảng A
+- syn_log : tương ứng với bản ghi bảng A, cập nhật timestamp = last_update_date của bản ghi đồng bộ cuối. "
+8693,"Kiểm tra khi đang thực hiện đồng bộ dữ liệu thì máy hết pin, tắt mắt", 4: Kiểm tra đang đồng bộ thì bị ngắt,Suite_common_197,1,4.Thực hiện đăng nhập lại,"- Tiếp tục thực hiện quá trình đồng bộ các bản ghi chưa được đồng bộ của các bảng
+- Kiểm tra không có duplicate bản ghi "
+8694,Kiểm tra khi thay đổi giờ của thiết bị khác giờ server khi đăng nhập lần đầu tiên của ngày , 4: Kiểm tra khi thay đổi giờ của server,Suite_common_197,1,"Đổi thời gian của thiết bị &gt; hoặc nhỏ hơn ngày hiện tại
+
+1. Nhập các thông tin đăng nhập hợp lệ
+2. Nhấn đăng nhập","- Đăng nhập thành công và hệ thống thực hiện đồng bộ dữ liệu về thành công
+- Hiển thị thông báo cho người dùng biết sai giờ thiết bị.
+( Tùy theo yêu cầu của DTYC nếu như hệ thống xử lý đồng bộ theo thời gian Client thì bắt buộc phải hiển thị thông báo sai giờ thiết bị và không thực hiện đồng bộ nếu như không sửa lại thời gian thiết bị)
+- Kiểm tra cập nhật CSDL: 
+* syn_log :  cập nhật timestamp của mỗi bảng được đồng bộ :  lấy theo thời gian DB server
+* Dữ liệu các bản được đồng bộ về đúng 
+"
+8695,Cuộc gọi đến khi ứng dụng đang chạy, 4: Thao tác cuộc gọi khi ứng dụng đang chạy,Suite_common_197,1,"1. Đang thao tác tại bất kỳ chức năng nào
+2. Device có cuộc gọi đến","Phải hiển thị cho user biết đúng với cách đã setting trong Profile (tone, display...)"
+8696,Cuộc gọi đến khi ứng dụng đang chạy, 4: Thao tác cuộc gọi khi ứng dụng đang chạy,Suite_common_197,1,Thực hiện đàm thoại,Tiến hành bình thường
+8697,Cuộc gọi đến khi ứng dụng đang chạy, 4: Thao tác cuộc gọi khi ứng dụng đang chạy,Suite_common_197,1,Kết thúc đàm thoại,"1. Trở lại APPLICATION, hiển thị vị trí ngay trước khi device nhận incomming call
+2. Thao tác bình thường trên APPLICATION"
+8698,Cuộc gọi đến khi ứng dụng đang chạy, 4: Thao tác cuộc gọi khi ứng dụng đang chạy,Suite_common_197,1,"1. Đang thao tác tại bất kỳ chức năng nào
+2. Device có cuộc gọi đến
+3. Reject cuộc gọi","1. Trở lại APPLICATION, hiển thị vị trí ngay trước khi device nhận incomming call
+2. Thao tác bình thường trên APPLICATION"
+8699,Thực hiện cuộc gọi khi ứng dụng đang chạy, 4: Thao tác cuộc gọi khi ứng dụng đang chạy,Suite_common_197,1,"1. Đang thao tác tại bất kỳ chức năng nào
+2. Thực hiện cuộc gọi đến emergency number","1. Thao tác thành công
+2. Đàm thoại bình thường"
+8700,Thực hiện cuộc gọi khi ứng dụng đang chạy, 4: Thao tác cuộc gọi khi ứng dụng đang chạy,Suite_common_197,1,Kết thúc đàm thoại,"1. Trở lại APPLICATION, hiển thị vị trí ngay trước khi device nhận incomming call
+2. Thao tác bình thường trên APPLICATION"
+8701,Nhận tin nhắn khi ứng dụng đang chạy, 4: Thao tác cuộc gọi khi ứng dụng đang chạy,Suite_common_197,1,"1. Đang thao tác tại bất kỳ chức năng nào
+2. Device có received message",Alert cho user biết bằng tone đã setting trong Profile nhưng không hiển thị thông tin ngay trên APPLICATION
+8702,Báo thức khi ứng dụng đang chạy, 4: Thao tác cuộc gọi khi ứng dụng đang chạy,Suite_common_197,1,"1. Đang thao tác tại bất kỳ chức năng nào
+2. Device có alarm",Alert cho user biết đúng với cách đã setting trong Profile
+8703,Lịch nhắc nhở khi ứng dụng đang chạy, 4: Thao tác cuộc gọi khi ứng dụng đang chạy,Suite_common_197,1,"1. Đang thao tác tại bất kỳ chức năng nào
+2. Device có calendar meeting",Alert cho user biết đúng với cách đã setting trong Profile
+8704,Cắm/ bỏ sạc pin, 4: Kiểm tra xử lý ứng dụng đang chạy khi thực hiện các thao tác khác,Suite_common_197,1,"1. Đang thao tác trên APPLICATION
+2. Inserting hoặc removing charger","1. Có message thông báo của phone hiển thị trên nền APPLICATION
+2. Thao tác bình thường trên APPLICATION"
+8705,Headphone Effect, 4: Kiểm tra xử lý ứng dụng đang chạy khi thực hiện các thao tác khác,Suite_common_197,1,"1. Đang thao tác trên APPLICATION
+2. Inserting hoặc removing headphone","1. Có message thông báo của phone hiển thị trên nền APPLICATION
+2. Thao tác bình thường trên APPLICATION"
+8706,Chụp hình, 4: Kiểm tra xử lý ứng dụng đang chạy khi thực hiện các thao tác khác,Suite_common_197,1,"1. Đang thao tác trên apps
+2. Chuyển sang chế độ chụp hình trên phone (bấm nút chụp hình nhanh hoặc mở nắp chụp hình trên phone)","1. Chụp hình vẫn thành công
+2. Quay trở lại APPLICATION vẫn hoạt động bình thường"
+8707,Low Battery, 4: Kiểm tra xử lý ứng dụng đang chạy khi thực hiện các thao tác khác,Suite_common_197,1,"1. Đang thao tác trên APPLICATION
+2. Pin yếu","1. Có message thông báo của phone hiển thị trên nền APPLICATION
+2. Thao tác bình thường trên APPLICATION"
+8708,"Kiểm tra khi bộ nhớ dữ liệu đã hết
+
+(Trường hợp đối với IOS, khó để setting làm bộ nhớ ứng dụng đầy, có thể trao đổi lại với dev về cách test case này)", 4: Bộ nhớ dữ liệu,Suite_common_197,1,1. Đang thực hiện đồng bộ dữ liệu -&gt; bộ nhớ dữ liệu đã hết,Hệ thống thông báo lỗi
+8709,Kiểm tra khi có bất kỳ thao tác nghiệp vụ chức năng :  Insert/ Update/Delete , 4: Kiểm tra cơ chế lưu dữ liệu trước khi đồng bộ,Suite_common_197,1,"1. Thực hiện chức năng có tác động dữ liệu CSDL offline
+2. Kiểm tra bảng log_table","- Insert 1 bản ghi lưu thông tin thực hiện chức năng (chú ý đối với 1 tính năng lưu nhiều bảng thì cũng chỉ có 1 bản ghi trong log_table) vào bảng log_table (Tùy nghiệp vụ đồng bộ của từng hệ thống để xác định bảng lưu log cần đồng bộ và cách lưu như thế nào ), với:
+- logID = timeInMilisecond_randomNumber_staffid
+- value = cấu trúc giống param input của API send data client to server
+- user_id = staffID
+- state = “0” (việc đồng bộ dữ liệu bị lỗi chuyển state = 3)
+- create_date = current date (format: yyyy-MM-đ HH:mm:ss)
+- update_date = current date
+- table_name = “CUSTOMER”  --- tên bảng đồng bộ
+- table_type = 3  (table_type = 2 đối với việc lưu hình ảnh xuống log)
+- table_id = 0 (Đối với việc lưu hình ảnh xuống log thì table_id = đường dẫn hình ảnh dưới local)
+- create_user = staff_code
+- update_user = staff_code
+- need_check_date = 0
+- syn_state = 0 
+"
+8710,Kiểm tra đồng bộ định kỳ 3 phút, 4: Đồng bộ định kỳ 3 phút,Suite_common_197,1,"Chuẩn bị :
+Có dữ liệu cần đồng bộ lên Server có ngày tạo
+- Bằng ngày hiện tại
+- Bằng ngày hiện tại - 1
+- Bằng ngày đầu tiên của tháng trước
+- Bằng ngày đầu tiên của  1 năm trước
+1. Chờ 3 phút để kiểm tra đồng bộ","Server : Kiểm tra đẩy tất cả các dữ liệu được có state =0 và state=3 sẻ đồng bộ lên server; chỉ đẩy bản ghi của ngày hiện tại , ngày hiện tại -1
+Client : 
+-  bảng log_table: xóa các bản ghi đã đồng bộ thành công 
+-  bảng chức năng nghiệp vụ: đồng bộ ngược từ server -&gt; client thành công, cập nhật  sync_sate = 2 cho bản ghi vừa đẩy đồng bộ thành công
+
+( Tùy nghiệp vụ đồng bộ của mỗi hệ thống để viết KQMM)"
+8711,"Kiểm tra đồng bộ định kỳ 3 phút : nhiều bản ghi dữ liệu, nhiều ảnh cần đồng bộ", 4: Đồng bộ định kỳ 3 phút,Suite_common_197,1,"1. Chuẩn bị dữ liệu insert nhiều bản ghi ảnh, nhiều bản ghi dữ lệu 
+2. Kiểm tra 3p đồng bộ ","1. Thực hiện đồng bộ thành công
+2.  Đồng bộ không quá chậm.Không xảy ra lỗi khi đồng bộ nhiều"
+8712,"Kiểm tra sau khi thực hiện chức năng , mất mạng, sau đó có lại mạng", 4: Đồng bộ định kỳ 3 phút,Suite_common_197,1,1. Thực hiện chức năng có tác động dữ liệu CSDL offline,1.Thực hiện chức năng thành công và lưu DB client 
+8713,"Kiểm tra sau khi thực hiện chức năng , mất mạng, sau đó có lại mạng", 4: Đồng bộ định kỳ 3 phút,Suite_common_197,1,"2. Mất mạng,  Đợi 3 phút, ",2. Kiểm tra server : chưa đồng bộ dữ liệu vừa thêm
+8714,"Kiểm tra sau khi thực hiện chức năng , mất mạng, sau đó có lại mạng", 4: Đồng bộ định kỳ 3 phút,Suite_common_197,1,"3. Có lại mạng, chờ khoảng 3 phút",3. Dữ liệu được đồng bộ thành công
+8715,Kiểm tra khi đăng nhập có internet, 4: Kiểm tra internet,Suite_common_197,1,"Chuẩn bị :
+Có dữ liệu cần đồng bộ lên Server có ngày tạo
+- Bằng ngày hiện tại
+- Bằng ngày hiện tại - 1
+- Bằng ngày đầu tiên của tháng trước
+- Bằng ngày đầu tiên của  1 năm trước
+1. Có mạng, thực hiện đăng nhập ","Server : Kiểm tra đẩy tất cả các dữ liệu được có state =0 và state=3 sẻ đồng bộ lên server; chỉ đẩy bản ghi của ngày hiện tại , ngày hiện tại -1
+Client : 
+-  bảng log_table: xóa các bản ghi đã đồng bộ thành công 
+-  bảng chức năng nghiệp vụ: đồng bộ ngược từ server -&gt; client thành công, cập nhật  sync_sate = 2 cho bản ghi vừa đẩy đồng bộ thành công
+
+( Tùy nghiệp vụ đồng bộ của mỗi hệ thống để viết KQMM)"
+8716,"Kiểm tra đăng nhập, đồng bộ : nhiều bản ghi dữ liệu, nhiều ảnh cần đồng bộ", 4: Kiểm tra internet,Suite_common_197,1,"1. Chuẩn bị dữ liệu insert nhiều bản ghi ảnh, nhiều bản ghi dữ lệu 
+2. Có mạng, thực hiện đăng nhập ","1. Thực hiện đồng bộ thành công
+2.  Đồng bộ không quá chậm.Không xảy ra lỗi khi đồng bộ nhiều"
+8717,Kiểm tra đồng bộ dữ liệu mà bị lỗi trùng khóa, 4: Đồng bộ lỗi,Suite_common_197,1,"Chuẩn bị:
+- Client: Đã có dữ liệu trong bảng log_table với state = 0 ( chuẩn bị nhiều dữ liệu)
+- Server : Sửa id của bản nhất mới nhất trong bảng dữ liệu cần đồng bộ tăng lên 1 giá trị 
+1. Đợi 3p đồng bộ","Kiểm tra xử lý dữ liệu ở các bảng: các bản ghi chưa đồng bộ được được cập nhật như sau:
+- log_table : cập nhật state = 4  ---- không đồng bộ được
+( Tùy nghiệp vụ đồng bộ của mỗi hệ thống để viết KQMM)"
+8718,Kiểm tra đồng bộ dữ liệu mà bị lỗi trùng khóa, 4: Đồng bộ lỗi,Suite_common_197,1,2. Đợi 3p tiếp theo ,"Log_table : bản ghi bị trùng khóa không được đồng bộ 
+( Tùy nghiệp vụ đồng bộ của mỗi hệ thống để viết KQMM)"
+8719,Kiểm tra đồng bộ dữ liệu mà không kết nối được đến server, 4: Đồng bộ lỗi,Suite_common_197,1,"Chuẩn bị:
+- Đã có dữ liệu trong bảng log_table với state = 0 ( chuẩn bị nhiều dữ liệu)
+1.  Đợi 3p đồng bộ
+2.  Sau đó tắt mạng hoặc đổi proxy để không kết nối được đến server
+","Kiểm tra xử lý dữ liệu ở các bảng: các bản ghi chưa đồng bộ được được cập nhật như sau:
+- log_table : cập nhật state = 3
+( Tùy nghiệp vụ đồng bộ của mỗi hệ thống để viết KQMM)"
+8720,Kiểm tra đồng bộ dữ liệu mà không kết nối được đến server, 4: Đồng bộ lỗi,Suite_common_197,1,"3. Bật lại mạng
+4. Đợi 3p đồng bộ","Kiểm tra xử lý dữ liệu ở các bảng: các bản ghi được đồng bộ thành công, cập nhật:
+Bản ghi vừa đồng bộ bị xóa khỏi bảng log_table
+"
+8721,Kiểm tra khi đồng bộ dữ liệu mà ngày server lệch với ngày trên client ( do sửa ngày trên client), 4: Đồng bộ lỗi,Suite_common_197,1,Tùy nghiệp vụ đồng bộ mỗi hệ thống,Tùy nghiệp vụ đồng bộ mỗi hệ thống

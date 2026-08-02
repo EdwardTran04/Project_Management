@@ -1,0 +1,29 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8855,Kiểm tra hiển thị avatar khi có 1 thành viên trong nhóm, 5: Avatar nhóm ,Suite_common_265,1,"Đảm bảo: Nhóm A chỉ có 1 thành viên X tham gia
+- X không có avata 
+1. Tại DS chat nhóm, kiểm tra hiển thị avatar của nhóm A",1. Hiển thị avatar mặc định của ứng dụng
+8856,Kiểm tra hiển thị avatar khi có 1 thành viên trong nhóm, 5: Avatar nhóm ,Suite_common_265,1,"Đảm bảo: Nhóm A chỉ có 1 thành viên X tham gia
+- X có avata 
+1. Tại DS chat nhóm, kiểm tra hiển thị avatar của nhóm A",1. Hiển thị đúng avatar của X
+8857,"Kiểm tra hiển thị avatar khi có 2 thành viên trong nhóm
+
+", 5: Avatar nhóm ,Suite_common_265,1,"Đảm bảo: Nhóm A chỉ có 2 thành viên X, Y tham gia
+1. Tại DS chat nhóm, kiểm tra hiển thị avatar của nhóm A",1. Avata của nhóm được chia làm 2 để hiển thị 2 avata của X và Y
+8858,Kiểm tra hiển thị avatar khi có 3 thành viên trong nhóm, 5: Avatar nhóm ,Suite_common_265,1,"Đảm bảo: Nhóm A chỉ có 3 thành viên X, Y, Z tham gia
+1. Tại DS chat nhóm, kiểm tra hiển thị avatar của nhóm A","1. Avata của nhóm được chia làm 3 để hiển thị 3 avata của X, Y và Z"
+8859,Kiểm tra hiển thị avatar khi có > 3 thành viên trong nhóm, 5: Avatar nhóm ,Suite_common_265,1,"Đảm bảo: Nhóm A chỉ có 5 thành viên X, Y, Z tham gia
+1. Tại DS chat nhóm, kiểm tra hiển thị avatar của nhóm A",1. Avata của nhóm được chia làm 3 để hiển thị 3 avata ngẫu nhiên của các thành viên trong nhóm
+8860,Kiểm tra hiển thị avatar khi thành viên trong nhóm đổi avata, 5: Avatar nhóm ,Suite_common_265,1,"Đảm bảo: Nhóm A chỉ có 2 thành viên X, Y tham gia
+1. Thực hiện thay đổi avatar 1 user có trong nhóm A
+2. Kiểm tra hiển thị avatar của nhóm trên DS chat nhóm",2. Avatar của nhóm A thay đổi tương ứng theo sau một khoảng thời gian t (s) (Thời gian đồng bộ ngầm)
+8861,Kiểm tra hiển thị avatar khi thành viên tham gia nhóm, 5: Avatar nhóm ,Suite_common_265,1,"Đảm bảo: Nhóm A chỉ có 1 thành viên X tham gia
+1. Kiểm tra hiển thị avata của nhóm
+2. X thêm Y vào nhóm
+3. Y tham gia nhóm
+4. Kiểm tra hiển thị avatar của nhóm trên DS chat nhóm","1. Avata của nhóm chỉ hiển thị avata của X
+3. Avata của nhóm được chia làm 2 để hiển thị 2 avata của X và Y"
+8862,Kiểm tra hiển thị avatar khi thành viên rời nhóm, 5: Avatar nhóm ,Suite_common_265,1,"Đảm bảo: Nhóm A chỉ có 2 thành viên X, Y tham gia
+1. Kiểm tra hiển thị avata của nhóm
+2. Y rời nhóm
+3. Kiểm tra hiển thị avatar của nhóm trên DS chat nhóm","1. Avata của nhóm được chia làm 2 để hiển thị 2 avata của X và Y
+3. Avata của nhóm chỉ hiển thị avata của X"

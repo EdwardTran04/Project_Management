@@ -1,0 +1,15 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8089,Kiểm tra  grid, 2: Grid,Suite_common_295,1,"1. Kiểm tra căn lề
+2. Di chuyển con trỏ chuột vào một row
+3. Kiểm tra bố cục trong grid
+4 Trỏ chuột vào các icon hoặc các link sẽ hiển thị tooltip
+5. Bỏ chuột khỏi các icon hoặc các link sẽ hiển thị tooltip","1. Text: căn lề trái
+   Số:  Căn lề phải
+   Ngày tháng: Căn giữa.
+    HeaderName : căn giữa và bôi đậm
+2. Màu nền của row đó thay đổi
+3..Cột thứ tự và tên các cột khác xếp từ trái qua phải đúng như TKMH
+     Các chức năng hành động cột cuối cùng bên phải
+      Chức năng phân trang, tổng số bản ghi được căn giữa đặt dưới   cùng góc trái của grid
+4. Hiển thị đúng tên tương ứng với các chức năng khi trỏ chuột vào tooltip
+5. Di chuột khỏi tooltip, thông báo sẽ mất đi"

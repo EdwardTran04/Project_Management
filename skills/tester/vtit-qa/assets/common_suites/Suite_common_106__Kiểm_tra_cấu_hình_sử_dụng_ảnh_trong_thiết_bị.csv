@@ -1,0 +1,12 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8517,"Kiểm tra cấu hình cho phép sử dụng ảnh của thiết bị
+", 3: Kiểm tra cấu hình sử dụng ảnh trong thiết bị ,Suite_common_106,1,"1. Vào màn hình Cài đặt của thiết bị: Chọn option ""Ảnh được chọn""
+2. Đi đến ứng dụng và touch vào button chọn ảnh trên màn hình chức năng A",Mở màn hình danh sách hình ảnh/album cho phép chọn ảnh  được select trong màn hình setting
+8518,"Kiểm tra cấu hình cho phép sử dụng ảnh của thiết bị
+", 3: Kiểm tra cấu hình sử dụng ảnh trong thiết bị ,Suite_common_106,1,"1. Vào màn hình Cài đặt của thiết bị: Chọn option ""Tất cả ảnh""
+2. Đi đến ứng dụng và touch vào button chọn ảnh trên màn hình chức năng A",Mở màn hình danh sách hình ảnh/album cho phép chọn tất cả ảnh trong thiết bị
+8519,Kiểm tra cấu hình KHÔNG cho phép sử dụng ảnh của thiết bị , 3: Kiểm tra cấu hình sử dụng ảnh trong thiết bị ,Suite_common_106,1,"1. Vào màn hình Cài đặt của thiết bị: Chọn option ""Không có""
+2. Đi đến ứng dụng và touch vào button chọn ảnh trên màn hình chức năng A","Hiển thị thông báo gợi ý bật chức năng sử dụng ảnh của thiết bị với 2 button [yes], [No]
+Note: Tùy HĐH của thiết bị cách thể hiện thông báo và button sẽ khác nhau"
+8520,Kiểm tra cấu hình KHÔNG cho phép sử dụng ảnh của thiết bị , 3: Kiểm tra cấu hình sử dụng ảnh trong thiết bị ,Suite_common_106,1,3.1 Nhấn nút [Yes] trên hộp thoại,Mở đến màn hình setting sử dụng ảnh trên thiết bị
+8521,Kiểm tra cấu hình KHÔNG cho phép sử dụng ảnh của thiết bị , 3: Kiểm tra cấu hình sử dụng ảnh trong thiết bị ,Suite_common_106,1,3.2 Nhấn nút [No] trên hộp thoại,Đóng popup thông báo và hiển thị màn hình chức năng A

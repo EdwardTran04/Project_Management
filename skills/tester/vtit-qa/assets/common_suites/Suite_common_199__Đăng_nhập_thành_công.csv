@@ -1,0 +1,68 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8722,"Kiểm tra đăng nhập thành công khi nhập [Tên đăng nhập], [Mât Khẩu] tương ứng  đã tồn tại trong hệ thống", 3: Đăng nhập thành công,Suite_common_199,1,"- Đảm bảo [Tên đăng nhập] đã tồn tại trong hệ thống
+1. Nhập dữ liệu vào textbox [Tên đăng nhập]
+2. Nhập dữ liệu vào textbox[Mật Khẩu] tương ứng với [Tên đăng nhập] ở trên
+3. Click button [Đăng nhập]","1. Hiển thị màn hình ứng dụng theo mô tả của ĐTYC
+
+( Tester tự bổ sung )"
+8723,"Kiểm tra đăng nhập thành công khi nhập [Tên đăng nhập], [Mât Khẩu] = tối đa maxlength cho phép   đã tồn tại trong hệ thống", 3: Đăng nhập thành công,Suite_common_199,1,"- Đảm bảo [Tên đăng nhập] đã tồn tại trong hệ thống
+1. Nhập dữ liệu vào textbox [Tên đăng nhập]
+2. Nhập dữ liệu vào textbox[Mật Khẩu] tương ứng với [Tên đăng nhập] ở trên
+3. Click button [Đăng nhập]","1. Hiển thị màn hình ứng dụng theo mô tả của ĐTYC
+
+( Tester tự bổ sung )"
+8724,Kiểm tra đăng nhập thành công khi [Tên đăng nhập] cho phép ký tự đặc biệt, 3: Đăng nhập thành công,Suite_common_199,1,"Điều kiện: ĐTYC cho phép user có các ký tự đặc biệt : liệt kê các ký tự đặc biệt ra …..
+1. Lần lượt Nhập dữ liệu vào  textbox [Tên đăng nhập]: có chứa các ký tự đặc biệt được phép
+2. Nhập mật khẩu tương ứng
+3. Click button [Đăng nhập]","1. Hiển thị màn hình ứng dụng theo mô tả của ĐTYC
+
+( Tester tự bổ sung )"
+8725,Kiểm tra hiển thị thông tin đúng với user đăng nhập, 3: Đăng nhập thành công,Suite_common_199,1,"1. Đăng nhập với user 1 thành công
+2. Đăng xuất, login bằng user 2
+","1. Hiển thị thông tin của user 1
+2. Hiển thị thông tin của user 2. Thao tác chức năng ứng với user 2"
+8726,Kiểm tra đăng nhập không phân biệt chữ hoa thường ở trường tên đăng nhập, 3: Đăng nhập thành công,Suite_common_199,1,"User : crm_abc
+1. Nhập vào : CRM_ABC
+2. Các trường khác hợp lệ
+3. Nhấn Đăng nhập","1.Đăng nhập thành công  
+2. Đóng màn hình đăng nhập và chuyển sang màn hình thông tin chức năng"
+8727,Kiểm tra đăng nhập khi mật khẩu là tiếng việt có dấu, 3: Đăng nhập thành công,Suite_common_199,1,"Tồn tại tên đăng nhập: crm_abc, mật khẩu : văn phòng
+1. Nhập vào : CRM_ABC
+2. Các trường khác hợp lệ
+3. Nhấn [Đăng nhập]","1.Đăng nhập thành công  
+2. Chuyển đến màn hình Trang chủ của ứng dụng"
+8728,Kiểm tra khi mật khẩu không cho phép Space đầu và cuối ký tự, 3: Đăng nhập thành công,Suite_common_199,1,"Tồn tại tên đăng nhập: crm_abc, mật khẩu : ha noi mua thu
+1. Nhập vào mật khẩu : [space] ha noi mua thu [space]
+2. Các trường khác hợp lệ
+3. Nhấn [Đăng nhập]","1.Đăng nhập thành công  
+2. Chuyển đến màn hình Trang chủ của ứng dụng
+"
+8729,Kiểm tra khi mật khẩu cho phép Space đầu và cuối ký tự ( Trường hợp cho phép space), 3: Đăng nhập thành công,Suite_common_199,1,"Tồn tại tên đăng nhập: crm_abc, mật khẩu : ha noi mua thu
+1. Nhập vào mật khẩu : [space] ha noi mua thu [space]
+2. Các trường khác hợp lệ
+3. Nhấn [Đăng nhập]","1.  Hiển thị thông báo“Sai tên đăng nhập hoặc mật khẩu”
+2.  Người dùng nhấn nút Đóng
+3. Focus vào trường Tên đăng nhập"
+8730,Kiểm tra khi mật khẩu cho phép Space đầu và cuối ký tự ( Trường hợp cho phép space), 3: Đăng nhập thành công,Suite_common_199,1,"Tồn tại tên đăng nhập: crm_abc, mật khẩu :  toàn dấu space ( 7 space)
+1. Nhập vào mật khẩu : đủ 7 space
+2. Các trường khác hợp lệ
+3. Nhấn [Đăng nhập]","1.Đăng nhập thành công  
+2. Chuyển đến màn hình Trang chủ của ứng dụng
+"
+8731,"Kiểm tra nhập mật khẩu là các ký tự html, script
+
+", 3: Đăng nhập thành công,Suite_common_199,1,"'1. Nhập kí tự :
+ 123231231231 
+","1.Đăng nhập thành công  
+2. Chuyển đến màn hình Trang chủ của ứng dụng
+"
+8732,"Kiểm tra nhập mật khẩu các ký tự đặc biệt
+
+", 3: Đăng nhập thành công,Suite_common_199,1,"1. Nhập kí tự :
+~!@#$%^&amp;*()_+-`:;""',.?
+2. Các thông tin khác được nhập hợp lệ
+3. Nhấn button [Ghi lại]
+
+","1.Đăng nhập thành công  
+2. Chuyển đến màn hình Trang chủ của ứng dụng
+"

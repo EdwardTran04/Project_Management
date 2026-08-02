@@ -1,0 +1,17 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8193,Kiểm tra giá trị mặc định, 2: Textbox Địa chỉ IP,Suite_common_311,1,Kiểm tra giá trị mặc định,Giá trị mặc định là trống
+8194,Kiểm tra việc nhập thành công các kí tự vào trường Địa chỉ IP, 2: Textbox Địa chỉ IP,Suite_common_311,1,"1. Tại trường IP hiện nhập các ký tự 192.168.168.179
+2. Các thông tin khác nhập đủ
+3. Bấm Cập nhật",Hiển thị nhập thành công
+8195,"Kiểm tra nhập kí tự dạng chữ, dạng kí tự đặc biệt, html, dấu cách, tiếng việt có dấu", 2: Textbox Địa chỉ IP,Suite_common_311,1,"1. Tại trường Mã thiết bị thực hiện nhập các ký tự trong các trường hợp :
+- qbc.345.231.124
+- 192.23f.343.345
+- 192.243.gbc.435
+- 192.168.168.bvn
+- 192.*23.168.179
+2. Các thông tin khác nhập đủ
+3.Bấm Cập nhật","Hiện thị thông báo ""Nhập sai định dạng IP"""
+8196,Kiểm tra không cho nhập quá Maxlengh, 2: Textbox Địa chỉ IP,Suite_common_311,1,Nhập quá Maxlengh (15 kí tự),Không cho nhập
+8197,Cho phép nhập địa chỉ  IP có cổng, 2: Textbox Địa chỉ IP,Suite_common_311,1,"1. Tại trường IP hiện nhập các ký tự 192.168.168.179: 8001, 8002
+2. Các thông tin khác nhập đủ
+3. Bấm Cập nhật",Cho phép nhập và lưu thành công

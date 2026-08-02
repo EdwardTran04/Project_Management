@@ -1,0 +1,24 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9082,Kiểm tra tính duy nhất của trường dữ liệu ( nếu nghiệp vụ có yêu cầu)," 3: Kiểm tra lưu với các trường hợp ràng buộc, nghiệp vụ khác của ĐTYC",Suite_common_362,1,"Trường hợp dữ liệu nhập so với dữ liệu đã có có tên gần giống nhau:  Minh Hạ
+1. Nhập dữ liệu: Minh Hà  ( hoặc minh hà)
+2. Các thông tin khác được nhập hợp lệ
+3. Nhấn [Ghi lại]","1.Hiển thị thông báo lưu thành công
+2.Bản ghi vừa thêm mới phải được hiển thị lên đầu danh sách và lưu đúng 
+"
+9083,Kiểm tra tính duy nhất của trường dữ liệu ( nếu nghiệp vụ có yêu cầu)," 3: Kiểm tra lưu với các trường hợp ràng buộc, nghiệp vụ khác của ĐTYC",Suite_common_362,1,"Trường hợp dữ liệu nhập so với dữ liệu đã có trùng nhau hoàn toàn: Minh Hạ
+1. Nhập dữ liệu: Minh Hạ ( hoặc minh hạ)
+2. Các thông tin khác được nhập hợp lệ
+3. Nhấn [Ghi lại]","1. Hiển thị thông báo lỗi
+2. Không thực hiện thêm mới thành công"
+9084,Kiểm tra tính duy nhất của trường dữ liệu ( nếu nghiệp vụ có yêu cầu)," 3: Kiểm tra lưu với các trường hợp ràng buộc, nghiệp vụ khác của ĐTYC",Suite_common_362,1,"Trường hợp nhập dữ liệu trùng với dữ liệu đã ở trạng thái xóa
+1. Nhập dữ liệu đã có trong CSDL, trạng thái bản ghi đã bị xóa
+2. Các thông tin khác được nhập hợp lệ
+3. Nhấn [Ghi lại]",Thực hiện thành công
+9085,"Kiểm tra  với các user khác nhau
+( Trường hợp hệ thống cho phép truy cập từ nhiều tài khoản, mỗi tài khoản chỉ nhìn thấy dữ liệu do mình được phân quyền )"," 3: Kiểm tra lưu với các trường hợp ràng buộc, nghiệp vụ khác của ĐTYC",Suite_common_362,1,"1. Login bằng user 1
+2. Thực hiện thêm mới
+3. Logout, đăng nhập bằng user 2, 
+4. Thực hiện thêm mới","2. Thực hiện thêm mới thành công bản ghi cho user 1
+4. Thực hiện thêm mới thành công bản ghi cho user 2"
+9086,Kiểm tra khi nhập trùng dữ liệu cùng lúc từ 2 tab hoặc 2 client khác nhau," 3: Kiểm tra lưu với các trường hợp ràng buộc, nghiệp vụ khác của ĐTYC",Suite_common_362,1,1. Nhập trùng dữ liệu từ 2 tab hoặc 2 client khác nhau,"Tab 1( Client 1) : Lưu thành công
+Tab 2( Client 2) : Thông báo lỗi, không thực hiện lưu"

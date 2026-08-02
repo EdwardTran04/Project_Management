@@ -1,0 +1,7 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8507,Thay đổi font chữ khi đang loading, 3: Thay đổi font chữ,Suite_common_102,1,"1. Đang sử dụng app có chức năng loading 
+2. Vào setting thay đổi cỡ chữ của thiết bị 
+3. Vào sử dụng lại ứng dụng và kiểm tra thông tin vừa mới load",Hệ thống không bị crash và hiển thị đúng thông tin dữ liệu sau loading.
+8508,Thay đổi size chữ khi đang sử dụng ứng dụng, 3: Thay đổi font chữ,Suite_common_102,1,1. Thay đổi size chữ  = max size chữ của thiết bị,"Font chữ ko thay đổi hoặc có thay đổi nhưng không bị tràn dữ liệu hoặc hiển thị không hết nội dung trên ứng dụng
+Ứng dụng vẫn giữ nguyên màn hình trước khi thiết lập thay đổi"
+8509,Thay đổi size chữ khi đang sử dụng ứng dụng, 3: Thay đổi font chữ,Suite_common_102,1,2. Thay đổi định dạng chữ thành in đậm (đối với hệ điều hành iOS),Định dạng chữ ko thay đổi hoặc có thay đổi nhưng không bị tràn dữ liệu hoặc hiển thị không hết nội dung

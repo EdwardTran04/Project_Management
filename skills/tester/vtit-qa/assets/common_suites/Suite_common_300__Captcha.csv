@@ -1,0 +1,16 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8128,"Kiểm tra thực hiện chức năng không thành công khi nhập captchar không đúng
+( Trường hợp yêu cầu nhập captcha)", 2: Captcha,Suite_common_300,1,"1. Nhập captchar không đúng
+2. Các thông tin khác nhập dữ liệu hợp lệ
+3. Nhấn button [Đăng nhập] / [Đăng ký] / [Quên mật khẩu]/…",3. Hiển thị thông báo lỗi captchar không đúng
+8129,"Kiểm tra thực hiện chức năng không thành công khi nhập captchar không đúng
+( Trường hợp yêu cầu nhập captcha)", 2: Captcha,Suite_common_300,1,"4. Đóng thông báo lỗi, kiểm tra captchar trên màn hình","4. - Edittext captchar reset về trạng thái mặc định
+- Hình ảnh captchar thay đổi"
+8130,Kiểm tra thực hiện chức năng không thành công khi nhập captcha cũ, 2: Captcha,Suite_common_300,1,"Đảm bảo màn hình đang hiển thị captchar A
+1. Nhấn đổi captchar
+2. Nhập captchar A vào edittext captchar
+3. Nhập các thông tin khác hợp lệ
+4. Nhấn button [Đăng nhập] / [Đăng ký] / [Quên mật khẩu]/…",4. Thông báo lỗi captchar không đúng
+8131,Kiểm tra hình ảnh hiển thị vừa đúng chiều dài khung, 2: Captcha,Suite_common_300,1,"1. Click Icon [Đổi Captchar]
+2. Kiểm tra hiển thị của các hình ảnh captchar",2. Các hình ảnh captchar hiển thị vừa đúng chiều dài khung
+8132,Kiểm tra hình ảnh captchar hiển thị rõ ràng, 2: Captcha,Suite_common_300,1,1. Kiểm tra hiển thị hình ảnh captchar,"1. Hình ảnh hiển thị rõ nét, hài hòa được chuỗi ký tự trong captchar"

@@ -1,0 +1,5 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8853,Kiểm tra hiển thị Tên nhóm, 5: Tên nhóm,Suite_common_264,1,"Đảm bảo: A tham gia vào nhóm có tên ngắn (vừa đủ khung màn hình)
+1. Kiểm tra hiển thị tên nhóm trên DS chat nhóm của A",1. Tên nhóm hiển thị đầy đủ trên 1 dòng
+8854,Kiểm tra hiển thị Tên nhóm, 5: Tên nhóm,Suite_common_264,1,"Đảm bảo: A thamg gia vào nhóm có tên dài (vượt quá khung màn hình)
+1. Kiểm tra hiển thị tên nhóm trên DS chat nhóm của A",1. Tên nhóm hiển thị trên 1 dòng và có dấu 3 chấm ở cuối dòng

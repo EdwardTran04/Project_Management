@@ -1,0 +1,260 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8812,"Kiểm tra link [quên mật khẩu] luôn hiển thị trên màn hình đăng nhập
+(Chọn 1 trường hợp theo yêu cầu nghiệp vụ cũa DTYC)", 2: Lấy mã xác nhận,Suite_common_212,1,"Trường hợp DTYC mô tả Link luôn hiển thị tại màn hình:
+1. Tại màn hình đăng nhập kiểm tra hiển thị link [Quên mật khẩu]",Hiển thị link [Quên mật khẩu] ngay trên màn hình  Đăng nhập
+8813,"Kiểm tra hiển thị link [Quên mật khẩu] khi đăng nhập sai n lần liên tiếp
+'Trường hợp đăng nhập sai quá n lần  mới hiển thị link [Quên mật khẩu] 
+(N là số lần đăng nhập sai tối đa cho phép)", 2: Lấy mã xác nhận,Suite_common_212,1,"
+1. Thực hiện đăng nhập sai n lần liên tiếp 
+2. Kiểm tra hiển thị link [Quên mật khẩu] 
+","Hiển thị thông báo: ""Bạn nhập sai thông tin đăng nhập. "" và Không hiển thị link quên mật khẩu.
+
+"
+8814,"Kiểm tra hiển thị link [Quên mật khẩu] khi đăng nhập sai n+1 lần liên tiếp
+'Trường hợp đăng nhập sai quá n lần  mới hiển thị link [Quên mật khẩu] ", 2: Lấy mã xác nhận,Suite_common_212,1,"Đảm bảo đã đăng nhập sai n lần liên tiếp: 
+1. Thực hiện đăng nhập lần thứ n+1 sai
+2. Kiểm tra hiển thị link [Quên mật khẩu] ","Hiển thị thông báo: Đã đăng nhập sai quá n lần. 
+Hiển thị link quên mật khẩu"
+8815,"Kiểm tra không hiển thị link quên mật khẩu khi lần thứ n và đăng nhập account khác
+'Trường hợp đăng nhập sai quá n lần  mới hiển thị link [Quên mật khẩu]  ", 2: Lấy mã xác nhận,Suite_common_212,1,"1. Đã nhập sai n+1 lần liên tiếp cũa user 1
+2. Đăng nhập user 2","1. Hiển thị link quên mật khẩu 
+2. Ẩn link [Quên mật khẩu]"
+8816,"Kiểm tra  hiển thị link [Quên mật khẩu] có phân biệt các lần đăng nhập sai của các user khác nhau
+Trường hợp đăng nhập sai quá n lần  mới hiển thị link [Quên mật khẩu] ", 2: Lấy mã xác nhận,Suite_common_212,1,"1. User 1 đăng nhập sai n lần
+2. User 2 đăng nhập sai  ",Không thiển thị link quên mật khẩu.
+8817,"Kiểm tra 1 tài khoản đăng nhập 2 máy và tổng lần đăng nhập sai quá n lần
+'Trường hợp đăng nhập sai quá n lần  mới hiển thị link [Quên mật khẩu] ", 2: Lấy mã xác nhận,Suite_common_212,1,"VD: n=5
+1. User 1 đăng nhập máy 1 sai 3 lần
+2. User 1 đăng nhập máy 2 sai 2 lần
+3 Kiểm tra lưu DB hoặc request gửi đi mỗi lần đăng nhập sai
+4. User 2 đăng nhập sai lần thứ 3
+5. Kiểm tra hiển thị link [Quên mật khẩu]","- Nếu request gửi đi chỉ phụ thuộc thông tin user, và các lần đăng nhập sai cũa 1 user được cộng dồn thì KQMM: Hiển thị link quên mật khẩu tại màn hình đăng nhập cũa user 2.
+- Nếu không công dồn số l ần đăng nhập sai cũa user mà còn phụ thuộc vào mã code cũa máy thì KQMM: Không có link quên mật khẩu ở màn hình đăng nhập cũa user 2."
+8818,"Kiểm tra gửi thông tin quên mật khẩu thành công khi nhập dữ liệu tối đa tại các trường
+ (Tùy theo yêu cầu, có thể sử dụng email hoặc số điện thoại để nhận tin nhắn mã xác nhận)", 2: Lấy mã xác nhận,Suite_common_212,1,"Đảm bảo số lần gởi request &lt; 5. 
+Tồn tại tên đăng nhập, email có độ dài maxleght.
+1. Nhập dữ liệu hợp lệ có độ dài maxleght vào các trường 
+2. Nhấn button [Gửi thông tin]
+3. Kiểm tra tin nhắn vừa được gửi tới số điện thoại (Hoặc email) vừa nhập","2. Hiển thị popup reset mật khẩu
+3. Thông tin gửi đi thành công. Có tin nhắn gửi mã xác nhận về số điện thoại (hoặc Email) đã nhập"
+8819,"Kiểm tra gửi thông tin quên mật khẩu thành công khi khi nhập dữ liệu đúng tại các trường và số lần gửi request <=5 lần trong ngày 
+ (Tùy theo yêu cầu, có thể sử dụng email hoặc số điện thoại để nhận tin nhắn mã xác nhận)", 2: Lấy mã xác nhận,Suite_common_212,1,"1. Nhập dữ liệu hợp lệ và có tồn tại trên hệ thống vào các trường
+2. Nhấn button [Gửi thông tin]
+3. Kiểm tra tin nhắn vừa được gửi tới số điện thoại (Hoặc email) vừa nhập
+4. Lặp lại bước 1,2,3 liên tụcthêm  4 lần  trong ngày
+
+","2. Hiển thị popup reset mật khẩu
+3. Thông tin gửi đi thành công. Có tin nhắn gửi mã xác nhận về số điện thoại (hoặc Email) đã nhập. 
+4. 'Gửi thông tin thành công trong cả 4 lần gửi và nhận được thêm 4 tin nhắn mã xác nhận về điện thoại (Email) đã nhập"
+8820,Kiểm tra chỉ gửi được thông tin quên mật khẩu để lấy mã xác nhận 5 lần trong ngày , 2: Lấy mã xác nhận,Suite_common_212,1,"1. Nhập dữ liệu hợp lệ và có tồn tại trên hệ thống vào các trường
+2. Nhấn button [Gửi thông tin] 
+3.  Lặp lại bước 1,2,3 liên tục 6 lần  trong ngày
+4 . Kiểm tra tin nhắn vừa được gửi tới số điện thoại (Hoặc email)  vừa nhập
+","Chỉ nhận được 5 tin nhắn.
+Lần gửi request lần thứ 6 thực hiện không thành công. Thông báo đã gửi request quá 5 lần trong ngày"
+8821,Kiểm tra chỉ gửi được thông tin quên mật khẩu để lấy mã xác nhận 5 lần trong ngày , 2: Lấy mã xác nhận,Suite_common_212,1,5. Để qua ngày hôm sau thực hiện gửi request lấy thông tin quên mật khẩu ," Hiển thị popup reset mật khẩu
+Thực hiện gửi thành công, có tin nhắn mã xác nhận về điện thoại hoặc email đã nhập
+"
+8822,"Kiểm tra không phân biệt hoa thường với trường [Tên đăng nhập] và [Email] 
+(Nếu không có email, thì chỉ kiểm tra với tên đăng nhập)", 2: Lấy mã xác nhận,Suite_common_212,1,"TH: Hệ thống quên mật khẩu gồm trường: [Email] và [Tên đăng nhập]
+Đảm bảo tồn tại tên đăng nhập và email: dungntm6/dungntm6@viettel.com.vn
+'1. Nhập vào [Tên đăng nhập] dữ liệu là: DUNGNTM6
+2. Nhập vào trường [Email]: DUNGNTM6@viettel.com.vn
+3. Nhấn button [Gửi thông tin]"," Hiển thị popup reset mật khẩu
+Gửi request thành công,
+Hệ thống gửi một tin nhắn có mã xác nhận đến số điện thoại vừa nhập
+"
+8823,"Kiểm tra không phân biệt hoa thường với trường [Tên đăng nhập] và [Email] 
+(Nếu không có email, thì chỉ kiểm tra với tên đăng nhập)", 2: Lấy mã xác nhận,Suite_common_212,1,"TH: Trường hợp gồm  [Tên đăng nhập] và [số điện thoai] 
+'1. Nhập vào [Tên đăng nhập] dữ liệu là: DUNGNTM6
+2. Nhập dữ liệu còn lại hợp lệ.
+3. Nhấn button [Gửi thông tin]"," Hiển thị popup reset mật khẩu
+Gửi request thành công,
+Hệ thống gửi một tin nhắn có mã xác nhận đến số điện thoại vừa nhập
+"
+8824,Kiểm tra gửi thông tin quên mật khẩu không thành công khi nhập sai thông tin, 2: Lấy mã xác nhận,Suite_common_212,1,"TH: [Tên đăng nhập] không tồn tại trong hệ thống
+1. Vào màn hình quên mật khẩu 
+2. Nhập tên đăng nhập không tồn tại trong hệ thống
+3. Nhập thông tin khác hợp lệ
+4. Nhấn gửi thông tin","Hiển thị thông báo thông tin không chính xác. 
+Đóng pop up focus hoặc highlight trường lỗi."
+8825,Kiểm tra gửi thông tin quên mật khẩu không thành công khi nhập sai thông tin, 2: Lấy mã xác nhận,Suite_common_212,1,"TH: [Số điện thoại] hoặc [Email] không tồn tại trong hệ thống.  
+1. Vào màn hình quên mật khẩu 
+2. Nhập tên đăng nhập tồn tại trong hệ thống
+3. Nhập [Email] hoặc [Số điện thoại] không tồn tại trong hệ thống
+4. Nhấn gửi thông tin
+(Case này có thể là Email hoặc số điện thoại, thay đổi tùy theo DTYC)","Hiển thị thông báo thông tin không chính xác. 
+Đóng pop up , focus hoặc highlight trường lỗi."
+8826,Kiểm tra gửi thông tin quên mật khẩu không thành công khi nhập sai thông tin, 2: Lấy mã xác nhận,Suite_common_212,1,"TH: Số điện thoại(hoặc email) và tên đăng nhập tồn tại nhưng không phải cũa 1 user: 
+1. Nhập dữ liệu đúng vào Edittext [Tên đăng nhập]
+2. Nhập vào [Số điện thoại] hoặc [Email] có tồn tại trong DB nhưng thuộc user khác
+3. Nhấn button [Gửi thông tin]","Hiển thị thông báo thông tin không chính xác. 
+Đóng pop up focus hoặc highlight trường lỗi."
+8827,Kiểm tra thay đổi mật khẩu thành công khi nhập thông tin các trường hợp lệ, 2: Kiểm tra reset mật khẩu,Suite_common_212,1,"1. Nhập [Mã xác nhận] và các trường khác hợp lệ 
+2. Nhấn [Xác nhận] 
+3. Thực hiện đăng nhập với mật khẩu mới","1. Hiển thị thông báo: “Bạn đã đổi mật khẩu thành công” và trở về màn hình đăng nhập
+2. Kiểm tra đăng nhập thành công với mật khẩu này"
+8828,Kiểm trareset mật khẩu thành công khi nhập tối đa các trường cho phép, 2: Kiểm tra reset mật khẩu,Suite_common_212,1,"1. Nhập vào trường [Mật khẩu mới] dữ liệu hợp lệ có độ dài = maxlength
+2. Các trường khác nhập hợp lệ
+3. Click [Xác nhận]
+4. Thực hiện đăng nhập với mật khẩu mới","1. Hiển thị thông báo: “Bạn đã đổi mật khẩu thành công” và trở về màn hình đăng nhập
+2. Kiểm tra đăng nhập thành công với mật khẩu này"
+8829,Kiểm tra reset mật khẩu thành công khi nhập tối  thiểu các trường cho phép, 2: Kiểm tra reset mật khẩu,Suite_common_212,1,"1. Nhập vào trường [Mật khẩu mới] dữ liệu hợp lệ có độ dài = minlegth
+2. Các trường khác nhập hợp lệ
+3. Click [Xác nhận]
+4. Thực hiện đăng nhập với mật khẩu mới","1. Hiển thị thông báo: “Bạn đã đổi mật khẩu thành công” và trở về màn hình đăng nhập
+2. Kiểm tra đăng nhập thành công với mật khẩu này"
+8830,"Kiểm tra reset mật khẩu thành công khi nhập [Mật khẩu mới] là các ký tự html, script
+
+", 2: Kiểm tra reset mật khẩu,Suite_common_212,1,"1. Nhập vào trường [Mật khẩu mới] kí tự :
+ 123231231231 
+","1. Hiển thị thông báo: “Bạn đã đổi mật khẩu thành công” và trở về màn hình đăng nhập
+2. Kiểm tra đăng nhập thành công với mật khẩu này"
+8831,"Kiểm tra reset mật khẩu thành công khi nhập [Mật khẩu mới] là các ký tự đặc biệt
+
+", 2: Kiểm tra reset mật khẩu,Suite_common_212,1,"1. Nhập vào trường [Mật khẩu mới] kí tự :
+~!@#$%^&amp;*()_+-`:;""',.?
+2. Các thông tin khác được nhập hợp lệ
+3. Nhấn button [Xác nhận]
+4. Thực hiện đăng nhập với mật khẩu mới
+
+","1. Hiển thị thông báo: “Bạn đã đổi mật khẩu thành công” và trở về màn hình đăng nhập
+2. Kiểm tra đăng nhập thành công với mật khẩu này"
+8832,Kiểm tra reset mật khẩu với mật khẩu mới nhập vào là tiếng việt có dấu, 2: Kiểm tra reset mật khẩu,Suite_common_212,1,"1. Nhập dữ liệu hợp lệ vào  các trường thông tin trong màn hình
+2. Nhập [mật khẩu mới] và [xác nhận mật khẩu] là tiếng việt có dấu
+3. Click [Xác nhận] 
+","Nếu mật khẩu cho phép là tiếng việt có dấu: 
+1. Hiển thị thông báo: “Bạn đã đổi mật khẩu thành công” và trở về màn hình đăng nhập
+2. Kiểm tra đăng nhập thành công với mật khẩu này
+KQMM nếu mật khẩu không cho phép là tiếng việt có dấu: 
+- Chặn không cho nhập tiếng việt có dấu hoặc Hiển thị thông báo: Mật khẩu không được chứa tiếng việt có dấu 
+(KQMM có thể thay đổi tùy DTYC)"
+8833,"Kiểm tra không Trim space trường [Mật khẩu]  (Case này tùy theo từng yêu cầu dự án, có thể trim hoặc không)", 2: Kiểm tra reset mật khẩu,Suite_common_212,1,"1. Nhập vào trường [Mật khẩu mới] dữ liệu: [sapce]abc123[space]
+2. Các thông tin khác được nhập hợp lệ
+3. Nhấn button [Xác nhận]
+4.1. Đăng nhập lại vào hệ thống với mật khẩu: [sapce]abc123[space]
+4.2. Đăng nhập lại vào hệ thống với mật khẩu: abc123","3. Hiển thị toast thông báo: “Bạn đã đổi mật khẩu thành công” và trở về màn hình đăng nhập
+4.1. Đăng nhập thành công vào hệ thống
+4.2. Đăng nhập thất bại"
+8834,"Kiểm tra không Trim space trường [Mật khẩu]  (Case này tùy theo từng yêu cầu dự án, có thể trim hoặc không)", 2: Kiểm tra reset mật khẩu,Suite_common_212,1,"1. Nhập mật khẩu mới toàn các ký tự space (8 ký tự)
+2. Các thông tin khác được nhập hợp lệ
+3. Nhấn [Xác nhận]
+4. Đăng nhập lại vào hệ thống với mật khẩu mới","3. Hiển thị thông báo: “Bạn đã đổi mật khẩu thành công” và trở về màn hình đăng nhập
+4. Đăng nhập thành công vào hệ thống"
+8835,"Kiểm tra Trim space trường mật khẩu 
+(Case này tùy theo từng yêu cầu dự án, có thể trim hoặc không)", 2: Kiểm tra reset mật khẩu,Suite_common_212,1,"1. Nhập vào trường [Mật khẩu mới] dữ liệu: [sapce]abc123456[space]
+2. Các thông tin khác được nhập hợp lệ
+3. Nhấn button [Xác nhận]
+4.1. Đăng nhập lại vào hệ thống với mật khẩu: [sapce]abc123456[space]
+4.2. Đăng nhập lại vào hệ thống với mật khẩu: abc123","3. Hiển thị thông báo: “Bạn đã đổi mật khẩu thành công” và trở về màn hình đăng nhập
+4.1. Đăng nhập thành công vào hệ thống
+4.2. Đăng nhập thành công vào hệ thống"
+8836,"Kiểm tra Trim space trường mật khẩu 
+(Case này tùy theo từng yêu cầu dự án, có thể trim hoặc không)", 2: Kiểm tra reset mật khẩu,Suite_common_212,1,"1. Nhập mật khẩu mới toàn các ký tự space (8 ký tự)
+2. Các thông tin khác được nhập hợp lệ
+3. Nhấn [Xác nhận]
+4. Đăng nhập lại vào hệ thống với mật khẩu mới đã vừa nhập","3. Hiển thị thông báo: Bạn phải nhập đầy đủ thông tin.
+4. Đăng nhập thất bại"
+8837,"Kiểm tra yêu cầu nhập mật khẩu mạnh:
+- Yêu cầu tối thiểu n ký tự
+- Bao gồm chữ , số và ký tự đặc biệt
+
+( Chú ý : chỉ đưa vào khi hệ thống có yêu cầu, khi đó không cần 2 case ký tự đặc biệt, html ở trên)", 2: Kiểm tra reset mật khẩu,Suite_common_212,1,"1. Nhập mật khẩu toàn là kí tự chữ hoặc toàn kí tự số hoặc toàn kí tự đặc biệt hoặc chỉ có 2 trong 3 loại 
+2. Các thông tin khác được nhập hợp lệ","Thông báo lỗi
+Set focus vào trường lỗi hoặc highlight trường lỗi."
+8838,"Kiểm tra yêu cầu nhập mật khẩu mạnh:
+- Yêu cầu tối thiểu n ký tự
+- Bao gồm chữ , số và ký tự đặc biệt
+
+( Chú ý : chỉ đưa vào khi hệ thống có yêu cầu, khi đó không cần 2 case ký tự đặc biệt, html ở trên)", 2: Kiểm tra reset mật khẩu,Suite_common_212,1,"1. Nhập mật khẩu với độ dài = 8 ký tự (Bao gồm đầy đủ cả chữ, số và kí tự đặc biệt: @#$%^&amp;*()_+~&gt;&lt;""? , ký tự htlm)
+2. Các thông tin khác được nhập hợp lệ
+3. Touch Cập nhật","Thực hiện thành công
+Kiểm tra login thành công với mật khẩu mới"
+8839,"Kiểm tra yêu cầu nhập mật khẩu mạnh:
+- Yêu cầu tối thiểu n ký tự
+- Bao gồm chữ , số và ký tự đặc biệt
+
+( Chú ý : chỉ đưa vào khi hệ thống có yêu cầu, khi đó không cần 2 case ký tự đặc biệt, html ở trên)", 2: Kiểm tra reset mật khẩu,Suite_common_212,1,"1. Nhập trường mật khẩu với độ dài &gt; 8 ký tự (Bao gồm đầy đủ cả chữ ( chữ hoa hoặc chữ thường hoặc gồm cả chữ hoa chữ thường), số và kí tự đặc biệt )
+2. Các thông tin khác được nhập hợp lệ
+3. Touch Cập nhật","Thực hiện thành công 
+Kiểm tra login thành công với mật khẩu mới"
+8840,"Kiểm tra yêu cầu nhập mật khẩu mạnh:
+- Yêu cầu tối thiểu n ký tự
+- Bao gồm chữ , số và ký tự đặc biệt
+
+( Chú ý : chỉ đưa vào khi hệ thống có yêu cầu, khi đó không cần 2 case ký tự đặc biệt, html ở trên)", 2: Kiểm tra reset mật khẩu,Suite_common_212,1,"1. Mật khẩu: Là tiếng Việt có dấu + số + kí tự đặc biệt
+2. Các thông tin khác được nhập hợp lệ
+3. Touch Cập nhật","Thực hiện thành công 
+Kiểm tra login thành công với mật khẩu mới"
+8841,"Kiểm tra reset mật khẩu thành công trong khoảng thời gian tồn tại  cũa mã xác nhận (X phút)
+(Case này tùy server quy đinh, nếu không có thì không cần case này)", 2: Kiểm tra reset mật khẩu,Suite_common_212,1,"Sau khi nhận được mã xác nhận
+1. Chờ một khoảng thời gian &lt; X phút
+2. Nhập mã xác nhận đã nhận được
+3. Nhập các trường khác hợp lệ
+4. Nhấn button [Xác nhận]","1. Hiển thị thông báo: “Bạn đã đổi mật khẩu thành công” và trở về màn hình đăng nhập
+2. Kiểm tra đăng nhập thành công với mật khẩu này"
+8842,"Kiểm tra reset mật khẩu thành công trong khoảng thời gian tồn tại  cũa mã xác nhận (X phút)
+(Case này tùy server quy đinh, nếu không có thì không cần case này)", 2: Kiểm tra reset mật khẩu,Suite_common_212,1,"Sau khi nhận được mã xác nhận
+1. Chờ một khoảng thời gian = X phút
+2. Nhập mã xác nhận đã nhận được
+3. Nhập các trường khác hợp lệ
+4. Nhấn button [Xác nhận]","1. Hiển thị thông báo: “Bạn đã đổi mật khẩu thành công” và trở về màn hình đăng nhập
+2. Kiểm tra đăng nhập thành công với mật khẩu này"
+8843,"Kiểm tra Reset mật khẩu không thành công khi nhập [mã xác nhận] đã hết hạn (Thời gian tồn tại cũa mã xác nhận là: X phút)
+(Case này tùy server quy đinh, nếu không có thì không cần case này)", 2: Kiểm tra reset mật khẩu,Suite_common_212,1,"Sau khi nhận được mã xác nhận
+1. Chờ một khoảng thời gian &gt; X phút (chú ý chọn vào khoảng cận biên trên cũa X)
+2. Nhập mã xác nhận đã nhận được
+3. Nhập các trường khác hợp lệ
+4. Nhấn button [Xác nhận]","Hiển thị thông báo thông tin nhập vào không chính xác.
+Reset mật khẩu không thành công.
+Set focus hoặc highlight trường lỗi
+"
+8844,Kiểm tra Reset mật khẩu không thành công khi nhập [mã xác nhận] không tồn tại trong hệ thống, 2: Kiểm tra reset mật khẩu,Suite_common_212,1,"Đảm bảo mã xác nhận không tồn tại trong hệ thống
+1. Nhập sai khác dữ liệu vào trường [Mã xác nhận]
+2. Các thông tin khác được nhập hợp lệ
+3. Nhấn button [Xác nhận]","Hiển thị thông báo thông tin nhập vào không chính xác.
+Reset mật khẩu không thành công.
+Set focus hoặc highlight trường lỗi
+"
+8845,"Kiểm tra [Mã xác nhận] phân biệt hoa thường
+", 2: Kiểm tra reset mật khẩu,Suite_common_212,1,"1. Ví dụ mã xác nhận trả về như sau: abCDE
+2. Nhập vào mã xác nhận như sau: aBCDe
+3. Các thông tin khác nhập hợp lệ
+4. Nhấn [Xác nhận]","Hiển thị thông báo thông tin nhập vào không chính xác.
+Reset mật khẩu không thành công.
+Set focus hoặc highlight trường lỗi
+
+Chú ý: Nếu không phân biệt hoa thường thì cho phép thực hiện thành công 
+"
+8846,Kiểm tra Reset mật khẩu không thành công khi nhập [mã xác nhận] cũ , 2: Kiểm tra reset mật khẩu,Suite_common_212,1,"Nhập vào textbox mã xác nhận giá trị mã xác nhận cũ 
+1. Lấy mã xác nhận mới 
+2. Nhập vào textbox mã xác nhận là mã cũ đã lấy trước đó.
+3. Các thông tin khác nhập hợp lệ
+4. Nhấn button [Xác nhận]","Hiển thị thông báo thông tin nhập vào không chính xác.
+Reset mật khẩu không thành công.
+Set focus hoặc highlight trường lỗi
+"
+8847,Kiểm tra Reset mật khẩu không thành công khi nhập [mã xác nhận] cũa user khác, 2: Kiểm tra reset mật khẩu,Suite_common_212,1,"Nhập vào textbox mã xác nhận giá trị mã xác nhận cũa user khác 
+1. Lấy mã xác nhận mới cũa cùng lúc 2 user trên 2 máy
+2. Nhập vào textbox mã xác nhận cũa user này là mã cũa user kia
+3. Các thông tin khác nhập hợp lệ
+4. Nhấn button [Xác nhận]","Hiển thị thông báo thông tin nhập vào không chính xác.
+Reset mật khẩu không thành công.
+Set focus hoặc highlight trường lỗi"
+8848,"Kiểm tra reset mật khẩu không thành công khi trường [Xác nhận mật khẩu] không khớp [Mật khẩu mới]
+
+", 2: Kiểm tra reset mật khẩu,Suite_common_212,1,"1. Nhập '123456a@' vào textbox [Mật khẩu mới]
+2. Nhập '123456A@' vào textbox [Xác nhận mật khẩu mới]
+2. Các trường khác nhập hợp lệ
+3. Touch chọn [Cập nhật]","1. Hiển thị thông báo ""Mật khẩu mới và Xác nhận mật khẩu mới không trùng khớp. Vui lòng kiểm tra lại!"""
+8849,"Kiểm tra reset mật khẩu không thành công khi trường [Xác nhận mật khẩu] không khớp [Mật khẩu mới]
+
+", 2: Kiểm tra reset mật khẩu,Suite_common_212,1,"Đảm bảo hệ thống có kết nối mạng
+1. Nhập dữ liệu hợp lệ vào trường Mật khẩu mới] : abc@123456
+2. Nhập dữ liệu hợp lệ vào[Xác nhận mật khẩu mới] và khác ký tự space với [Mật khẩu mới]:
+ [space] abc@123456[space]
+3. Các trường còn lại nhập vào hợp lệ
+4. Click [Cập nhật]","TH1:
+Nếu hệ thống cho phép space là 1 ký tự :  Hiển thị thông báo lỗi ""Mật khẩu mới và Xác nhận mật khẩu mới không trùng khớp. Vui lòng kiểm tra lại!""
+TH2:
+Nếu hệ thống không phép space là 1 ký tự : thực hiện trím space và lưu thành công"

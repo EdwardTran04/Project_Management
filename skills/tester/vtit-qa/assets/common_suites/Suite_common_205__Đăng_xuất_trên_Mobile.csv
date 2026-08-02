@@ -1,0 +1,19 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8766,Kiểm tra việc đăng xuất thành công, 2: Đăng xuất trên Mobile,Suite_common_205,1,"1. Touch chọn vào đăng xuất 
+2. Hiển thị bạn có chắc chắn muốn đăng xuất ? 
+3. Click Đồng ý. Tắt ứng dụng
+4. Chọn lại ứng dụng","1. Thoát khỏi phiên đăng nhập của hệ thống và trở về màn hình đăng nhập
+( Chú ý : nếu ứng dụng trở về màn mình Home thì nhấn back sẽ thoát ra khỏi ứng dụng, không trở về màn hình trước đó)
+2. Hiển thi màn hình Đăng nhập khi mở lại ứng dụng
+
+
+
+"
+8767,Kiểm tra việc đăng xuất không thành công, 2: Đăng xuất trên Mobile,Suite_common_205,1,"1. Touch chọn vào đăng xuất 
+2. Hiển thị bạn có chắc chắn muốn đăng xuất ? 
+3. Click Hủy. Tắt ứng dụng
+4. Chọn lại ứng dụng",1. Hiển thị  màn hình ứng dụng ở trạng thái đã đăng nhập
+8768,Kiểm tra chức năng không đăng xuất khi ấn nút Home/ lock máy, 2: Đăng xuất trên Mobile,Suite_common_205,1,"Đang ở màn hình ứng dụng :
+1.Ấn nút Home 
+2. Mở lại ứng dụng và kiểm tra màn hình","1. Ứng dụng ẩn 
+2. Hiển thị màn hình cũ đang thao tác"

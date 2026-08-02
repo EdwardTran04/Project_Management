@@ -1,0 +1,78 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8640,Kiểm tra hiển thị khi DS có n item, 3: Danh sách spinner,Suite_common_213,1,"Điều kiện: có n item trong DS
+1. Nhấn vào Spinner, kiểm tra hiển thị
+2. Check API và so sánh kết quả","1. Hiển thị đúng n item giống như API trả về/ dữ liệu lấy từ DB 
+Nếu DS dài có thể scroll lên xuống để xem hết thông tin trong DS
+2. Hiển thị các thông tin  trong mỗi item giống dữ liệu API trả về  ((Tùy theo ĐTYC)
+- Icon hình đại diện
+- Họ tên
+- Vai trò 
+3. Danh sách sắp xếp đúng thứ tự API trả về"
+8641,Kiểm tra hiển thị khi không có dữ liệu trong DS, 3: Danh sách spinner,Suite_common_213,1,1. Nhấn vào Spinner để xem DS chọn xử lý,"1. Hiển thị thông báo ""Không có dữ liệu"" trên DS/Không hiển thị DS"
+8642,Kiểm tra hiển thị khi có 1 item, 3: Danh sách spinner,Suite_common_213,1,"1. Nhấn vào Spinner, kiểm tra hiển thị
+2. Check API và so sánh kết quả",2. Hiển thị 1 item trên DS giống với kết quả trả về từ API/ dữ liệu lấy từ DB
+8643,Tìm kiếm theo giá trị mặc định, 3: Tìm kiếm trên DS spinner ,Suite_common_213,1,"1. Không nhập dữ liệu vào EditText
+2. Nhấn mở spinner Chọn xử lý",1. Hiển thị tất cả danh sách theo đúng thứ tự trả về của API/ theo dữ liệu trong DB
+8644,Tìm kiếm khi chỉ nhập đúng tên người nhận, 3: Tìm kiếm trên DS spinner ,Suite_common_213,1,1. Nhập vào EditText chuỗi Tên người nhận tồn tại ,1. Hiển thị đúng kết quả tìm kiếm với từ khoá nhập vào
+8645,"Tìm kiếm khi chỉ nhập đúng đơn vị người nhận 
+Note: Tùy theo ĐTYC để thêm case này", 3: Tìm kiếm trên DS spinner ,Suite_common_213,1,1. Nhập vào EditText chuỗi Tên đơn vị tồn tại ,1. Hiển thị đúng kết quả tìm kiếm với từ khoá nhập vào
+8646,"Tìm kiếm khi chỉ nhập đúng Vai trò người nhận
+Note: Tùy theo ĐTYC để thêm case này", 3: Tìm kiếm trên DS spinner ,Suite_common_213,1,1. Nhập vào EditText chuỗi Vai trò tồn tại ,1. Hiển thị đúng kết quả tìm kiếm với từ khoá nhập vào
+8647,Tìm kiếm khi chỉ nhập đúng Họ tên + Đơn vị +  Vai trò người nhận, 3: Tìm kiếm trên DS spinner ,Suite_common_213,1,1. Nhập vào EditText chuỗi Họ tên + Đơn vị +  Vai trò tồn tại ,1. Hiển thị đúng kết quả tìm kiếm với từ khoá nhập vào
+8648,Tìm kiếm không ra kết quả , 3: Tìm kiếm trên DS spinner ,Suite_common_213,1,"1. Nhập từ khoá để tìm kiếm không có kết quả
+2. Xóa hết dữ liệu đã nhập","1. Không hiển thị bất kỳ kết quả nào trên DS Tìm kiếm
+2. Hiển thị lại danh sách mặc định "
+8649,"Kiểm tra hiển thị sau khi xoá từ  khoá tìm kiếm
+", 3: Tìm kiếm trên DS spinner ,Suite_common_213,1,"1. Nhập từ khoá tìm kiếm hợp lệ vào EditText
+--&gt; Hiển thị kết quả trên DS tìm kiếm
+2. Xoá từ khoá vừa nhập ",2.  Hiển thị màn hình danh sách mặc định
+8650,"Tìm kiếm khi nhập:
+- EditText = Các ký tự Space", 3: Tìm kiếm trên DS spinner ,Suite_common_213,1,1. Nhập EditText = Các ký tự Space,1. Hiển thị tất cả dữ liệu trong DS mặc định
+8651,"Tìm kiếm tương đối:
+- Nhập EditText là một phần của xâu đã tồn tại
+( nhập hoa, thường)", 3: Tìm kiếm trên DS spinner ,Suite_common_213,1,1. Nhập EditText là  1 phần của xâu đã tồn tại ,"1. Hiển thị các kết quả tìm kiếm với EditText chứa xâu đã nhập không phân biệt chữ hoa, chữ thường"
+8652,"Tìm kiếm tương đối:
+- Nhập EditText là một phần của xâu đã tồn tại
+( nhập hoa, thường)", 3: Tìm kiếm trên DS spinner ,Suite_common_213,1,1. Nhập EditText là  toàn bộ của xâu đã tồn tại ,"1. Hiển thị các kết quả tìm kiếm với EditText chứa xâu đã nhập không phân biệt chữ hoa, chữ thường"
+8653,"Tìm kiếm khi nhập:
+- EditText là một chuỗi có ký tự Space ở đầu và cuối chuỗi", 3: Tìm kiếm trên DS spinner ,Suite_common_213,1,1. Nhập EditText là một chuỗi có ký tự Space ở đầu và cuối chuỗi,"1. Không có lỗi
+2. Hiển thị các kết quả tìm kiếm thỏa mãn điều kiện EditText nhập vào đã được Trim Space ở đầu và cuối chuỗi"
+8654,"Tìm kiếm khi nhập:
+- EditText là các ký tự đặc biệt", 3: Tìm kiếm trên DS spinner ,Suite_common_213,1,"'Đảm bảo có các bản ghi có các ký tự đặc biệt như dưới
+
+1. Nhập EditText lần lượt là các ký tự đặc biệt: 
+- % (hoặc %test)
+- &amp;
+- _
+- *
+- \
+-  '
+- thẻ HTML ( ví dụ:  ha noi )
+- $, #, !, ), (, [, ], /, ","1. Hiển thị kết quả tìm kiếm thỏa mãn EditText chứa ký tự đã nhập
+"
+8655,Tìm kiếm theo tiếng Việt có dấu, 3: Tìm kiếm trên DS spinner ,Suite_common_213,1,"1. Nhập EditText với nội dung tiếng việt có dấu.
+2. Click button 'Tìm kiếm'","1. Hiển thị kết quả tìm kiếm thỏa mãn EditText chứa nội dung đã nhập
+2. Script:"
+8656,Tìm kiếm nhập dữ liệu = maxlength, 3: Tìm kiếm trên DS spinner ,Suite_common_213,1,1. Tìm kiếm nhập dữ liệu =  maxlength cho phép (max = 500 ký tự),"1. Hiển thị kết quả tìm kiếm thỏa mãn điều kiện nhập vào, và không bị lỗi màn hình
+"
+8657,Tìm kiếm nhập dữ liệu nhiều vượt quá maxlength cho phép, 3: Tìm kiếm trên DS spinner ,Suite_common_213,1,1. Tìm kiếm nhập dữ liệu nhiều vượt quá maxlength cho phép (max = 500 ký tự),"1. Hiển thị kết quả tìm kiếm thỏa mãn điều kiện nhập vào, và không bị lỗi màn hình
+"
+8658,Kiểm tra hiển thị khi nhấn mở Spinner, 3: Tìm kiếm trên DS spinner ,Suite_common_213,1,"1. Nhấn mở Spinner
+","1. Hiển thị kết quả tìm kiếm với Spinner = tất cả giá trị trong spinner
+"
+8659,Kiểm tra hiển thị khi nhấn mở Spinner, 3: Tìm kiếm trên DS spinner ,Suite_common_213,1,"2. Không chọn giá trị nào trong spinner, đóng spinner lại",2. Không hiển thị bất kỳ giá trị nào trên EditText 
+8660,Kiểm tra khi chọn một giá trị trong Spinner, 3: Tìm kiếm trên DS spinner ,Suite_common_213,1,1. Lần lượt chọn các giá trị trong spinner,"1. Hiển thị kết quả tìm kiếm thỏa mãn với từ khoá được chọn
+
+"
+8661,Thực hiện tìm kiếm lần lượt 2 điều kiện khác nhau nhưng đều ra số bản ghi kết quả giống nhau, 3: Tìm kiếm trên DS spinner ,Suite_common_213,1,"1. Nhập điều kiện tìm kiếm 1 -&gt; ra kết quả n bản ghi thỏa mãn tiêu chí 1
+2. Nhập tiếp điều kiện tìm kiếm 2 -&gt; ",Hiển thị kết quả n bản ghi nhưng thỏa mãn tiêu chí 2
+8662,"Kiểm tra khi tìm kiếm với các user khác nhau
+( Trường hợp hệ thống cho phép truy cập từ nhiều tài khoản, mỗi tài khoản chỉ nhìn thấy dữ liệu do mình được phân quyền )", 3: Tìm kiếm trên DS spinner ,Suite_common_213,1,"1. Login bằng user 1
+2. Thực hiện tìm kiếm
+3. Logout, đăng nhập bằng user 2, 
+4. Thực hiện tìm kiếm","2. Hiển thị kết quả tìm kiếm theo toàn khoản user 1
+4. Hiển thị kết quả tìm kiếm theo toàn khoản user 2"
+8663,Kiểm tra tìm kiếm khi on/off mạng, 3: Tìm kiếm trên DS spinner ,Suite_common_213,1,"1. Đang có kết nối mạng, nhập từ khoá có kết quả tìm kiếm vào EditText
+2. Xoá từ khoá vừa nhập, tắt kết nối mạng
+3. Nhập lại từ khoá vừa nhập",Hiển thị danh sách kết quả tìm kiếm tại bước 1 và 3 giống nhau
+8664,Kiểm tra tìm kiếm khi on/off mạng, 3: Tìm kiếm trên DS spinner ,Suite_common_213,1,4. Bật lại kết nối mạng và lặp lại bước 3,4. Hiển thị kết quả tìm kiếm 

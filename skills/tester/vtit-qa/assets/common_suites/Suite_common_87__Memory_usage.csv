@@ -1,0 +1,39 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8449,"Kiểm tra có thông báo khi cài đặt ứng dụng mà bộ nhớ lưu trữ của thiết bị đã hết 
+
+", 3: Memory usage ,Suite_common_87,1,"Dùng công cụ Filler để tạo file sau đó copy vào thiết bị thật
+(Link download): http://10.60.15.137:9999/svn/VPMT/02.PHONG_KIEM_THU/Tool/Tool tao file theo size/Filler.exe
+
+Chuẩn bị: 
+1. Bộ nhớ trong của thiết bị chỉ còn 4 MB
+2. Ứng dụng yêu cầu dung lượng lưu trữ : 5 M
+Thực hiện : 
+1. Cài đặt ứng dụng ( tải ứng dụng về cài đặt )",Thông báo lỗi dung lượng bộ nhớ không đủ
+8450,"Kiểm tra hoạt động ứng dụng khi ứng dụng sử dụng bộ nhớ trong, tháo thẻ nhớ
+(chỉ áp dụng với Android)", 3: Memory usage ,Suite_common_87,1,"Yêu cầu: Thiết bị có hỗ trợ thẻ nhớ di động, ứng dụng chỉ sử dụng bộ nhớ máy. 
+1. Khởi chạy ứng dụng. 
+2. Lắp thẻ nhớ vào điện thoại, và mount (gắn) thẻ nhớ. 
+3. Ghi dữ liệu vào thẻ nhớ trong giới hạn dung lượng của thẻ
+4. Unmount (tháo) thẻ nhớ. 
+5. Resume vận hành lại ứng dụng 
+",Ứng dụng vẫn tiếp tục hoạt động như thiết kế không bị ảnh hưởng bởi sự chèn thẻ nhớ hoặc mount / unmount.
+8451,"Kiểm tra hành vi màn hình ứng dụng có sử dụng thẻ nhớ ngoài khi tháo thẻ nhớ
+(chỉ áp dụng với Android)", 3: Memory usage ,Suite_common_87,1,"Yêu cầu: Ứng dụng này sử dụng thẻ nhớ.
+1. Khởi chạy ứng dụng. 
+2. Chuyển đến màn hình mà ứng dụng làm việc với thẻ nhớ. 
+3. Tháo thẻ nhớ. 
+4. Kiểm tra xem ứng dụng hoạt động chính xác không.
+5. Lắp lại thẻ nhớ
+6. Kiểm tra xem ứng dụng hoạt động chính xác không ","- Hiển thị thông báo cho người dùng biết cần phải chèn thẻ nhớ vào để tiếp tục
+- Ứng dụng sẽ làm việc một cách chính xác sau khi chèn thẻ nhớ. 
+"
+8452,"Kiểm tra hoạt động của ứng dụng khi chuyển đổi bộ nhớ
+(chỉ áp dụng với Android)", 3: Memory usage ,Suite_common_87,1,"Yêu cầu: Ứng dụng cho phép chuyển đổi từ bộ nhớ máy sang thẻ nhớ và ngược lại
+1. Khởi chạy ứng dụng. 
+2. Vào phần Setting của ứng dụng, chuyển đổi từ bộ nhớ máy sang thẻ nhớ 
+3. Kiểm tra xem ứng dụng hoạt động chính xác không.
+4. Chuyển đổi lại từ thẻ nhớ sang bộ nhớ máy
+5. Kiểm tra xem ứng dụng hoạt động chính xác không ",Ứng dụng vẫn tiếp tục hoạt động như thiết kế không bị ảnh hưởng khi chuyển đổi qua lại giữa các bộ nhớ
+8453,"Kiểm tra khi thực hiện chức năng có lưu trữ dữ liệu vào thiết bị, bộ nhớ sắp hết", 3: Memory usage ,Suite_common_87,1,"Đảm bảm: Bộ nhớ trong của thiết bị chỉ còn 4 MB 
+1. Chọn thực năng có thực hiện lưu trữ dữ liệu 
+2. Thực hiện lưu trữ dữ liệu: 5M ",Thông báo lỗi dung lượng bộ nhớ không đủ

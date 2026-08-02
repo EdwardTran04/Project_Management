@@ -1,0 +1,63 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9018,"Tìm kiếm khi nhập:
+- EditText = Các ký tự Space", 4: Tìm kiếm theo EditText,Suite_common_348,1,"1. Nhập EditText = Các ký tự Space
+2. Ko nhập các trường còn lại ( trừ các trường yêu cầu bắt buộc)
+2. Click button Tìm kiếm",1. Hiển thị kết quả tìm kiếm theo ĐTYC (tương tự như không nhập giá trị nào)
+9019,"Tìm kiếm tương đối:
+- Nhập EditText là một phần của xâu đã tồn tại
+( nhập hoa, thường)", 4: Tìm kiếm theo EditText,Suite_common_348,1,"1. Nhập EditText là một phần   của xâu đã tồn tại 
+2. Click button 'Tìm kiếm'","1. Hiển thị các kết quả tìm kiếm với EditText chứa xâu đã nhập không phân biệt chữ hoa, chữ thường
+2. Script: sử dụng script (*), phần điều kiện tìm kiếm bỏ hết các điều kiện khác điều kiện đang tìm"
+9020,"Tìm kiếm tương đối:
+- Nhập EditText là một phần của xâu đã tồn tại
+( nhập hoa, thường)", 4: Tìm kiếm theo EditText,Suite_common_348,1,"1. Nhập EditText là  toàn bộ của xâu đã tồn tại 
+2. Click button 'Tìm kiếm'","1. Hiển thị các kết quả tìm kiếm với EditText chứa xâu đã nhập không phân biệt chữ hoa, chữ thường
+2. Script: sử dụng script (*), phần điều kiện tìm kiếm bỏ hết các điều kiện khác điều kiện đang tìm"
+9021,"Tìm kiếm khi nhập:
+- EditText là một chuỗi có ký tự Space ở đầu và cuối chuỗi", 4: Tìm kiếm theo EditText,Suite_common_348,1,"1. Nhập EditText là một chuỗi có ký tự Space ở đầu và cuối chuỗi
+2. Click button 'Tìm kiếm'","1. Không có lỗi
+2. Hiển thị các kết quả tìm kiếm thỏa mãn điều kiện EditText nhập vào đã được Trim Space ở đầu và cuối chuỗi
+3. Script: sử dụng script (*), phần điều kiện tìm kiếm bỏ hết các điều kiện khác điều kiện đang tìm"
+9022,"Tìm kiếm tuyệt đối:
+- Nhập EditText có nội dung chính xác với nội dung đã tồn tại
+( nhập chữ hoa, chữ thường)
+
+Trường hợp yêu cầu tìm kiếm tuyệt đối", 4: Tìm kiếm theo EditText,Suite_common_348,1,"1. Nhập EditText chính xác theo nội dung đã tồn tại 
+2. Click button 'Tìm kiếm'
+","1. Hiển thị các kết quả tìm kiếm chính xác với EditText chứa nội dung đã nhập không phân biệt chữ hoa, chữ thường
+2. Script: sử dụng script (*), phần điều kiện tìm kiếm bỏ hết các điều kiện khác điều kiện đang tìm
+"
+9023,"Tìm kiếm tuyệt đối:
+- Nhập EditText có nội dung chính xác với nội dung đã tồn tại
+( nhập chữ hoa, chữ thường)
+
+Trường hợp yêu cầu tìm kiếm tuyệt đối", 4: Tìm kiếm theo EditText,Suite_common_348,1,"1. Nhập EditText là một phần của xâu đã tồn tại 
+2. Click button 'Tìm kiếm'",Không hiển thị kết quả tìm kiếm
+9024,"Tìm kiếm khi nhập:
+- EditText là các ký tự đặc biệt", 4: Tìm kiếm theo EditText,Suite_common_348,1,"Đảm bảo có các bản ghi có các ký tự đặc biệt như dưới
+
+1. Nhập EditText lần lượt là các ký tự đặc biệt: 
+- % (hoặc %test)
+- &amp;
+- _
+- *
+- \
+-  '
+- thẻ HTML ( ví dụ: &lt;td&gt; ha noi &lt;/td&gt;)
+- $, #, !, ), (, [, ], /, 
+- ""
+- """"
+- chuỗi ký tự đặc biệt : %&amp;_*|' $, #! ), (, [, ], /, """"
+2. Click button 'Tìm kiếm'
+
+Đối với trường hợp là kiểu sổ : nhập +, -, nhập 0 ở đầu","1. Hiển thị kết quả tìm kiếm thỏa mãn EditText chứa ký tự đã nhập
+2. Script: sử dụng script (*), phần điều kiện tìm kiếm bỏ hết các điều kiện khác điều kiện đang tìm
+"
+9025,Tìm kiếm theo tiếng Việt có dấu, 4: Tìm kiếm theo EditText,Suite_common_348,1,"1. Nhập EditText với nội dung tiếng việt có dấu.
+2. Click button 'Tìm kiếm'","1. Hiển thị kết quả tìm kiếm thỏa mãn EditText chứa nội dung đã nhập
+2. Script:sử dụng script (*), phần điều kiện tìm kiếm bỏ hết các điều kiện khác điều kiện đang tìm"
+9026,Tìm kiếm nhập dữ liệu nhiều vượt quá maxlength cho phép, 4: Tìm kiếm theo EditText,Suite_common_348,1,"1. Tìm kiếm nhập dữ liệu nhiều vượt quá maxlength cho phép
+2. Click button 'Tìm kiếm'","1. Hiển thị kết quả tìm kiếm thỏa mãn điều kiện nhập vào, và không bị lỗi màn hình
+"
+9027,Tìm kiếm theo số thuê bao (Truong hop nay tuy theo yeu cau luc nhap thue bao ban dau va cach luu trong CSDL), 4: Tìm kiếm theo EditText,Suite_common_348,1,"1. Nhập : số thuê bao 09/1xxx, 849/1xxx, 9/1xxx
+2. Nhấn Tìm kiếm","Phải hiển thị đúng được số thuê bao mà không phân biệt 84,0 ở đầu"

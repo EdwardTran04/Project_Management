@@ -1,0 +1,46 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8979,Kiểm tra hiển thị dữ liệu ở vùng danh sách sau thời gian t khi ban đầu màn hình đang không có dữ liệu (tự động cập nhật dữ liệu sau thời gian ts) , 2: Load dữ liệu/ danh sách tự động  ,Suite_common_340,1,"
+1. Đang ở màn hình A
+2. Server không có sự thay đổi dữ liệu
+3. Kiểm tra hiển thị màn hình sau thời gian t","Màn hình hiển thị: ""Không có dữ liệu"" (Câu thông báo tùy thuộc DTYC)"
+8980,Kiểm tra hiển thị dữ liệu ở vùng danh sách sau thời gian t khi ban đầu màn hình đang không có dữ liệu (tự động cập nhật dữ liệu sau thời gian ts) , 2: Load dữ liệu/ danh sách tự động  ,Suite_common_340,1,"
+1. Đang ở màn hình A
+2. Server có sự thay đổi dữ liệu
+3. Kiểm tra hiển thị màn hình sau thời gian t","Tùy theo ĐTYC để lựa chọn KQMM:
+TH1 : Refesh màn hình để hiển thị dữ liệu mới, giữ nguyên vị trí màn hình đang hiển thị
+TH2: Refesh màn hình về màn hình mặc định, hiển thị dữ liệu mới"
+8981,"Kiểm tra hiển thị dữ liệu ở vùng danh sách sau thời gian t khi ban đầu màn hình đang đang có dữ liệu (tự động cập nhật dữ liệu sau thời gian t) 
+Chú ý : Đối với IOS khi home màn hình, sẽ không tự động load dữ liệu
+
+", 2: Load dữ liệu/ danh sách tự động  ,Suite_common_340,1,"1. Đang ở màn hình A
+2. Server không có sự thay đổi dữ liệu
+3. Kiểm tra hiển thị màn hình sau thời gian t","2. Màn hình không thay đổi, giữ nguyên ở trạng thái hiện tại"
+8982,"Kiểm tra hiển thị dữ liệu ở vùng danh sách sau thời gian t khi ban đầu màn hình đang đang có dữ liệu (tự động cập nhật dữ liệu sau thời gian t) 
+Chú ý : Đối với IOS khi home màn hình, sẽ không tự động load dữ liệu
+
+", 2: Load dữ liệu/ danh sách tự động  ,Suite_common_340,1,"1. Đang ở màn hình A
+2. Server có sự thay đổi dữ liệu
+3. Kiểm tra hiển thị màn hình sau thời gian t","Tùy theo ĐTYC để lựa chọn KQMM:
+TH1 : Refesh màn hình để hiển thị dữ liệu mới, giữ nguyên vị trí màn hình đang hiển thị
+TH2: Refesh màn hình về màn hình mặc định, hiển thị dữ liệu mới"
+8983,Kiểm tra tính ổn định của tính năng tự động load dữ liệu, 2: Load dữ liệu/ danh sách tự động  ,Suite_common_340,1,"Thực hiện bước sau nhiều lần để đảm bảo tính ổn định: 
+1. Đang ở màn hình A
+2. Server có sự thay đổi dữ liệu
+3. Kiểm tra hiển thị màn hình sau thời gian t kể từ lần load dữ liệu gần nhất","Tùy theo ĐTYC để lựa chọn KQMM:
+TH1 : Refesh màn hình để hiển thị dữ liệu mới, giữ nguyên vị trí màn hình đang hiển thị
+TH2: Refesh màn hình về màn hình mặc định, hiển thị dữ liệu mới"
+8984,Kiểm tra không tự động load dữ liệu khi chưa đến thời gian t, 2: Load dữ liệu/ danh sách tự động  ,Suite_common_340,1,"1. Đang ở màn hình A
+2. Server có sự thay đổi dữ liệu
+3. Kiểm tra hiển thị khi chưa đến thời gian t kể từ lần load dữ liệu gần nhất","Tùy theo ĐTYC để lựa chọn KQMM:
+TH1 : Refesh màn hình để hiển thị dữ liệu mới, giữ nguyên vị trí màn hình đang hiển thị
+TH2: Refesh màn hình về màn hình mặc định, hiển thị dữ liệu mới"
+8985,Kiểm tra tự động load dữ liệu vẫn thực hiện  khi ngắt kết nối mạng rồi bật lại, 2: Load dữ liệu/ danh sách tự động  ,Suite_common_340,1,"1. Đang ở màn hình A
+2. Trên server có sự thay đổi dữ liệu
+3. Ngắt kết nối mạng
+4. Kiểm tra hiển thị màn hình sau thời gian t kể từ lần load dữ liệu gần nhất
+5. Bật lại kết nối mạng
+6. Kiểm tra hiển thị màn hình sau khoảng thời gian t 
+","4. Không có dữ liệu mới hiển thị
+5. Tùy theo ĐTYC để lựa chọn KQMM:
+TH1 : Refesh màn hình để hiển thị dữ liệu mới, giữ nguyên vị trí màn hình đang hiển thị
+TH2: Refesh màn hình về màn hình mặc định, hiển thị dữ liệu mới"

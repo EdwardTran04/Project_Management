@@ -1,0 +1,21 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8423,Cuộc gọi đến khi ứng dụng đang chạy, 3: Thao tác cuộc gọi khi ứng dụng đang chạy,Suite_common_83,1,"1. Đang thao tác tại bất kỳ chức năng nào
+2. Device có cuộc gọi đến","Phải hiển thị cho user biết đúng với cách đã setting trong Profile (tone, display...)"
+8424,Cuộc gọi đến khi ứng dụng đang chạy, 3: Thao tác cuộc gọi khi ứng dụng đang chạy,Suite_common_83,1,Thực hiện đàm thoại,Tiến hành bình thường
+8425,Cuộc gọi đến khi ứng dụng đang chạy, 3: Thao tác cuộc gọi khi ứng dụng đang chạy,Suite_common_83,1,Kết thúc đàm thoại,"- Trở lại APPLICATION, hiển thị vị trí ngay trước khi device nhận cuộc gọi
+- Thao tác bình thường trên APPLICATION"
+8426,Cuộc gọi đến khi ứng dụng đang chạy, 3: Thao tác cuộc gọi khi ứng dụng đang chạy,Suite_common_83,1,"1. Đang thao tác tại bất kỳ chức năng nào
+2. Device có cuộc gọi đến
+3. Reject cuộc gọi","- Trở lại APPLICATION, hiển thị vị trí ngay trước khi device nhận cuộc gọi
+- Thao tác bình thường trên APPLICATION"
+8427,Thực hiện cuộc gọi khi ứng dụng đang chạy, 3: Thao tác cuộc gọi khi ứng dụng đang chạy,Suite_common_83,1,"1. Đang thao tác tại bất kỳ chức năng nào
+2. Thực hiện cuộc gọi ","- Thao tác thành công
+- Đàm thoại bình thường"
+8428,Thực hiện cuộc gọi khi ứng dụng đang chạy, 3: Thao tác cuộc gọi khi ứng dụng đang chạy,Suite_common_83,1,3. Kết thúc đàm thoại,"- Trở lại APPLICATION, hiển thị vị trí ngay trước khi device thực hiện cuộc gọi
+- Thao tác bình thường trên APPLICATION"
+8429,Nhận tin nhắn khi ứng dụng đang chạy, 3: Thao tác cuộc gọi khi ứng dụng đang chạy,Suite_common_83,1,"1. Đang thao tác tại bất kỳ chức năng nào
+2. Device có nhận tin nhắn",Alert cho user biết bằng tone đã setting trong Profile nhưng không hiển thị thông tin ngay trên APPLICATION
+8430,Báo thức khi ứng dụng đang chạy, 3: Thao tác cuộc gọi khi ứng dụng đang chạy,Suite_common_83,1,"1. Đang thao tác tại bất kỳ chức năng nào
+2. Device có alarm",Alert cho user biết đúng với cách đã setting trong Profile
+8431,Lịch nhắc nhở khi ứng dụng đang chạy, 3: Thao tác cuộc gọi khi ứng dụng đang chạy,Suite_common_83,1,"1. Đang thao tác tại bất kỳ chức năng nào
+2. Device có calendar meeting",Alert cho user biết đúng với cách đã setting trong Profile

@@ -1,0 +1,20 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9113,Kiểm tra cho phép vào chức năng khi user đăng nhập được phân quyền vào chức năng, 2: Phân quyền,Suite_common_367,1,"1. Login với user hợp lệ.
+2. Từ menu chọn chức năng 'Tên chức năng'","- Nhìn thấy menu Chức năng
+-  Vào chức năng và thực hiện thao tác được trên chức năng. "
+9114,Kiểm tra không cho phép vào chức năng khi user đăng nhập không có quyền vào chức năng, 2: Phân quyền,Suite_common_367,1,"1. Login với user hợp lệ.
+2. Từ menu chọn chức năng 'Tên chức năng'",- Không nhìn thấy 'Tên chức năng' trên menu
+9115,Kiểm tra khi đăng nhập bằng các user khác nhau, 2: Phân quyền,Suite_common_367,1,"Chuẩn bị user A, B có các quyền khác nhau
+1. Đăng nhập bằng user A
+2. Thoát ra, đăng nhập vào user B","- Chỉ nhìn thấy các chức năng được phân quyền cho user A
+- Chỉ nhìn thấy các chức năng được phân quyền cho user B"
+9116,"Kiểm tra không cho phép thao tác chức năng khi chưa đăng nhập
+", 2: Phân quyền,Suite_common_367,1,"1. Chưa đăng nhập
+2. Chọn chức năng để thực thi tác động
+( trường hợp luôn nhìn thấy chức năng khi chưa đăng nhập, n phải đăng nhập mới sử dụng được)
+",Thông báo lỗi không được thao tác chức năng
+9117,"Kiểm tra không cho phép thao tác chức năng khi chưa đăng nhập
+", 2: Phân quyền,Suite_common_367,1,"1. Đăng nhập vào hệ thống -&gt; thực hiện được chức năng được phân quyền
+2. Logout . Chọn lại chức năng để thực thi tác động hoặc copy lại  link chức năng 
+3. Thực thi chức năng
+",Thông báo lỗi không được thao tác chức năng

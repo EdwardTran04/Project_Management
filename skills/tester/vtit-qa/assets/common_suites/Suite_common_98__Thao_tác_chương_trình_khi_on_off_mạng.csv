@@ -1,0 +1,54 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8485,"Kiểm tra khi ngắt kết nối mạng, thao tác đến chức năng cần có kết nối kết mạng", 3: Thao tác chương trình khi on/off mạng,Suite_common_98,1,"1. Đảm bảo đã mất kết nối mạng trước đó
+2. Thực hiện thao tác đến các chức năng cần có kết nối mạng:
+- Nhấn button xử lý chức năng
+- Chọn vào một chức năng (load đến form mới)","Hệ thống hiện 1 thông báo mất kết nối mạng cho user biết. Nội dung thông báo dễ hiểu
+"
+8486,"Kiểm tra khi đang thực hiện gửi request, kết nối mạng bị gián đoán (mạng yếu)", 3: Thao tác chương trình khi on/off mạng,Suite_common_98,1,"1. User đang ở tại bất kỳ chức năng nào của APPLICATION, đang thao tác chức năng (nhấn button gửi request hoặc đang load dữ liệu)
+2. Gặp vấn đề mạng
+(Ví dụ: Đang sử dụng wifi/3g, đi dần ra chỗ sóng wifi /3gyếu, chập chờn, mất wifi/3g)","Hệ thống hiện 1 thông báo cho user biết. Nội dung thông báo dễ hiểu. Thông báo phải hiển thị trong khoảng thời gian timeout 
+(Ví dụ: timeout của 1 request là 60s, thì sau khoảng 60s phải có thông báo trả về)
+
+"
+8487,"Kiểm tra khi đang thực hiện gửi request, kết nối mạng bị gián đoán (mạng yếu)", 3: Thao tác chương trình khi on/off mạng,Suite_common_98,1,3. Thao tác tiếp vào ứng dụng sau khi đóng thông báo,Chương trình hoạt động bình thương và không bị crash
+8488,"Kiểm tra khi đang thực hiện gửi request, kết nối mạng bị gián đoán (mạng yếu)", 3: Thao tác chương trình khi on/off mạng,Suite_common_98,1,4. Tạo điều kiện để Network được thiết lập lại,"Thao tác thành công trên chức năng ngay trước khi gặp vấn đề
+"
+8489,Kiểm tra khi on/off kết nối mạng khi đang gửi request, 3: Thao tác chương trình khi on/off mạng,Suite_common_98,1,"1. Đang thực hiện gửi request server
+2. Đang sử dụng Wifi, tắt Wifi
+3. Bật lại Wifi
+4. Thực hiện lại chức năng","3. Hệ thống có thể hiển thị thông báo cho user biết nếu như không gửi được request đến server.  Nội dung thông báo dễ hiểu.Thông báo phải hiển thị trong khoảng thời gian timeout (ví dụ: timeout của 1 request là 60s, thì sau khoảng 60s phải có thông báo trả về)
+4. Thao tác tiếp vào ứng dụng ko bị crash sau khi đóng thông báo
+"
+8490,Kiểm tra khi on/off kết nối mạng khi đang gửi request, 3: Thao tác chương trình khi on/off mạng,Suite_common_98,1,"1. Đang thực hiện gửi request server
+2. Đang sử dụng 3G, tắt 3G
+3. Bật lại 3G
+4. Thực hiện lại chức năng","3. Hệ thống có thể hiển thị thông báo cho user biết nếu như không gửi được request đến server.  Nội dung thông báo dễ hiểu.Thông báo phải hiển thị trong khoảng thời gian timeout (ví dụ: timeout của 1 request là 60s, thì sau khoảng 60s phải có thông báo trả về)
+4. Thao tác tiếp vào ứng dụng ko bị crash sau khi đóng thông báo"
+8491,Kiểm tra on/off mạng khi có request tự động, 3: Thao tác chương trình khi on/off mạng,Suite_common_98,1,"Đảm bảo có ứng dụng có các tiến trình request server tự động
+1. Tắt mạng
+2. Có lại mạng",Kiểm tra request vẫn thực hiện tự động theo đúng chu kỳ quy định
+8492,Kiểm tra khi thay đổi từ 3G sang Wifi hoặc ngược lại, 3: Thao tác chương trình khi on/off mạng,Suite_common_98,1,"1. Đang dùng 3G
+2. Thực hiện thao tác chức năng
+2. Bật Wifi -&gt; Thiết bị sử dụng wifi để connect mạng internet",Ứng dụng vẫn thực hiện chạy bình thường. Request vẫn được xử lý
+8493,Kiểm tra khi thay đổi từ 3G sang Wifi hoặc ngược lại, 3: Thao tác chương trình khi on/off mạng,Suite_common_98,1,"1. Đang dùng Wifi
+2. Thực hiện thao tác chức năng
+2. Bật 3G, off Wifi -&gt; Thiết bị sử dụng 3G để connect mạng internet",Ứng dụng vẫn thực hiện chạy bình thường. Request vẫn được xử lý
+8494,Kiểm tra hoạt động của ứng dụng khi download tài nguyên, 3: Thao tác chương trình khi on/off mạng,Suite_common_98,1,"Yêu cầu: Ứng dụng có tính năng tải tệp tin
+1. Khởi động ứng dụng. 
+2. Bắt đầu tải về tập tin 
+3. Tạm dừng việc tải xuống nếu có thể 
+4. Khởi động lại tải 
+5. Ngắt các kết nối mạng 
+6. Kết nối lại các kết nối mạng 
+7. Resume / khởi động lại việc tải ","Ứng dụng hoạt động mượt mà khi xử lý tạm dừng, dừng lại và nối lại tải tập tin tài nguyên."
+8495,Kiểm tra kết nối mạng của ứng dụng khi ở chế độ Airplane, 3: Thao tác chương trình khi on/off mạng,Suite_common_98,1,"1. Ứng dụng đang kết nối mạng ở chế độ Data (3G,4G..)
+2. Cài điện thoại sang chế độ Airplane
+3. Khởi chạy ứng dụng. 
+4. Quan sát kết quả.","Ứng dụng thông báo lỗi về kết nối và không thực hiện được chức năng
+Sau khi bỏ chế độ airplane thì hoạt động bình thường"
+8496,"Kiểm tra khi Thay đổi proxy cấu hình vào mạng, ko tắt kết nối mạng", 3: Thao tác chương trình khi on/off mạng,Suite_common_98,1,"1.  Đang thực hiện chức năng
+2. Thay đổi proxy cấu hình vào mạng, ko tắt kết nối mạng (off proxy) 
+3. Off proxy","2. Hệ thống chỉ hiển thị 1 thông báo cho user biết . Nội dung thông báo dễ hiểu. 
+3. Thực hiện tiếp chức năng bình thường ko lỗi"
+8497,Kiểm tra hiển thị khi mất kết nối mà vẫn còn trong session, 3: Thao tác chương trình khi on/off mạng,Suite_common_98,1,"1. Đăng nhập vào hệ thống
+2. Kiểm tra hiển thị khi mất kết nối mà vẫn còn trong session","Khi mất kết nối mà vẫn còn trong session: ứng dụng không được tự logout. Chỉ hiển thị màn hình báo lỗi kết nối và yêu cầu user check lại mạng rồi thử lại, tránh logout ra luôn để user mất công login lại."

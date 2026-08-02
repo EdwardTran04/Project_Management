@@ -1,0 +1,23 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9372,Kiểm tra hiển thị biểu đồ khi không có dữ liệu,Suite_Test_01,Suite_common_403,1,"Đảm bảo đăng nhập với user không có dữ liệu 
+1. Chọn Xem biểu đồ
+2. Kiểm tra DB","1. Hiển thị thông báo không có dữ liệu hoặc hiển thị biểu đồ bao gồm trục tung, trục hoành và trên biểu đồ không vẽ dữ liệu ( tùy ĐTYC )
+2. Truy vấn DB không có kết quả
+"
+9373,Kiểm tra hiển thị biểu đồ khi có nhiều dữ liệu cột ( bằng giá trị maxlength cho phép ví dụ max=100 cột),Suite_Test_01,Suite_common_403,1,"Chuẩn bị dữ liệu bảng tương ứng có nhiều dữ liệu = giá trị maxlength cho phép ( tùy theo ĐTYC )
+1. Kiểm tra hiển thị của biếu đồ
+2. Truy vấn DB","1. Hiển thị biểu đồ đầy đủ thông tin dữ liệu của tất cả các cột ( cho phép scroll ngang để thấy hết thông tin dữ liệu của đối tượng cần hiển thị )
+2. Thông tin hiển thị và được vẽ trên biểu đồ giống với thông tin truy vấn từ DB"
+9374,Kiểm tra hiển thị biểu đồ khi không có dữ liệu,Suite_Test_01,Suite_common_403,1,"Đảm bảo đăng nhập với user không có dữ liệu 
+1. Chọn Xem biểu đồ
+2. Kiểm tra DB","1. Hiển thị thông báo không có dữ liệu hoặc hiển thị biểu đồ bao gồm trục tung, trục hoành và trên biểu đồ không vẽ dữ liệu ( tùy ĐTYC )
+2. Truy vấn DB không có kết quả
+"
+9375,Kiểm tra hiển thị biểu đồ khi có nhiều dữ liệu cột ( bằng giá trị maxlength cho phép ví dụ max=100 cột),Suite_Test_01,Suite_common_403,1,"Chuẩn bị dữ liệu bảng tương ứng có nhiều dữ liệu = giá trị maxlength cho phép ( tùy theo ĐTYC )
+1. Kiểm tra hiển thị của biếu đồ
+2. Truy vấn DB","1. Hiển thị biểu đồ đầy đủ thông tin dữ liệu của tất cả các cột ( cho phép scroll ngang để thấy hết thông tin dữ liệu của đối tượng cần hiển thị )
+2. Thông tin hiển thị và được vẽ trên biểu đồ giống với thông tin truy vấn từ DB"
+9376,"Kiểm tra hiển thị biểu đồ khi dữ liệu cột ( bằng giá trị maxlength cho phép ( maxlength số cột , maxlength từng cột )",Suite_Test_01,Suite_common_403,1,"Chuẩn bị dữ liệu bảng tương ứng có nhiều cột dữ liệu = giá trị maxlength cho phép (max cả tung độ và hoành độ) 
+1. Kiểm tra hiển thị của biếu đồ
+2. Truy vấn DB","1. Hiển thị biểu đồ đầy đủ thông tin dữ liệu của tất cả các cột ( cho phép scroll ngang để thấy hết thông tin dữ liệu của đối tượng cần hiển thị )
+2. Thông tin hiển thị và được vẽ trên biểu đồ giống với thông tin truy vấn từ DB"

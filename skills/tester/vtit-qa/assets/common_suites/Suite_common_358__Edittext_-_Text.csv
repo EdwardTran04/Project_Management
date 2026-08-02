@@ -1,0 +1,17 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9071,"Kiểm tra thực hiện lưu thành công khi dữ liệu là chữ tiếng Việt có dấu
+", 4: Edittext  - Text,Suite_common_358,1,"1. Nhập dữ liệu là chữ tiếng việt có dấu
+2. Các thông tin khác được nhập hợp lệ
+3. Nhấn button [Ghi lại]
+","1. Thực hiện lưu thành công. Kiểm tra lưu đúng như case lưu CSDL
+2. Dữ liệu của trường dữ liệu được view lên bình thường, không bị lỗi font
+"
+9072,"Kiểm tra khi dữ liệu là các ký tự chữ, ký tự đặc biệt, html", 4: Edittext  - Text,Suite_common_358,1,"'1. Nhập dữ liệu là các ký tự, thẻ html, ký tự đặc biệt:
+' , "", &lt;, &gt;, &amp;, *, (, ), ^, %, _, @, #, ~, |, /, \,  ha noi , """", +, -, :
+(chú ý có test lần lượt nhập từng ký tự và test nhập cả chuỗi)
+2. Các thông tin khác được nhập hợp lệ
+3. Nhấn button [Ghi lại]
+
+","1. Thực hiện lưu thành công. Kiểm tra lưu đúng như case lưu CSDL
+2. Dữ liệu của trường dữ liệu được view lên bình thường, không bị lỗi font
+"

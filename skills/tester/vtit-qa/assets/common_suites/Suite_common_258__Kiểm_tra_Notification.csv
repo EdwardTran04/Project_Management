@@ -1,0 +1,26 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8923,Kiểm tra hiển thị notifications tin nhắn mới khi đang ở màn hình khác của ứng dụng, 4: Kiểm tra Notification ,Suite_common_258,1,"Điều kiện: A đang ở trong ứng dụng
+- A không thao tác với màn hình cửa sổ chat đơn với B
+1. B gửi tin nhắn chat đơn cho A
+2. Kiểm tra hiển thị trên màn hình của A
+",2. Có notification về màn thiết bị của A
+8924,Kiểm tra hiển thị notifications tin nhắn mới khi đang ở màn hình khác của ứng dụng, 4: Kiểm tra Notification ,Suite_common_258,1,"3. A touch vào notification vừa được nhận
+4. Quay về Notification Bar, kiểm tra hiển thị trên thanh notification","3. Hiển thị màn hình cửa sổ chat đơn với B
+4. Mất notification vừa được nhận từ B"
+8925,Kiểm tra hiển thị notifications tin nhắn mới user chat hiện tại khi đang ở màn hình chat đơn với user chat hiện tại, 4: Kiểm tra Notification ,Suite_common_258,1,"Điều kiện: A đang ở cửa sổ chat đơn với B
+1. B gửi tiếp  tin nhắn chat đơn cho A
+2. Kiểm tra hiển thị trên thanh notification bar của A
+",2. Không hiển thị notification tin nhắn của B ( Chỉ hiển thị tin nhắn trên màn hình chat đơn của A )
+8926,Kiểm tra hiển thị notifications tin nhắn mới từ user khác user hiện tại đang chat khi đang ở màn hình chat đơn , 4: Kiểm tra Notification ,Suite_common_258,1,"1. A đang ở cửa sổ chat với B
+2. C gửi tin nhắn cho A 
+3. Kiểm tra hiển thị trên màn hình của A
+",3. Hiển thị notification mà C gửi về cho A
+8927,Kiểm tra hiển thị notifications tin nhắn mới từ user khác user hiện tại đang chat khi đang ở màn hình chat đơn , 4: Kiểm tra Notification ,Suite_common_258,1,4. A touch vào notification từ C,4. Hiển thị cửa sổ chat đơn với C
+8928,Kiểm tra hiển thị notification khi đang không ở trong ứng dụng, 4: Kiểm tra Notification ,Suite_common_258,1,"Điều kiện: Đang không ở trong ứng dụng
+1. B gửi tin nhắn tới A
+",1. Có notification về màn thiết bị của A
+8929,Kiểm tra hiển thị notification khi đang không ở trong ứng dụng, 4: Kiểm tra Notification ,Suite_common_258,1,2.1 Touch vào notification trong notification bar,"2. Hiển thị màn hình cửa sổ chat đơn với B
+3. Không còn hiển thị notification trong notitication bar"
+8930,Kiểm tra hiển thị notification khi đang không ở trong ứng dụng, 4: Kiểm tra Notification ,Suite_common_258,1,"2.2 Touch vào notification banner
+3. Kiểm tra notification bar","2. Hiển thị màn hình cửa sổ chat đơn với B
+3. Không còn hiển thị notification trong notitication bar"

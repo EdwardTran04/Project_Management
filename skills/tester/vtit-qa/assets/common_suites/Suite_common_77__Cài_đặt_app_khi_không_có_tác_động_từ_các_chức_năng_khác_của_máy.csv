@@ -1,0 +1,40 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8403,Cài đặt APPLICATION via USB cable, 4: Cài đặt app khi không có tác động từ các chức năng khác của máy,Suite_common_77,1,"Precondition: Nếu yêu cầu của ứng dụng cho phép cài via USB cable
+Step:
+1. Thực hiện cài đặt APPLICATION via USB cable
+2. Kiểm tra 1 lần cho toàn bộ ứng dụng","- Cài đặt thành công
+- Vào thư mục chứa apps vừa installed, thấy có xuất hiện icon của APPLICATION
+- Launch APPLICATION thành công"
+8404,Cài đặt APPLICATION via Bluetooth, 4: Cài đặt app khi không có tác động từ các chức năng khác của máy,Suite_common_77,1,"Precondition: Nếu yêu cầu của ứng dụng cho phép cài via Bluetooth
+Step:
+1. Thực hiện cài đặt APPLICATION via Bluetooth
+2. Kiểm tra 1 lần cho toàn bộ ứng dụng","- Cài đặt thành công
+- Vào thư mục chứa apps vừa installed, thấy có xuất hiện icon của APPLICATION
+- Launch APPLICATION thành công"
+8405,Cài đặt APPLICATION via OTA (Over The Air), 4: Cài đặt app khi không có tác động từ các chức năng khác của máy,Suite_common_77,1,"Pre: Nếu yêu cầu của ứng dụng cho phép cài via Over The Air
+Step:
+Thực hiện cài đặt APPLICATION via OTA (Over The Air)
+(có đường link để download ứng dụng)
+1. Launch WAP
+2. Download APPLICATION và tiến hành cài đặt
+3. Kiểm tra 1 lần cho toàn bộ ứng dụng","- Cài đặt thành công
+- Vào thư mục chứa apps vừa installed, thấy có xuất hiện icon của APPLICATION
+- Launch APPLICATION thành công"
+8406,Cài đặt Application từ App store của hệ điều hành , 4: Cài đặt app khi không có tác động từ các chức năng khác của máy,Suite_common_77,1,"Precondition: Nếu yêu cầu của ứng dụng cho phép cài đặt sau khi tải từ App store. Ứng dụng cài đặt vào bộ nhớ máy
+Step:
+1. Download ứng dụng từ App Store
+2. Thực hiện cài đặt APPLICATION vào bộ nhớ máy
+3. Kiểm tra 1 lần cho toàn bộ ứng dụng
+","- Cài đặt thành công
+- Vào thư mục chứa apps vừa installed, thấy có xuất hiện icon của APPLICATION
+- Launch APPLICATION thành công"
+8407,Cài đặt Application từ App store của hệ điều hành , 4: Cài đặt app khi không có tác động từ các chức năng khác của máy,Suite_common_77,1,"Precondition: Nếu yêu cầu của ứng dụng cho phép cài đặt sau khi tải từ App store. Ứng dụng cài đặt vào thẻ nhớ máy
+Step:
+1. Download ứng dụng từ App Store
+2. Thực hiện cài đặt APPLICATION vào thẻ nhớ máy
+3. Kiểm tra 1 lần cho toàn bộ ứng dụng
+","- Cài đặt thành công
+- Vào thư mục chứa apps vừa installed, thấy có xuất hiện icon của APPLICATION
+- Launch APPLICATION thành công"
+8408,Kiểm tra version sau khi cài đặt, 4: Cài đặt app khi không có tác động từ các chức năng khác của máy,Suite_common_77,1,"1. Thực hiện cài đặt APPLICATION
+2. Kiểm tra version trong quá trình cài",Đúng với version thể hiện trong file (lấy 2 số đầu v_1.1.1 sẽ lấy 1.01(1) )

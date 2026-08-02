@@ -1,0 +1,78 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8108,Kiểm tra là trường bắt buộc, 2: Trường số định dạng số ,Suite_common_298,1,"1. Để trống trường dữ liệu
+2. Các thông tin khác được nhập hợp lệ
+3. Nhấn button [Ghi lại]
+
+","1. Thông báo:""[Tên trường] chưa được nhập.""  
+2. Set focus vào trường lỗi hoặc highlight trường lỗi."
+8109,Kiểm tra là trường bắt buộc, 2: Trường số định dạng số ,Suite_common_298,1,"1. Nhập toàn ký tự space
+2. Các thông tin khác được nhập hợp lệ
+3. Nhấn button [Ghi lại]
+
+","1. Thông báo:""[Tên trường] chưa được nhập.""
+2. Set focus vào trường lỗi hoặc highlight trường lỗi."
+8110,Kiểm tra khi dữ liệu nhỏ hơn giá trị min cho phép., 2: Trường số định dạng số ,Suite_common_298,1,"1. Nhập dữ liệu nhỏ hơn giá  trị min
+2. Các thông tin khác được nhập hợp lệ
+","1. Thông báo giá trị số nhỏ hơn giá trị min cho phép
+2. Set focus vào trường lỗi"
+8111,Kiểm tra khi dữ liệu = giá trị min cho phép., 2: Trường số định dạng số ,Suite_common_298,1,"1. Nhập dữ liệu = giá  trị min
+2. Các thông tin khác được nhập hợp lệ
+",1. Thực hiện thành công
+8112,Kiểm tra khi dữ liệu >giá trị max cho phép., 2: Trường số định dạng số ,Suite_common_298,1,"1. Nhập dữ liệu &gt; giá  trị max
+2. Các thông tin khác được nhập hợp lệ
+","1. Thông báo giá trị số &gt; giá trị max cho phép
+2. Set focus vào trường lỗi"
+8113,Kiểm tra khi dữ liệu = giá trị max cho phép., 2: Trường số định dạng số ,Suite_common_298,1,"1. Nhập dữ liệu = giá  trị max
+2. Các thông tin khác được nhập hợp lệ
+",1. Thực hiện thành công
+8114,Kiểm tra khi dữ liệu  là các ký tự chữ., 2: Trường số định dạng số ,Suite_common_298,1,"1. Nhập dữ liệu là các ký tự, thẻ html, ký tự đặc biệt
+2. Các thông tin khác được nhập hợp lệ
+","1. Thông báo dữ liệu phải là số
+2. Set focus vào trường lỗi
+Hoặc xử lý không cho phép nhập ký tự chữ vào trường số."
+8115,Kiểm tra khi nhập dữ liệu là số thập phân (tùy từng chức năng có cho phép hoặc không), 2: Trường số định dạng số ,Suite_common_298,1,"1. Nhập dữ liệu là số thập phân
+2. Các thông tin khác được nhập hợp lệ
+","Nếu trường số có thể là số thập phân:
+- Thực hiện thành công
+Nếu trường số không là số thập phân:
+1. Thông báo trường số ko là số thập phân
+2. Set focus vào trường lỗi
+Hoặc xử lý không cho phép nhập số thập phân"
+8116,Nhập Dữ liệu  là số âm(tùy từng chức năng có cho phép hoặc không), 2: Trường số định dạng số ,Suite_common_298,1,"1.Nhập dữ liệu là số âm
+2. Các thông tin khác được nhập hợp lệ
+","Nếu trường số có thể là số âm:
+- Thực hiện thành công
+Nếu trường số không là số âm:
+1. Thông báo trường số ko thể là số âm
+2. Set focus vào trường lỗi
+hoặc xử lý không cho phép nhập dấu âm"
+8117,Kiểm tra số chữ số trước và sau dấu phẩy vượt quá maxlength (tùy từng chức năng cho phép bao nhiêu), 2: Trường số định dạng số ,Suite_common_298,1,"1. Nhập dữ liệu có số chữ số trước, sau dấu phẩy vượt quá max cho phép
+2. Các thông tin khác được nhập hợp lệ
+","1. Thông báo lỗi
+2. Set focus vào trường lỗi
+Hoặc: Xử lý giới hạn số chữ số được phép nhập"
+8118,Kiểm tra chức năng làm tròn( tùy từng chức năng quy định như nào), 2: Trường số định dạng số ,Suite_common_298,1,"1. Nhập dữ liệu là số thập phân có số chữ số sau dấu phẩy lớn hơn số chữ số hiển thị  phần thập phân
+2. Các thông tin khác được nhập hợp lệ
+","1. Thực hiện làm tròn (lên, xuống) dữ liệu theo quy định của dự án"
+8119,Nhập dữ liệu  là số có chữ số 0 đầu tiên(tùy từng chức năng có cho phép hoặc không), 2: Trường số định dạng số ,Suite_common_298,1,"1. Nhập dữ liệu là số có chữ số 0 đầu tiên
+2. Các thông tin khác được nhập hợp lệ
+","Nếu trường số có thể có số 0 ở đầu(ví dụ số điện thoại):
+- Thực hiện thành công
+Nếu trường số không cho số 0 ở đầu:
+- Tự động cắt các số 0 đầu tiên"
+8120,Kiểm tra chức năng Trim space, 2: Trường số định dạng số ,Suite_common_298,1,"1. Nhập dữ liệu và thêm space vào đầu và cuối( hoặc thực hiện copy paste một số có chứa space ở đầu, cuối)
+2. Các thông tin khác được nhập hợp lệ
+","Nếu trường số cho phép nhập space:
+1. Thực hiện thành công
+2. Thực hiện trim space ở đầu và cuối trường dữ liệu
+Nếu trường số không cho phép nhập space:
+1. Thông báo lỗi
+2. Set focus vào trường lỗi
+Hoặc xử lý: Giới hạn không cho phép nhập khoảng trắng
+"
+8121,"Paste bằng chuột phải, hoặc Ctrl - V xâu ký tự không hợp lệ vào textbox
+
+", 2: Trường số định dạng số ,Suite_common_298,1,"1. Paste bằng chuột phải, hoặc Ctrl - V xâu ký tự không hợp lệ vào textbox
+2. Các thông tin khác nhập hợp lệ","1. Đưa ra thông báo lỗi
+2. Set focus vào lỗi
+Hoặc xử lý: Giới hạn không cho phép paste, hoặc ctrl - V"

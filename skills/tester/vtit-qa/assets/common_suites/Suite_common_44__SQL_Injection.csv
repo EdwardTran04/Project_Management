@@ -1,0 +1,29 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8230,Kiểm tra SQL injection với câu lệnh truy vấn dạng select …. Where, 2: SQL Injection,Suite_common_44,1,"Bước 1: Dự đoán câu lệnh SQL, thực hiện thử các payload SQL_Injection cho phù hợp với từng CSDL, cách giao tiếp CSDL  (nếu không xác định được CSDL, cách giao tiếp thì thực hiện tất cả các payload)
+Bước 2: Từ  dự đoán các xử lý của người lập trình. Ta tiến hành thử các payload như sau (value là giá trị đúng để chương trình có kết trả về, kết quả _SUCCESS khi truyền lên value, kết quả _NOT_SUCCESS là khi gửi payload không đúng) :
+Value’ : ra trang lỗi dạng sau hoặc tương đương Not_Success
+Và value’’ : thì không bị lỗi như trên, kết quả có thể  như _SUCCESS
+ =&gt; Dự đoán mắc lỗi.
+- value’ or ’1’=’1 hoặc value' or '1'='1'-- - : kết quả trả nhiều hơn _SUCCESS 
+=&gt;  Dự đoán mắc lỗi.
+value’ and ’1’=’1 hoặc value' and '1'='1'-- - : giống kết quả _ SUCCESS.
+Và value’ and ’1’=’2 hoặc value and '1'='2'-- - : giống kết quả _NOT_SUCCESS.
+=&gt;  dự đoán mắc lỗi.
+
+Chú ý : Kiểm tra với các trường hợp dự đoán có thực hiện câu lệnh select ... where, delete ... where , insert.... where, update ... where trong CSDL 
+&gt; Chức năng view/ tìm kiếm/insert/update/download
+
+","Hiện thị trang không tìm thấy
+Hệ thống không cho hiển thị kết quả từ CSDL"
+8231,Kiểm tra khi nhập các ký tự ' hoặc '' vào các textbox, 2: SQL Injection,Suite_common_44,1,"1. Dùng tool bắt request để sửa các giá trị nhập từ Client thành các ký tự ', ""
+2. Nhấn Forward
+",Hệ thống vẫn cho phép xử lý thành công
+8232,Kiểm tra SQL injection với chức năng đăng nhập , 2: SQL Injection,Suite_common_44,1,"Chuẩn bị: User hợp lệ: test
+Kiểm tra đăng nhập hệ thống:
+1.Nhập username :  test’ or ‘1’=‘1  hoặc  ( test or 1=1)
+2.Nhập Password trùng với 1 password của 1 user nào đó.
+3.Disable Javascript( để chắc chắn là server có validate )
+3.Nhập các thông tin còn lại hợp lệ(nếu còn)
+4.Click Đăng nhập
+
+Note: Nếu disable Javasript mà chức năng không chạy được thì dùng sử dụng tool burpsuite",Hệ thống thông báo tài khoản không tồn tại

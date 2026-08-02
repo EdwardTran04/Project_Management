@@ -1,0 +1,7 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9231,Kiểm tra việc hiển thị dữ liệu sau khi nâng cấp ứng dụng, 3: Dữ liệu sau khi nâng cấp,Suite_common_387,1,"1. Đăng nhập vào ứng dụng
+2. Kiểm tra tính chính xác và đúng đắn dữ liệu theo từng user đăng nhập:
++ Đối với ứng dụng online: chạy API để kiểm tra dữ liệu của chức năng theo user
++ Đối với ứng dụng offline: truy vấn DB để kiểm tra tính đúng đắn của dữ liệu",1. Dữ liệu sau khi nâng cấp phải chính xác và đầy đủ như trước khi nâng cấp
+9232,Kiểm tra việc ổn định và chạy đúng luồng chức năng, 3: Dữ liệu sau khi nâng cấp,Suite_common_387,1,"1. Đăng nhập vào ứng dụng
+2. Chạy qua các luồng chức năng chính",1. Phải đảm bảo luồng chức năng chạy đúng và chính xác.

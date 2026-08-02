@@ -1,0 +1,12 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9028,Chọn một giá trị trong Spinner, 4: Tìm kiếm theo Spinner,Suite_common_349,1,"1. Lần lượt chọn Spinner = &lt;1 giá trị trong Combo&gt;
+2. Click button ""Tìm kiếm'","1. Hiển thị kết quả tìm kiếm thỏa mãn: Spinner = 
+2  Script: sử dụng script (*), phần điều kiện tìm kiếm bỏ hết các điều kiện khác điều kiện đang tìm
+
+"
+9029,"Tìm kiếm với:
+- Spinner = ----Chọn--------", 4: Tìm kiếm theo Spinner,Suite_common_349,1,"1. Chọn Spinner = -------Chọn---------
+2. Click button ""Tìm kiếm'
+","1. Hiển thị kết quả tìm kiếm với Spinner = tất cả giá trị trong spinner
+
+"

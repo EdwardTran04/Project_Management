@@ -1,0 +1,45 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8996,Kiểm tra khi chỉ có 1 trang ( số bản ghi <= M), 3: Dạng scroll trang,Suite_common_343,1,"Đảm bảo danh sách có số bản ghi &lt; =  M
+1. Kiểm tra số trang
+2. Mở trang tiếp theo",Không thực hiện phân trang
+8997,Kiểm tra việc scroll  để mở danh sách chỉ có 1 trang, 3: Dạng scroll trang,Suite_common_343,1,"Đảm bảo danh sách chỉ có 1 trang và đang ở giữa trang
+1. Cuộn xuống để di chuyển đến phần nội dung phía bên dưới màn hình  
+
+","Việc di chuyển thành công, tiếp tục hiển thị  nội dung  bên dưới của trang
+"
+8998,Kiểm tra việc scroll  để mở danh sách chỉ có 1 trang, 3: Dạng scroll trang,Suite_common_343,1,2. Kiểm tra khi cuộn hết nội dung trang 1,"- Không tiếp tục thực hiện scroll xuống phía dưới được
+  +  Android:  Không có khoảng trống phía dưới 
+   + IOS: Vẫn hiển thị khoảng trắng, nhưng khi nhả ra thì màn hình k hiển thị khoảng trắng đó"
+8999,Kiểm tra việc scroll  để mở danh sách chỉ có 1 trang, 3: Dạng scroll trang,Suite_common_343,1,"
+3. Cuộn lên để di chuyển đến phần nội dung bên trên màn hình","
+Việc di chuyển thành công, hiển thị danh sách phía bên trên màn hình"
+9000,Kiểm tra phân trang khi có nhiều hơn M, 3: Dạng scroll trang,Suite_common_343,1,"Đảm bảo danh sách  có nhiều hơn M
+1. Kiểm tra số trang
+2. Mở trang tiếp theo","1. Màn hình chia thành n trang, với n = Số bản ghi / M. Mỗi trang có M bản ghi
+2. Hiển thị thông tin danh sách của trang tiếp theo
+
+"
+9001,Kiểm tra việc scroll để mở danh sách có nhiều hơn 1 trang, 3: Dạng scroll trang,Suite_common_343,1,"Đảm bảo danh sách có nhiều hơn 1 trang
+1. Cuộn xuống để di chuyển đến trang tiếp theo phía bên dưới màn hình","Hiển thị thanh loading khi phân trang  
+Việc di chuyển thành công, hiển thị trang tiếp theo dưới màn hình
+"
+9002,Kiểm tra việc scroll để mở danh sách có nhiều hơn 1 trang, 3: Dạng scroll trang,Suite_common_343,1,"
+2. Tiếp tục cuộn xuống khi đã cuộn hết các trang ","
+Di chuyển đến trang cuối. Không có khoảng trống phía dưới cùng"
+9003,Kiểm tra việc scroll để mở danh sách có nhiều hơn 1 trang, 3: Dạng scroll trang,Suite_common_343,1,"3. Cuộn lên để di chuyển đến phần nội dung bêntrên, trang trước 
+"," Việc di chuyển thành công, tiếp tục hiển thị danh sách bên trên  màn hình
+"
+9004,"Kiểm tra hiển thị số bản ghi đúng sau khi thực hiện tìm kiếm, scroll trang ", 3: Dạng scroll trang,Suite_common_343,1,"Ví dụ:
+Tổng số bản ghi hiện tại: 100
+1. Thực hiện tìm kiếm (kết quả trả về 50 bản ghi)
+2. Cuộn về phía dưới để tất cả các trang
+3. Scroll về trang trước
+"," Tổng số bản ghi không đổi khi scroll lên, xuống : 50 bản ghi 
+"
+9005,"Kiểm tra load lại trang đầu tiên, khi thực hiện tìm kiếm lại", 3: Dạng scroll trang,Suite_common_343,1,"1. Thực hiện tìm kiếm lần 1, scroll trang đến các trang giữa
+2. Thực hiện tìm kiến lầm 2","Load lại danh sách, focus về trang đầu tiên, bản ghi đầu tiên trên danh sách kết quả"
+9006,Kiểm tra scroll trang liên tục nhiều lần, 3: Dạng scroll trang,Suite_common_343,1,"Thực hiện scroll trang lên xuống nhanh tay, liên tục, nhiều lần","Hiển thị trang bình thường, k bị lag "
+9007,"Kiểm tra hiển thị menu và header, footer sau khi scroll trang", 3: Dạng scroll trang,Suite_common_343,1,"Thực hiện scroll để chuyển trang
+","Menu, header, footer cố định, không thay đổi, luôn nhìn thấy khi scroll lên , xuống"
+9008,"Kiểm tra hiển thị menu và header, footer sau khi scroll trang", 3: Dạng scroll trang,Suite_common_343,1,"Thực hiện scroll để chuyển trang
+","Menu, header, footer cố định, không thay đổi, luôn nhìn thấy khi scroll lên , xuống"

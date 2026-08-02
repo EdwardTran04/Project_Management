@@ -1,0 +1,44 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9155,Kiểm tra thực hiện check trùng với dữ liệu nhập vào chứa dữ liệu đã có trongCSDL, 4: Check trùng tương đối với trường A,Suite_common_377,1,"1. Đảm bảo đã thỏa mãn các điêu kiện hợp lệ khác
+2. Trường cần kiểm tra trongCSDL đang có giá trị  ""01234567""
+3.  Nhập giá trị chứa chuỗi đã có trongCSDL.
+Ví dụ : ""0123456789"",""8401234567"",""840123456789""
+4. Nhấn button Lưu",4. Hiển thị thông báo check trùng ( Tùy Theo DTYC mà kiểm tra nội dung thông báo)
+9156,"Kiểm tra check trùng khi dữ liệu nhập vào bị chứa bởi chuỗi đã có trongCSDL
+(Chỉ áp dụng case này với trường mà DTYC có mô tả)", 4: Check trùng tương đối với trường A,Suite_common_377,1,"1. Đảm bảo đã thỏa mãn các điêu kiện hợp lệ khác
+2. Trường giá trị đang check trùng trongCSDL đang có giá trị  ""01234567""
+3. Trường giá trị đang check trùng trên màn hình nhập giá trị bị chứa trong chuỗi đang có trongCSDL
+Ví dụ : ""123"",""0""
+4. Nhấn button Lưu",4. Hiển thị thông báo check trùng ( Tùy Theo DTYC mà kiểm tra nội dung thông báo)
+9157,Kiểm tra check trùng khi dữ liệu nhập vào trùng hoàn toàn với chuỗi đã có trongCSDL, 4: Check trùng tương đối với trường A,Suite_common_377,1,"1. Đảm bảo đã thỏa mãn các điêu kiện hợp lệ khác
+2. Trường giá trị đang check trùng trongCSDL đang có giá trị  ""01234567"" hoặc ""đỗ lan phương""
+3 Trường giá trị đang check trùng trên màn hình nhập giá trị trùng hoàn toàn với chuỗi đang có trongCSDL :""01234567"" hoặc ""đỗ lan phương""
+4. Nhấn button Lưu",4. Hiển thị thông báo check trùng ( Tùy Theo DTYC mà kiểm tra nội dung thông báo)
+9158,Kiểm tra check trùng khi trường check trùng đang có dữ liệu null, 4: Check trùng tương đối với trường A,Suite_common_377,1,"1.Đảm bảo dữ liệu của trường A đang có dữ liệu null ( Nếu trường này bắt buộc , ko tạo được dữ liệu case này thì có thể bỏ qua)
+2. Trên màn hình không nhập giá trị vào trường A 
+3. Những trường còn lại nhập dữ liệu hợp lệ
+4. Nhấn button Lưu",4. Tùy theo DTYC có mô tả check trùng với dữ liệu null hay không mà KQMM sẽ hiển thị thông báo check trùng hay không
+9159,Kiểm tra check trùng không phân việt hoa thường, 4: Check trùng tương đối với trường A,Suite_common_377,1,"1. Đảm bảo Trường giá trị đang check trùng trongCSDL đang có giá trị chữ thường ""vo thi le hang""
+2. Trường giá trị đang check trùng trên màn hình nhập  giá trị trùng là chữ in hoa ""VO THI LE HANG""
+3. Nhấn button Lưu",Tùy theo DTYC mà có hiển thị thông báo check trùng hay không
+9160,Kiểm tra check trùng không phân việt hoa thường, 4: Check trùng tương đối với trường A,Suite_common_377,1,"1. Đảm bảo Trường giá trị đang check trùng trongCSDL đang có giá trị chữ hoa ""VO THI LE HANG""
+2. Trường giá trị đang check trùng trên màn hình nhập  giá trị trùng là chữ thường  ""vo thi le hang""
+3. Nhấn button Lưu",Tùy theo DTYC mà có hiển thị thông báo check trùng hay không
+9161,Kiểm tra check trùng không phân việt tiếng việt có dấu, 4: Check trùng tương đối với trường A,Suite_common_377,1,"1. Đảm bảo Trường giá trị đang check trùng trongCSDL đang là tiếng Việt có dấu ""Nguyễn Văn A""
+2. Trường giá trị đang check trùng trên màn hình nhập giá trị trùng là không dấu :""Nguyen van a""
+3. Nhấn button Lưu",Tùy theo DTYC mà có hiển thị thông báo check trùng hay không
+9162,Kiểm tra check trùng không phân việt tiếng việt có dấu, 4: Check trùng tương đối với trường A,Suite_common_377,1,"1. Đảm bảo Trường giá trị đang check trùng trongCSDL đang là không dấu ""Vo My Na""
+2. Trường giá trị đang check trùng trên màn hình nhập giá trị trùng là có dấu :""Võ Mỹ Na""
+3. Nhấn button Lưu",Tùy theo DTYC mà có hiển thị thông báo check trùng hay không
+9163,Kiểm tra check trùng không hoàn toàn, 4: Check trùng tương đối với trường A,Suite_common_377,1,"1. Đảm bảo Trường giá trị đang check trùng trongCSDL đang là tiếng Việt có dấu ""Nguyễn minh Hà""
+2. Trường giá trị đang check trùng trên màn hình nhập giá trị trùng là không dấu :""Nguyễn mình Há""
+3. Nhấn button Lưu",Tùy theo DTYC mà có hiển thị thông báo check trùng hay không
+9164,Kiểm tra check trùng dữ liệu sau khi trim space đầu và cuối dữ liệu nhập vào, 4: Check trùng tương đối với trường A,Suite_common_377,1,"1. Đảm bảo Trường giá trị đang check trùng trongCSDL đang là có space đầu và cuối ""    Dieu huyen      ""
+2. Trường giá trị đang check trùng trên màn hình nhập giá trị trùng không có space đầu cuối :""Dieu huyen""
+3. Nhấn button Lưu",Tùy theo DTYC mà có hiển thị thông báo check trùng hay không
+9165,Kiểm tra check trùng dữ liệu sau khi trim space đầu và cuối dữ liệu nhập vào, 4: Check trùng tương đối với trường A,Suite_common_377,1,"1. Đảm bảo Trường giá trị đang check trùng trongCSDL đang là không có space đầu và cuối ""Dieu Anh""
+2. Trường giá trị đang check trùng trên màn hình nhập giá trị trùng có space đầu cuối :""   Dieu Anh    ""
+3. Nhấn button Lưu",Tùy theo DTYC mà có hiển thị thông báo check trùng hay không
+9166,"Kiểm tra check trùng khi chỉ nhậpdữ liệu không trùng cho trường A, các trường còn lại nhập dữ liệu trùng", 4: Check trùng tương đối với trường A,Suite_common_377,1,"1.Trường cần check trùng theo DTYC nhập dữ liệu không trùng
+2. Những trường còn lại ( không phải trường có check trùng) nhập dữ liệu trùng với dữ liệu đã có trongCSDL
+3. Nhấn button Lưu",3. Không hiển thị thông báo check trùng

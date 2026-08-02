@@ -1,0 +1,31 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8080,"Kiểm tra màn hình ở trạng thái mặc định
+", 2: Giao diện chung web,Suite_common_292,1,"1. Kiểm tra title của màn hình
+2. Kiểm tra focus của chuột
+3. Kiểm tra các giá trị mặc định của các trường
+4. Kiểm tra header, footer
+","Màn hình chức năng được mở:
+- Hiển thị title của chức năng trên màn hình: &lt;Tên màn hình chức năng&gt;
+-  Focus được set vào trường đầu tiên có thể edit
+- Hiển thị đầy đủ các trường như trong tài liệu TKMH (mô tả cụ thể các trường hoặc chụp ảnh màn hình):
+- Hiển thị các giá trị mặc định của các trường đúng. 
++ Mã Điểm (*): Null
++ Mã trạm
++ Địa chỉ (*)
++ Mã tỉnh thành (*)
++ Mô tả
+ - header, footer hợp lý hoặc theo design có sẵn (tùy từng dự án)"
+8081,Kiểm tra tổng thể giao diện màn hình, 2: Giao diện chung web,Suite_common_292,1,"1. Kiểm tra về bố cục, font chữ, chính tả, màu chữ
+2. Kiểm tra trường bắt buộc phải có dấu *
+","1. Các label, textbox, combo có độ dài, rộng và khoảng cách bằng nhau, không xô lệch
+2. Các label sử dụng cùng 1 loại font, cỡ chữ, căn lề trái
+3. Các trường hợp bắt buộc nhập phải có dấu (*)
+4. Kiểm tra tất cả lỗi về chính tả, cấu trúc câu, ngữ pháp trên màn hình
+5. Form được bố trí hợp lý và dễ sử dụng"
+8082,Kiểm tra thứ tự di chuyển trỏ trên màn hình khi nhấn phím Tab, 2: Giao diện chung web,Suite_common_292,1,"
+Nhấn Tab liên tục","Con trỏ di chuyển lần lượt trên các trường input, button, hyperlink theo thứ tự trái sang phải, trên xuống dưới."
+8083,Kiểm tra thứ tự con trỏ di chuyển ngược lại trên màn hình khi nhấn Shift-Tab, 2: Giao diện chung web,Suite_common_292,1,Nhấn phím Shift-Tab liên tục,"Con trỏ di chuyển theo thứ tự ngược lại trên các trường input, các button, hyperlink: từ dưới lên trên, từ phải sang trái"
+8084,Kiểm tra thực hiện chức năng chính của màn hình khi nhấn Enter, 2: Giao diện chung web,Suite_common_292,1,Nhấn phím Enter,"1. Nếu chuộc ko focus vào button nào thì Thực hiện chức năng của button chính
+2. Nếu đang focus vào 1 button thì sẽ thực hiện chức năng của button "
+8085,"Kiểm tra giao diện khi thu nhỏ, phóng to", 2: Giao diện chung web,Suite_common_292,1,"1.Nhấn phím Ctrl -
+2. Nhấn phim Ctrl ="," Màn hình thu nhỏ, phóng to tương ứng và không bị vỡ giao diện"

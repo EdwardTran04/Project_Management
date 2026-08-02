@@ -1,0 +1,9 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8258,Kiểm tra session fixation, 2: Session fixatation,Suite_common_51,1,"1.Gõ link đăng nhập vào 1 hệ thống trên trình duyệt
+2.Kiểm tra sessionID khi chưa login bằng cách vào firebug -&gt; Click vào tag ""Cookies"" -&gt; lấy giá trị của trường ""Value""  (tên sẽ thay đổi theo ngôn ngữ, công nghệ. Ví dụ jsessionid, phpsession… )
+3.Thực hiện login vào hệ thống bằng user A
+4.Kiểm tra sessionID sau khi login hệ thống(tương tự bước 2)
+
+",SessionID trước và sau khi đăng nhập là khác nhau
+8259,Kiểm tra session fixation, 2: Session fixatation,Suite_common_51,1,"5. Đăng xuất
+6. Login bằng user B. Kiểm tra session ID sau khi login",SessionID sau khi đăng nhập bằng user A và B khác nhau

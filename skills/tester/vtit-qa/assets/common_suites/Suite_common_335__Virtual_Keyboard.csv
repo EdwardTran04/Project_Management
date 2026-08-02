@@ -1,0 +1,19 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8398,Kiểm tra hiển thị bàn phím ảo khi mở form, 2: Virtual Keyboard ,Suite_common_335,1,"1. Mở form có nhiều ô nhập liệu
+2. Kiểm tra hiển thị","1. Đối với  form có nhiều trường nhập liệu, không được tự mở ra bàn phím ảo vì sẽ che khuất các thông tin đó, khiến người dùng không nhìn được tổng quan màn hình.
+2. Đối với các màn hình chỉ có 1 ô nhập liệu và một button, có thể hiện luôn ra bàn phím ảo sẵn, và đẩy form lên phía trên bàn phím ảo sao cho người dùng có thể nhìn thấy đầy đủ nội dung."
+8399,Kiểm tra hiển thị bàn phím ảo khi focus vào ô nhập liệu, 2: Virtual Keyboard ,Suite_common_335,1,"Đảm bảo: Có nhiều hơn 1 ô nhập liệu
+1. Focus vào ô nhập liệu đầu tiên
+2. Kiểm tra hiển thị","1. Bàn phím không được che khuất hoàn toàn ô nhập liệu kế tiếp để người dùng biết là còn phải nhập tiếp.
+2. Đối với button để submit, thì phải thỏa mãn:
+- Bàn phím ảo không che khuất
+- Bàn phím ảo hỗ trợ button submit thay cho button đó."
+8400,Kiểm tra việc hỗ trợ submit ở ô nhập liệu cuối cùng, 2: Virtual Keyboard ,Suite_common_335,1,"1. Nhập dữ liệu vào tất cả các ô nhập liệu
+2. Tại ô nhập liệu cuối cùng, nhấn Enter/Hoàn thành",Nhấn Enter/Hoàn thành trên bàn phím ảo sẽ thực hiện chức năng của nút chức năng chính trên màn hình
+8401,Kiểm tra chế độ  auto-correct/ auto-suggestion, 2: Virtual Keyboard ,Suite_common_335,1,"1. Nhấn vào ô nhập liệu
+2. Kiểm tra hiển thị bàn phím ảo","Cần disable chế độ auto-correct/ auto-suggestion khi không cần thiết.
+Ví dụ đối với các ô nhập liệu sau thì cần disable:
+- Email
+- Địa chỉ
+- Tên
+- Mật khẩu"

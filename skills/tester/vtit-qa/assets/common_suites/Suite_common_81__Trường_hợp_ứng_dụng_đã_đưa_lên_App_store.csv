@@ -1,0 +1,8 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8420,Kiểm tra hiển thị thông báo khi có version mới, 4: Trường hợp ứng dụng đã đưa lên App store,Suite_common_81,1,"1. Máy đang cài đặt version cũ
+2. Trên App store đã có version mới
+3. Nhấn vào app",- Hiển thị thông báo: 'Ứng dụng đã có version mới. Bạn có muốn update không?'. Button 'OK' và 'Cancle'
+8421,Kiểm tra update và cài đặt version mới thành công , 4: Trường hợp ứng dụng đã đưa lên App store,Suite_common_81,1,4. Nhấn vào button 'OK' trên message thông báo,"- Chuyển màn hình sang Google Play để down version mới về
+- Down và cài đặt thành công
+- Kiểm tra lại đúng version mới
+- Dữ liệu đã lưu của ứng dụng (trường hợp ứng dụng lưu dữ liệu offline) vẫn còn đầy đủ"

@@ -1,0 +1,21 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8352,Kiểm tra focus trong hộp Calendar khi EditText chưa có giá trị, 2: Kiểm tra khi trường ngày tháng là DatePicker,Suite_common_327,1,"1. Để trống giá trị của EditText.
+2. Thay đổi ngày trên client
+3. Click vào icon Calendar bên cạnh EditText.
+4. Kiểm tra giá trị focus trong hộp Calendar",Ngày hiện tại của thiết bị hoặc ngày theo DTYC
+8353,Kiểm tra focus trong hộp Calendar khi texbtox đã có dữ liệu, 2: Kiểm tra khi trường ngày tháng là DatePicker,Suite_common_327,1,"Giả sử trường ngày tháng đã có giá trị (VD: 20/10/2005)
+1. Click vào icon Calendar bên cạnh EditText.
+2. Kiểm tra giá trị focus trong hộp Calendar",Ngày 20/10/2005 được focus
+8354,Kiểm tra hoạt động của hộp Calendar, 2: Kiểm tra khi trường ngày tháng là DatePicker,Suite_common_327,1,"1. Click vào icon Calendar bên cạnh EditText.
+2. Lựa chọn 1 giá trị ngày tháng trong hộp Calendar
+3. Chọn Set","1. Hộp Calendar tự động đóng lại
+2. Giá trị ngày tháng vừa chọn hiển thị trong EditText theo định dạng theo DTYC
+3. Không sửa được giá trị này"
+8355,Kiểm tra hoạt động của hộp Calendar, 2: Kiểm tra khi trường ngày tháng là DatePicker,Suite_common_327,1,"1. Click vào icon Calendar bên cạnh EditText.
+2. Lựa chọn 1 giá trị ngày tháng trong hộp Calendar
+3. Chọn Đóng","1. Hộp Calendar tự động đóng lại
+2. Giá trị ngày tháng trên edittext không thay đổi
+3. Không sửa được giá trị này"
+8356,Kiểm tra việc reset giá trị trong EditText khi nhấn nút Bỏ chọn, 2: Kiểm tra khi trường ngày tháng là DatePicker,Suite_common_327,1,"Giả sử trường ngày tháng đã có giá trị (VD: 20/10/2005)
+1. Click nút Bỏ chọn bên cạnh EditText.
+",Giá trị trong EditText được reset thành rỗng hoặc hiển thị fomart định dạng ngày tháng năm theo DTYC

@@ -1,0 +1,39 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8966,Kiểm tra hiển thị đúng danh sách khi không có bản ghi nào , 2: KT Danh sách bản ghi,Suite_common_338,1,"Đảm bảo chưa có bản ghi nào trong danh sách
+1. Kiểm tra hiển thị danh sách trên màn hình
+2. Kiểm tra danh sách theo API/ CSDL
+3. So sánh kết quả bước 1- 2","3. + Trên màn hình hiển thị: ""Không có dữ liệu"" hoặc  ""…"" (tùy thuộc dự án)
++ API/CSDL không trả về bản ghi nào."
+8967,Kiểm tra hiển thị đúng danh sách khi không có bản ghi nào , 2: KT Danh sách bản ghi,Suite_common_338,1,4.Touch vào vùng danh sách,4. Chương trình vẫn hoạt động bình thường. Không bị crash
+8968,Kiểm tra hiển thị đúng danh sách khi có dữ liệu , 2: KT Danh sách bản ghi,Suite_common_338,1,"Đảm bảo đã có bản ghi nào trong danh sách
+1. Kiểm tra hiển thị danh sách trên màn hình
+2. Kiểm tra danh sách theo API/ CSDL
+3. So sánh kết quả bước 1- 2","3. Hiển thị danh sách bản ghi theo ĐTYC
+    Số bản ghi trên màn hình đúng bằng số lượng bản ghi check API/ CSDL"
+8969,Kiểm tra hiển thị đúng danh sách khi có dữ liệu , 2: KT Danh sách bản ghi,Suite_common_338,1,4. Kiểm tra thứ tự sắp xếp,4. Sắp xếp theo thứ … (Tùy thuộc vào DTYC)
+8970,Kiểm tra hiển thị đúng chi tiết 1 item trong danh sách, 2: KT Danh sách bản ghi,Suite_common_338,1,"Đảm bảo đã có bản ghi A trong danh sách
+1. Kiểm tra hiển thị danh sách trên màn hình
+2. Kiểm tra danh sách theo API/CSDL Sever
+3. So sánh kết quả bước 1- 2","1. Hiển thị đầy đủ thông tin của A như DTYC
+3. Dữ liệu hiển thị trên màn hình đúng với dữ liệu  trong CSDL/  API trả về:
+(Mô tả chi tiết thông tin)
+
+"
+8971,Kiểm tra hiển thị trường thông tin vừa khung màn hình, 2: KT Danh sách bản ghi,Suite_common_338,1,"Chuẩn bị: Dữ liệu có độ dài bằng maxlength cho phép ( chuẩn bị  trong CSDL hoặc dữ liệu trả về từ API)
+2. Kiểm tra hiển thị trên màn hình","Tùy theo ĐTYC mà cho phép hiển thị
+-  Hiển thị đầy đủ nội dung , tự xuống dòng nếu vượt quá khung
+Hoặc:
+- Hiển thị nội dung vừa khung, phần vượt quá hiển thị dấu ….
+
+
+
+"
+8972,"Kiểm tra hiển thị dữ liệu trên danh sách khi 1 số trường không bắt buộc , không có giá trị", 2: KT Danh sách bản ghi,Suite_common_338,1,"Chuẩn bị: Trường không bắt buộc , không có giá trị 
+
+2. Kiểm tra hiển thị trên màn hình",Trường dữ liệu : không hiển thị gì ( để trống)
+8973,Kiểm tra hiển thị đối với trường dữ liệu kiểu số trên màn hình khi dữ liệu lớn. Ví dụ: 9999999999999 ( hoặc giá trị lớn nhất với maxlength cho phép), 2: KT Danh sách bản ghi,Suite_common_338,1,"1. Sửa CSDL với dữ liệu số lớn nhất cho phép
+2. Kiểm tra hiển thị trên màn hình ",Hiển thị đúng dữ liệu từ trong CSDL
+8974,"Kiểm tra load dữ liệu lên form khi có nhiều bản ghi trên danh sách
+(Confirm với bên KH để đưa ra số lượng max có thể test)
+", 2: KT Danh sách bản ghi,Suite_common_338,1,"Data: có &gt; 100 bản ghi
+",Hiển thị đủ và đúng các bản ghi trên form

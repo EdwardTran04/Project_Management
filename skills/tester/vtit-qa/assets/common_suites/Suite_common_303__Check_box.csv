@@ -1,0 +1,14 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8145,Kiểm tra giá trị mặc định của check box, 2: Check box,Suite_common_303,1,Kiểm tra giá trị mặc định của checkbox.,"Check box có thể ở 1 trong 2 trạng thái mặc định sau: Chọn/ Bỏ chọn.
+"
+8146,"Kiểm tra việc kích chọn, bỏ kích chọn trên các checkbox
+", 2: Check box,Suite_common_303,1,"
+1. Tích chọn,  bỏ chọn trên các checkbox",Checkbox ở trạng thái Chọn/Bỏ chọn.
+8147,Kiểm tra việc kích chọn all check, 2: Check box,Suite_common_303,1,"1. Tích chọn, bỏ chọn Check All","Tích chọn all: Các check box khác trong danh sách đều được tích chọn.
+Bỏ chọn all: Các checkbox khác trong danh sách đều được bỏ chọn"
+8148,Kiểm tra việc bỏ chọn 1 checkbox trong danh sách khi đang chọn check all, 2: Check box,Suite_common_303,1,1. Bỏ chọn 1 check box,Checkbox checkall cũng được bỏ chọn
+8149,Kiểm tra việc check CheckAll khi tất cả các checkbox được check, 2: Check box,Suite_common_303,1,1. Check tất cả các check box,Checkbox checkall cũng được check
+8150,"Kiểm tra việc kích chọn/bỏ chọn checkbox để bật ra 1 đối tượng khác
+", 2: Check box,Suite_common_303,1,"1. Open màn hình có checkbox mà có chức năng bật ra 1 đối tượng khác
+2. Kích chọn, bỏ chọn checkbox","Kích chọn: bật ra một đối tượng khác thành công
+Bỏ chọn: làm mất đối tượng đã bật ra trước đó khỏi màn hình"

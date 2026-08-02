@@ -1,0 +1,8 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8543,Kiểm tra việc ứng dụng yêu cầu quyền truy cập vào máy điện thoại của user, 3: Access Right,Suite_common_112,1,"1. Đăng nhập vào ứng dụng
+2. Kiểm tra việc ứng dụng yêu cầu quyền truy cập vào máy điện thoại của user","- Không yêu cầu user cấp tất cả quyền truy cập ngay khi vừa vào ứng dụng.
+- Yêu cầu quyền truy cập vào máy điện thoại của user (phonebook, camera, gallery,…) đúng thời điểm và đúng vị trí cần quyền để lấy thông tin. Đồng thời giải thích rõ lý do vì sao App cần lấy những thông tin này.
+(Vd: Khi ở màn hình 'Chuyển tiền qua số điện thoại', lúc này mới confirm xin user cấp quyền access phonebook, với lý do: để có thể search nhanh số điện thoại người nhận, trực tiếp từ danh bạ của user.)"
+8544,Kiểm tra việc xác nhận quyền trước khi tự động chèn code từ tin nhắn , 3: Access Right,Suite_common_112,1,"1. Gửi code về tin nhắn
+","- Phải xác nhận quyền trước khi access tin nhắn lấy code.
+- Nếu user không cấp thì để họ tự nhập. "

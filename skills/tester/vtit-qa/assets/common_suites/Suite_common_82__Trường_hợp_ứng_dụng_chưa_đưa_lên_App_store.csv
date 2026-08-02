@@ -1,0 +1,8 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8422,Kiểm tra update và cài đặt version mới thành công , 4: Trường hợp ứng dụng chưa đưa lên App store,Suite_common_82,1,"1. Đang sử dụng version cũ.
+2. Thực hiện cài đè version mới lên version cũ
+","- Kiểm tra đúng version
+- Dữ liệu của version cũ vẫn được giữ nguyên
+- Ứng dụng hoạt động ổn định không crash…
+- Dữ liệu đã lưu của ứng dụng ( trường hợp ứng dụng lưu dữ liệu offline) vẫn còn đầy đủ
+"

@@ -1,0 +1,19 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8460,Task Manager (Android), 3: Task Manager,Suite_common_91,1,"1. Launch APPLICATION --&gt; Thao tác
+2. Nhấn + giữ phím Home
+3. Kiểm tra APPLICATION trong danh sách các apps đang run","- Icon giống với icon trong thư mục chứa apps
+- Tên giống với tên trong thư mục chứa apps"
+8461,Task Manager (Android), 3: Task Manager,Suite_common_91,1,"1. Launch APPLICATION --&gt; Thao tác
+2. Nhấn + giữ phím Home, thực hiện switch giữa các apps","- Thao tác thành công
+- Khi switch qua APPLICATION --&gt; Phải hiển thị vị trí ngay trước khi switch qua apps khác"
+8462,Task Manager (Android), 3: Task Manager,Suite_common_91,1,"1. Launch APPLICATION --&gt; Thao tác
+2. Nhấn + giữ phím Home
+3. Focus vào icon APPLICATION, vuốt lên ( Android từ 4 trở lên)",Đóng ứng dụng
+8463,Task Manager (IOS), 3: Task Manager,Suite_common_91,1,"1. Launch APPLICATION --&gt; Thao tác
+2. Nhấn đúp vào phím Home -&gt; Hiển thị danh sách ứng dụng đang mở
+3.1 Focus vào 1 ứng dụng, vuốt lên",Đóng ứng dụng
+8464,Task Manager (IOS), 3: Task Manager,Suite_common_91,1,3.2. Chọn vào ứng dung,"Mở lại ứng dụng mà không bị crash, hiển thị màn hình tại vị trí trước khi home màn hình"
+8465,Task Manager (IOS), 3: Task Manager,Suite_common_91,1,"1. Launch APPLICATION --&gt; Thao tác
+2. Nhấn đúp vào phím Home -&gt; Hiển thị danh sách ứng dụng đang mở
+3.1 nhấn vào icon - trên mỗi ứng dụng",Đóng ứng dụng
+8466,Task Manager (IOS), 3: Task Manager,Suite_common_91,1,3.2. Chọn vào ứng dung,"Mở lại ứng dụng mà không bị crash, hiển thị màn hình tại vị trí trước khi home màn hình"

@@ -1,0 +1,19 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8454,Đa ngôn ngữ, 3: Kiểm tra khi config ngôn ngữ của máy,Suite_common_88,1,"1. Language của device là English
+2. Chuyển sang Vietnamese
+3. Launch APPLICATION --&gt;thao tác trên bất kỳ chức năng nào","- Chương trình hoạt động bình thường
+- Ngôn ngữ hiển thị theo mô tả DTYC:
++ Nếu DTYC không có chức năng thay đổi ngôn ngữ thì chương trình không được ăn theo.
++ Nếu DTYC có chức năng thay đổi ngôn ngữ thì chương trình được ăn theo ngôn ngữ vừa đổi."
+8455,Đa ngôn ngữ, 3: Kiểm tra khi config ngôn ngữ của máy,Suite_common_88,1,"1. Language của device là Vietnamese
+2. Chuyển sang English
+3. Launch APPLICATION --&gt;thao tác trên bất kỳ chức năng nào","- Chương trình hoạt động bình thường
+- Ngôn ngữ hiển thị theo mô tả DTYC:
++ Nếu DTYC không có chức năng thay đổi ngôn ngữ thì chương trình không được ăn theo.
++ Nếu DTYC có chức năng thay đổi ngôn ngữ thì chương trình được ăn theo ngôn ngữ vừa đổi."
+8456,Kiểm tra khi cấu hình ngôn ngữ không ảnh hưởng đến định dạng thập phân của số, 3: Kiểm tra khi config ngôn ngữ của máy,Suite_common_88,1,"Giả sử định dạng thập phân quy định: 1,200.00
+
+1. Vào setting, cấu hình hiển thị ngôn ngữ English
+","Kiểm tra hiển thị vẫn đúng : 1,200.00
+Thao tác nhập trên bàn phím đúng
+(Tuy nhiên, cần thống nhất với đội dự án vè cách thực hiện trước)"

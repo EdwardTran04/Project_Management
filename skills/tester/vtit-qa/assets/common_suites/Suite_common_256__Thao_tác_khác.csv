@@ -1,0 +1,75 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8893,Kiểm tra gửi & nhận tin nhắn online (người nhận và gửi đều online), 5: Thao tác khác,Suite_common_256,1," Điều kiện:  A và B  Online
+1. Tại cửa sổ chat đơn của A và B
+2. A nhập nội dung chat gửi tới B 
+VD: [Hello, how are you???]
+3. Kiểm tra hiển thị trên màn hình chat đơn của user A
+4. Kiểm tra hiển thị trên màn hình chat đơn của user B","3. Tại cửa sổ chat của A: Hiển thị đúng nội dung tin nhắn đã gửi
+4. Tại cửa sổ chat của B: Hiển thị đúng nội dung tin nhắn đã gửi từ A"
+8894,Kiểm tra khi gửi & nhận tin nhắn offline (TH người nhận chưa login vào app), 5: Thao tác khác,Suite_common_256,1,"Điều kiện:  
+- A online 
+- B offline (chưa login vào app)
+1. A nhập nội dung chat gửi tới B 
+VD: [Hello, how are you???]
+2. Kiểm tra hiển thị trên cửa sổ chat của A
+3. B login vào app
+4. Vào màn hình chat đơn của user B
+5. Nhấn vào tin nhắn của A gửi đến","3. Tại cửa sổ chat của A: Hiển thị đúng nội dung tin nhắn đã gửi
+4. Tại cửa sổ chat của B: Hiển thị 
++ Đối với nội dung tin nhắn là ký tự, emotion
++ Đối với nội dung tin nhắn là hình ảnh"
+8895,Kiểm tra khi gửi & nhận tin nhắn offline (TH người nhận đã login vào app nhưng bị mất kết nối mạng), 5: Thao tác khác,Suite_common_256,1," Điều kiện:  A và B đang online
+1. A gửi tin nhắn cho B
+VD: [Hello, how are you???]
+2. Kiểm tra hiển thị trên cửa sổ chat của A
+3. B ngắt kết nối mạng và kiểm tra hiển thị  trên màn hình chat đơn trên user B
+","2. Tại cửa sổ chat của A: Hiển thị đúng nội dung tin nhắn đã gửi
+3. Không nhận được tin nhắn từ A
+"
+8896,Kiểm tra khi gửi & nhận tin nhắn offline (TH người nhận đã login vào app nhưng bị mất kết nối mạng), 5: Thao tác khác,Suite_common_256,1,"
+4. B bật lại kết nối mạng và kiểm tra hiển thị trên màn hình chat đơn trên user B","
+4. Không nhận được tin nhắn từ A"
+8897,Kiểm tra khi gửi & nhận tin nhắn offline (TH người nhận đã login vào app nhưng bị mất kết nối mạng), 5: Thao tác khác,Suite_common_256,1,5. B gửi tin nhắn đến A với nội dung [I'm fine. Tks] sau khi đã có mạng,5. Tại cửa sổ chat của A và B đều nhìn thấy tin nhắn vừa được gửi từ B
+8898,Kiểm tra  gửi và nhận tin nhắn khi 2 người chat qua lại liên tục online, 5: Thao tác khác,Suite_common_256,1,"1. A gửi tin nhắn đến B
+2. B nhận tin nhắn và gửi lại cho A
+3. Tiếp tục bước 1-2 nhiều lần
+4. Kiểm tra tin hiển thị trên màn hình chat đơn của A và B
+","4. Tin nhắn được gửi, nhận thành công và hiển thị đầy đủ trên màn hình chat đơn của A và B"
+8899,Kiểm tra khi user A gửi tin nhắn liên tục cho user B, 5: Thao tác khác,Suite_common_256,1,"1. A gửi tin nhắn liên tục ( khoảng &gt;10 tin) cho  B
+2. Kiểm tra trên màn hình chat đơn của A
+3. Kiểm tra trên màn hình chat đơn của B
+","2. Tại cửa sổ chat của A: Hiển thị đúng nội dung tin nhắn đã gửi
+3. Tin nhắn ở màn hình chat đơn B  được hiển thị đầy đủ, không bị thiếu tin nào và đúng với nội dung tin nhắn mà user A đã gửi"
+8900,Kiểm tra khi thực hiện viết tin nhắn rồi xóa, 5: Thao tác khác,Suite_common_256,1,"1. Người dùng viết tin nhắn
+2. Xóa tin nhắn vừa viết
+3. Kiểm tra hiển thị ","1. Button [Gửi] được enable
+2. Button [Gửi] bị disable"
+8901,Kiểm tra hiển thị cửa sổ chat đơn khi có tin nhắn khác đến, 5: Thao tác khác,Suite_common_256,1,"Điều kiện:
+- A đang ở cửa sổ chat đơn với B
+1. A nhận tin nhắn mới từ C, chọn vào notify tin nhắn -&gt; mở cửa sổ chat với C
+2. A nhắn tin lại cho C với nội dung X
+
+","2. Trên cửa sổ chat đơn với C: hiển thị đúng nội dung [X] gửi từ A
+"
+8902,Kiểm tra hiển thị cửa sổ chat đơn khi có tin nhắn khác đến, 5: Thao tác khác,Suite_common_256,1,"
+3. A nhấn vào icon Back '&lt;' trên cửa sổ chat đơn với C và kiểm tra hiển thị trên màn hình","
+3. Hiển thị cửa sổ chat đơn với B, chỉ hiển thị tin nhắn của A với B, không hiển thị tin nhắn [X] của A gửi từ cửa sổ chat với C
+"
+8903,Kiểm tra khi gửi và nhận tin nhắn trên các thiết bị có hệ điều hành khác nhau, 5: Thao tác khác,Suite_common_256,1,"1. A online trên thiết bị 1: hệ điều hành IOS hoặc WP 
+2. B online trên thiêt bị 2 : hệ điều hanh Android
+3. A và B chat qua lại lẫn nhau
+4. Kiểm tra trên màn hình chat đơn của A
+5. Kiểm tra trên màn hình chat đơn của B
+","2. Tại cửa sổ chat của A: Hiển thị đúng nội dung tin nhắn đã gửi và đã nhận
+2. Tại cửa sổ chat của B: Hiển thị đúng nội dung tin nhắn đã gửi và đã nhận"
+8904,Kiểm tra gửi lại tin nhắn lỗi  khi on/off mạng, 5: Thao tác khác,Suite_common_256,1,"Đảm bảo hệ thống đang có kết nối mạng
+1. Tại cửa sổ chat của A và B
+2. A tắt kết nối mạng
+3. A nhắn tin cho B
+4. Kiểm tra hiển thị trên màn hình của A và B
+","4. Tại màn hình của A, hiển thị tin nhắn vừa được gửi ở trạng thái Lỗi
+- Tại màn hình của B, không hiển thị tin nhắn nhận từ A"
+8905,Kiểm tra gửi lại tin nhắn lỗi  khi on/off mạng, 5: Thao tác khác,Suite_common_256,1,"5. A bật lại kết nối mạng
+6. A nhấn vào icon Lỗi trên cửa sổ chat để gửi lại tin nhắn cho B
+7. Kiểm tra hiển thị trên màn hình","7. Tại màn hình của A, hiển thị tin nhắn mới được gửi
+- Tại màn hình của B, hiển thị tin nhắn từ A vừa được gửi đến"

@@ -1,0 +1,14 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8634,Kiểm tra trạng thái mặc định, 3: EditText Chọn người xử lý,Suite_common_172,1,"Điều kiện: Không có dữ liệu trong DS chọn người xử lý
+1. Kiểm tra trạng thái mặc định
+2. Nhập từ khoá bất kỳ","1. Hiển thị hint text ""Nhập Họ tên/Đơn vị/Vai trò người nhận xử lý"" (Tùy theo ĐTYC để thay đổi hint text)
+2. Hiển thị từ khoá vừa nhập"
+8635,Kiểm tra trạng thái mặc định, 3: EditText Chọn người xử lý,Suite_common_172,1,"Điều kiện: Có dữ liệu trong DS chọn người xử lý
+1. Kiểm tra trạng thái mặc định
+2. Nhập từ khoá bất kỳ","1. Hiển thị hint text ""Nhập Họ tên/Đơn vị/Vai trò người nhận xử lý"" (Tùy theo ĐTYC để thay đổi hint text)
+2. Hiển thị từ khoá vừa nhập"
+8636,Kiểm tra hiển thị khi chọn item từ trong Spinner DS xử lý, 3: EditText Chọn người xử lý,Suite_common_172,1,"1. Chọn 1 item bất kỳ trong DS xử lý
+2. Kiểm tra hiển thị trên EditText",2. Hiển thị đúng giá trị vừa chọn
+8637,Kiểm tra hiển thị khi chọn item từ trong Spinner DS xử lý, 3: EditText Chọn người xử lý,Suite_common_172,1,3. Chọn lại giá trị khác trong spinner,3. Hiển thị giá trị vừa chọn lại từ spinner
+8638,Kiểm tra khi nhập quá maxlength (max = n), 3: EditText Chọn người xử lý,Suite_common_172,1,1. Nhập vào EditText chuỗi ký tự &gt; maxlength,1. Không cho phép nhập kí tự thứ n + 1
+8639,Kiểm tra khi nhập quá maxlength (max = n), 3: EditText Chọn người xử lý,Suite_common_172,1,1. Copy &amp; paste chuỗi ký tự từ ngoài vào &gt; maxlength,1. Chỉ paste được n ký tự đầu tiên 

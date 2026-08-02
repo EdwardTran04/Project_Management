@@ -1,0 +1,13 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9329,Kiểm tra trạng thái mặc định của Cây thư mục, 3:kiểm tra Checkbox ,Suite_common_399,1,1. Kiểm tra trạng thái mặc định,1. Không check vào bất kỳ check box nào trên màn hình
+9330,Kiểm tra khi check vào thư mục cha, 3:kiểm tra Checkbox ,Suite_common_399,1,1. Check vào thư mục ROOT của cây thư mục,1. Tất cả checkbox Con + ROOT được tự động check theo
+9331,Kiểm tra khi check vào thư mục cha, 3:kiểm tra Checkbox ,Suite_common_399,1,2.1. Uncheck vào checkbox thư mục ROOT,2.1. Tất cả checkbox Con + ROOT được tự động uncheck theo
+9332,Kiểm tra khi check vào thư mục cha, 3:kiểm tra Checkbox ,Suite_common_399,1,2.2. Uncheck vào item con bất kỳ,"2.2. UnCheck item con vừa bỏ chọn, đồng thời uncheck thư mục ROOT"
+9333,Kiểm tra khi check vào thư mục cha, 3:kiểm tra Checkbox ,Suite_common_399,1,2.3. Uncheck vào tất cả item con ,"2.2. Uncheck tất cả item con vừa bỏ chọn, đồng thời uncheck thư mục ROOT"
+9334,Kiểm tra khi check vào thư mục con, 3:kiểm tra Checkbox ,Suite_common_399,1,1. Check vào thư mục con bất kỳ của cây thư mục,1. Checbox Thư mục con + Tất cả của item con trong thư mục được tự động check theo
+9335,Kiểm tra khi check vào thư mục con, 3:kiểm tra Checkbox ,Suite_common_399,1,2. Uncheck vào checkbox đã chọn,1. Checbox Thư mục con + Tất cả của item con trong thư mục được tự động uncheck theo
+9336,Kiểm tra khi check vào item con bất kỳ, 3:kiểm tra Checkbox ,Suite_common_399,1,1. Check vào item con bất kỳ,1. Checkbox  của item con trong thư mục được check
+9337,Kiểm tra khi check vào item con bất kỳ, 3:kiểm tra Checkbox ,Suite_common_399,1,2. Uncheck vào checkbox đã chọn,1. Checkbox  của item con trong thư mục được uncheck
+9338,Kiểm tra khi check vào tất cả item con của 1 thư mục, 3:kiểm tra Checkbox ,Suite_common_399,1,"Điều kiện: thư mục A có 10 item
+1. Check vào tất cả item con của thư mục A",1. Checkbox  của tất cả item con + Checkbox của thư mục A được check
+9339,Kiểm tra khi check vào tất cả item con của 1 thư mục, 3:kiểm tra Checkbox ,Suite_common_399,1,2. Uncheck vào tất cả checkbox đã chọn,1. Checkbox  của tất cả item con + checkbox thư mục A được uncheck

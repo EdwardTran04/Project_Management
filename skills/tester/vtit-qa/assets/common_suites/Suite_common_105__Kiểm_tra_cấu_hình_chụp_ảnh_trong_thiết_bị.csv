@@ -1,0 +1,12 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8514,"Kiểm tra cấu hình On cho phép chụp ảnh 
+", 3: Kiểm tra cấu hình chụp ảnh trong thiết bị ,Suite_common_105,1,"1. Vào màn hình setting bật chức năng chụp hình của thiết bị
+2. Đi đến ứng dụng và touch vào button chụp ảnh trên màn hình chức năng A",Mở màn hình camera của thiết bị
+8515,"Kiểm tra cấu hình Off cho phép chụp ảnh 
+", 3: Kiểm tra cấu hình chụp ảnh trong thiết bị ,Suite_common_105,1,"1. Vào màn hình setting tắt chức năng chụp hình của thiết bị
+2. Đi đến ứng dụng và touch vào button chụp ảnh trên màn hình chức năng A
+","Hiển thị thông báo gợi ý bật chức năng chụp ảnh của thiết bị với  button Đóng
+Note: Tùy HĐH của thiết bị cách thể hiện thông báo và button sẽ khác nhau"
+8516,"Kiểm tra cấu hình Off cho phép chụp ảnh 
+", 3: Kiểm tra cấu hình chụp ảnh trong thiết bị ,Suite_common_105,1,3.Nhấn [Đóng] trên hộp thoại thông báo,"Đóng popup thông báo của thiết bị và hiển thị màn hình chức năng A
+"

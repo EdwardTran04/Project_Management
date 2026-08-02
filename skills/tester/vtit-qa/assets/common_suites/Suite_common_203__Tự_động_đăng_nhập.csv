@@ -1,0 +1,34 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8759,"Kiểm tra đăng nhập thành công khi đã đăng nhập lần đâu tiên, thoát ra khỏi ứng dụng,sau đó mở lại ứng dụng", 2: Tự động đăng nhập  ,Suite_common_203,1,"1. Đăng nhập thành công vào ứng dụng
+2. Nhấn Back để thoát khỏi ứng dụng
+3. Mở lại ứng dụng",Hiển thị màn hình chính của ứng dụng sau khi đăng nhập
+8760,Kiểm tra tự động đăng nhập sau Force Close ứng dụng, 2: Tự động đăng nhập  ,Suite_common_203,1,"1. Đăng nhập thành công vào ứng dụng
+2. Vào setting , force clode ứng dụng
+3. Mở lại ứng dụng",Hiển thị màn hình chính của ứng dụng sau khi đăng nhập
+8761,Kiểm tra không tự động đăng xuất khi không thao tác trong khoảng thời gian dài, 2: Tự động đăng nhập  ,Suite_common_203,1,"1. Đăng nhập vào ứng dụng
+2. Không thao tác gì trong khoảng thời gian dài hơn 90s
+3. Tiếp tục thực hiện các thao tác khác trên ứng dụng","2. Không tự động đăng xuất ra khỏi ứng dụng
+3. Thao tác các chức năng khác bình thường"
+8762,Kiểm tra tự động đăng nhập thất bại khi user đã đổi mật khẩu, 2: Tự động đăng nhập  ,Suite_common_203,1,"Trường hợp mật khẩu đã thay đổi, tự động login thất bại
+1. Đăng nhập vào hệ thống với tài khoản A
+2. Kill app
+3. Thay đổi mật khẩu của tài khoản A trên web hoặc thiết bị khác
+4. Chọn lại ứng dụng ở bước 1
+5. Khi đang tự động đăng nhập thì lỗi do không mật khẩu không còn đúng","5. Hiển thị màn hình đăng nhập
+Tên đăng nhập :Được fill dữ liệu cũ
+Mật khẩu: null"
+8763,Kiểm tra  tự động đăng nhập khi có lỗi kết nối với server, 2: Tự động đăng nhập  ,Suite_common_203,1,"Trường hợp server có lỗi nhưng không có thông báo cụ thể
+1. Đăng nhập vào hệ thống
+2. Kill app
+3. Chọn lại ứng dụng 
+4. Khi đang tự động đăng nhập thì lỗi kết nối server
+5. Có mạng, nhấn đăng nhập","4. Hiển thị thông báo lỗi: ""Lỗi mất kết nối máy chủ, vui lòng thử lại!""
+5. Tiếp tục gửi request yêu cầu đăng nhập và đăng nhập thành công"
+8764,Kiểm tra tự động đăng nhập khi mất mạng, 2: Tự động đăng nhập  ,Suite_common_203,1,"1. Khi đang tự động đăng nhập thì tắt mạng
+2. Có mạng, nhấn đăng nhập","1. Giữ nguyên màn hình Đăng nhập. Tên đăng nhập, Mật khẩu được fill sẵn
+2. Tiếp tục gửi request yêu cầu đăng nhập và đăng nhập thành công"
+8765,"Kiểm tra vẫn lưu thông tin đăng nhập sau khi tắt màn hình, lock máy", 2: Tự động đăng nhập  ,Suite_common_203,1,"1. Đăng nhập thành công vào ứng dụng
+2. Tắt màn hình hoặc lock máy
+3. Mở lại máy.
+4. Mở lại ứng dụng","- Không cần đăng nhập lại
+- Hiển thị màn hình ứng dụng trước khi lock máy hoặc tắt màn hình"

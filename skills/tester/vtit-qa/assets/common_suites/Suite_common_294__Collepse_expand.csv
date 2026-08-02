@@ -1,0 +1,5 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8087,Nút Collapse, 2: Collepse/expand,Suite_common_294,1,Click vào nút (-),"'Phần thông tin được hide theo dạng : 
+""[+] """
+8088,Nút Expand, 2: Collepse/expand,Suite_common_294,1,Click vào nút (+),"'Phần thông tin được unhide theo dạng : 
+""[-] """

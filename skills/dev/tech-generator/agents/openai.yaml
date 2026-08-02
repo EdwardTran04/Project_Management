@@ -1,0 +1,3 @@
+interface:
+  display_name: "BA Doc Generator"
+  short_description: "Sinh bộ tài liệu BA formal từ yêu cầu tự do"

@@ -1,0 +1,24 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8733,Kiểm tra đăng nhập thất bại khi nhập [Mật khẩu] không tương ứng với [Tên đăng nhập] đã tồn tại, 3: Đăng nhập không thành công,Suite_common_200,1,"- Đảm bảo [Tên đăng nhập] đã tồn tại trong hệ thống
+1. Nhập dữ liệu vào textbox [Tên đăng nhập]
+2. Nhập dữ liệu vào textbox[Mật Khẩu] không tương ứng với [Tên đăng nhập] ở trên(có thể là mật khẩu của tên đăng nhập khác hoặc mật khẩu không tồn tại trong hệ thống)
+3. Click button [Đăng nhập]","1.  Hiển thị thông báo“Sai tên đăng nhập hoặc mật khẩu”
+2.  Người dùng nhấn nút Đóng
+3. Focus vào trường Tên đăng nhập"
+8734,Kiểm tra đăng nhập thất bại khi nhập [Tên đăng nhập] không  tồn tại, 3: Đăng nhập không thành công,Suite_common_200,1,"- Đảm bảo [Tên đăng nhập] không tồn tại trong hệ thống
+1. Nhập dữ liệu vào textbox [Tên đăng nhập]
+2. Nhập dữ liệu vào textbox[Mật Khẩu] có thể là mật khẩu của tên đăng nhập nào đó tồn tại trong hệ thống
+3. Click button [Đăng nhập]","1.  Hiển thị thông báo“Sai tên đăng nhập hoặc mật khẩu”
+2.  Người dùng nhấn nút Đóng
+3. Focus vào trường Tên đăng nhập"
+8735,Kiểm tra phân biệt hoa thường đối với trường mật khẩu, 3: Đăng nhập không thành công,Suite_common_200,1,"Pass : abc@123456
+1. Nhập pass: ABC@123456
+2. Các trường khác hợp lệ
+3. Nhấn Đăng nhập",1.  Hiển thị thông báo “Đăng nhập không thành công:”+ lỗi trên server trả lại
+8736,"Kiểm tra đăng nhập thất bại khi nhập [Tên đăng nhập],[Mật khẩu] chưa tồn tại trong hệ thống(hoặc đã bị xóa khỏi hệ thống)", 3: Đăng nhập không thành công,Suite_common_200,1,"Đảm bảo [Tên đăng Nhập] và [Mật Khẩu] không tồn tại trong hệ thống
+-  Đảm bảo hệ thống được kết nối mạng
+1. Nhập dữ liệu vào textbox [Tên đăng nhập]
+2. Nhập dữ liệu vào textbox[Mật Khẩu] 
+3. Click button [Đăng nhập]","1.  Hiển thị thông báo “Sai tên đăng nhập hoặc mật khẩu”
+2.  Người dùng nhấn nút Đóng
+3. Focus vào trường Tên đăng nhập"

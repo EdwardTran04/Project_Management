@@ -1,0 +1,6 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8210,Kiểm tra khi không sử dụng tính năng tự động đăng nhập, 2: Kiểm tra lưu mật khẩu trong file xml lưu thông tin cache khách hàng,Suite_common_38,1,"1. Thực hiện đăng nhập vào ứng dụng
+2.  Sau khi đăng nhâp thành công vào ứng dụng, thực hiện kiểm tra file mà bên phát triển lưu thông tin cache khách hàng trong DDMS( thường là file .xml trong thư mục shared_prefs)",Không lưu mật khẩu trong file hoặc lưu mật khẩu dưới dạng mã hóa
+8211,Kiểm tra khi  sử dụng tính năng tự động đăng nhập hoặc ghi nhớ mật khẩu, 2: Kiểm tra lưu mật khẩu trong file xml lưu thông tin cache khách hàng,Suite_common_38,1,"1. Thực hiện đăng nhập vào ứng dụng
+2. Chọn tự động đăng nhập hoặc ghi nhớ mật khẩu
+3. Sau khi đăng nhâp thành công vào ứng dụng, thực hiện kiểm tra file mà bên phát triển lưu thông tin cache khách hàng trong DDMS( thường là file .xml trong thư mục shared_prefs)",Lưu mật khẩu trong file dưới dạng mã hóa

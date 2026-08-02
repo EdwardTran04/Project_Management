@@ -1,0 +1,9 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8241,Mã hóa dữ liệu nhạy cảm (password), 2: Kiểm tra mã hóa dữ liệu,Suite_common_48,1," - Tạo 2 account có cùng 1 pass
+ - Check dữ liệu pass lưu trong DB","Hệ thống lưu dữ liệu (pass) với quy luật mã hóa (thuật toán mã hóa của hệ thống)+ chuỗi salt.
+Search chuỗi mã hóa trên mạng không thể thực hiện giải mã được"
+8242,Mã hóa dữ liệu nhạy cảm (password), 2: Kiểm tra mã hóa dữ liệu,Suite_common_48,1,"Kiểm tra file config , pass truy cập CSDL","Pass phải được mã hóa.
+Search chuỗi mã hóa trên mạng không thể thực hiện giải mã được"
+8243,Mã hóa dữ liệu nhạy cảm (password), 2: Kiểm tra mã hóa dữ liệu,Suite_common_48,1,"Với các chức năng có lưu lại tin nhắn/thông báo gửi cho khách hàng và trong nội dung tin nhắn có chứa dữ liệu nhạy cảm ( mật khẩu, mã PIN...):
+- Kiểm tra bảng lưu log",Không lưu hoặc lưu dưới dạng đã mã hóa theo quy luật không search trên mạng và giải mã được
+8244,Mã hóa dữ liệu nhạy cảm (password), 2: Kiểm tra mã hóa dữ liệu,Suite_common_48,1, - Đối với các chức năng edit thông tin liên quan tới tài khoản,Mã hóa (thành ký tự khác ***) hoặc không hiển thị thông tin mật khẩu của tài khoản

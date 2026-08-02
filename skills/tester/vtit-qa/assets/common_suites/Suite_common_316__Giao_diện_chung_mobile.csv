@@ -1,0 +1,81 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8275,Kiểm tra tổng thể giao diện màn hình, 2: Giao diện chung mobile,Suite_common_316,1,"1. Kiểm tra về bố cục, font chữ, chính tả, màu chữ
+
+","1. Các Textview, EditText, Spinner có độ dài, rộng và khoảng cách bằng nhau, không xô lệch
+2. Các Textview/ nội dung gợi ý trong EditText sử dụng cùng 1 loại font, cỡ chữ, căn lề theo prototype
+3. Các trường hợp bắt buộc nhập phải có dấu (*) hoặc theo mô tả của prototype
+4. Kiểm tra tất cả lỗi về chính tả, cấu trúc câu, ngữ pháp trên màn hình
+5. Form được bố trí hợp lý và dễ sử dụng
+6. Các font chữ hiển thị trên màn hình phải dễ đọc và thống nhất cùng font chữ,  size font có độ tương thích phù hợp với độ lớn màn hình.
+7. Các text được nhập ở các edittext, spiner phải thống nhất 1 font chữ
+8. Các trường Textview nếu dài phải hiển thị dấu ... hoặc cho phép chạy hiển thị toàn bộ nội dung (Tùy theo DTYC) 
+9. Các label cần ngắn gọn, dễ hiểu và trên cùng 1 dòng (hạn chế tối đa việc bị wraptext. Các label dài có thể sửa lại cho ngắn)
+
+"
+8276,Kiểm tra khi màn hình có danh sách ( list), 2: Giao diện chung mobile,Suite_common_316,1,"1. Kiểm tra căn lề
+2. Di chuyển con trỏ chuột vào một row
+3. Kiểm tra bố cục trong list","1.Text: căn lề trái
+   Số:  Căn lề phải
+   Ngày tháng: Căn giữa.
+    HeaderName : căn giữa và bôi đậm
+2. Màu nền của row đó thay đổi (nếu row đang focus có thực hiện chức năng)
+3.Cột thứ tự và tên các cột khác xếp từ trái qua phải đúng như Prototype
+    Đối với  Title cột dài cần phải được cắt bớt và hiển thị dấu …. (nên define sẵn độ dài cố định của title) =&gt; Tùy theo DTYC "
+8277,"Kiểm tra chức năng Zoom-in, Zoom-out", 2: Giao diện chung mobile,Suite_common_316,1,"1.Zoom-in, Zoom-out màn hình","Tùy theo DTYC hoặc hệ điều hành IOS/ Anroid để chọn KQMM
+- Màn hình không thực hiện phóng to hoặc thu nhỏ
+- Màn hình cho phép thực hiện  phóng to hoặc thu nhỏ tương ứng và không bị vỡ giao diện"
+8278,Kiểm tra chức năng Multi-touch  , 2: Giao diện chung mobile,Suite_common_316,1,"1.Zoom-in, Zoom-out, di chuyển màn hình","Tùy theo DTYC hoặc hệ điều hành IOS/ Anroid để chọn KQMM:
+- Màn hình không thực hiện phóng to hoặc thu nhỏ
+- Màn hình cho phép thực hiện  phóng to hoặc thu nhỏ tương ứng và không bị vỡ giao diện. Vùng màn hình hiển thị di chuyển theo "
+8279,"Kiểm tra chức năng xoay màn hình theo chiều ngang, chiều dọc", 2: Giao diện chung mobile,Suite_common_316,1,"1.Bật tính năng xoay ngang dọc của thiết bị
+2.Xoay ngang/dọc màn hình"," - Vùng hiển thị màn hình di chuyển tương ứng theo 
+(Nếu DTYC cho phép)
+ - Không di chuyển, giữ nguyên vùng màn hình.
+(Nếu DTYC không cho phép)"
+8280,"Kiểm tra chức năng xoay màn hình theo chiều ngang, chiều dọc", 2: Giao diện chung mobile,Suite_common_316,1,"Đối với các màn hình mặc định riêng của control WindowsPhone (spiner)
+1. Bật tính năng xoay ngang dọc của thiết bị
+2. Xoay ngang/dọc màn hình mặc định riêng của control Window Phones"," - Vùng hiển thị màn hình di chuyển tương ứng theo 
+(Nếu DTYC cho phép)
+ - Không di chuyển, giữ nguyên vùng màn hình.
+(Nếu DTYC không cho phép)"
+8281,"Kiểm tra các dialog thông báo hiển thị như : 
+dialog thông báo lỗi, dialog confirm, ….", 2: Giao diện chung mobile,Suite_common_316,1,"1. Kiểm tra title dialog thông báo
+2. Kiểm tra màu nền, font chữ , bố cục
+","1. Kiểm tra tất cả lỗi về chính tả, cấu trúc câu, ngữ pháp 
+2. Các dialog thông báo thống nhất một kiểu hiển thị trên toàn ứng dụng
+3. Các font chữ  phải dễ đọc và thống nhất cùng font chữ,  size font hợp lý
+
+"
+8282,"Kiểm thử khi touch chọn, giữ lâu trên textview", 2: Giao diện chung mobile,Suite_common_316,1,"1.Đăng nhập vào hệ thống
+2.Đang ở màn hình có textview
+3.Touch chọn và nhấn giữ lâu màn hình vùng chứa textview ","Hệ thống thực hiện xử lý bình thường , có thể view được dữ liệu, không bị crash chương trình."
+8283,Kiểm tra thứ tự check lỗi validation cho các item, 2: Giao diện chung mobile,Suite_common_316,1,"1. Đảm bảo màn hình đang có nhiều item đang nhập dữ liệu không đúng
+2. Nhấn ""ghi lại""","- Thứ tự thông báo lỗi  tương ứng với trường  từ trên xuống, từ trái qua phải.
+- Item bị lỗi được focus hoặc hightligh
+- Nếu trước khi bị lỗi Item đang bị khuất thì khi bị lỗi phải được đẩy lên form và hiển thị ( trường hợp màn hình có nhiều item , hiển thị vượt quá 1 trang màn hình)
+- Khi nhập dữ liệu mới vào trường lỗi, phải mất icon thông báo lỗi tương ứng đi
+- Sau khi submit và gặp lỗi input không hợp lệ: không được clear những ô nhập liệu đã hợp lệ rồi, để người dùng không phải nhập lại."
+8284,Kiểm tra trường hợp thông báo lỗi là Toast, 2: Giao diện chung mobile,Suite_common_316,1,"1. Đảm bảo màn hình có item đang nhập dữ liệu không đúng
+2. Nhấn ""ghi lại""","- Hiển thị toast thông báo lỗi với thời gian vừa đủ để đọc hết nội dung
+- Toast thông báo ngắn gọn
+
+
+"
+8285,Kiểm tra trường hợp thông báo lỗi là Toast, 2: Giao diện chung mobile,Suite_common_316,1,"1. Đảm bảo màn hình đang có nhiều item đang nhập dữ liệu không đúng
+2. Nhấn ""ghi lại""
+3. Chọn màn hình chức năng khác","- Hiển thị màn hình chức năng khác vừa chọn, ko còn hiển thị toast thông báo lỗi của màn hình trước nữa
+
+
+"
+8286,Kiểm tra việc hiển thị các phần thông tin tiếp theo, 2: Giao diện chung mobile,Suite_common_316,1,"1. Mở danh sách thông tin cần hiển thị
+2. Kiểm tra việc hiển thị các phần thông tin tiếp theo","Khi 1 màn hình không hiện hết danh sách thông tin cần hiển thị, thì cần hiển thị sao cho hé lộ ra được phần thông tin tiếp theo, để giúp người dùng biết là còn/ biết scroll để xem tiếp."
+8287,Kiểm tra hiển thị icon, 2: Giao diện chung mobile,Suite_common_316,1,1. Kiểm tra icon,"Icon phải sắc nét trên mọi màn hình thiết bị. (sử dụng đúng kích cỡ icon cho từng vị trí)
+"
+8288,Kiểm tra khi back lại listview từ màn hình detail, 2: Giao diện chung mobile,Suite_common_316,1,"1. Mở listview
+2. Nhấn vào 1 item =&gt; Hiển thị màn hình detail
+3. Nhấn button back ","Khi back lại listview từ màn hình detail không được reload lại list view vì sẽ mất vị trí item vừa chọn. 
+(Tương tự khi màn hình sử dụng gridview.)"
+8289,Kiểm tra sử dụng  tabular figures trong bảng hoặc những vị trí mà các số cần dóng hàng theo chiều dọc, 2: Giao diện chung mobile,Suite_common_316,1,1. Kiểm tra hiển thị những vị trí các số cần dóng hàng theo chiều dọc,"- Tabular figures sẽ dóng theo chiều dọc từng hàng đơn vị/chục/trăm/..., rõ ràng hơn cho việc scan.
+- Tabular figures có cùng chiều rộng ký tự, bao gồm chiều rộng của nét, cộng với khoảng trắng ở bên phải và bên trái của nó.
+- Tabular figures được thiết kế để cho phép các chữ số thẳng hàng trong các bảng, cũng như bảng giá, hóa đơn, báo cáo tài chính và các cột số liệu khác.
+(Proportionally-spaced figures có chiều rộng khác nhau, đều khoảng cách theo chiều ngang.)"

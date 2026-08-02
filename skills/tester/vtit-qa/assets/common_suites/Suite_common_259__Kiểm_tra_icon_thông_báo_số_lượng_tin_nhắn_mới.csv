@@ -1,0 +1,22 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8931,Kiểm tra hiển thị số lượng tin nhắn mới khi không có tin nhắn mới tại icon Tin nhắn/Hoạt động mới trong ứng dụng, 4: Kiểm tra icon thông báo số lượng tin nhắn mới,Suite_common_259,1,1. Kiểm tra hiển thông báo trên icon Tin nhắn/Hoạt động mới của ứng dụng ,1. Hiển thị icon mặc định
+8932,Kiểm tra hiển thị số lượng tin nhắn mới khi có 1 tin nhắn mới tại icon Tin nhắn/Hoạt động mới trong ứng dụng, 4: Kiểm tra icon thông báo số lượng tin nhắn mới,Suite_common_259,1,"1. A nhận được 1 tin nhắn mới từ B nhưng chưa đọc
+2. Kiểm tra hiển thị thông báo trên icon Tin nhắn/Hoạt động mới của ứng dụng","2. Hiển thị [1] trên icon Tin nhắn/Hoạt động mới
+- Màu của giá trị: Đỏ (màu khác với màu icon)"
+8933,Kiểm tra hiển thị số lượng tin nhắn mới khi có 1 tin nhắn mới tại icon Tin nhắn/Hoạt động mới trong ứng dụng, 4: Kiểm tra icon thông báo số lượng tin nhắn mới,Suite_common_259,1,"3. A nhấn icon Tin nhắn/Hoạt động mới 
+4. Nhấn vào tin nhắn mới nhận
+5. Quay về màn hình có icon Tin nhắn/Hoạt động mới, kiểm tra hiển thị trên icon","4. Hiển thị cửa sổ chat đơn tương ứng
+5. Không còn hiển thị [1] trên icon Tin nhắn/Hoạt động mới"
+8934,Kiểm tra hiển thị số lượng tin nhắn mới khi có 20 tin nhắn mới tại icon Tin nhắn/Hoạt động mới trong ứng dụng, 4: Kiểm tra icon thông báo số lượng tin nhắn mới,Suite_common_259,1,"1. A nhận được 20 tin nhắn mới từ B nhưng chưa đọc
+2. Kiểm tra hiển thị thông báo trên icon Tin nhắn/Hoạt động mới của ứng dụng",2. Hiển thị [20] trên icon Tin nhắn/Hoạt động mới
+8935,Kiểm tra hiển thị số lượng tin nhắn mới khi có 20 tin nhắn mới tại icon Tin nhắn/Hoạt động mới trong ứng dụng, 4: Kiểm tra icon thông báo số lượng tin nhắn mới,Suite_common_259,1,"3. A nhấn icon Tin nhắn/Hoạt động mới 
+4. Nhấn lần lượt vào 5/ 20 tin nhắn mới nhận
+5. Quay về màn hình có icon Tin nhắn/Hoạt động mới, kiểm tra hiển thị trên icon","4. Hiển thị cửa sổ chat đơn tương ứng
+5. Chỉ hiển thị [15] trên icon Tin nhắn/Hoạt động mới"
+8936,Kiểm tra hiển thị notifications khi có 100 tin nhắn mới tại icon Tin nhắn/Hoạt động mới trong ứng dụng, 4: Kiểm tra icon thông báo số lượng tin nhắn mới,Suite_common_259,1,"1. A nhận được 100 tin nhắn mới từ B nhưng chưa đọc
+2. Kiểm tra hiển thị thông báo trên icon Tin nhắn/Hoạt động mới của ứng dụng","2. Hiển thị [99+] trên icon Tin nhắn/Hoạt động mới
+"
+8937,Kiểm tra hiển thị notifications khi có 100 tin nhắn mới tại icon Tin nhắn/Hoạt động mới trong ứng dụng, 4: Kiểm tra icon thông báo số lượng tin nhắn mới,Suite_common_259,1,"3. A nhấn icon Tin nhắn/Hoạt động mới 
+4. Nhấn lần lượt vào 1/ 100 tin nhắn mới nhận
+5. Quay về màn hình có icon Tin nhắn/Hoạt động mới, kiểm tra hiển thị trên icon","4. Hiển thị cửa sổ chat đơn tương ứng
+5. Chỉ hiển thị [99] trên icon Tin nhắn/Hoạt động mới"

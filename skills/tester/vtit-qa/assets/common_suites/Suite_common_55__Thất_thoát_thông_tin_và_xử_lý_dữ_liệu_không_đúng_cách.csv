@@ -1,0 +1,17 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8267,Kiểm tra việc cố tình tạo trang lỗi để biết phiên bản Tomcat, 2: Thất thoát thông tin và xử lý dữ liệu không đúng cách,Suite_common_55,1,"1. Đăng nhập và vào 1 chức năng trong hệ thống
+2. Chỉnh sửa URL.
+Ví dụ:
+- Vào link: http://192.168.174.28:6666/BSSC
+- Chỉnh sửa link bằng cách thay ""BSSC"" bằng ""abc"": 
+      http://192.168.174.28:6666/abc
+http://192.168.174.28:6666/BSSC/abc",Kết quả Not found hoặc không tìm thấy trang này hoặc hiển thị trang trắng.
+8268,Kiểm tra file log của ứng dụng có để lộ các thông tin nhạy cảm hay không, 2: Thất thoát thông tin và xử lý dữ liệu không đúng cách,Suite_common_55,1,"Kiểm tra trong file log của ứng dụng có chứa các thông tin nhạy cảm, ví dụ sessionid, CMND, số tài khoản, số tiền được chuyển
+",File log không chứa thông tin nhạy cảm
+8269,Kiểm tra response trả về từ server có chứa các dữ liệu nhạy cảm mà không hiển thị lên màn hình hay không, 2: Thất thoát thông tin và xử lý dữ liệu không đúng cách,Suite_common_55,1,"Kiểm tra dữ liệu server gửi về trong tất cả các màn hình (có thể không được show) xem có dữ liệu nhạy cảm không.
+",Response trả về  chứa dữ liệu nhạy cảm
+8270,Kiểm tra khi tạo dữ liệu lỗi thì ứng dụng có trả về exception hay không, 2: Thất thoát thông tin và xử lý dữ liệu không đúng cách,Suite_common_55,1,"- Vào chức năng có combo hoặc checkbox, trường readonly-&gt; Chọn 1 giá trị. 
+- Dùng firebug để thay đổi giá trị đã chọn của các trường mà đc lấy từ DB( ví dụ dữ liệu combobox, checkbox, các trường readonly …) sao cho giá trị đó không tồn tại trong DB hoặc không được định nghĩa
+- Click nút lưu.
+
+(Có thể dùng burpsuite để xem được các request gửi đi sẽ dễ dàng thay đổi hơn.)",Trả về trang lỗi chung của hệ thống

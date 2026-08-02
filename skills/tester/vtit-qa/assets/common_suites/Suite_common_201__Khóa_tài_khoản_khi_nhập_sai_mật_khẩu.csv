@@ -1,0 +1,27 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8737,"Kiểm tra tài khoản bị khóa sau khi nhập Mật khẩu sai 5 lần liên tiếp
+Tùy vào hệ thống mới có yêu cầu này", 3: Khóa tài khoản khi nhập sai mật khẩu,Suite_common_201,1,"- Đảm bảo hệ thống được kết nối mạng
+1. Nhập dữ liệu vào textbox [Mật Khẩu ] sai
+2. Click[Đăng Nhập]
+3. Thực hiện lặp lại bước 1,2 trong 4 lần liên tiếp ",- Thông báo khóa tài khoản người dùng trong vòng 30s (không thao tác được) sau lần đăng nhập thứ 5 
+8738,"Kiểm tra tài khoản bị khóa sau khi nhập Mật khẩu sai 5 lần liên tiếp
+Tùy vào hệ thống mới có yêu cầu này", 3: Khóa tài khoản khi nhập sai mật khẩu,Suite_common_201,1,4. Tiếp tục thực hiện đăng nhập lần thứ 6 ( đúng hoặc sai mật khẩu),- Thông báo tài khoản đang bị khóa 
+8739,Kiểm tra phân biệt các lần nhập sai mật khẩu của các user khác nhau, 3: Khóa tài khoản khi nhập sai mật khẩu,Suite_common_201,1,"1. User 1 login 4 lần sai mật khẩu
+2. User 2 login , nhập sai mật khẩu 5 lần liên tiếp",Thông báo khóa tài khoản ở lần đăng nhập sai thứ 5 của user 2
+8740,Kiểm tra vẫn đăng nhập thành công sau 4 lần nhập sai mật khẩu liên tiếp, 3: Khóa tài khoản khi nhập sai mật khẩu,Suite_common_201,1,"- Đảm bảo hệ thống được kết nối mạng
+1. Đã nhập mật khẩu sai 4 lần liên tiếp
+2. Nhập mật khẩu đúng lần thứ 5",Đăng nhập thành công
+8741,Kiểm tra vẫn đăng nhập thành công sau 4 lần nhập sai mật khẩu liên tiếp, 3: Khóa tài khoản khi nhập sai mật khẩu,Suite_common_201,1,"3. Logout sau đó đăng nhập lại , nhập sai mật khẩu 
+4. Nhập sai mật khẩu thêm 4 lần nữa",- Thông báo khóa tài khoản người dùng trong vòng 30s (không thao tác được) sau lần đăng nhập thứ 5 
+8742,Kiểm tra đăng nhập không thành công khi nhập đúng mật khẩu trong vòng 30s kể từ khi bị khóa, 3: Khóa tài khoản khi nhập sai mật khẩu,Suite_common_201,1,"1. Tài khoản bị khóa 30 s
+2. Trong vòng 30 s kể từ khi bị khóa  ( thời điểm : 1s, 30s từ khi bị khóa), nhập lại mật khẩu đúng ",- Thông báo tài khoản đang bị khóa 
+8743,Kiểm tra đăng nhập không thành công khi nhập đúng mật khẩu trong vòng 30s kể từ khi bị khóa, 3: Khóa tài khoản khi nhập sai mật khẩu,Suite_common_201,1,"1. Tài khoản bị khóa 30 s
+2. Trong vòng 30 s kể từ khi bị khóa  ( thời điểm : 1s, 30s từ khi bị khóa), nhập lại mật khẩu sai",- Thông báo tài khoản đang bị khóa 
+8744,Kiểm tra đăng nhập thành công khi nhập mật khẩu đúng sau 30s bị khóa, 3: Khóa tài khoản khi nhập sai mật khẩu,Suite_common_201,1,"1. Tài khoản bị khóa 30 s
+2. Tại thời điểm  31 s  , nhập lại mật khẩu đúng","1. Đăng nhập thành công, hiển thị màn hình chức năng của ứng dụng"
+8745,Kiểm tra reset lại số lần nhập sai mật khẩu khi đăng nhập thành công sau lần bị khóa, 3: Khóa tài khoản khi nhập sai mật khẩu,Suite_common_201,1,"1. Tài khoản bị khóa 30 s
+2. Tại thời điểm đúng 30 s sau đó , nhập lại mật khẩu đúng
+3. Log out và đăng nhập nhập lại bằng user đó, nhập sai mật khẩu liên tiếp 5 lần",Sau 5 lần nhập mật khẩu sai thì thông báo tài khoản bị khóa và không đăng nhập thành công
+8746,Kiểm tra đăng nhập không thành công khi nhập mật khẩu sai sau 30 s bị khóa, 3: Khóa tài khoản khi nhập sai mật khẩu,Suite_common_201,1,"1. Tài khoản bị khóa 30 s
+2. Sau 30 s, nhập lại mật khẩu sai",2. Hiển thị thông báo lỗi và không vào được màn hình chức năng của ứng dụng
+8747,Kiểm tra đăng nhập không thành công khi nhập mật khẩu sai sau 30 s bị khóa, 3: Khóa tài khoản khi nhập sai mật khẩu,Suite_common_201,1,3. Lần lượt nhập tiếp mật khẩu sai 4 lần nữa,"Lần đăng nhập thứ 5, thông báo tài khoản bị khóa trong vòng 30s"

@@ -1,0 +1,9 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9074,Kiểm tra việc nhập thành công các kí tự vào trường Địa chỉ IP, 4: Edittext  Địa chỉ IP,Suite_common_360,1,"1. Tại trường IP hiện nhập các ký tự 192.168.168.179
+2. Các thông tin khác nhập đủ
+3. Nhấn [Ghi lại]","1. Thực hiện lưu thành công. Kiểm tra lưu đúng như case lưu CSDL
+"
+9075,Cho phép nhập địa chỉ  IP có cổng, 4: Edittext  Địa chỉ IP,Suite_common_360,1,"1. Tại trường IP hiện nhập các ký tự 192.168.168.179: 8001, 8002
+2. Các thông tin khác nhập đủ
+3. Nhấn [Ghi lại]","1. Thực hiện lưu thành công. Kiểm tra lưu đúng như case lưu CSDL
+"

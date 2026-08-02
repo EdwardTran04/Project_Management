@@ -1,0 +1,30 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8863,Kiểm tra thứ tự hiển thị Tên thành viên nhóm, 5: Tên thành viên tham gia nhóm,Suite_common_266,1,"Đảm bảo: Nhóm A có 3 thành viên [Oanh, Sương, Trường] tham gia
+- [Trường]: tạo nhóm
+- [Oanh]: vào nhóm thứ 2
+- [Sương]: vào nhóm sau cùng
+1. Tại DS chat nhóm, kiểm tra hiển thị thứ tự Tên thành viên của nhóm A","1. Tên thành viên nhóm A hiển thị theo thứ tự [Oanh, Sương,Trường]"
+8864,Kiểm tra hiển thị Tên thành viên khi có 1 thành viên trong nhóm, 5: Tên thành viên tham gia nhóm,Suite_common_266,1,"Đảm bảo: Nhóm A chỉ có 1 thành viên X tham gia
+- Họ và tên của X: [Đào Thị Tú Oanh]
+1. Tại DS chat nhóm, kiểm tra hiển thị tên thành viên trong nhóm A","1. Hiển thị Tên của X [Oanh] dưới tên nhóm
+Note: Chỉ lấy tên của X để hiển thị "
+8865,Kiểm tra hiển thị Tên thành viên khi có 2 thành viên trong nhóm, 5: Tên thành viên tham gia nhóm,Suite_common_266,1,"Đảm bảo: Nhóm A chỉ có 2 thành viên X, Y tham gia
+- Họ và tên của X: [Đào Thị Tú Oanh]
+- Họ và tên của Y: [Ngọc Sương]
+1. Tại DS chat nhóm, kiểm tra hiển thị của tên thành viên trong nhóm A","1. Hiển thị Tên của X, Y [Oanh, Sương] dưới tên nhóm"
+8866,Kiểm tra hiển thị Tên thành viên khi có 3 thành viên trong nhóm, 5: Tên thành viên tham gia nhóm,Suite_common_266,1,"Đảm bảo: Nhóm A chỉ có 3 thành viên [Oanh, Trang, Nhung] đang tham gia
+1. Tại DS chat nhóm, kiểm tra hiển thị Tên thành viên của nhóm A","1. Hiển thị Tên thành viên nhóm A [Oanh, Trang, Nhung]"
+8867,Kiểm tra hiển thị Tên thành viên khi có > 3 thành viên trong nhóm, 5: Tên thành viên tham gia nhóm,Suite_common_266,1,"Đảm bảo: Nhóm A có 5 thành viên [Oanh, Trang, Nhung,Sương, Trường] tham gia
+1. Tại DS chat nhóm, kiểm tra hiển thị Tên thành viên của nhóm A","1. Hiển thị Tên thành viên nhóm A [Oanh, Trang, Nhung, +2]"
+8868,Kiểm tra hiển thị Tên thành viên khi thành viên trong nhóm đổi Họ và tên, 5: Tên thành viên tham gia nhóm,Suite_common_266,1,"Đảm bảo: Nhóm A có 2 thành viên [Oanh, Sương] đang tham gia
+1. [Sương] đổi tên thành Ngọc
+2. Kiểm tra hiển thị Tên thành viên trong nhóm ","2. Tên thành viên của nhóm A thay đổi tương ứng theo sau một khoảng thời gian t (s) (Thời gian đồng bộ ngầm)
+Tên sau khi thay đổi là [Oanh, Ngọc]"
+8869,Kiểm tra hiển thị Tên khi thành viên rời nhóm, 5: Tên thành viên tham gia nhóm,Suite_common_266,1,"Đảm bảo: Nhóm A đang ở trên DS nhóm chat
+Tên thành viên của nhóm A  [Sương, Nhung]
+1. [Oanh] tham gia vào nhóm A
+2. Kiểm tra hiển thị Tên thành viên trong nhóm ","2. Hiển thị Tên thành viên nhóm A gồm [Oanh, Sương, Nhung]"
+8870,Kiểm tra hiển thị Tên khi thành viên rời nhóm, 5: Tên thành viên tham gia nhóm,Suite_common_266,1,"Đảm bảo: Nhóm A đang ở trên DS nhóm chat
+Tên thành viên của nhóm A  [Oanh, Sương, Nhung]
+1. [Sương] rời nhóm
+2. Kiểm tra hiển thị Tên thành viên trong nhóm ","2. Chỉ hiển thị Tên thành viên nhóm A gồm [Oanh, Nhung]"

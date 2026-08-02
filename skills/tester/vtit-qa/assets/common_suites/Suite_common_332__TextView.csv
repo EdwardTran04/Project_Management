@@ -1,0 +1,9 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8389,Kiểm tra hiển thị khi di chuyển con trỏ vào nội dung, 2: TextView,Suite_common_332,1,1. Di chuyển trỏ vào phần nội dung ,1. Khi trỏ vào thông tin nội dung thì không bị tô sáng hoặc thay đổi màu 
+8390,Kiểm tra hiển thị nhập dữ liệu vào phần nội dung chi tiết, 2: TextView,Suite_common_332,1,1. Nhập vào dữ liệu vào nội dung chi tiết,Màn hình ở trạng thái disable không cho phép nhập thông tin từ bàn phím
+8391,Kiểm tra hiển thị trường thông tin vừa khung màn hình, 2: TextView,Suite_common_332,1,1. Kiểm tra khi nội dung dài,"Tùy theo ĐTYC mà cho phép hiển thị
+-  Hiển thị đầy đủ nội dung , tự xuống dòng nếu vượt quá khung
+Hoặc:
+- Hiển thị nội dung vừa khung, phần vượt quá hiển thị dấu ….
+"
+8392,Kiểm tra hiển thị trường thông tin vừa khung màn hình, 2: TextView,Suite_common_332,1,2. Kiểm tra khi nội dung chỉ có 1 dòng,"Hiển thị đầy đủ nội dung, không vượt khung"

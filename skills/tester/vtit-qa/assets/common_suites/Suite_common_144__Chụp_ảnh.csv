@@ -1,0 +1,110 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8545,Kiểm tra hủy bỏ chụp ảnh, 3: Chụp ảnh,Suite_common_144,1,"1. Touch vào button chụp ảnh trên màn hình chức năng A
+2. Touch [Chụp ảnh] trên màn hình camera
+3. Touch [Hủy bỏ]
+","1. Mở màn hình camera của thiêt sbij
+2. Hiển thị ảnh vừa chụp lên màn hình camera
+3. Đóng màn hình camera và quay về hiển thị màn hình trước đó (Tùy the ĐTYC mà quay về màn hình nào)"
+8546,Kiểm tra hủy bỏ chụp ảnh, 3: Chụp ảnh,Suite_common_144,1,"1. Touch vào button chụp ảnh trên màn hình chức năng A
+2. Touch [Chụp ảnh] trên màn hình camera
+3. Hủy bỏ chụp ảnh bằng cách touch vào icon back trên thiết bị
+Note: Case này chỉ sử dụng với HDH Android và WP 
+",3. Đóng màn hình camera và quay về hiển thị màn hình trước đó (Tùy the ĐTYC mà quay về màn hình nào)
+8547,Kiểm tra  hủy bỏ lưu ảnh, 3: Chụp ảnh,Suite_common_144,1,"1. Touch vào button chụp ảnh trên màn hình chức năng A
+2. Touch [Chụp ảnh] trên màn hình camera
+3. Thực hiện hủy lưu ảnh đã chụp
+4. Kiểm tra hiển thị ảnh trong danh sách hình ảnh/Album/Avatar.....","3. Đóng màn hình thao tác lưu ảnh và quay về hiển thị màn hình trước đó (Tùy theo ĐTYC mà quay về màn hình nào)
+4. Ảnh vừa hủy ko được lưu vào danh sách hình ảnh/album/Avatar"
+8548,Kiểm tra thực hiện chụp và lưu ảnh thành công , 3: Chụp ảnh,Suite_common_144,1,"1. Touch vào button chụp ảnh trên màn hình chức năng A
+2. Touch [Chụp ảnh] trên màn hình camera
+3. Touch [Sử dụng ảnh] (Tùy theo HĐH mà tên button khác nhau) và thực hiện lưu ảnh
+4. Kiểm tra hiển thị ảnh trong danh sách hình ảnh/Album/Avatar.....","4. 
+- Ảnh vừa chụp được lưu vào danh sách hình ảnh/Album/Avatar (Tùy theo  ĐTYC) ( Kiểm tra server có đẩy ảnh lên không trường hợp lưu ảnh online)
+- Tên ảnh được lưu đúng cú pháp dựa vào DTYC(ví du: mmddyyy_name)"
+8549,"Kiểm tra thực hiện chụp và lưu ảnh thành công (lưu đè lên ảnh đã có trước đó)
+Note: Case này áp dụng cho các trường hợp chụp ảnh lưu trực tiếp  lên avatar (hoặc 1 nơi lưu hình ảnh tương tự avatoar)", 3: Chụp ảnh,Suite_common_144,1,"Đảm bảo trên avatar đang hiển thị ảnh 1
+1. Chụp ảnh 2 
+2. Thực hiện lưu ảnh 2
+3. Kiểm tra hiển thị ảnh avatar","3. 
+- Hiển thị ảnh vừa chụp lên avatar
+- Kiểm tra hiển thị ảnh mới này ở các màn hình khác có avatar"
+8550,Kiểm tra hiển thị đúng format ảnh khi chụp ảnh xoay ngang hoặc dọc, 3: Chụp ảnh,Suite_common_144,1,"1. Thực hiện chụp ảnh  theo chế độ xoay dọc
+2. Kiểm tra hiển thị ảnh  trong danh sách hình ảnh/Album/Avatar
+3. Kiểm tra hiển thị ảnh  lưu trữ ở thiết bị
+4. So sánh ảnh hiển thị ở bước 2,3",4. Ảnh hiển thị trong thiết bị và trong app giống nhau về format ảnh (theo chế độ xoay dọc)
+8551,Kiểm tra hiển thị đúng format ảnh khi chụp ảnh xoay ngang hoặc dọc, 3: Chụp ảnh,Suite_common_144,1,"1. Thực hiện chụp ảnh  theo chế độ xoay ngang
+2. Kiểm tra hiển thị ảnh  trong danh sách hình ảnh/Album/Avatar
+3. Kiểm tra hiển thị ảnh lưu trữ ở thiết bị
+4. So sánh ảnh hiển thị ở bước 2,3",4. Ảnh hiển thị trong thiết bị và trong app giống nhau về format ảnh(theo chế độ xoay ngang)
+8552,Kiểm tra chụp ảnh nhiều lần nhưng chỉ lưu ( sử dụng) ảnh chụp cuối , 3: Chụp ảnh,Suite_common_144,1,"1. Đi đến màn hình chụp ảnh và chụp ảnh 1 
+2. Touch [Hủy] 
+3. Chụp tiếp ảnh 2
+4. Touch [Sử dụng ảnh] và thực hiện lưu ảnh
+5. Kiểm tra hiển thị ảnh trong danh sách ảnh/ ablum/Avatar…","2. Đóng ảnh 1 , hiển thị lại màn hình camera,
+5. 
+- Ảnh 1 ko được lưu trong danh sách hình ảnh/Album/Avatar
+- Ảnh 2 được  lưu vào trong danh sách hình ảnh/Album/Avatar"
+8553,Kiểm tra chụp ảnh nhiều lần nhưng chỉ lưu ( sử dụng) ảnh chụp cuối , 3: Chụp ảnh,Suite_common_144,1,"1. Đi đến màn hình chụp ảnh 
+2. Chụp ảnh  1  và chọn Hủy
+3. Thao tác lại bước  2  nhiều lần
+4. Chụp ảnh cuối cùng
+5. Touch [Sử dụng ảnh] và thực hiện lưu ảnh
+6. Kiểm tra hiển thị ảnh trong danh sách ảnh/ ablum/Avatar…","6. 
+- Ảnh chụp cuối cùng được lưu vào trong danh sách hình ảnh/Album/Avatar
+- Các ảnh chụp trước đó ko được lưu vào trong danh sách hình ảnh/Album/Avatar"
+8554,Kiểm tra chụp và lưu ảnh liên tục nhiều lần thành công, 3: Chụp ảnh,Suite_common_144,1,"1. Thực hiện chụp và lưu ảnh 1
+2. Lặp lại bước 1 liên tiếp nhiều lần cho các ảnh 2,3,4,5,6,...
+3. Kiểm tra hiển thị ảnh trong danh sách hình ảnh/Album/Avatar.....","2.  Chương trình không bị crash 
+3. 
+-  Các ảnh vừa chụp được lưu vào danh sách hình ảnh/Album/Avatar (Tùy theo  ĐTYC)
+- Hình ảnh chụp sau cùng sẽ hiển thị lên hình mặc định của album (tùy theo DTYC)
+- Các ảnh được lưu vào album đúng với thứ tự đã chụp (tùy theo DTYC)"
+8555,"Kiểm tra lưu ảnh thành công khi thực hiện chỉnh sửa ảnh đã chụp
+Note: Mỗi trường hợp chỉnh sửa ảnh mô tả riêng 1 test case", 3: Chụp ảnh,Suite_common_144,1,"1. Chụp ảnh 1
+2. Thực hiện chỉnh sửa ảnh: crop ảnh
+3. Thực hiện lưu ảnh
+4. Kiểm tra hiển thị ảnh trong danh sách hình ảnh/Album/Avatar.....","2. Ảnh được crop
+4. Ảnh vừa chỉnh sửa được lưu vào danh sách hình ảnh/Album/Avatar (Tùy theo  ĐTYC) và hiển thị đúng format ảnh"
+8556,"Kiểm tra lưu ảnh thành công khi thực hiện chỉnh sửa ảnh đã chụp
+Note: Mỗi trường hợp chỉnh sửa ảnh mô tả riêng 1 test case", 3: Chụp ảnh,Suite_common_144,1,"1. Chụp ảnh 1
+2. Thực hiện chỉnh sửa ảnh: rotate ảnh
+3. Thực hiện lưu ảnh
+4. Kiểm tra hiển thị ảnh trong danh sách hình ảnh/Album/Avatar.....","2. Ảnh được rotate
+4. Ảnh vừa chỉnh sửa được lưu vào danh sách hình ảnh/Album/Avatar (Tùy theo  ĐTYC) và hiển thị đúng format ảnh"
+8557,"Kiểm tra lưu ảnh thành công khi thực hiện chỉnh sửa ảnh đã chụp
+Note: Mỗi trường hợp chỉnh sửa ảnh mô tả riêng 1 test case", 3: Chụp ảnh,Suite_common_144,1,"1. Chụp ảnh 1
+2. Thực hiện đồng thời các thao tác chỉnh sửa ảnh: ví dụ vừa crop, vừa rorate 
+3. Thực hiện lưu ảnh
+4. Kiểm tra hiển thị ảnh trong danh sách hình ảnh/Album/Avatar.....","2. Ảnh được rotate và crop
+4. Ảnh vừa chỉnh sửa được lưu vào danh sách hình ảnh/Album/Avatar (Tùy theo  ĐTYC) và hiển thị đúng format ảnh"
+8558,"Kiểm tra lưu ảnh thành công khi thực hiện chỉnh sửa ảnh đã chụp
+Note: Mỗi trường hợp chỉnh sửa ảnh mô tả riêng 1 test case", 3: Chụp ảnh,Suite_common_144,1,"1. Chụp ảnh 1
+2. Thực hiện đồng thời nhiều thao tác chỉnh sửa hình ảnh
+3. Chọn lại chế độ bỏ chỉnh sửa (tùy theo trên màn hình có chức năng này hay không)
+4. Thực hiện lưu ảnh
+5. Kiểm tra hiển thị ảnh trong danh sách hình ảnh/Album/Avatar.....","3.Hiển thị hình ảnh như ban đầu mới chụp
+4. Ảnh vừa chỉnh sửa được lưu vào danh sách hình ảnh/Album/Avatar (Tùy theo  ĐTYC) và hiển thị đúng format ảnh"
+8559,"Kiểm tra lưu ảnh thành công khi ảnh chụp có dung lượng =  M (M: dung lượng cho phép được lưu)
+", 3: Chụp ảnh,Suite_common_144,1,"Đảm bảo ảnh chụp có dung lượng = M
+1. Touch vào button chụp ảnh trên màn hình chức năng A
+2. Touch [Chụp ảnh] trên màn hình camera
+3. Touch [Sử dụng ảnh] và thực hiện lưu ảnh
+4. Kiểm tra hiển thị ảnh trong danh sách hình ảnh/Album/Avatar....","- Ảnh vừa chụp được lưu vào danh sách hình Ảnh/Album/Avatar (Tùy theo  ĐTYC)
+- Tên Ảnh được lưu đúng cú pháp dựa vào DTYC(ví du: mmddyyy_name)"
+8560,"Kiểm tra lưu ảnh thành công khi ảnh chụp có dung lượng =  M (M: dung lượng cho phép được lưu)
+", 3: Chụp ảnh,Suite_common_144,1,"1. Touch vào button chụp ảnh trên màn hình chức năng A
+2. Touch [Chụp ảnh] trên màn hình camera
+3. Lock máy 
+4. Mở lại máy và kiểm tra hiển thị
+",1. Mở lại ảnh vừa chụp trên màn hình cammera
+8561,"Kiểm tra lưu ảnh thành công khi ảnh chụp có dung lượng =  M (M: dung lượng cho phép được lưu)
+", 3: Chụp ảnh,Suite_common_144,1,"1. Thực hiện chụp ảnh 1
+2. Trong quá trình đang lưu ảnh thì thực hiện lock máy
+3. Lock máy 
+4. Mở lại máy 
+5. Kiểm tra hiển thị ảnh trong danh sách hình ảnh/Album/Avatar....","5. Ảnh vừa chụp được lưu vào danh sách hình ảnh/Album/Avatar
+ "
+8562,Kiểm tra chụp và lưu ảnh  khi home ứng dụng, 3: Chụp ảnh,Suite_common_144,1,"1. Touch vào button chụp ảnh trên màn hình chức năng A
+2. Home ứng dụng
+3. Mở lại ứng dụng và kiểm tra hiển thị
+",3.Mở lại màn hình chụp ảnh

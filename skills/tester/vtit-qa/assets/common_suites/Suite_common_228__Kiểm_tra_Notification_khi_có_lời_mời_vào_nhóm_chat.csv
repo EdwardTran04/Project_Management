@@ -1,0 +1,16 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8938,Kiểm tra hiển thị notifications lời mời vào nhóm chat khác nhóm hiện tại khi đang ở màn hình chat nhóm hiện tại, 5: Kiểm tra Notification khi có lời mời vào nhóm chat,Suite_common_228,1,"Điều kiện: A, B tham gia nhóm X
+-  C tham gia nhóm Y
+-  A đang ở cửa sổ chat nhóm X
+1. C mời A vào nhóm Y
+2. Kiểm tra hiển thị trên màn hình của A
+",3. Hiển thị notification từ nhóm Y gửi về cho A
+8939,Kiểm tra hiển thị notifications lời mời vào nhóm chat khác nhóm hiện tại khi đang ở màn hình chat nhóm hiện tại, 5: Kiểm tra Notification khi có lời mời vào nhóm chat,Suite_common_228,1,4. A touch vào notification từ nhóm Y,4. Hiển thị cửa sổ chat nhóm Y
+8940,Kiểm tra hiển thị notification khi đang không ở trong ứng dụng, 5: Kiểm tra Notification khi có lời mời vào nhóm chat,Suite_common_228,1,"Điều kiện: Đang không ở trong ứng dụng
+1. C mời A vào nhóm Y
+",1. Có notification về màn thiết bị của A
+8941,Kiểm tra hiển thị notification khi đang không ở trong ứng dụng, 5: Kiểm tra Notification khi có lời mời vào nhóm chat,Suite_common_228,1,2.1 Touch vào notification trong notification bar,"2. Hiển thị màn hình cửa sổ chat nhóm
+3. Không còn hiển thị notification trong notitication bar"
+8942,Kiểm tra hiển thị notification khi đang không ở trong ứng dụng, 5: Kiểm tra Notification khi có lời mời vào nhóm chat,Suite_common_228,1,"2.2 Touch vào notification banner
+3. Kiểm tra notification bar","2. Hiển thị màn hình cửa sổ chat nhóm
+3. Không còn hiển thị notification trong notitication bar"

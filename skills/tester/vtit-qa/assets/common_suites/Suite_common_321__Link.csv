@@ -1,0 +1,4 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8306,Kiểm tra highlight link, 2: Link,Suite_common_321,1,Kiểm tra link,Đối với các dòng có link thì phải hiển thị  màu khác biệt tùy design.
+8307,Kiểm tra dấu hiệu nhận biết là link , 2: Link,Suite_common_321,1,Kiểm tra link,"Phải để dấu hiệu nhận biết link ví dụ như vùng dữ liệu khi nhấn vào thì có border bao quanh hoặc có icon ""&gt;"" theo prototype."
+8308,Kiểm tra chuyển trang khi nhấn link, 2: Link,Suite_common_321,1,Nhấn vào link,Chuyển sang đúng trang đã được link

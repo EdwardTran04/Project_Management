@@ -1,0 +1,63 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9312,Kiểm tra thực hiện download file thành công , 2: Download và đọc file,Suite_common_396,1,"Chuẩn bị:  File chưa được download về thiết bị
+1. Touch vào file cần xem
+2. Kiểm tra hiển thị tiến trình download file ",- Hiển thị tiến trình download và mở ứng dụng đọc file thành công 
+9313,Kiểm tra không thực hiện download file nếu đã download file về máy, 2: Download và đọc file,Suite_common_396,1,"Trường hợp file đã được download về thiết bị
+1. Touch vào file cần xem
+2. Kiểm tra hiển thị tiến trình download file ","- Không hiển thị tiến trình download file
+- Gọi ứng dụng đọc file thành công"
+9314,"Kiểm tra download file không thành công khi đang download mà nhấn Huỷ tiến trình download
+(Tuỳ vào DTYC có thêm tính năng Huỷ)", 2: Download và đọc file,Suite_common_396,1,"1. Touch vào file cần xem
+2. Nhấn Huỷ tiến trình download","1. Hiển thị tiến trình download file
+2. Huỷ bỏ download file, không thực hiện mở file"
+9315,"Kiểm tra download file không thành công khi đang download mà nhấn Huỷ tiến trình download
+(Tuỳ vào DTYC có thêm tính năng Huỷ)", 2: Download và đọc file,Suite_common_396,1,3. Touch vào file,3. Hiển thị lại tiến trình download và xem file bình thường
+9316,"Kiểm tra đọc file đối với các file hệ điều hành hỗ trợ mở trực tiếp
+
+(Đối với hệ điều hành iOS)", 2: Download và đọc file,Suite_common_396,1,"Trường hợp file hệ điều hành hỗ trợ mở trực tiếp:
+File office: .doc, .docx, .xls, .slsx, .pdf, .ppt, .pptx
+File ảnh: ...
+File Audio:...
+File Video: ....","- Thực hiện download về thiết bị 
+- Thực hiện đọc file, hiển thị đúng nội dung file"
+9317,"Kiểm tra đọc file đối với các file hệ điều hành hỗ trợ mở trực tiếp
+
+(Đối với hệ điều hành iOS)", 2: Download và đọc file,Suite_common_396,1,"Trường hợp thiết bị có cài đặt thêm các ứng dụng khác để hỗ trợ mở file
+1. Touch vào đọc file","- Hiển thị tùy chọn để người dùng chọn ứng dụng đọc file
+- Thực hiện download về thiết bị 
+- Thực hiện đọc file, hiển thị đúng nội dung file"
+9318,"Kiểm tra đọc file đối với các file hệ điều hành không hỗ trợ đọc trực tiếp
+Chú ý kiểm tra đối với tất cả các định dạng file mà DTYC cho phép đọc.
+
+Đối với iOS: Trừ những file hỗ trợ mở trực tiếp như case trên
+Đối với android: Tất cả các file
+", 2: Download và đọc file,Suite_common_396,1,"Trường hợp thiết bị chưa cài đặt ứng dụng đọc file
+1. Touch vào đọc file",Hiển thị thông báo: Không thể đọc file hoặc yêu cầu cài đặt ứng dụng đọc file
+9319,"Kiểm tra đọc file đối với các file hệ điều hành không hỗ trợ đọc trực tiếp
+Chú ý kiểm tra đối với tất cả các định dạng file mà DTYC cho phép đọc.
+
+Đối với iOS: Trừ những file hỗ trợ mở trực tiếp như case trên
+Đối với android: Tất cả các file
+", 2: Download và đọc file,Suite_common_396,1,"Trường hợp thiết bị đã cài đặt ứng dụng đọc file
+1. Touch vào đọc file
+Chú ý đối với mỗi file, cần cài đặt ít nhất 1 ứng dụng đọc được file tương ứng. ","Hiển thị danh sách ứng dụng đọc file cho người dùng lựa chọn, người dùng lựa chọn 1 ứng dụng đọc file, thực hiện đọc file bình thường, hiển thị đúng nội dung file"
+9320,Kiểm tra hiển thị khi touch vào đọc file không đúng định dạng cho phép  (Tuỳ thuộc vào yêu cầu của từng ứng dụng ), 2: Download và đọc file,Suite_common_396,1,"Chuẩn bị file không thuộc các định dạng cho phép đọc file
+1. Touch vào file ",- Hiển thị thông báo file không được hỗ trợ (Tùy thuộc vào DTYC)
+9321,Kiểm tra mở file với định dạng giả, 2: Download và đọc file,Suite_common_396,1,"Thực hiện đổi 1 file đang tồn tại sang 1 định dạng khác
+VD file doc đổi sang mp3
+1. Touch vào file ",- Hiển thị thông báo theo DTYC
+9322,Kiểm tra đọc file có dung lượng = 0, 2: Download và đọc file,Suite_common_396,1,"Chuẩn bị dữ liệu file có dung lượng = 0
+1. Touch vào file",Thực hiện mở file bình thường
+9323,Kiểm tra đọc file có dung lượng = 1MB, 2: Download và đọc file,Suite_common_396,1,"Chuẩn bị dữ liệu file có dung lượng = 1MB
+1. Touch vào file",Thực hiện mở file bình thường
+9324,Kiểm tra đọc file có dung lượng max (=10MB) (Tuỳ vào yêu cầu dung lượng file tối đa), 2: Download và đọc file,Suite_common_396,1,"Chuẩn bị dữ liệu file có dung lượng max (VD = 10MB)
+1. Touch vào file",Thực hiện mở file bình thường
+9325,Kiểm tra thực hiện đóng màn hình đọc file, 2: Download và đọc file,Suite_common_396,1,"Tại màn hình đọc file
+1. Touch vào button Đóng",Thực hiện đóng màn hình đọc file
+9326,Kiểm tra thực hiện đọc file khi không có kết nối mạng, 2: Download và đọc file,Suite_common_396,1,"Trường hợp file chưa được download về thiết bị
+1. Touch vào file cần xem
+2. Ngắt kết nối mạng","1. Hiển thị tiến trình download file
+2. Hiển thị thông báo lỗi kết nối, tải file không thành công"
+9327,Kiểm tra thực hiện đọc file khi không có kết nối mạng, 2: Download và đọc file,Suite_common_396,1,"4. Mở lại kết nối mạng
+5. Touch vào file cần xem","- Thực hiện download file
+- Gọi ứng dụng đọc file, hiển thị đúng nội dung file"

@@ -1,0 +1,64 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9340,Kiểm tra hiển thị mặc định khi vào Cây thư mục, 3: Cây thư mục ,Suite_common_401,1,"1. Vào Cây thư mục, kiểm tra trạng thái mặc định",1. Hiển thị Cây thư mục theo dạng RÚT GỌN/MỞ RỘNG (Tùy theo ĐTYC)
+9341,Kiểm tra check vào ROOT khi cây thư mục đang được thu gọn, 3: Cây thư mục ,Suite_common_401,1,"Điều kiện: Cây đơn vị đang được thu gọn
+1. Check vào ROOT
+2. Kiểm tra hiển thị tất cả checkbox trong Cây thư mục","1. Tất cả checkbox trong Cây thư mục được check chọn/ Chỉ có ROOT được check chọn và các item trong đó không được check 
+Note: Tùy theo ĐTYC để chọn KQMM"
+9342,Kiểm tra hiển thị sau khi mở lại Cây thư mục đã chọn 1 item trong đó, 3: Cây thư mục ,Suite_common_401,1,"Điều kiện: Đã chọn item X trên cây thư mục
+1. Mở lại cây thư mục, kiểm tra hiển thị trên màn hình",1. Item X được check chọn trên cây đơn vị
+9343,Kiểm tra thông tin hiển thị của cây thư mục, 3: Cây thư mục ,Suite_common_401,1,"1. Thực hiện mở rộng cây thư mục
+2. Check API và so sánh kết quả","1. Hiển thị các thông tin:
+- Checkbox
+- Icon Thư mục (theo từng dạng Rút gọn/Mở rộng)
++ Tên Thư mục
+- Icon item con + Tên item con
+
+2. Hiển thị cây thư mục theo đúng dữ liệu API trả về
+Thứ thứ tự hiển thị theo đúng thứ tự API trả về
+- Tên thư mục/ Tên Item: trường trong API trả về"
+9344,Kiểm tra hiển thị khi cây thư mục không có thư mục con, 3: Cây thư mục ,Suite_common_401,1,"1. Kiểm tra hiển thị trên cây thư mục
+2. Check API và so sánh kết quả","1. Chỉ hiển thị 1 thư mục trên cây:
+- Thư mục cha
+- Các item con (nếu có)
+Hiển thị icon Thu gọn trên thư mục cha
+2. Dữ liệu hiển thị trên màn hình đúng với dữ liệu API trả về"
+9345,Kiểm tra hiển thị khi cây thư mục không có thư mục con, 3: Cây thư mục ,Suite_common_401,1,3. Nhấn vào icon Thu gọn trên thư mục,3. Hiển thị tất cả các item con của thư mục
+9346,Kiểm tra hiển thị khi cây thư mục không có thư mục con, 3: Cây thư mục ,Suite_common_401,1,4. Nhấn vào icon Mở rộng trên thư mục,"4. Cây thư mục ở trạng thái Thu gọn, chỉ hiển thị thư mục Cha"
+9347,Kiểm tra hiển thị khi cây thư mục cấp 2, 3: Cây thư mục ,Suite_common_401,1,"Điều kiện: Thư mục A là thư mục cha
+- Thư mục A có thư mục con B
+- Thư mục A có các item con: E, F
+1. Kiểm tra hiển thị trên cây thư mục","1. Hiển thị cây thư mục theo trình tự sau:
+- Thư mục A
+   + Thư mục B
+   + Item E
+   + Item F"
+9348,"Kiểm tra hiển thị khi cây thư mục cấp 4
+
+Note: Tùy theo ĐTYC để kiểm tra cấp tối đa trên cây thư mục", 3: Cây thư mục ,Suite_common_401,1,"Điều kiện: Thư mục A là thư mục cha
+- Thư mục A có thư mục con B
+- Thư mục A có các item con: E
+- Thư mục B có thư mục con D và item O
+- Thư mục D có Thư mục F
+1. Kiểm tra hiển thị trên cây thư mục","1. Hiển thị đúng cây thư mục theo trình tự quy định:
+- Thư mục A
+   + Thư mục B
+      * Thư mục D
+         ii Thư mục F
+      * Item O
+   + Item E"
+9349,"Kiểm tra hiển thị khi cây thư mục cấp 4
+
+Note: Tùy theo ĐTYC để kiểm tra cấp tối đa trên cây thư mục", 3: Cây thư mục ,Suite_common_401,1,2. Thu gọn/Mở rộng cây thư mục nhiều lần,2. Cây thư mục Thu gon/Mở rộng tương ứng với thao tác. Chương trình hoạt động bình thường và không bị crash
+9350,Kiểm tra hiển thị khi cây thư mục ít item (không vượt quá khung màn hình), 3: Cây thư mục ,Suite_common_401,1,1. Kiểm tra hiển thị trên màn hình,1. Hiển thị đầy đủ item trên màn hình
+9351,Kiểm tra hiển thị khi DS nhiều item (vượt quá khung màn hình), 3: Cây thư mục ,Suite_common_401,1,1. Kiểm tra hiển thị trên màn hình,"1. Hiển thị đầy đủ item trên màn hình
+Xuất hiện thanh scroll. Có thể scroll lên xuống để xem hết dữ liệu "
+9352,Kiểm tra hiển thị thông tin trên mỗi item với dữ liệu tối đa trên các trường, 3: Cây thư mục ,Suite_common_401,1,"1. Kiểm tra hiển thị với dữ liệu tối đa các trường sau trên màn hình
+- Tên thư mục
+- Tên item con trong thư mục","1. Thông tin hiển thị trên mỗi trường sẽ tự động xuống dòng hoặc hiển thị … cuối dòng:
+"
+9353,Kiểm tra hiển thị khi nhấn vào mỗi item trên DS, 3: Cây thư mục ,Suite_common_401,1,1. Nhấn vào item bất kỳ trên DS,"1. Highlight item mỗi lần nhấn vào
+Checkbox của item vừa chọn được check vào (Tùy theo ĐTYC)"
+9354,Kiểm tra hiển thị khi nhấn vào mỗi item trên DS, 3: Cây thư mục ,Suite_common_401,1,1. Lần lượt nhấn vào các item trên DS,"1. Highlight item mỗi lần nhấn vào
+Checkbox của các item vừa chọn được check vào"
+9355,Kiểm tra khi nhấn liên tục và nhiều lần vào item trên DS, 3: Cây thư mục ,Suite_common_401,1,1. Nhấn liên tục và nhiều lần vào item trên DS,"1. Checkbox được chọn và bỏ chọn tương ứng
+Chương trình hoạt động bình thường và không bị crash"

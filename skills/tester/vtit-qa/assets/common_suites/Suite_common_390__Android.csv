@@ -1,0 +1,22 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9233,Kiểm tra không hiển thị lịch nhắc nhở khi tắt chế độ lịch nhắc nhở trong thiết bị, 4: Android,Suite_common_390,1,"1. Vào Setting -&gt; Apps -&gt; Chọn App đang thao tác -&gt; Show Notifications 
+2. Tắt chế độ lịch nhắc nhở (không tích chọn vào Show Notification)
+3.Tạo lịch nhắc nhở A sau khi cài đặt
+4. Kiểm tra không hiển thị nhắc nhở trước thời điểm bắt đầu lịch ( check theo khoảng thời gian x)","4. Không hiển thị lịch nhắc nhở về thiết bị
+"
+9234,"Kiểm tra không hiển thị lịch nhắc nhở khi bật chế độ lịch nhắc nhở trong thiết bị và tắt nhắc nhở của  ứng dụng
+TH1: Tắt chế độ lịch nhắc nhở trong ứng dụng
+( Nếu DTYC đối với app có cho phép cấu hình bật tắt nhắc nhở lịch)", 4: Android,Suite_common_390,1,"1.Đảm bảo đã bật chế độ lịch nhắc nhở trong thiết bị
+2. Thực hiện tắt chế độ lịch nhắc nhở trong ứng dụng
+3.Tạo lịch nhắc nhở A sau khi cài đặt
+4. Kiểm tra hiển thị lịch nhắc nhở tại thời điểm mong muốn hiển thị nhắc nhở ( check theo khoảng thời gian x)","4. Không hiển thị lịch nhắc nhở về thiết bị
+"
+9235,"Kiểm tra hiển thị lịch nhắc nhở khi bật chế độ lịch nhắc nhở trong thiết bị và ứng dụng
+TH2: Bật chế độ lịch nhắc nhở trong ứng dụng
+( Nếu DTYC đối với app có cho phép cấu hình bật tắt nhắc nhở lịch)", 4: Android,Suite_common_390,1,"1.Đảm bảo đã bật chế độ lịch nhắc nhở trong thiết bị
+2. Thực hiện bật chế độ lịch nhắc nhở trong ứng dụng
+3.Tạo lịch nhắc nhở A sau khi cài đặt
+4. Kiểm tra hiển thị lịch nhắc nhở tại thời điểm mong muốn nhắc nhở","4. 
+- Hiển thị lịch nhắc nhở về thiết bị
+- Thông báo hiển thị theo dạng Notification Bar 
+"

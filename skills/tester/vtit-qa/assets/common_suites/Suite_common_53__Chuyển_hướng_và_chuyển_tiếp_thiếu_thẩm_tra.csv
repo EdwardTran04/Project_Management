@@ -1,0 +1,7 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8262,Check điều kiện khi chuyển hướng và chuyển tiếp, 2: Chuyển hướng và chuyển tiếp thiếu thẩm tra,Suite_common_53,1,"Đối với các trang View thông tin chi tiết của 1 item nào đó có dạng:
+http://192.168.174.14:5676/passportv3/login?appCode=ViettelSVN&amp;service=http%3A%2F%2F192.168.174.14%3A8090%2Fsvnadmin
+Trong đó, URI được chuyển tiếp đến là:  
+http%3A%2F%2F192.168.174.14%3A8090%2Fsvnadmin 
+1. Thay URI được chuyển tiếp = URI mà bạn mong muốn được chuyển tiếp đến ( chú ý chỉ thay các chuỗi không mã hóa)
+2. dùng user/pass của hệ thống để đăng nhập",Hệ thống báo không kết nối đến link đó được hoặc là báo link đó không được trust

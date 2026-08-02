@@ -1,0 +1,6 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8260,Kiểm tra yêu cầu  thiết lập thuộc tính “HTTPOnly” cho session cookie, 2: Sử dụng cookie an toàn,Suite_common_52,1,"1.  Cài và chạy Add-ons Firecookie và FireBug cho FireFox
+2.  Đăng nhập vào ứng dụng dùng firebug -&gt; click vào tag Cookies. Kiểm tra trường http only
+",có giá trị http only 
+8261,"Kiểm tra thiết lập thuộc tính “secure” cho các session cookie với các website sử dụng HTTPS cho các chức năng quan trọng, HTTP cho các chức năng thông thường", 2: Sử dụng cookie an toàn,Suite_common_52,1,"1. Đăng nhập vào hệ thống
+2. Kiểm tra giá trị trường Security của cookie của hệ thống ( vào fire bug/ Cookie)","Security set  giá trị ""secure """

@@ -1,0 +1,12 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8309,"Kiểm tra khi focus ra ngoài màn hình pop-up
+", 2: Pop-up,Suite_common_322,1,"1. Mở màn hình pop-up
+2. Focus ra ngoài màn hình pop-up","- Đóng popup khi focus ra ngoài nếu popup không có bất kỳ button nào
+- Không đóng popup khi focus ra ngoài nếu popup có chứa button [Đóng]"
+8310,Kiểm tra khi mở pop-up, 2: Pop-up,Suite_common_322,1,1. Mở pop-up,"- Khi mở popup, tránh sử dụng hiệu ứng đột ngột,  khiến người dùng giật mình hoặc khó chịu.
+- Popup mở ra phải nhanh."
+8311,Kiểm tra nhấn mở pop-up liên tục, 2: Pop-up,Suite_common_322,1,1. Nhần liên tục vào button mở popup,Chỉ thực hiện 1 popup
+8312,Kiểm tra nhấn mở/đóng pop-up liên tục, 2: Pop-up,Suite_common_322,1,"1. Mở, đóng pop-up liên tục",Thực hiện mở/đóng bình thường không bị crash chương trình
+8313,"Kiểm tra message comfirm khi đóng popup có tính năng lưu dữ liệu  ( đối với các popup có nhập dữ liệu tạo mới, edit..dữ liệu để lưu dữ liệu)", 2: Pop-up,Suite_common_322,1,"1. Nhâp dữ liệu vào popup
+2. Click button đóng trên dialog hoặc focus ra ngoài popup",Hiện message comfirm trước khi đóng popup
+8314,"Kiểm tra việc cho phép người dùng dễ dàng hủy bỏ các tác vụ  nguy hiểm, quan trọng", 2: Pop-up,Suite_common_322,1,"1. Thực hiện các thao tác nguy hiểm/ quan trọng(thêm, sửa, xóa, từ chối, …)","- Cho phép người dùng dễ dàng hủy bỏ/ hoàn tác các tác vụ nguy hiểm, quan trọng"

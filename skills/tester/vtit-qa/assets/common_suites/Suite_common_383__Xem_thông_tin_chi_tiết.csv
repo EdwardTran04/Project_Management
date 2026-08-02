@@ -1,0 +1,28 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9185,Kiểm tra hiển thị dữ liệu ở các trường trên màn hình, 2:Xem thông tin chi tiết,Suite_common_383,1,"1. Kiểm tra hiển thị dữ liệu
+","- Hiển thị đầy đủ thông tin các trường đúng với API trả về hoặc thông tin lưu trongCSDL
+
+"
+9186,"Kiểm tra hiển thị định dạng dữ liệu tương ứng với mỗi trường ( đối với các trường đặc biệt : dạng số, tiền tệ, thời gian, ngày tháng… <> text)", 2:Xem thông tin chi tiết,Suite_common_383,1,"1. Kiểm tra định dạng hiển thị dữ liệu các trường
+(Kiểm tra đối với những trường có dữ liệu hiển thị theo định dạng theo DTYC:
+Ví dụ: Trường ngày tháng, trường thời gian, trường hiển thị giá trị tiền tệ, …)
+
+(Chú ý có một số trường dữ liệu trả về là 1 chuỗi lý tự, Client phải convert sang định dạng đúng cần hiển thị, cần chú ý test hiển thị đúng dữ liệu đối với các trường này)
+
+","- Hiển thị đúng định dạng theo DTYC
+Chú ý:  phải đối chiếu dữ liệu hiển thị trên client và dữ liệu gốc ( không phải dữ liệu đã mã hóa)"
+9187,Kiểm tra hiển thị khi dữ liệu các trường hiển thị trên màn hình không trả về ( web service) hoặc dữ liệu trống, 2:Xem thông tin chi tiết,Suite_common_383,1,"Chuẩn bị: Server hoặc CSDL trả về các trường không có dữ liệu/null
+1. Kiểm tra hiển thị màn hình 
+
+(Chú ý kiểm tra đối với tất cả các trường dữ liệu cho phép null)","Tùy vào DTYC điều chỉnh KQMM cho phù hợp:
+ Hiển thị màn hình thông tin chi tiết, các trường thông tin cố định vẫn được hiển thị, các trường dữ liệu hiển thị theo API trả về thì để trống"
+9188,Kiểm tra hiển thị dữ liệu trên màn hình khi dữ liệu các trường dài, 2:Xem thông tin chi tiết,Suite_common_383,1,"Chuẩn bị: Dữ liệu có độ dài bằng maxlength cho phép của tất cả các trường dữ liệu
+1. Kiểm tra hiển thị trên màn hình
+","Tùy vào DTYC để điều chỉnh KQMM cho phù hợp:
+-  Hiển thị đầy đủ nội dung , tự xuống dòng nếu vượt quá khung.
+Có Scroll để xem hết nội dung nếu vượt quá độ cao của khung hiển thị
+Hoặc:
+- Hiển thị nội dung vừa khung, phần vượt quá hiển thị dấu ….
+Hoặc :
+- Hiển thị chữ chạy
+"

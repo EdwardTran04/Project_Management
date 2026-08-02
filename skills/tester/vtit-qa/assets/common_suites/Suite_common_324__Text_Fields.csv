@@ -1,0 +1,78 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8324,Kiểm tra khi focus vào EditText, 2: Text Fields ,Suite_common_324,1,"1. Focus vào hộp EditText
+","1. Mở ngay ra bàn phím dạng bàn phím tương ứng với loại dữ liệu của từng TextField (Tự động định dạng chuẩn dữ liệu đối với một số kiểu dữ liệu:  tiền tệ, số điện thoại, địa chỉ ip,…)
++ Text (gồm: chữ, số, ký tự, chuyển đổi hoa/thường,...)
++ Số  ( bàn phím số và các ký tự đặc biệt tương ứng theo yêu cầu như dấu chấm, phẩy ... để nhập thập phân)
+Lưu ý với các trường số nhập tiền tệ"
+8325,Kiểm tra khi focus ra ngoài EditText hoặc nút thoát EditText, 2: Text Fields ,Suite_common_324,1,"1. Focus ra ngoài hộp EditText hoặc nút thoát trên bàn phím
+","-  Đóng bàn phím khi touch ra ngoài  EditText (nên có nhưng không bắt buộc)
+-  Đóng bàn phím  khi Nhấn nút thoát trên bàn phím , nhấn [back] trên thiết bị
+-  Đóng bàn phím khi chuyển sang màn hình khác
+"
+8326,Kiểm tra loại EditText có thể yêu cầu thêm các chức năng hiển thị trên bàn phím (tùy từng chức năng có hoặc không), 2: Text Fields ,Suite_common_324,1,"1. Focus vào hộp EditText (ví dụ EditText đó có gắn với chức năng Tìm kiếm)
+","1. Mở ngay ra bàn phím dạng text và có thêm nút Tìm kiếm luôn trên bàn phím để tìm kiếm dễ dàng ( chỉ có trên android)
+(Tùy theo YC và sự thuận tiện của người dùng)
+ví dụ: màn hình tìm kiếm có 2 điều kiện tìm kiếm thì :
+ - bàn phím ở edittext 1 là ""Tiếp theo"".
+ - bàn phím ở edittext 2 là ""Tìm kiếm"".
+"
+8327,Kiểm tra hộp EditText hiển thị đủ không bị che, 2: Text Fields ,Suite_common_324,1,1. Focus vào hộp EditText,"1. Mở ngay ra bàn phím và hiển thị hộp EditText , hiển thị con trỏ vào đầu editText"
+8328,Kiểm tra khi nhập [enter]  trên bàn phím trường hợp edit text cho nhập nhiều dòng, 2: Text Fields ,Suite_common_324,1,"Ví dụ edittext có 100 ký tự
+1. Tạo dữ liêu đối với trường có maxlength là 100 kí tự bao gồm 
+50 kí tự đầu + nhập xuống 3 dòng trắng + 47 kí tự 
+2. Kiểm tra hiển thị trên màn hình","
+Cho phép nhập nhiều dòng thì hiển thị như đã nhập dữ liệu
+
+"
+8329,Kiểm tra nhập dữ liệu khi có hint text, 2: Text Fields ,Suite_common_324,1,1. Kiểm tra hiển thị khi nhập dữ liệu,"Mất hint text, hiển thị kí tự vừa nhập và icon x"
+8330,Kiểm tra nhập dữ liệu khi có hint text, 2: Text Fields ,Suite_common_324,1,2. Touch vào icon x,"Mất kí tự vừa nhập, hiển thị hint text"
+8331,"Kiểm tra copy nội dung dữ liệu, paste vào EditText", 2: Text Fields ,Suite_common_324,1,"Edit text kiểu text : 
+1. Copy nội dung dữ liệu, paste vào EditText
+2. Các thông tin khác được nhập hợp lệ
+3. Nhấn button [Ghi lại]","1. Cho phép thực hiện copy và thực hiện được [Ghi lại] thành công
+"
+8332,"Kiểm tra Paste bằng chuột phải, hoặc Ctrl - V xâu ký tự không hợp lệ vào EditText kiểu số
+
+", 2: Text Fields ,Suite_common_324,1,"1. Paste bằng chuột phải, hoặc Ctrl - V xâu ký tự không hợp lệ vào EditText
+2. Các thông tin khác nhập hợp lệ
+3. Nhấn button [Ghi lại]","1. Đưa ra thông báo lỗi
+2. Set focus vào lỗi
+Hoặc xử lý: Giới hạn không cho phép paste, hoặc ctrl - V chuỗi không hợp lệ"
+8333,Kiểm tra hiển thị khi nhập hoặc paste dữ liệu vào EditText khi edittext đang hiển thị thông báo lỗi  ( message error của android), 2: Text Fields ,Suite_common_324,1,"1. Đảm bảo edittext đang hiển thị thông báo lỗi (thông báo lỗi của control android)
+2. Nhập hoặc paste dữ liệu vào EditText 
+",Thông báo lỗi bị mất đi
+8334,Kiểm tra khi nhập toàn ký tự space vào textField, 2: Text Fields ,Suite_common_324,1,"1. Nhập toàn ký tự space vào textField
+2. Các thông tin khác được nhập hợp lệ
+3. Nhấn button [Ghi lại]","-Hiển thị thông báo yêu cầu nhập dữ liệu
+-Phần nội dung space đã nhập phải được trim, con trỏ focus tại lề trái TextField"
+8335,Kiểm tra hiển thị khi nhập dữ liệu dài, 2: Text Fields ,Suite_common_324,1,"1. Nhập dữ liệu vừa đủ chiều dài hôp EditText
+2. Kiểm tra sự hiển thị dữ liệu ",1.Chương trình hiển thị vừa đúng độ dài kí tự đã nhập
+8336,Kiểm tra hiển thị khi nhập dữ liệu dài, 2: Text Fields ,Suite_common_324,1,"1.Nhập kí tự vừa độ dài khung 
+2. Sau đó nhập thêm kí tự space 
+3. Kiểm tra dữ liệu hiển thị","TextField không bị xô lệch, Form nhập dữ liệu được giữ nguyên như ban đầu"
+8337,Kiểm tra hiển thị khi nhập dữ liệu dài, 2: Text Fields ,Suite_common_324,1,"1. Nhập dữ liệu quá chiều dài hộp EditText
+2. Kiểm tra sự hiển thị dữ liệu ","TH1 : Đặc tả không cho phép xuống dòng ( Singe line)
+1.Chương trình hiển thị độ dài các kí tự cuối vừa đủ hộp EditText, không tự động xuống dòng.
+2.Hộp EditText không bị giãn ra. Có thể di con trỏ đến đầu, cuối của dữ liệu
+
+TH1 : Đặc tả cho phép xuống dòng (Multiple line)
+1.Chương trình tự động xuống dòng khi nhập quá chiều dài hộp EditText
+
+2.Có thể nhìn thấy tất cả dữ liệu nhập trên các dòng.  Kiểm tra nếu bị che khuất thì phải scroll lên xuống để nhìn thấy đủ dữ liệu
+
+Chọn từng KQMM với từng yêu cầu cụ thể"
+8338,"Kiểm tra trong trường hợp cho phép nhập nhiều dòng 
+", 2: Text Fields ,Suite_common_324,1,"1. Nhập dữ liệu trên nhiều dòng
+2. Các thông tin khác được nhập hợp lệ
+3. Nhấn button [Ghi lại]
+","1. Thực hiện lưu thành công
+2. Dữ liệu được hiển thị trên nhiều dòng khi view lại
+3. Có thể scroll lên xuống để xem nội dung
+"
+8339,Kiểm tra hiển thị con trỏ khi nhập dữ liệu nhiều dòng, 2: Text Fields ,Suite_common_324,1,"1.Thực hiện nhập ký tự trong Edittor
+2.Thực hiện enter xuống dòng cho quá chiều cao của khung ", Con trỏ ở line cuối cùng được đẩy lên để thấy được.
+8340,Kiểm tra việc hỗ trợ người dùng xóa nhanh text nhập liệu, 2: Text Fields ,Suite_common_324,1,"1.Thực hiện nhập ký tự trong Edittor
+","Cần hỗ trợ người dùng xóa nhanh text nhập liệu bằng cách:
+- Hiển thị icon xóa toàn bộ ở cuối ô nhập liệu:  Khi người dùng focus vào ô nhập liệu và có ít nhất 1 ký tự đã được nhập, hoặc 1 giá trị đã được chọn.
+- Khi chưa có dữ liệu trong ô nhập liệu thì không hiển thị icon xóa text
+"

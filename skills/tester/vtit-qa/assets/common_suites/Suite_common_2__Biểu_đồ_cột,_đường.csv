@@ -1,0 +1,57 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8054,Kiểm tra hiển thị biểu đồ khi không có dữ liệu," 3: Biểu đồ cột, đường",Suite_common_2,1,"Đảm bảo đăng nhập với user không có dữ liệu 
+1. Chọn Xem biểu đồ
+2. Kiểm tra DB","1. Hiển thị thông báo không có dữ liệu hoặc hiển thị biểu đồ bao gồm trục tung, trục hoành và trên biểu đồ không vẽ dữ liệu ( tùy ĐTYC )
+2. Truy vấn DB không có kết quả
+"
+8055,Kiểm tra hiển thị biểu đồ khi không có dữ liệu," 3: Biểu đồ cột, đường",Suite_common_2,1,"Đối với trường hợp có chức năng đồng bộ hoặc load dữ liệu từ server.
+Đảm bảo không có dữ liệu (dữ liệu chưa được đồng bộ về hoặc đồng bộ bị lỗi  )
+1. Đăng nhập vào hệ thống
+2. Chọn Xem biểu đồ
+3. Kiểm tra DB
+","2. Hiển thị thông báo không có dữ liệu hoặc hiển thị biểu đồ bao gồm trục tung, trục hoành và trên biểu đồ không vẽ dữ liệu ( tùy ĐTYC )
+3. Truy vấn DB không có kết quả
+"
+8056,Kiểm tra hiển thị biểu đồ khi  tất cả các cột dữ liệu có giá trị NULL," 3: Biểu đồ cột, đường",Suite_common_2,1,"Chuẩn bị dữ liệu bảng tương ứng sao cho dữ liệu cần hiển thị = giá trị NULL
+1. Kiểm tra hiển thị của biếu đồ
+","1. Hiển thị giá trị vẽ trên biểu đồ =0 ( hoặc không có giá trị tùy ĐTYC ) và không bị crash chương trình.
+"
+8057,Kiểm tra hiển thị  đúng thông tin biểu đồ khi có đầy đủ dữ liệu tất cả các cột," 3: Biểu đồ cột, đường",Suite_common_2,1,"Chuẩn bị dữ liệu bảng tương ứng có đầy đủ dữ liệu tất cả các cột ( Ghi cụ thể giá trị các trục, các điểm lấy giá trị từ trường nào trong DB )
+1.Kiểm tra thông tin chính các thành phần của biểu đồ 
++ Title :
++ Trục tung , trục hoành ( đơn vị )
++ Ghi chú 
+*Note: 
+Chuẩn bị dữ liệu với giá trị chẳn, lẽ , nhiều giá trị.","1.Thực hiện vẽ biểu đồ chính xác với các thông tin thành phần  theo ĐTYC 
+- Hiển thị biểu đồ đầy đủ thông tin dữ liệu của tất cả các cột,  - Màu sắc biểu đồ đúng như tài liệu mô tả"
+8058,Kiểm tra biểu đồ khi có giá trị trục hoành nhưng không có giá trị trục tung," 3: Biểu đồ cột, đường",Suite_common_2,1,"Chuẩn bị dữ liệu bảng tương ứng sao cho dữ liệu cần hiển thị có giá trị trục tung = giá trị NULL
+1. Kiểm tra hiển thị của biếu đồ
+","1. Hiển thị giá trị vẽ trên biểu đồ tương ứng trục tung =0 ( hoặc  biểu đồ tương úng không được vẽị tùy ĐTYC ) và không bị crash chương trình.
+"
+8059,Kiểm tra hiển thị  đúng thông tin biểu đồ khi có đầy đủ dữ liệu tất cả các cột," 3: Biểu đồ cột, đường",Suite_common_2,1,"
+2.Kiểm tra dữ liệu hiển thị trên biểu đồ 
+* Script :","
+2. Thông tin hiển thị và được vẽ trên biểu đồ giống với thông tin truy vấn từ DB"
+8060,Kiểm tra hiển thị biểu đồ khi thiếu một số cột dữ liệu ," 3: Biểu đồ cột, đường",Suite_common_2,1,"Chuẩn bị dữ liệu bảng tương ứng thiếu một sô cột dữ liệu 
+Các cột dữ liệu thiếu có giá trị =0
+1. Kiểm tra hiển thị của biếu đồ
+2. Truy vấn DB",1. Hiển thị biểu đồ tương ứng với các cột thông tin có dữ liệu 2.Thông tin hiển thị và được vẽ trên biểu đồ giống với thông tin truy vấn từ DB
+8061,Kiểm tra hiển thị biểu đồ khi thiếu một số cột dữ liệu ," 3: Biểu đồ cột, đường",Suite_common_2,1,"Chuẩn bị dữ liệu bảng tương ứng thiếu một sô cột dữ liệu 
+Các cột dữ liệu thiếu có giá trị =NULL
+1. Kiểm tra hiển thị của biếu đồ
+2. Truy vấn DB","1. Hiển thị biểu đồ tương ứng với các cột thông tin  có dữ liệu  và không bị crash chương trình
+2.Thông tin hiển thị và được vẽ trên biểu đồ giống với thông tin truy vấn từ DB"
+8062,Kiểm tra hiển thị biểu đồ khi có nhiều dữ liệu cột ( bằng giá trị maxlength cho phép ví dụ max=100 cột)," 3: Biểu đồ cột, đường",Suite_common_2,1,"Chuẩn bị dữ liệu bảng tương ứng có nhiều dữ liệu = giá trị maxlength cho phép ( tùy theo ĐTYC )
+1. Kiểm tra hiển thị của biếu đồ
+2. Truy vấn DB","1. Hiển thị biểu đồ đầy đủ thông tin dữ liệu của tất cả các cột ( cho phép scroll ngang để thấy hết thông tin dữ liệu của đối tượng cần hiển thị )
+2. Thông tin hiển thị và được vẽ trên biểu đồ giống với thông tin truy vấn từ DB"
+8063,"Kiểm tra hiển thị biểu đồ khi dữ liệu cột ( bằng giá trị maxlength cho phép ( maxlength số cột , maxlength từng cột )"," 3: Biểu đồ cột, đường",Suite_common_2,1,"Chuẩn bị dữ liệu bảng tương ứng có nhiều cột dữ liệu = giá trị maxlength cho phép (max cả tung độ và hoành độ) 
+1. Kiểm tra hiển thị của biếu đồ
+2. Truy vấn DB","1. Hiển thị biểu đồ đầy đủ thông tin dữ liệu của tất cả các cột ( cho phép scroll ngang để thấy hết thông tin dữ liệu của đối tượng cần hiển thị )
+2. Thông tin hiển thị và được vẽ trên biểu đồ giống với thông tin truy vấn từ DB"
+8064,Kiểm tra hiển thị biểu đồ khi dữ liệu có sự chênh lệch lớn giứa các cột dữ liệu," 3: Biểu đồ cột, đường",Suite_common_2,1,"Chuẩn bị dữ liệu có sự chênh lệch lớn về giá trị của đối tượng cần hiển thị 
+1. Kiểm tra hiển thị của biếu đồ
+2. Kiểm tra DB
+","- Hiển thị biểu đồ cột tương ứng với các mức sản lượng của các tháng
+Tỷ lệ giữa các cột tương ứng với khoảng cách từ min đến max
+-Tổng sản lượng theo tháng đùng với kết quả DB "

@@ -1,0 +1,11 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9073,Kiểm tra khi địa chỉ email hợp lệ, 4: Edittext  -  Email ,Suite_common_359,1,"1. Nhập địa chỉ email hợp lệ ( Nên confirm lại theo ĐTYC để biết các định dạng hợp lệ)
+firstname@viettel.com.vn
+firstname.lastname@domain.com
+email@subdomain.domain.com
+email@domain-one.com
+firstname-lastname@domain.com
+email@domain.co.jp
+2. Các thông tin khác được nhập hợp lệ
+3. Nhấn button [Ghi lại]","1. Thực hiện lưu thành công. Kiểm tra lưu đúng như case lưu CSDL
+"

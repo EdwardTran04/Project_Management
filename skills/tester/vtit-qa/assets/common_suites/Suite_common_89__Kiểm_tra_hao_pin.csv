@@ -1,0 +1,13 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8457,Kiểm tra hao pin không sử dụng tool , 3: Kiểm tra hao pin,Suite_common_89,1,"Chuẩn bị: Sạc pin đầy, tắt tất cả các ứng dụng khác ứng dụng đang chạy
+
+1. Mở ứng dụng
+2. Sử dụng ứng dụng và kiểm tra trạng thái của pin trong 1  ngày
+3. Sạc đầy lại máy và lặp lại bước 1-2 trong 2 lần nữa
+
+(chú ý : 
+Lần 1: Thao tác các chức năng ít dữ liệu
+Lần 2: Thao tác các chức năng nhiều dữ liệu
+Lần 3: Thao tác các chức năng nhiều dữ liệu)
+","Ghi log lại mỗi lần test hao pin và đánh giá
+APPLICATION tiêu hao pin vừa phải"

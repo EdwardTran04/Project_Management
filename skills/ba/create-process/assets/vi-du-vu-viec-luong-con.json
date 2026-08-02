@@ -1,0 +1,28 @@
+{
+  "process_name": "Quy trình Vụ việc — luồng con: Phối hợp vụ việc",
+  "lanes": [
+    "Thủ trưởng phối hợp",
+    "Trợ lý",
+    "Hệ thống"
+  ],
+  "nodes": [
+    {"id": "CS",   "lane": 0, "col": 0, "type": "start"},
+    {"id": "CA",   "lane": 0, "col": 1, "type": "task", "label": "Chuyển xử lý"},
+    {"id": "CT",   "lane": 1, "col": 2, "type": "task", "label": "Gửi ý kiến"},
+    {"id": "CG",   "lane": 0, "col": 3, "type": "gateway", "label": "Duyệt ý kiến?"},
+    {"id": "CY",   "lane": 0, "col": 4, "row": 0, "type": "task_ok",  "label": "Gửi ý kiến"},
+    {"id": "CR",   "lane": 0, "col": 4, "row": 1, "type": "task_err", "label": "Từ chối"},
+    {"id": "CSYS", "lane": 2, "col": 4, "type": "system", "label": "Quá hạn hoàn thành"},
+    {"id": "CE",   "lane": 0, "col": 5, "type": "end", "label": "Hoàn thành / Kết thúc phối hợp"}
+  ],
+  "edges": [
+    {"from": "CS",   "to": "CA"},
+    {"from": "CA",   "to": "CT", "label": "Đã phân công"},
+    {"from": "CT",   "to": "CG", "label": "Chờ duyệt"},
+    {"from": "CG",   "to": "CY", "label": "Đồng ý"},
+    {"from": "CG",   "to": "CR", "label": "Từ chối"},
+    {"from": "CR",   "to": "CT", "label": "Từ chối → gửi lại", "type": "error"},
+    {"from": "CY",   "to": "CE", "label": "Hoàn thành phối hợp"},
+    {"from": "CSYS", "to": "CE", "label": "Quá hạn → Kết thúc phối hợp"}
+  ]
+}

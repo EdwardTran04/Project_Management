@@ -1,0 +1,58 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8522,Kiểm tra định vị của ứng dụng khi thiết bị tắt GPS, 4: Đối với HĐH IOS ,Suite_common_108,1,"1. Vào màn hình Cài đặt của thiết bị --&gt; Chọn Dịch vụ định vị
+2. Set OFF dịch vụ định vị của thiết bị
+3. Đi đến ứng dụng, mở màn hình sử dụng map hoặc định vị GPS","Icon vị trí hiện tại trên bản đồ xám, không lấy được lat, long hiện tại và hiển thị thông báo: Không lấy đươc vị trí của người dùng"
+8523,Định vị GPS khi cài đặt bật/ tắt 3G và bật GPS, 4: Đối với HĐH IOS ,Suite_common_108,1,"1. Bật 3G 
+2. Thực hiện cài đặt định vị GPS cho thiết bị 
+3. Cài đặt cho phép ứng dụng truy cập vị trí của bạn với option là ""Hỏi trong lần tiếp theo"" 
+4. Đi đến ứng dụng, mở màn hình sử dụng map hoặc định vị GPS
+5. Đóng ứng dụng, sau đó mở lại ứng dụng","4. Icon vị trí hiện tại trên bản đồ sáng, lấy được lat, long hiện tại 
+5. Không định vị được vị trí trên bản đồ. Hiển thị thông báo cho phép bật định vị ứng dụng với các option:
+- Cho phép 1 lần 
+- Cho phép khi dùng ứng dụng
+- Từ chối"
+8524,Định vị GPS khi cài đặt bật/ tắt 3G và bật GPS, 4: Đối với HĐH IOS ,Suite_common_108,1,"1. Bật 3G 
+2. Thực hiện cài đặt định vị GPS cho thiết bị 
+3. Cài đặt cho phép ứng dụng truy cập vị trí của bạn với option là ""Khi dùng ứng dụng""
+4. Đi đến ứng dụng, mở màn hình sử dụng map hoặc định vị GPS
+5. Đóng ứng dụng, sau đó mở lại ứng dụng","4. Icon vị trí hiện tại trên bản đồ sáng, lấy được lat, long hiện tại 
+5. Icon vị trí hiện tại trên bản đồ sáng, lấy được lat, long hiện tại"
+8525,Định vị GPS khi cài đặt bật/ tắt 3G và bật GPS, 4: Đối với HĐH IOS ,Suite_common_108,1,"1. Bật 3G 
+2. Thực hiện cài đặt định vị GPS cho thiết bị 
+3. Cài đặt cho phép ứng dụng truy cập vị trí của bạn với option là ""Luôn luôn""
+4. Đi đến ứng dụng, mở màn hình sử dụng map hoặc định vị GPS
+5. Đóng ứng dụng, sau đó mở lại ứng dụng","4. Icon vị trí hiện tại trên bản đồ sáng, lấy được lat, long hiện tại 
+5. Icon vị trí hiện tại trên bản đồ sáng, lấy được lat, long hiện tại"
+8526,Định vị GPS khi cài đặt bật/ tắt 3G và bật GPS, 4: Đối với HĐH IOS ,Suite_common_108,1,"1. Bật 3G 
+2. Thực hiện cài đặt định vị GPS cho thiết bị 
+3. Set off việc cho phép ứng dụng truy cập vị trí của bạn",Hiển thị thông báo: Không lấy đươc vị trí của người dùng
+8527,Định vị GPS khi cài đặt bật/ tắt 3G và bật GPS, 4: Đối với HĐH IOS ,Suite_common_108,1,"1. Tắt 3G 
+2. Thực hiện cài đặt định vị GPS cho thiết bị 
+3. Cài đặt cho phép ứng dụng truy cập vị trí của bạn.",Hiển thị thông báo: Không lấy đươc vị trí của người dùng
+8528,Định vị GPS khi bật/ tắt Wifi và bật GPS, 4: Đối với HĐH IOS ,Suite_common_108,1,"1. Bật Wifi
+2. Thực hiện cài đặt định vị GPS cho thiết bị 
+3. Cài đặt cho phép ứng dụng truy cập vị trí của bạn với option là ""Hỏi trong lần tiếp theo"" 
+4. Đi đến ứng dụng, mở màn hình sử dụng map hoặc định vị GPS
+5. Đóng ứng dụng, sau đó mở lại ứng dụng","4. Icon vị trí hiện tại trên bản đồ sáng, lấy được lat, long hiện tại 
+5. Không định vị được vị trí trên bản đồ. Hiển thị thông báo cho phép bật định vị ứng dụng với các option:
+- Cho phép 1 lần 
+- Cho phép khi dùng ứng dụng
+- Từ chối"
+8529,Định vị GPS khi bật/ tắt Wifi và bật GPS, 4: Đối với HĐH IOS ,Suite_common_108,1,"1. Bật Wifi 
+2. Thực hiện cài đặt định vị GPS cho thiết bị 
+3. Cài đặt cho phép ứng dụng truy cập vị trí của bạn với option là ""Khi dùng ứng dụng""
+4. Đi đến ứng dụng, mở màn hình sử dụng map hoặc định vị GPS
+5. Đóng ứng dụng, sau đó mở lại ứng dụng","4. Icon vị trí hiện tại trên bản đồ sáng, lấy được lat, long hiện tại 
+5. Icon vị trí hiện tại trên bản đồ sáng, lấy được lat, long hiện tại"
+8530,Định vị GPS khi bật/ tắt Wifi và bật GPS, 4: Đối với HĐH IOS ,Suite_common_108,1,"1. Bật Wifi 
+2. Thực hiện cài đặt định vị GPS cho thiết bị 
+3. Cài đặt cho phép ứng dụng truy cập vị trí của bạn với option là ""Luôn luôn""
+4. Đi đến ứng dụng, mở màn hình sử dụng map hoặc định vị GPS
+5. Đóng ứng dụng, sau đó mở lại ứng dụng","4. Icon vị trí hiện tại trên bản đồ sáng, lấy được lat, long hiện tại 
+5. Icon vị trí hiện tại trên bản đồ sáng, lấy được lat, long hiện tại"
+8531,Định vị GPS khi bật/ tắt Wifi và bật GPS, 4: Đối với HĐH IOS ,Suite_common_108,1,"1. Bật Wifi 
+2. Thực hiện cài đặt định vị GPS cho thiết bị 
+3. Set off việc cho phép ứng dụng truy cập vị trí của bạn",Hiển thị thông báo: Không lấy đươc vị trí của người dùng
+8532,Định vị GPS khi bật/ tắt Wifi và bật GPS, 4: Đối với HĐH IOS ,Suite_common_108,1,"1. Tắt Wifi 
+2. Thực hiện cài đặt định vị GPS cho thiết bị 
+3. Cài đặt cho phép ứng dụng truy cập vị trí của bạn.",Hiển thị thông báo: Không lấy đươc vị trí của người dùng

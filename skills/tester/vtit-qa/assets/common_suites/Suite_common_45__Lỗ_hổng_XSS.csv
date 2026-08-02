@@ -1,0 +1,53 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8233,Kiểm tra XSS đối với textbox/ chuỗi ký tự gửi server, 2: Lỗ hổng XSS,Suite_common_45,1,"1. Nhập vào textbox hoặc dùng tool để sửa các chuỗi ký tự gửi lên server các  đoạn script có chứa các ký tự: 
+/, "", ', &amp;, &lt;, &gt;   :
+
+""&gt;&lt;script&gt;alert(1)&lt;/script&gt; hoặc '&gt;&lt;script&gt;alert(1)&lt;/script&gt;
+abc"" onmouseover=""javascript:alert(1);
+""&gt;&lt;scr&lt;script&gt;ipt&gt;alert(1)&lt;/script&gt; ( trường hợp ứng dụng xử lý từ khóa script thì dùng payload này)
+&lt;scRiPt&gt;alert(1)&lt;/sCrIpT
+&lt;IMG SRC=# onmouseover=""alert('xxs')""&gt;
+&lt;iframe src=”” onmouseover=”javascript:alert(1)”/&gt;
+&lt;IMG SRC=""jav&amp;#x0A;ascript:alert('XSS');""&gt;
+
+( Có thể bổ sung các script khác trong sheet : Mã tấn công XSS)
+
+2. Nhập các trường khác hợp lệ
+3. Click button Lưu
+4. Kiểm tra màn hình hoặc dùng tool để bắt response trả về
+
+Chú ý : Nếu textbox bị chặn maxlength thì dùng tool để bắt request sửa lại giá trị nhập
+( Xem comment để hiểu hơn về lỗi)
+","Không thực thi script
+Response trả về các ký tự  /, "", ', &amp;, &lt; đều encode:
+""   =&gt;  ""
+&amp;  =&gt;  &amp;
+'    =&gt;  '
+/    =&gt;  /
+&lt;   =&gt;  &lt;
+&gt;   =&gt;  &gt;"
+8234,Kiểm tra XSS với URL có chứa tham số, 2: Lỗ hổng XSS,Suite_common_45,1,"1. Thay tham số URL lần lượt  bằng các đoạn script có chứa :/, "", ', &amp;, &lt;, &gt;  
+
+""&gt;&lt;script&gt;alert(1)&lt;/script&gt; hoặc '&gt;&lt;script&gt;alert(1)&lt;/script&gt;
+abc"" onmouseover=""javascript:alert(1);
+""&gt;&lt;scr&lt;script&gt;ipt&gt;alert(1)&lt;/script&gt; ( trường hợp ứng dụng xử lý từ khóa script thì dùng payload này)
+&lt;scRiPt&gt;alert(1)&lt;/sCrIpT
+&lt;IMG SRC=# onmouseover=""alert('xxs')""&gt;
+&lt;iframe src=”” onmouseover=”javascript:alert(1)”/&gt;
+&lt;IMG SRC=""jav&amp;#x0A;ascript:alert('XSS');""&gt;",Hiện thị trang không tìm thấy
+8235,Kiểm tra Stored XSS, 2: Lỗ hổng XSS,Suite_common_45,1,"1. Thực hiện thêm mới/Cập nhật một đối tượng có 1 trường chứa các thẻ script:
+""&gt;&lt;script&gt;alert(1)&lt;/script&gt; hoặc '&gt;&lt;script&gt;alert(1)&lt;/script&gt;
+abc"" onmouseover=""javascript:alert(1);
+""&gt;&lt;scr&lt;script&gt;ipt&gt;alert(1)&lt;/script&gt; ( trường hợp ứng dụng xử lý từ khóa script thì dùng payload này)
+&lt;scRiPt&gt;alert(1)&lt;/sCrIpT
+&lt;IMG SRC=# onmouseover=""alert('xxs')""&gt;
+&lt;iframe src=”” onmouseover=”javascript:alert(1)”/&gt;
+&lt;IMG SRC=""jav&amp;#x0A;ascript:alert('XSS');""&gt;
+2. Sang chức năng view đối tượng đó","Không thực thi script, hiển thị dữ liệu như đã lưu
+Response trả về các ký tự /,  "", ', &amp;, &lt; đều encode:
+""   =&gt;  ""
+&amp;  =&gt;  &amp;
+'    =&gt;  '
+/    =&gt;  /
+&lt;   =&gt;  &lt;
+&gt;   =&gt;  &gt;"

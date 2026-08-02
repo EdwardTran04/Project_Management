@@ -1,0 +1,6 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8506,"Kiểm tra khi thay đổi cấu hình International 
+(Đối với IOS)", 3: Thay đổi cấu hình International ,Suite_common_101,1,"1. Mở ứng dụng
+2. Vào setting/international:
++ Thay đổi Region Format (Chinese)
++ Thay đổi Calendar (ví dụ: Japanese, Buddhist)","Kiểm tra các chức năng liên quan đến thời gian (ngày, giờ hoạt động đúng) luôn ăn theo cấu hình vùng là gì ????? (Chú ý các chức năng cần check: hiển thị theo ngày giờ, lưu dữ liệu ngày, giờ)"

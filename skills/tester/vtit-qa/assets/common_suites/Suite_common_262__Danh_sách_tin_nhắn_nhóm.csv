@@ -1,0 +1,98 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8791,Kiểm tra màn hình ở trạng thái mặc định, 4: Danh sách tin nhắn nhóm,Suite_common_262,1,"Đảm bảo: A không tham gia nhóm chat nào 
+1. Kiểm tra hiển thị trên danh sách chat nhóm
+2. Check DB client và so sánh kết quả","1. Hiển thị thông báo ""KHÔNG CÓ DỮ LIỆU""
+2. Không có bản ghi nào trên DB client. Thông tin hiển thị trên màn hình giống với dữ liệu trong DB client"
+8792,Kiểm tra màn hình ở trạng thái mặc định, 4: Danh sách tin nhắn nhóm,Suite_common_262,1,"Đảm bảo đã có ít nhất 1 liên lạc chat nhóm
+1. Tại DS chat nhóm, kiểm tra hiển thị trên DS
+2. Kiểm tra trong DB Client và so sánh kết quả
+Script (*)","1. Trên DS chat nhóm hiển thị 1 liên lạc chat nhóm.
+2. DB client chỉ có 1 bản ghi. Thông tin hiển thị trên danh sách đúng với dữ liệu trong DB client"
+8793,Kiểm tra màn hình ở trạng thái mặc định, 4: Danh sách tin nhắn nhóm,Suite_common_262,1,"Đảm bảo: người dùng đang tham gia nhiều nhóm
+1. Kiểm tra hiển thị trên danh sách chat nhóm
+2. Check DB client và so sánh kết quả","1. Hiển thị đầy đủ danh sách người dùng đang tham gia
+Có thể scroll lên xuống để xem hết DS nhóm chat
+Thông tin hiển thị trên màn hình đúng với dữ liệu trong DB client"
+8794,Kiểm tra hiển thị DS nhóm chat khi tạo mới 1 nhóm chat, 4: Danh sách tin nhắn nhóm,Suite_common_262,1,"1. A tạo 1 nhóm chat [Nhóm vui vẻ]
+2. Kiểm tra hiển thị trên DS nhóm chat của A",2. Hiển thị [Nhóm vui vẻ] trên DS nhóm chat
+8795,Kiểm tra hiển thị DS nhóm chat khi được mời vào nhóm chat, 4: Danh sách tin nhắn nhóm,Suite_common_262,1,"1. A mời B vào nhóm [Nhóm vui vẻ]
+2. B tham gia nhóm
+3. Kiểm tra hiển thị DS nhóm chat của B",3. Hiển thị [Nhóm vui vẻ] trên DS nhóm chat của B
+8796,Kiểm tra hiển thị khi có một liên lạc chat nhóm mới, 4: Danh sách tin nhắn nhóm,Suite_common_262,1,"Đảm bảo: A có 5 nhóm chat trên DS chat nhóm
+1. A tạo/tham gia 1 nhóm khác không nằm trong DS, thực hiện gửi tin nhắn trong nhóm
+2. Kiểm tra hiển thị danh sách chat nhóm của A",2. Hiển thị nhóm vừa trò chuyện lên đầu Danh sách
+8797,Kiểm tra hiển thị khi có một liên lạc chat nhóm mới, 4: Danh sách tin nhắn nhóm,Suite_common_262,1,"Đảm bảo: A có 5 nhóm chat trên DS chat nhóm
+1. A gửi tiếp tin nhắn đến nhóm nằm cuối cùng trong danh sách
+2. Kiểm tra hiển thị danh sách chat nhóm của A",2. Hiển thị nhóm cuối cùng đó lên đầu danh sách chat nhóm
+8798,Kiểm tra hiển thị khi có một liên lạc chat nhóm mới, 4: Danh sách tin nhắn nhóm,Suite_common_262,1,"Đảm bảo: A có 5 nhóm chat trên DS chat nhóm
+1. A nhận được tin nhắn mới từ nhóm nằm cuối cùng trong danh sách
+2. Kiểm tra hiển thị danh sách chat nhóm của A",2. Hiển thị nhóm cuối cùng vừa có tin nhắn mới lên đầu danh sách chat nhóm
+8799,Kiểm tra hiển thị của item trong danh sách khi có tin nhắn mới chưa đọc, 4: Danh sách tin nhắn nhóm,Suite_common_262,1,"Đảm bảo: A nhận được 1 tin nhắn mới từ nhóm X trong DS nhưng chưa đọc tin
+1. Kiểm tra hiển thị nhóm X trong danh sách chat nhóm của A",1. Tên nhóm vừa có tin nhắn mới được in đậm
+8800,Kiểm tra hiển thị của item trong danh sách khi có tin nhắn mới chưa đọc, 4: Danh sách tin nhắn nhóm,Suite_common_262,1,"Đảm bảo: A nhận nhiều tin nhắn mới từ nhóm X nhưng chưa đọc
+1. Kiểm tra hiển thị nhóm X trong danh sách chat nhóm của A",1. Tên nhóm vừa có tin nhắn mới được in đậm
+8801,Kiểm tra hiển thị của item trong danh sách khi có tin nhắn mới chưa đọc, 4: Danh sách tin nhắn nhóm,Suite_common_262,1,"Đảm bảo: 
+- A tham gia nhiều nhóm
+- A nhận được nhiều tin nhắn mới từ các nhóm trên DS nhưng chưa đọc
+1. Kiểm tra hiển thị trên danh sách chat nhóm",1. Tên các nhóm vừa có tin nhắn mới đều được in đậm
+8802,Kiểm tra hiển thị thứ tự tên nhóm trên DS nhóm chat, 4: Danh sách tin nhắn nhóm,Suite_common_262,1,"Điều kiện:
+- Nhóm A tạo lúc 10:20, 10/04/2015
+- Nhóm B tạo lúc 12:20, 15/04/2015
+- Nhóm C tạo lúc 17:00, 15/04/2015
+1. Kiểm tra thứ tự hiển thị tên nhóm","1. Hiển thị tên nhóm theo thời gian giảm dần [C, B, A]"
+8803,Kiểm tra hiển thị danh sách chat nhóm sau khi logout ra khỏi hệ thống, 4: Danh sách tin nhắn nhóm,Suite_common_262,1,"Điều kiện: Trên danh sách chat nhóm của A có nhiều nhóm đang tham gia
+1. A logout ra khỏi ứng dụng
+2. Đăng nhập lại vào ứng dụng
+3. Vào lại danh sách chat nhóm
+4. Kiểm tra hiển thị trên màn hình","4.Hiển thị thông báo ""KHÔNG CÓ DỮ LIỆU"""
+8804,Kiểm tra hiển thị danh sách chat nhóm sau khi kill app, 4: Danh sách tin nhắn nhóm,Suite_common_262,1,"Điều kiện: Trên danh sách chat nhóm của A có nhiều nhóm đang tham gia
+1. A kill ứng dụng
+2. Đăng nhập lại vào ứng dụng
+3. Vào lại Danh sách chat Nhóm
+4. Kiểm tra hiển thị trên màn hình","4.Hiển thị thông báo ""KHÔNG CÓ DỮ LIỆU"""
+8805,Kiểm tra hiển thị danh sách chat nhóm khi thay đổi thiết bị, 4: Danh sách tin nhắn nhóm,Suite_common_262,1,"Đảm bảo user A chưa từng chat trên máy 1 và máy 2
+1. Đăng nhập user A trên máy 1
+2. A tham gia nhóm [Nhóm vui vẻ] 
+3. Logout user A khỏi máy 1
+4. Đăng nhập user A trên máy 2
+5. Vào Danh sách chat Nhóm, kiểm tra hiển thị trên màn hình",5. Không hiển thị nhóm [Nhóm vui vẻ] trên DS chat Nhóm ở thiết bị 2 
+8806,Kiểm tra hiển thị danh sách chat nhóm khi rời nhóm, 4: Danh sách tin nhắn nhóm,Suite_common_262,1,"1. A tham gia vào nhóm [Nhóm vui vẻ]
+2. A rời nhóm thành công
+3. Kiểm tra hiển thị trên DS nhóm chat của A",5. Không hiển thị nhóm [Nhóm vui vẻ] trên DS chat Nhóm của A
+8807,Kiểm tra hiển thị DS nhóm chat khi tất cả thành viên rời khỏi nhóm, 4: Danh sách tin nhắn nhóm,Suite_common_262,1,"Điều kiện: Nhóm X chỉ có A, B, C 
+1. Tất cả thành viên của X rời khỏi nhóm
+2. Kiểm tra hiển thị trên DS nhóm chat của A, B, C","2. Tại DS chat nhóm của A, B, C đều không còn tồn tại nhóm X"
+8808,Kiểm tra hiển thị DS nhóm chat khi tất cả thành viên rời khỏi nhóm, 4: Danh sách tin nhắn nhóm,Suite_common_262,1,"Điều kiện: 
+- Nhóm X chỉ có A, B, C 
+- A tham gia nhóm Y
+1. Tất cả thành viên của X rời khỏi nhóm
+2. Kiểm tra hiển thị trên DS nhóm chat của A, B, C","2. Tại DS chat nhóm của B, C đều không còn tồn tại nhóm X
+- Tại DS chat nhóm của A, chỉ hiển thị nhóm Y 
+"
+8809,Kiểm tra hiển thị danh sách chat nhóm khi on/off mạng, 4: Danh sách tin nhắn nhóm,Suite_common_262,1,"Điều kiện: Trên danh sách chat nhóm của A có nhiều nhóm đang tham gia
+- Đang có kết nối mạng
+1. Tắt kết nối mạng
+2. Kiểm tra hiển thị trên màn hình","2. Hiển thị danh sách nhóm A đang tham gia trước đó gồm các thông tin sau: 
+- Avata mặc định
+- Tên nhóm
+- Label ""Không người tham gia"""
+8810,Kiểm tra hiển thị danh sách chat nhóm khi on/off mạng, 4: Danh sách tin nhắn nhóm,Suite_common_262,1,"3. Bật lại kết nối mạng
+4. Kiểm tra hiển thị trên màn hình
+5. Nhấn vào từng nhóm trên danh sách
+6. Quay ra lại màn hình DS chat nhóm
+7. Kiểm tra hiển thị trên màn hình","4. Hiển thị lại danh sách nhóm A đang tham gia trước đó gồm các thông tin sau: 
+- Avata mặc định
+- Tên nhóm
+- Label ""Không người tham gia""
+7. Hiển thị đúng DS chat nhóm trước khi tắt kết nối mạng với các thông tin:
+- Avata các thành viên nhóm
+- Tên nhóm
+- Tên thành viên nhóm"
+8811,Kiểm tra nhấn vào nhóm bất kỳ trên danh sách khi có kết nối mạng, 4: Danh sách tin nhắn nhóm,Suite_common_262,1,"Điều kiện: Trên DS nhóm chat, có 2 nhóm A, B
+1. Nhấn vào nhóm A
+2. Kiểm tra hiển thị trên màn hình",2. Hiển thị cửa sổ chat nhóm của A với lịch sử chat của nhóm
+8850,Kiểm tra nhấn vào nhóm bất kỳ trên danh sách khi mất kết nối mạng, 4: Danh sách tin nhắn nhóm,Suite_common_262,1,"Điều kiện: Trên DS nhóm chat, có 2 nhóm A, B
+1. Kiểm tra hiển thị trên màn hình DS nhóm chat
+2. Nhấn vào nhóm A
+3. Kiểm tra hiển thị trên màn hình","1. Tại DS nhóm chat, hiển thị 2 nhóm A và B với thông tin ""Không người tham gia""
+3. Hiển thị thông báo ""Mất kết nối mạng. Vui lòng kiểm tra lại cài đặt mạng!"""

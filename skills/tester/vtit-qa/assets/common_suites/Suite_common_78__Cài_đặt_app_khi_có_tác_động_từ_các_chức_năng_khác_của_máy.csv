@@ -1,0 +1,22 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8409,Phát sinh cuộc gọi đến khi đang cài đặt, 4: Cài đặt app khi có tác động từ các chức năng khác của máy,Suite_common_78,1,"1. Đang trong quá trình cài đặt
+2. Thiết bị có cuộc gọi đến","Hiển thị cho user biết đúng với cách đã setting trong Profile (tone, display...)"
+8410,Phát sinh cuộc gọi đến khi đang cài đặt, 4: Cài đặt app khi có tác động từ các chức năng khác của máy,Suite_common_78,1,Thực hiện đàm thoại,Tiến hành bình thường
+8411,Phát sinh cuộc gọi đến khi đang cài đặt, 4: Cài đặt app khi có tác động từ các chức năng khác của máy,Suite_common_78,1,Kết thúc đàm thoại,"- Trở lại quá trình cài đặt APPLICATION, hiển thị vị trí ngay trước khi device nhận incomming call
+- Quá trình cài đặt tiếp tục"
+8412,Phát sinh cuộc gọi đến khi đang cài đặt, 4: Cài đặt app khi có tác động từ các chức năng khác của máy,Suite_common_78,1,"1. Đang trong quá trình cài đặt
+2. Thiết bị có cuộc gọi đến
+3. Từ chối cuộc gọi","- Trở lại quá trình cài đặt APPLICATION, hiển thị vị trí ngay trước khi device nhận incomming call
+- Quá trình cài đặt tiếp tục"
+8413,Thực hiện cuộc gọi đi khi đang cài đặt, 4: Cài đặt app khi có tác động từ các chức năng khác của máy,Suite_common_78,1,"1. Đang trong quá trình cài đặt
+2. Thực hiện cuộc gọi đến emergency number","- Thao tác thành công
+- Đàm thoại bình thường"
+8414,Thực hiện cuộc gọi đi khi đang cài đặt, 4: Cài đặt app khi có tác động từ các chức năng khác của máy,Suite_common_78,1,Kết thúc đàm thoại,"- Trở lại quá trình cài đặt APPLICATION, hiển thị vị trí ngay trước khi device make call
+- Quá trình cài đặt tiếp tục"
+8415,Nhận message khi đang cài đặt, 4: Cài đặt app khi có tác động từ các chức năng khác của máy,Suite_common_78,1,"1. Đang trong quá trình cài đặt
+2. Thiết bị có received message","Alert cho user biết bằng tone đã setting trong Profile nhưng không hiển thị thông tin ngay trên APPLICATION
+"
+8416,Báo thức khi ứng dụng đang chạy, 4: Cài đặt app khi có tác động từ các chức năng khác của máy,Suite_common_78,1,"1. Đang trong quá trình cài đặt
+2. Thiết bị có alarm",Alert cho user biết đúng với cách đã setting trong Profile
+8417,Thông báo lịch họp (calendar meeting) khi ứng dụng đang chạy, 4: Cài đặt app khi có tác động từ các chức năng khác của máy,Suite_common_78,1,"1. Đang trong quá trình cài đặt
+2. Device có calendar meeting",Alert cho user biết đúng với cách đã setting trong Profile

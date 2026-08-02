@@ -1,0 +1,14 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8883,Kiểm tra khi gửi/nhận tin nhắn với nội dung là file hình ảnh được chụp từ camera, 6: File ảnh từ Chụp hình  ,Suite_common_254,1,"Đảm bảo: A, B đang chat với nhau
+1. A chọn chụp ảnh và chụp hình
+2. Gửi hình vừa chụp đến B
+3. Kiểm tra hiển thị trên cửa sổ chat của A
+4. Kiểm tra hiển thị trên cửa sổ chat của B","3. Trên cửa sổ chat của A, hình vừa chụp được gửi thành công và hiển thị trên cửa sổ chat
+4. Trên cửa sổ chat của B, hiển thị hình được gửi từ A"
+8884,Kiểm tra khi gửi/nhận tin nhắn với nội dung là file hình ảnh được chụp từ camera liên tục và nhiều lần, 6: File ảnh từ Chụp hình  ,Suite_common_254,1,"Đảm bảo: A, B đang chat với nhau
+1. A chọn chụp ảnh và chụp hình
+2. Gửi hình vừa chụp đến B
+3. Lặp lại bước 2 nhiều lần
+4. Kiểm tra hiển thị trên cửa sổ chat của A, B","4. Trên cửa sổ chat của A, những hình vừa chụp được gửi thành công và hiển thị trên cửa sổ chat
+- Trên cửa sổ chat của B, hiển thị những hình được gửi từ A
+Chương trình thực hiện bình thường và không bị crash"

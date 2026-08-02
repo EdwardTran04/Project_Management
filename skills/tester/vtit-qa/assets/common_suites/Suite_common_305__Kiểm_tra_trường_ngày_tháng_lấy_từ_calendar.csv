@@ -1,0 +1,24 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8155,Kiểm tra focus trong hộp Calendar khi textbox chưa có giá trị, 2: Kiểm tra trường ngày tháng lấy từ calendar,Suite_common_305,1,"1. Để trống giá trị của textbox.
+2. Thay đổi ngày trên client
+3. Click vào icon Calendar bên cạnh textbox.
+4. Kiểm tra giá trị focus trong hộp Calendar",Ngày hiện tại của hệ thống trên DB được focus
+8156,Kiểm tra focus trong hộp Calendar khi texbtox đã có dữ liệu, 2: Kiểm tra trường ngày tháng lấy từ calendar,Suite_common_305,1,"Giả sử trường ngày tháng đã có giá trị (VD: 20/10/2005)
+1. Click vào icon Calendar bên cạnh textbox.
+2. Kiểm tra giá trị focus trong hộp Calendar",Ngày 20/10/2005 được focus
+8157,Kiểm tra hoạt động của hộp Calendar, 2: Kiểm tra trường ngày tháng lấy từ calendar,Suite_common_305,1,"1. Click vào icon Calendar bên cạnh textbox.
+2. Lựa chọn 1 giá trị ngày tháng trong hộp Calendar","1. Hộp Calendar tự động đóng lại
+2. Giá trị ngày tháng vừa chọn hiển thị trong textbox theo định dạng dd/mm/yyyy"
+8158,Kiểm tra việc reset giá trị trong textbox khi nhấn nút Bỏ chọn, 2: Kiểm tra trường ngày tháng lấy từ calendar,Suite_common_305,1,"Giả sử trường ngày tháng đã có giá trị (VD: 20/10/2005)
+1. Click nút Bỏ chọn bên cạnh textbox.
+",Giá trị trong textbox được reset thành rỗng.
+8159,Kiểm tra khi giá trị ngày tháng lớn hơn ngày hiện tại, 2: Kiểm tra trường ngày tháng lấy từ calendar,Suite_common_305,1,Nhập vào textbox ngày tháng lớn hơn ngày hiện tại,"1. Thông báo Ngày tháng không được phép lớn hơn ngày hiện tại.
+2. Set focus vào trường lỗi"
+8160,Kiểm tra khi giá trị ngày tháng là ngày hiện tại, 2: Kiểm tra trường ngày tháng lấy từ calendar,Suite_common_305,1,Nhập vào textbox ngày tháng là ngày hiện tại,"1. Thông báo Ngày tháng không được phép là ngày hiện tại.
+2. Set focus vào trường lỗi"
+8161,Kiểm tra khi giá trị ngày tháng nhỏ hơn ngày hiện tại, 2: Kiểm tra trường ngày tháng lấy từ calendar,Suite_common_305,1,Nhập vào textbox ngày tháng nhỏ hơn ngày hiện tại,"1. Thông báo Ngày tháng không được phép nhỏ hơn ngày hiện tại.
+2. Set focus vào trường lỗi."
+8162,Băt lỗi khi trường Từ ngày lớn hơn trường Đến ngày, 2: Kiểm tra trường ngày tháng lấy từ calendar,Suite_common_305,1,Nhập giá trị cho trường Từ ngày lớn hơn trường Đến ngày,"1. Thông báo ""Giá trị Từ ngày phải nhỏ hơn hoặc bằng giá trị Đến ngày."" 
+2. Set focus vào textbox Từ ngày."
+8163,Kiểm tra trường Từ ngày bằng trường Đến ngày, 2: Kiểm tra trường ngày tháng lấy từ calendar,Suite_common_305,1,Nhập giá trị cho trường Từ ngày bằng trường Đến ngày,Hệ thống không báo lỗi
+8164,Kiểm tra trường Từ ngày nhỏ hơn trường Đến ngày, 2: Kiểm tra trường ngày tháng lấy từ calendar,Suite_common_305,1,Nhập giá trị cho trường Từ ngày nhỏ hơn trường Đến ngày,Hệ thống không báo lỗi

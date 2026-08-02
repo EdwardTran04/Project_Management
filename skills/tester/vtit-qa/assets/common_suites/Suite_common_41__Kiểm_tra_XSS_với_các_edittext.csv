@@ -1,0 +1,48 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8216,Kiểm tra nhập vào edittext đoạn script, 2: Kiểm tra XSS với các edittext ,Suite_common_41,1,"'1. Nhập vào edittext đoạn script
+
+2. Nhập các trường khác hợp lệ
+3. Click button Lưu
+
+
+",Không thực thi script
+8217,"'Kiểm tra nhập vào edittext đoạn script
+<script> alert(""test"") </script> nhưng được mã hóa dưới dạng Hexa ", 2: Kiểm tra XSS với các edittext ,Suite_common_41,1,"'Nhập vào edittext đoạn script
+ nhưng được mã hóa dưới dạng Hexa : %3C%73%63%72%69%70%74%3E%61%6C%65%72%74%28%22%74%65%73%74%22%29%3C%2F%73%63%72%69%70%74%3E",Không thực thi script ( Cho phép hiển thị đoạn script trước khi được mã hóa)
+8218,'Kiểm tra nhập vào edittext đoạn script chứa nhiều thẻ <script> lồng vào nhau:, 2: Kiểm tra XSS với các edittext ,Suite_common_41,1,'Nhập vào edittext đoạn script chứa nhiều thẻ  hoặc ,Không thực thi script
+8219,'Kiểm tra nhập vào edittext đoạn script chứa nhiều thẻ <script> lồng vào nhau và mã hóa dưới dạng hexa, 2: Kiểm tra XSS với các edittext ,Suite_common_41,1,'Nhập vào edittext đoạn script chứa nhiều thẻ ,Không thực thi script( Cho phép hiển thị đoạn script các đoạn script lồng nhau như trước khi mã hóa)
+8220,"Kiểm tra nhập vào edittext các thẻ embbed, img, iframe", 2: Kiểm tra XSS với các edittext ,Suite_common_41,1,"'Nhập vào edittext các thẻ embbed, img, iframe
+1. 
+3. ""&gt;
+4. 
+5. 
+6. 
+
+
+
+","Không thực thi script
+(Cho phép hiển thị định dạng khung khi nhập dữ liệu là thẻ iframe)"
+8221,Kiểm tra nhập vào edittext dữ liệu kiểu tag, 2: Kiểm tra XSS với các edittext ,Suite_common_41,1,"
+Nhập vào edittext: &lt;script&gt; alert(""test"") &lt;/script&gt;","Hệ thông insert đúng như dữ liệu được nhập vào và không chuyển sang kiểu tag
+
+Khi view lại dữ liệu này thì không bị lỗi"
+8222,Kiểm tra Store XSS, 2: Kiểm tra XSS với các edittext ,Suite_common_41,1,"'1. Dữ liệu có các định dạng sau trực tiếp bằng tay
+&lt;script&gt; alert(""test"") &lt;/script&gt;
+
+&lt;script&gt;&lt;script&gt;alert(""test"")&lt;/script&gt;&lt;/script&gt; 
+
+%3C%73%63%72%69%70%74%3E%61%6C%65%72%74%28%22%74%65%73%74%22%29%3C%2F%73%63%72%69%70%74%3E
+
+ hoặc ","Android : Không hiển thị nội dung trong thẻ script
+IOS : Hiển thị nội dung nhưng loại bỏ các đoạn script"
+8223,Kiểm tra Store XSS, 2: Kiểm tra XSS với các edittext ,Suite_common_41,1,"'1. Dữ liệu có các định dạng sau bằng trình soạn thảo văn bản
+&lt;script&gt; alert(""test"") &lt;/script&gt;
+
+&lt;script&gt;&lt;script&gt;alert(""test"")&lt;/script&gt;&lt;/script&gt; 
+
+%3C%73%63%72%69%70%74%3E%61%6C%65%72%74%28%22%74%65%73%74%22%29%3C%2F%73%63%72%69%70%74%3E
+
+ hoặc ",Hiển thị dữ liệu như đã lưu
+8224,Kiểm tra Store XSS, 2: Kiểm tra XSS với các edittext ,Suite_common_41,1,"'1. Dữ liệu có các đoạn script lồng nhau bằng tay :  alert (""test"") ","Android : Không hiển thị nội dung trong thẻ script
+IOS : Hiển thị nội dung nhưng loại bỏ các đoạn script"
+8225,Kiểm tra Store XSS, 2: Kiểm tra XSS với các edittext ,Suite_common_41,1,"'1. Dữ liệu có các đoạn script lồng nhau bằng trình soạn thảo văn bản :  alert (""test"") ",Hiển thị dữ liệu như đã lưu

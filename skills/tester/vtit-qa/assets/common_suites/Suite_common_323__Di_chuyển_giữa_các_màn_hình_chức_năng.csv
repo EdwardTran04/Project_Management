@@ -1,0 +1,46 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8315,"Kiểm tra di chuyển giữa các màn hình, tab ", 2: Di chuyển giữa các màn hình chức năng,Suite_common_323,1,"1. Tại màn hình/ tab A
+2. Di chuyển qua lại giữa các màn hình chức năng/ tab B, C, D,… khác nhanh liên tục
+
+","Các màn hình hoạt động bình thường không bị crash và mở đúng thông tin tại tab
+Không hiển thị màn hình đen trước khi đến màn hinh mới
+Hiện thanh ""loading"" và màn hình trắng khi màn hình đích chưa hiện ra và load lâu"
+8316,"Kiểm tra hiển thị process bar khi nhấn Back về trang trước
+(Case này không có cho trên IOS)", 2: Di chuyển giữa các màn hình chức năng,Suite_common_323,1,"1. Vào trang A, thực hiện loading dữ liệu, hiển thị process bar
+2. Chọn chức năng B từ màn hình A, thực hiện thao tác
+3. Nhấn phím  Back để quay về màn hình A","Màn hình A refresh dữ liệu mới, hiển thị process bar trong quá trình refresh
+Không hiển thị màn hình đen khi thao tác qua các màn hình"
+8317,Kiểm tra load đến màn hình B khi đang ở màn hình  A mà thực hiện chức năng liên quan đến màn hình B, 2: Di chuyển giữa các màn hình chức năng,Suite_common_323,1,"1. Tại màn hình  A
+2. Nhấn menu dùng chung (cho màn hình A, màn hình B,...)
+3. Thực hiện chức năng liên quan đến màn hình B (ví dụ chức năng thêm )
+
+",Tự load đến màn hình chức năng B với thông tin đúng
+8318,Kiểm tra hiển thị màn hình đích khi màn hình đích không có dữ liệu, 2: Di chuyển giữa các màn hình chức năng,Suite_common_323,1,"Đảm bảo màn hình đích di chuyển không  có dữ liệu hiển thị.
+1. Tại màn hình A
+2. Di chuyển qua màn hình chức năng B
+","Chương trình không bị crash, tùy theo DTYC để hiển thị màn hình đích
+vd:
+- Màn hình danh sách thì hiển thị ""không có dữ liệu""
+- Màn hình thông tin chi tiết hiển thị ""không có dữ liệu"" hoặc giá trị của các item là blank chứ không được hiện chữ ""null"""
+8319,Kiểm tra dữ liệu sau khi di chuyển màn hình, 2: Di chuyển giữa các màn hình chức năng,Suite_common_323,1,"1. Ở màn hình 1: nhập đầy đủ thông tin
+2. Di chuyển sang màn hình 2: nhập đầy đủ thông tin (nút Lưu ở màn hình này)
+3. Quay lại màn hình 1 xem/cập nhật thông tin
+4. Quay lại màn hình 2","Tùy thuộc vào DTYC để chọn KQMM
+- Dữ liệu màn hình 2 bị refresh
+- Dữ liệu màn hình 2 giữ nguyên"
+8320,Kiểm tra hiển thị đúng icon các button/ chức năng khi thực hiện chọn nhanh qua lại giữa các tab màn hình, 2: Di chuyển giữa các màn hình chức năng,Suite_common_323,1,1. Di chuyển qua lại giữa các tab tab trên cùng màn hình ,Hiển thị đúng icon button/ chức năng ở mỗi màn hình
+8321,Kiểm tra dữ liệu hiển thị khi chuyển qua lại giữa các tab, 2: Di chuyển giữa các màn hình chức năng,Suite_common_323,1,"Tại màn hình chức năng
+1. Touch qua lại nhanh tay tab dữ liệu
+Ví dụ: 
+1. Tại tab Bạn bè, nhấn giữ và kéo ký tự chữ từ trái sang phải -&gt; hiển thị ký tự chữ giữa màn hình
+2. Kéo sang tab Gần đây
+3. Kéo lại sang tab Bạn bè",Hiển thị đúng dữ liệu của tab được chọn. 
+8322,Kiểm tra khi di chuyển màn hình trước khi thông báo lỗi của màn hình trước được hiển thị, 2: Di chuyển giữa các màn hình chức năng,Suite_common_323,1,"1. Không nhập 1 trường bắt buộc
+2. Nhấn ""Ghi lại""
+3. Popup thông báo lỗi chưa kịp hiển thị
+4. Touch vào chức năng khác và di chuyển màn hình
+5. Tại màn hình  của chức năng vừa di chuyển đến popup thông báo bắt buộc của màn hình trước hiển thị.
+6. Touch vào button ""Đóng"" trên thông báo","Không hiển thị dialog thông báo lỗi của màn hình trước
+"
+8323,"Kiểm tra khi touch vào textview ( có thực hiện chức năng) và control (button, spinner..) hoặc touch vào 2 control", 2: Di chuyển giữa các màn hình chức năng,Suite_common_323,1,1.Touch đồng thời textview và control hoặc 2 control,"Chương trình không bị crash
+( Chú ý : Chấp nhận cho xử lý 2 hoạt động cùng lúc nhưng chương trình ko được crash)"

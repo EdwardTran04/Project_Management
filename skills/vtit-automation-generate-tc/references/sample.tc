@@ -1,0 +1,346 @@
+{
+  "testPlatform": "web",
+  "name": "sample",
+  "setupCommands": [],
+  "commands": [
+    {
+      "id": "a90c7bd2-257e-425f-b9d4-3719b39a2881",
+      "comment": "",
+      "output": "",
+      "input": {
+        "target": "const xpathDivBox = {{input.xpathDivBox}};\r\nconst dataHelpId = {{input.dataHelpId}};\r\nreturn xpathDivBox || `//div[@data-help-id=\"${dataHelpId}\"]`",
+        "value": "xpathDivBox"
+      },
+      "takeScreenShot": false,
+      "isBreakpoint": false,
+      "continueError": false,
+      "keyword": "executeScript",
+      "disable": false,
+      "name": "Execute script",
+      "import": "",
+      "children": [],
+      "requireChildren": false
+    },
+    {
+      "id": "baff0f7c-6843-4f5b-8372-4cad4c3e59ad",
+      "comment": "",
+      "output": "var.idBox",
+      "input": {
+        "target": "{{xpathDivBox}}",
+        "object": null,
+        "attribute": "id",
+        "timeout": null
+      },
+      "takeScreenShot": false,
+      "isBreakpoint": false,
+      "continueError": false,
+      "keyword": "getAttributeValue",
+      "disable": false,
+      "name": "Get attribute value",
+      "import": "",
+      "children": [],
+      "requireChildren": false
+    },
+    {
+      "id": "57376d97-feb0-4a68-a794-173f3af5b2c5",
+      "comment": "",
+      "output": "",
+      "input": {
+        "target": "const value1 = {{input.value}};\r\nconst value2 = {{input.value2}};\r\nconst idBox = {{var.idBox}};\r\nlet andCondition = '';\r\nif(value1) {\r\n    andCondition += `contains(normalize-space(), '${value1}')`;\r\n}\r\nif(value2) {\r\n    andCondition += `${andCondition ? 'or ' : ''}contains(normalize-space(), '${value2}')`;\r\n}\r\nreturn `//ul[@id=\"${idBox}-popup-list-listUl\"]//li//div[contains(@class, 'sapMSLITitle') ${andCondition ? 'and (' + andCondition + ')' : ''}]`",
+        "value": "xpathSelectOption"
+      },
+      "takeScreenShot": false,
+      "isBreakpoint": false,
+      "continueError": false,
+      "keyword": "executeScript",
+      "disable": false,
+      "name": "Execute script",
+      "import": "",
+      "children": [],
+      "requireChildren": false
+    },
+    {
+      "id": "6b80063f-3438-4083-858a-a0f20159ed04",
+      "comment": "",
+      "output": "",
+      "input": {
+        "target": "{{xpathDivBox}}",
+        "object": null,
+        "timeout": null
+      },
+      "takeScreenShot": false,
+      "isBreakpoint": false,
+      "continueError": true,
+      "keyword": "scrollToElement",
+      "disable": false,
+      "name": "Scroll to element",
+      "import": "",
+      "children": [],
+      "requireChildren": false
+    },
+    {
+      "id": "8c7ab299-2f44-40fc-9018-ae18ff424722",
+      "comment": "",
+      "output": "",
+      "input": {
+        "target": "{{xpathDivBox}}//div[@class=\"sapMInputBaseIconContainer\"]",
+        "object": null,
+        "timeout": null
+      },
+      "takeScreenShot": false,
+      "isBreakpoint": false,
+      "continueError": false,
+      "keyword": "click",
+      "disable": false,
+      "name": "Click",
+      "import": "",
+      "children": [],
+      "requireChildren": false
+    },
+    {
+      "id": "965fc0e8-5c56-4004-8f20-d11b0b36bf2e",
+      "comment": "",
+      "output": "",
+      "input": {
+        "timeout": "1000"
+      },
+      "takeScreenShot": false,
+      "isBreakpoint": false,
+      "continueError": false,
+      "keyword": "wait",
+      "disable": true,
+      "name": "Wait",
+      "import": "",
+      "children": [],
+      "requireChildren": false
+    },
+    {
+      "id": "22cdaeee-0222-4985-b2c6-3ae3c6b32d7b",
+      "comment": "",
+      "output": "",
+      "input": {
+        "target": "{{input.dontTypeSearch}} != 1"
+      },
+      "takeScreenShot": false,
+      "isBreakpoint": false,
+      "continueError": false,
+      "keyword": "if",
+      "disable": false,
+      "name": "If",
+      "import": "",
+      "children": [
+        {
+          "id": "c5cb46fb-8e2c-47b8-aacb-c602b5b63cc7",
+          "comment": "",
+          "output": "",
+          "input": {
+            "target": "{{xpathDivBox}}//input",
+            "object": null,
+            "value": "{{input.value}}"
+          },
+          "takeScreenShot": true,
+          "isBreakpoint": false,
+          "continueError": false,
+          "keyword": "type",
+          "disable": false,
+          "name": "Type",
+          "import": "",
+          "children": [],
+          "requireChildren": false,
+          "parentId": "22cdaeee-0222-4985-b2c6-3ae3c6b32d7b",
+          "nodes": [
+            "22cdaeee-0222-4985-b2c6-3ae3c6b32d7b"
+          ],
+          "level": 1
+        },
+        {
+          "id": "99f3c1fb-ec46-4e82-a425-09919356f7f2",
+          "comment": "",
+          "output": "",
+          "input": {
+            "target": "{{xpathDivBox}}//div[@class=\"sapMInputBaseIconContainer\"]",
+            "object": null,
+            "timeout": null
+          },
+          "takeScreenShot": false,
+          "isBreakpoint": false,
+          "continueError": false,
+          "keyword": "click",
+          "disable": true,
+          "name": "Click",
+          "import": "",
+          "children": [],
+          "requireChildren": false,
+          "parentId": "22cdaeee-0222-4985-b2c6-3ae3c6b32d7b",
+          "nodes": [
+            "22cdaeee-0222-4985-b2c6-3ae3c6b32d7b"
+          ],
+          "level": 1
+        }
+      ],
+      "requireChildren": true
+    },
+    {
+      "id": "d3035aa0-41d6-4a15-aed1-353698b403b8",
+      "comment": "",
+      "output": "",
+      "input": {},
+      "takeScreenShot": false,
+      "isBreakpoint": false,
+      "continueError": false,
+      "keyword": "end",
+      "disable": false,
+      "name": "End",
+      "import": "",
+      "children": [],
+      "requireChildren": false
+    },
+    {
+      "id": "76de38a0-2395-4889-8ea5-46a9d0c91974",
+      "comment": "",
+      "output": "",
+      "input": {
+        "timeout": "1000"
+      },
+      "takeScreenShot": false,
+      "isBreakpoint": false,
+      "continueError": false,
+      "keyword": "wait",
+      "disable": false,
+      "name": "Wait",
+      "import": "",
+      "children": [],
+      "requireChildren": false
+    },
+    {
+      "id": "828fa265-48fe-490f-86c5-b02a6e109e44",
+      "comment": "",
+      "output": "var.checkValue1",
+      "input": {
+        "target": "{{xpathSelectOption}}",
+        "object": null
+      },
+      "takeScreenShot": false,
+      "isBreakpoint": false,
+      "continueError": true,
+      "keyword": "verifyElementVisible",
+      "disable": false,
+      "name": "Verify element visible",
+      "import": "",
+      "children": [],
+      "requireChildren": false
+    },
+    {
+      "id": "d7370c1c-84d9-49a4-8f68-266dbbf1c701",
+      "comment": "",
+      "output": "",
+      "input": {
+        "target": "!{{var.checkValue1}}.success && {{input.dontTypeSearch}} != 1 && !!{{input.value2}}"
+      },
+      "takeScreenShot": false,
+      "isBreakpoint": false,
+      "continueError": false,
+      "keyword": "if",
+      "disable": false,
+      "name": "If",
+      "import": "",
+      "children": [
+        {
+          "id": "ba68a893-788d-4e38-8a77-712de800dd4d",
+          "comment": "",
+          "output": "",
+          "input": {
+            "target": "{{xpathDivBox}}//input",
+            "object": null,
+            "value": "{{input.value2}}",
+            "timeout": null
+          },
+          "takeScreenShot": false,
+          "isBreakpoint": false,
+          "continueError": false,
+          "keyword": "type",
+          "disable": false,
+          "name": "Type",
+          "import": "",
+          "children": [],
+          "requireChildren": false,
+          "parentId": "d7370c1c-84d9-49a4-8f68-266dbbf1c701",
+          "nodes": [
+            "d7370c1c-84d9-49a4-8f68-266dbbf1c701"
+          ],
+          "level": 1
+        },
+        {
+          "id": "5918c3a6-848f-4c7f-9bc2-474966fb89e4",
+          "comment": "",
+          "output": "",
+          "input": {
+            "target": "{{xpathSelectOption}}",
+            "object": null
+          },
+          "takeScreenShot": false,
+          "isBreakpoint": false,
+          "continueError": false,
+          "keyword": "verifyElementVisible",
+          "disable": false,
+          "name": "Verify element visible",
+          "import": "",
+          "children": [],
+          "requireChildren": false,
+          "parentId": "d7370c1c-84d9-49a4-8f68-266dbbf1c701",
+          "nodes": [
+            "d7370c1c-84d9-49a4-8f68-266dbbf1c701"
+          ],
+          "level": 1
+        }
+      ],
+      "requireChildren": true
+    },
+    {
+      "id": "757c0507-6a0d-494f-a4cb-74b501ef8bb5",
+      "comment": "",
+      "output": "",
+      "input": {},
+      "takeScreenShot": false,
+      "isBreakpoint": false,
+      "continueError": false,
+      "keyword": "end",
+      "disable": false,
+      "name": "End",
+      "import": "",
+      "children": [],
+      "requireChildren": false
+    },
+    {
+      "id": "9ef2c93f-449c-4b29-b405-de1c00f2b152",
+      "comment": "",
+      "output": "",
+      "input": {
+        "target": "{{xpathSelectOption}}",
+        "object": null
+      },
+      "takeScreenShot": false,
+      "isBreakpoint": false,
+      "continueError": false,
+      "keyword": "click",
+      "disable": false,
+      "name": "Click",
+      "import": "",
+      "children": [],
+      "requireChildren": false
+    }
+  ],
+  "tearDownCommands": [],
+  "variable": {
+    "inputVariable": {
+      "xpathDivBox": "",
+      "dataHelpId": "",
+      "value": "",
+      "value2": "",
+      "dontTypeSearch": ""
+    },
+    "outputVariable": {},
+    "localVariable": {}
+  },
+  "comment": ""
+}

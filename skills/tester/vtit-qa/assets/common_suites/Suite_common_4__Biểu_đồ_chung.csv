@@ -1,0 +1,27 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8073,Kiểm tra hiển thị thông tin màn hình biểu đồ khi có dữ liệu (load mới từ server hoặc đồng bộ về ), 3: Biểu đồ chung ,Suite_common_4,1,"- Đảm bảo có dữ liệu mới trên server nhưng client vẫn chưa được đồng bộ về
+'- Đảm bảo màn hình xem biểu đồ đang được mở
+1. Kiểm tra hiển thị biểu đồ trên màn hình
+
+",1. Vẫn hiển thị biểu đồ theo dữ liệu trước đó
+8074,Kiểm tra hiển thị thông tin màn hình biểu đồ khi có dữ liệu (load mới từ server hoặc đồng bộ về ), 3: Biểu đồ chung ,Suite_common_4,1,"Đảm bảo  server có thông tin dữ liệu mới trả về
+1. Thực hiện thao tác để lấy dữ liệu mới từ server về
+2. Đi đến màn hình biểu đồ để xem thông tin 
+",2. Load lại màn hình biểu đồ với thông tin dữ liệu mới nhất 
+8075,Kiểm tra hiển thị thông tin màn hình biểu đồ khi có dữ liệu (load mới từ server hoặc đồng bộ về ), 3: Biểu đồ chung ,Suite_common_4,1,"Tạo dữ liệu sao cho đối tượng cần hiển thị có giá trị nhỏ 
+ví dụ : sản lượng = 10
+1. Vào màn hình biểu đồ
+2. Kiểm tra hiển thị biểu đồ
+Tạo dữ liệu sao cho đối tượng cần hiển thị có giá trị lớn 
+ví dụ : sản lượng =1.000.000.000
+3.Load lại màn hình biểu đồ với thông tin mới vừa tạo 
+4.Kiểm tra hiển thị biểu đồ ","4. Hiển thị biểu đồ chính xác và các trục tung, hoành phân chia đúng tỉ lệ ứng  với dữ liệu mới vừa tạo. 
+
+Note: test lưu ý tỉ lệ trục chia giống với dữ liệu cũ."
+8076,Kiểm tra hiển thị thông tin của biểu đồ khi đăng nhập với 2 user khác nhau, 3: Biểu đồ chung ,Suite_common_4,1,"1. Đăng nhập với user 1
+2. Touch vào chức năng hiển thị biểu đồ 
+3. Kiểm tra DB
+4. Đăng nhập với user 2
+5. Touch vào chức năng hiển thị biểu đồ 
+6. Kiểm tra DB
+",Hiển thị thông tin biểu đồ đúng với từng user

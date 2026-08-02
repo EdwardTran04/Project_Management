@@ -1,0 +1,28 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8393,Kiểm tra hiển thị trường thông tin trên màn hình , 2: Web View,Suite_common_333,1,"Chuẩn bị:
+1. Sử dụng : http://ckeditor.com/demo hoặc backend để tạo nội dung văn bản như sau ( tạo nội dung văn bản nhiều tối đa cho phép)
++ format căn chỉnh văn bản
++ Format định dạng font chữ, màu chữ, size chữ
++ định dạng bullet của dòng
++ Có ảnh đính kèm ( nhiều ảnh) 
++ Có link
+2. Chọn chế độ html. Copy nội dung này vào DB ( trường hợp không có backend tạo dữ liệu, sử dụng ckeditor)
+3. Kiểm tra hiển thị dữ liệu trên chức năng ","Hiển thị nội dung đúng như nội dung soạn thảo
+Có thể scroll lên/ xuống để xem toàn bộ nội dung"
+8394,"Kiểm tra xem video, link, hình ảnh... trong webview", 2: Web View,Suite_common_333,1,"Chuẩn bị dữ liệu có hình ảnh, link, video
+1. Touch vào link
+2. Touch vào video
+3. Kiểm  tra nếu hình ảnh lớn, vượt quá độ rộng màn hình","1. Mở đường link tương ứng, mở theo trình duyệt của thiết bị, không mở trực tiếp trên webview
+2. Mở video, xem video bình thường
+3. Tuỳ thuộc vào yêu cầu của khách hàng sẽ chọn kết quả sau:
+- Hiển thị đúng kích cỡ của ảnh, scoll ngang để xem hết
+- Server scale hình ảnh cho vừa kích thước màn hình, không vượt quá độ rộng của màn hình
+- Client tự xử lý, set độ rộng hình ảnh vừa với độ rộng của màn hình."
+8395,Kiểm tra scroll trong webview, 2: Web View,Suite_common_333,1,"Vào màn hình có sử dụng webview
+1. Scroll trong webview
+
+","Chỉ scroll được màn hình, Không scroll được webview. "
+8396,Kiểm tra scroll trong webview, 2: Web View,Suite_common_333,1,"Chuẩn bị dữ liệu có chứa nhiều hình ảnh, video
+1.. Touch liên tục vào màn hình lúc đang hiển thị thanh loading (lúc dữ liệu webview chưa load xong)
+2. Kiểm trả hiển thị
+","Hiển thị dữ liệu bình thường, không hiển thị màn hình trắng (Thường có lỗi hiển thị màn hình trắng, scroll một đoạn dữ liệu trắng, hoặc nếu phía dưới webview có dữ liệu cố định thì nó sẽ bị đè lên phần webview chưa load xong)."

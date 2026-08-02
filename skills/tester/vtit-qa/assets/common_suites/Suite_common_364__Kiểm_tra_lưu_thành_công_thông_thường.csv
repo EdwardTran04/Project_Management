@@ -1,0 +1,125 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9087,Kiểm tra dữ liệu hiển thị trên form chị chọn 1 bản ghi sửa, 3: Kiểm tra lưu thành công thông thường,Suite_common_364,1,"1. Chọn bản ghi sửa
+2. Kiểm tra giá trị hiển thị trên form
+3. Script:
+select name, address from table 
+where id = 1","Hiển thị đúng các giá trị từ CSDL lên form:
+[Tên trường trên form] = [Tên trường trong CSDL]
+….
+"
+9088,Kiểm tra hiển thị hộp thoại confirm khi thực hiện update, 3: Kiểm tra lưu thành công thông thường,Suite_common_364,1,"- Nhập dữ liệu hợp lệ vào các trường
+- Nhấn nút Ghi lại","Hiển thị hộp thoại yêu cầu người dùng xác nhận 
+Confirm lại với GP có cần thông báo xác nhận lưu khi thực hiện lưu hay không ? Nếu không thì không cần case này và case dưới"
+9089,Kiểm tra việc hủy bỏ thao tác update, 3: Kiểm tra lưu thành công thông thường,Suite_common_364,1,"- Nhập dữ liệu hợp lệ vào các trường
+- Nhấn nút Ghi lại.
+- Hủy bỏ thao tác cập nhập","Thông tin bản ghi không thay đổi.
+"
+9090,Kiểm tra việc update thành công khi không thay đổi trường dữ liệu nào, 3: Kiểm tra lưu thành công thông thường,Suite_common_364,1,"- Không thay đổi trường thông tin nào
+- Nhấn nút Ghi lại","Thông tin bản ghi không bị thay đổi
+"
+9091,"Kiểm tra lưu thành công khi xác nhận lưu , nhập đầy đủ các trường được phép thay đổi trên form ( nhập tối đa độ dài cho phép của trường dữ liệu)", 3: Kiểm tra lưu thành công thông thường,Suite_common_364,1,"- Nhập dữ liệu hợp lệ vào các trường
+- Nhấn nút Ghi lại.
+- Xác nhận việc thay đổi","1. Thông báo update thành công
+2. Thông tin bản ghi được cập nhật đúng với dữ liệu vừa thay đổi
+3. Bản ghi vừa được update phải được
+hiển thị lên đầu danh sách hoặc giữ nguyên vị trí những có focus vào đó
+4. Kiểm tra lưu CSDL đúng: tên bảng"
+9092,"Kiểm tra việc update được lưu vào đúng cơ sở dữ liệu
+
+
+", 3: Kiểm tra lưu thành công thông thường,Suite_common_364,1,"- Nhập dữ liệu hợp lệ vào các trường
+- Nhấn nút Ghi lại.
+- Xác nhận việc thay đổi
+","Dữ liệu được lưu lại thành công vào cơ sở dữ liệu:
+Tương ứng dữ liệu nhập , bản ghi sửa được cập nhật các thông tin : 
+[Trường 1] : [Tên trường 1 trên form]
+…..
+
+Thời gian sửa bản ghi : lấy theo giờ CSDL server
+"
+9093,"Kiểm tra việc lưu thành công khi xác nhận việc lưu, nhập đầy đủ các trường trên form ( nhập < Maxlength của trường dữ liệu)", 3: Kiểm tra lưu thành công thông thường,Suite_common_364,1,"- Nhập dữ liệu hợp lệ vào các trường
+- Nhấn nút Ghi lại.
+- Xác nhận việc lưu","1. Thông báo update thành công
+2. Thông tin bản ghi được cập nhật đúng với dữ liệu vừa thay đổi
+3. Bản ghi vừa được update phải được
+hiển thị lên đầu danh sách hoặc giữ nguyên vị trí những có focus vào đó
+4. Kiểm tra lưu CSDL đúng: [tên bảng]"
+9094,"Kiểm tra việc lưu thành công khi xác nhận việc lưu, nhập đầy đủ các trường trên form ( nhập tối thiểu giá trị cho phép của các trường)", 3: Kiểm tra lưu thành công thông thường,Suite_common_364,1,"- Nhập dữ liệu hợp lệ vào các trường
+- Nhấn nút Ghi lại.
+- Xác nhận việc lưu","1. Thông báo update thành công
+2. Thông tin bản ghi được cập nhật đúng với dữ liệu vừa thay đổi
+3. Bản ghi vừa được update phải được
+hiển thị lên đầu danh sách hoặc giữ nguyên vị trí những có focus vào đó
+4. Kiểm tra lưu CSDL đúng: tên bảng"
+9095,Kiểm tra việc lưu thành công khi xác nhận việc lưu  chỉ nhập  các trường bắt buộc trên form, 3: Kiểm tra lưu thành công thông thường,Suite_common_364,1,"- Nhập dữ liệu hợp lệ vào các trường ( Xóa dữ liệu ở các trường không bắt buộc nhập)
+- Nhấn nút Ghi lại.
+- Xác nhận việc lưu","1.Hiển thị thông báo lưu thành công
+2. Bản ghi vừa được update phải được
+hiển thị lên đầu danh sách hoặc giữ nguyên vị trí những có focus vào đó
+3. Kiểm tra lưu CSDL đúng
+"
+9096,Kiểm tra trường hợp màn hình có combox , 3: Kiểm tra lưu thành công thông thường,Suite_common_364,1,"Trường hợp: Combox là các giá trị fix cứng
+- Lần lượt chọn các giá trị trong Spinner
+- Nhập dữ liệu hợp lệ các trường
+- Nhấn [Ghi lại]","1.Hiển thị thông báo lưu thành công
+2.Bản ghi vừa được update phải được
+hiển thị lên đầu danh sách hoặc giữ nguyên vị trí những có focus vào đó.
+3. Kiểm tra lưu CSDL đúng
+"
+9097,Kiểm tra trường hợp màn hình có combox , 3: Kiểm tra lưu thành công thông thường,Suite_common_364,1,"Trường hợp: Combox là các giá trị lấy từ một danh sách trong bảng CSDL
+- Chọn random các giá trị trong Spinner ( test với tầm 5-10 giá trị, dựa vào các đặc điểm khác nhau của giá trị trong danh sách)
+- Nhập dữ liệu hợp lệ các trường
+- Nhấn [Ghi lại]","1.Hiển thị thông báo lưu thành công
+2.Bản ghi vừa được update phải được
+hiển thị lên đầu danh sách hoặc giữ nguyên vị trí những có focus vào đó.
+3. Kiểm tra lưu CSDL đúng
+"
+9098,Kiểm tra trường hợp màn hình có radio, 3: Kiểm tra lưu thành công thông thường,Suite_common_364,1,"1. Không tích radio nào
+2. Nhập dữ liệu hợp lệ các trường
+3. Nhấn [Ghi lại]","1.Hiển thị thông báo lưu thành công
+2.Bản ghi vừa thêm mới phải được hiển thị lên đầu danh sách và lưu đúng 
+
+"
+9099,Kiểm tra trường hợp màn hình có radio, 3: Kiểm tra lưu thành công thông thường,Suite_common_364,1,"1. Check radio ( chọn 1 trong 2 trường hợp dưới)
+1.1 Lần lượt check từng radio nếu giá trị radio là fix cức
+1.2 Chọn random check vài radio nếu danh sách giá trị radio lấy từ một bảng trong CSDL
+2. Nhập dữ liệu hợp lệ các trường
+3. Nhấn [Ghi lại]","1.Hiển thị thông báo lưu thành công
+2.Bản ghi vừa thêm mới phải được hiển thị lên đầu danh sách và lưu đúng 
+
+"
+9100,Kiểm tra trường hợp màn hình có các check box, 3: Kiểm tra lưu thành công thông thường,Suite_common_364,1,"1. Tích tất cả các check box
+2. Nhập dữ liệu hợp lệ các trường
+3. Nhấn [Ghi lại]","1.Hiển thị thông báo lưu thành công
+2.Bản ghi vừa được update phải được
+hiển thị lên đầu danh sách hoặc giữ nguyên vị trí những có focus vào đó.
+3. Kiểm tra lưu CSDL đúng
+"
+9101,Kiểm tra trường hợp màn hình có các check box, 3: Kiểm tra lưu thành công thông thường,Suite_common_364,1,"1. Không tích checkbox nào
+2. Nhập dữ liệu hợp lệ các trường
+3. Nhấn [Ghi lại]","1.Hiển thị thông báo lưu thành công
+2.Bản ghi vừa được update phải được
+hiển thị lên đầu danh sách hoặc giữ nguyên vị trí những có focus vào đó.
+3. Kiểm tra lưu CSDL đúng
+"
+9102,Kiểm tra trường hợp màn hình có các check box, 3: Kiểm tra lưu thành công thông thường,Suite_common_364,1,"1. Lần lượt check từng check box ( chọn 1 trong 2 trường hợp)
+1.1 Lần lượt check từng check box nếu giá trị checkbox là fix cứng
+1.2 Chọn random check vài checkbox nếu danh sách giá trị checkbox  lấy từ một bảng trong CSDL
+2. Nhập dữ liệu hợp lệ các trường
+3. Nhấn [Ghi lại]","1.Hiển thị thông báo lưu thành công
+2.Bản ghi vừa thêm mới phải được hiển thị lên đầu danh sách và lưu đúng
+"
+9103,Kiểm tra chức năng Trim space, 3: Kiểm tra lưu thành công thông thường,Suite_common_364,1,"1. Nhập dữ liệu hợp lệ và thêm space vào đầu và cuối  các trường cho phép Trim Space.( hoặc thực hiện copy paste một số có chứa space ở đầu, cuối)
+2. Các thông tin khác được nhập hợp lệ
+","1. Thực hiện lưu thành công. Kiểm tra lưu đúng như case lưu CSDL
+2. Thực hiện trim space ở đầu và cuối trường dữ liệu
+
+
+"
+9104,Kiểm tra không Trim space, 3: Kiểm tra lưu thành công thông thường,Suite_common_364,1,"1. Nhập dữ liệu hợp lệ và thêm space vào đầu và cuối  các trường không cho  phép Trim Space
+2. Các thông tin khác được nhập hợp lệ
+","1. Thực hiện lưu thành công. Kiểm tra lưu đúng như case lưu CSDL
+2.  Không thực hiện trim space ở đầu và cuối trường dữ liệu
+
+
+"

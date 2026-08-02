@@ -1,0 +1,13 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8077,"Kiểm tra hiển thị khi touch vào từng cột ( điểm, hoặc vùng bánh đối với biểu đồ tròn ) dữ liệu trên biểu đồ
+", 2: Hiển thị thông tin trên ToolTip,Suite_common_5,1,"1.Đang ở màn hình biểu đồ 
+2.Touch vào cột ( điểm, vùng bánh ) dữ liệu 
+* Note : Cần chú ý khi view tooltip ở cột đầu tiên, cột cuối cùng phải không được bị khuất",2. Hệ thống thực hiện hiển thị thông tin chi tiết (tooltip) của đối tượng dữ liệu cần xem
+8078,"Kiểm tra hiển thị khi nhấn giữ lâu vào từng cột ( điểm hoặc vùng bánh đối với biểu đồ tròn ) dữ liệu trên biểu đồ
+", 2: Hiển thị thông tin trên ToolTip,Suite_common_5,1,"1. Đang ở màn hình biểu đồ 
+2. Nhấn giữ lâu vào từng cột ( điểm ) dữ liệu trên biểu đồ",2. Hệ thống thực hiện hiển thị thông tin chi tiết (tooltip) của đối tượng dữ liệu cần xem
+8079,Kiểm tra hiển thị dữ liệu trên tooltip khi tooltip có nội dung dài, 2: Hiển thị thông tin trên ToolTip,Suite_common_5,1,"Đảm bảo nội dung hiển thị trên tooltip có nôi dung dài
+1. Đang ở màn hình biểu đồ 
+2. Touch vào cột ( điểm, vùng bánh ) dữ liệu 
+* Note : Cần chú ý khi view tooltip ở cột đầu tiên, cột cuối cùng phải không được bị khuất","2. Hệ thống thực hiện hiển thị đầy đủ thông tin chi tiết (tooltip) của đối tượng dữ liệu cần xem , không bị che hoặc cắt mất 
+( Có thể xứ lý chạy text dữ liệu hoặc số lượng nếu vùng hiển thị thông tin nhỏ )"

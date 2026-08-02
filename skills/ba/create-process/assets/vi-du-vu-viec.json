@@ -1,0 +1,164 @@
+{
+  "process_name": "Quy trình Vụ việc — luồng chính",
+  "lanes": [
+    "Người trình báo",
+    "Thủ trưởng đơn vị chủ trì",
+    "Thủ trưởng phối hợp / Trợ lý",
+    "Cục trưởng"
+  ],
+  "nodes": [
+    {
+      "id": "S",
+      "lane": 0,
+      "col": 0,
+      "type": "start"
+    },
+    {
+      "id": "A",
+      "lane": 0,
+      "col": 1,
+      "type": "task",
+      "label": "Gửi báo cáo vụ việc"
+    },
+    {
+      "id": "B",
+      "lane": 1,
+      "col": 2,
+      "type": "task",
+      "label": "Chuyển xử lý"
+    },
+    {
+      "id": "P",
+      "lane": 2,
+      "col": 3,
+      "type": "subprocess",
+      "label": "Phối hợp vụ việc"
+    },
+    {
+      "id": "C",
+      "lane": 1,
+      "col": 4,
+      "type": "task",
+      "label": "Gửi thủ trưởng cục"
+    },
+    {
+      "id": "D",
+      "lane": 3,
+      "col": 5,
+      "type": "gateway",
+      "label": "Quyết định?"
+    },
+    {
+      "id": "T",
+      "lane": 3,
+      "col": 6,
+      "row": 0,
+      "type": "task_ok",
+      "label": "Thông qua"
+    },
+    {
+      "id": "O",
+      "lane": 3,
+      "col": 6,
+      "row": 1,
+      "type": "task_ok",
+      "label": "Ngoài thẩm quyền"
+    },
+    {
+      "id": "R",
+      "lane": 3,
+      "col": 6,
+      "row": 2,
+      "type": "task_err",
+      "label": "Từ chối"
+    },
+    {
+      "id": "G",
+      "lane": 1,
+      "col": 6,
+      "type": "task",
+      "label": "Chỉ đạo thực hiện"
+    },
+    {
+      "id": "H",
+      "lane": 0,
+      "col": 7,
+      "type": "task",
+      "label": "Báo cáo kết quả thực hiện"
+    },
+    {
+      "id": "E",
+      "lane": 0,
+      "col": 8,
+      "type": "end"
+    }
+  ],
+  "edges": [
+    {
+      "from": "S",
+      "to": "A"
+    },
+    {
+      "from": "A",
+      "to": "B",
+      "label": "Chờ xử lý"
+    },
+    {
+      "from": "B",
+      "to": "P",
+      "label": "Đang xử lý"
+    },
+    {
+      "from": "P",
+      "to": "C",
+      "label": "Kết thúc phối hợp"
+    },
+    {
+      "from": "C",
+      "to": "D",
+      "label": "Chờ thông qua"
+    },
+    {
+      "from": "D",
+      "to": "T",
+      "label": "Hợp lệ"
+    },
+    {
+      "from": "D",
+      "to": "O",
+      "label": "Ngoài thẩm quyền",
+      "type": "alt"
+    },
+    {
+      "from": "D",
+      "to": "R",
+      "label": "Không hợp lệ"
+    },
+    {
+      "from": "R",
+      "to": "B",
+      "label": "Từ chối → xử lý lại",
+      "type": "error"
+    },
+    {
+      "from": "T",
+      "to": "G",
+      "label": "Đã thông qua"
+    },
+    {
+      "from": "O",
+      "to": "G",
+      "label": "Đã thông qua"
+    },
+    {
+      "from": "G",
+      "to": "H",
+      "label": "Chờ báo cáo"
+    },
+    {
+      "from": "H",
+      "to": "E",
+      "label": "Đã báo cáo"
+    }
+  ]
+}

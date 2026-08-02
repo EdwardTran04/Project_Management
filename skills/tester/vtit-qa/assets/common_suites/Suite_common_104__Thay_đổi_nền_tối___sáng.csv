@@ -1,0 +1,12 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8512,Kiểm tra giao diện ứng dụng khi thay đổi nền thiết bị thành từ sáng -> tối  và ngược lại, 3: Thay đổi nền tối / sáng ,Suite_common_104,1,"1. Thay đổi cài đặt giao diện thiết bị sang nền sáng (light)
+2. Kiểm tra màu nền của màn hình chức năng và màu chữ của các dòng text (chú ý kiểm tra các dòng text có màu sáng)","KQ 1: Nếu yêu cầu ứng dụng không được thay đổi prototype:
+- Màu nền và màu chữ của các dòng text không thay đổi
+KQ 2:  Nếu ứng dụng cho phép thay đổi màu nền màu chữ theo hỗ trợ hdh
+- Màu nền và màu chữ được thay đổi phải đảm bảo hài hòa (có thể đọc được nội dung dòng text trên nền đó) "
+8513,Kiểm tra giao diện ứng dụng khi thay đổi nền thiết bị thành từ sáng -> tối  và ngược lại, 3: Thay đổi nền tối / sáng ,Suite_common_104,1,"1. Thay đổi cài đặt giao diện thiết bị sang nền nền tối (dark)
+2. Kiểm tra màu nền của màn hình chức năng và màu chữ của các dòng text (chú ý kiểm tra các dòng text có màu tối)
+","KQ 1: Nếu yêu cầu ứng dụng không được thay đổi prototype:
+- Màu nền và màu chữ của các dòng text không thay đổi
+KQ  2:  Nếu ứng dụng cho phép thay đổi màu nền màu chữ theo hỗ trợ hdh
+-  Màu nền và màu chữ được thay đổi phải đảm bảo hài hòa (có thể đọc được nội dung dòng text trên nền đó) "

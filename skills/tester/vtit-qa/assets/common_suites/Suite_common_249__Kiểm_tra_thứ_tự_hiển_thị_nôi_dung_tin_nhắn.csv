@@ -1,0 +1,27 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8851,"Kiểm tra gom nhóm tin nhắn theo giờ của ngày (2h gom nhóm 1 lần), tính thời gian theo tin nhắn cuối cùng trong nhóm", 5: Kiểm tra thứ tự hiển thị nôi dung tin nhắn,Suite_common_249,1,"Đảm bảo: Ngày hiện tại là 10/04/2015
+1. A gửi tin nhắn đến B lúc 9:00 - [alo]
+2. A gửi tiếp tin nhắn đến B lúc 9:30 - [đi làm]
+3. A gửi tiếp tin nhắn đến B lúc 11:31 - [Vy ơi]
+4. A gửi tiếp tin nhắn đến B lúc 12:01 - [Đói ko?]
+5. Kiểm tra hiển thị nhóm tin nhắn trên màn hình","5. Tại cửa sổ chat của A hiển thị 2 nhóm tin nhắn:
+- Nhóm 1: 9:00, ngày 10 tháng 04
+alo
+đi làm
+- Nhóm 2: 11:31 ngày 10 tháng 04
+Vy ơi
+Đói ko?
+"
+8852,"Kiểm tra gom nhóm tin nhắn theo giờ của ngày (2h gom nhóm 1 lần), tính thời gian theo tin nhắn cuối cùng trong nhóm", 5: Kiểm tra thứ tự hiển thị nôi dung tin nhắn,Suite_common_249,1,"Đảm bảo: Ngày hiện tại là 10/04/2015
+1. A gửi tin nhắn đến B lúc 9:00 - [alo]
+2. A gửi tiếp tin nhắn đến B lúc 10:30 - [đi làm]
+3. A gửi tiếp tin nhắn đến B lúc 12:30 - [Vy ơi]
+4. A gửi tiếp tin nhắn đến B lúc 14:31 - [Đói ko?]
+5. Kiểm tra hiển thị nhóm tin nhắn trên màn hình","5. Tại cửa sổ chat của A hiển thị 2 nhóm tin nhắn:
+- Nhóm 1: 9:00, ngày 10 tháng 04
+alo
+đi làm
+Vy ơi
+- Nhóm 2: 14:31 ngày 10 tháng 04
+Đói ko?
+"

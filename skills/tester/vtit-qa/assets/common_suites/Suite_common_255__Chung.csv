@@ -1,0 +1,54 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8885,Kiểm tra lưu thông tin hình ảnh  khi chat, 6: Chung,Suite_common_255,1,"1. User A gửi hình hợp đến user B
+2. Kiểm tra hiển thị trên cửa sổ chat của A, B
+3. Kiêm tra việc lưu hình ảnh ở DB CLIENT
+","3. Cơ chế lưu ảnh (1)
+Tại DB client A: Không lưu hình ảnh vừa gửi
+Tại DB client B: lưu hình ảnh về thư mục Document, mở hình ảnh vừa nhận giống với hình ảnh hiển thị trên cửa sổ chat
+
+Cơ chế lưu ảnh (2)
+Tại DB client A, B: lưu hình ảnh về thư mục Document, mở hình ảnh vừa nhận giống với hình ảnh hiển thị trên cửa sổ chat"
+8886,Kiểm tra gửi và nhận hình ảnh khi Home thiết bị, 6: Chung,Suite_common_255,1,"Đảm bảo: A, B đang chat với nhau
+1. A gửi hình cho B bằng Chụp ảnh/Chọn ảnh
+2. Home thiết bị
+3. Vào lại ứng dụng
+4. Kiểm tra hiển thị trên cửa sổ chat của A
+5. Kiểm tra hiển thị trên cửa sổ chat của B
+","4. A vẫn gửi ảnh thành công 
+( IOS không gửi được thì yêu cầu dev giải thích rõ)
+5.B nhận ảnh do A gửi"
+8887,Kiểm tra gửi lại hình ảnh khi  hình ảnh đang được gửi đi, 6: Chung,Suite_common_255,1,"Đảm bảo: A, B đang chat với nhau
+- Kết nối mạng không ổn định
+1. A gửi hình ảnh cho B bằng Chụp hình hoặc từ thư mục Hình ảnh của thiết bị
+2. A gửi lại hình ảnh cho B
+","1. Đang có thanh loading trên hình ảnh A gửi đến B
+2. Icon Chụp hình bị disable, A không thể gửi lại hình cho B 
+
+Note: KQMM có thể thay đổi tùy theo nghiệp vụ dự án"
+8888,Kiểm tra gửi hình ảnh khi người dùng mất mạng, 6: Chung,Suite_common_255,1,"Đảm bảo: A, B đang chat với nhau
+1. B tắt kết nối mạng
+2. A gửi hình ảnh cho B bằng Chụp hình hoặc từ thư mục Hình ảnh của thiết bị
+3. Nhấn vào button Đóng, kiểm tra hiển thị trên cửa sổ chat của B
+","2. Hiển thị thông báo ""Có lỗi xảy ra trong quá trình gửi ảnh đến: [người A]""
+3. Không hiển thị hình ảnh được gửi từ A"
+8889,Kiểm tra gửi hình ảnh khi người nhận chưa đăng nhập, 6: Chung,Suite_common_255,1,"Đảm bảo: A, B là bạn bè của nhau
+Người A: Online
+Người B: chưa đăng nhập vào ứng dụng
+1. A gửi hình ảnh cho B bằng Chụp hình hoặc từ thư mục Hình ảnh của thiết bị
+2. Nhấn vào button Đóng, kiểm tra hiển thị trên cửa sổ chat
+","1. Hiển thị thông báo ""Người nhận đang offline. Vui lòng thử lại sau!""
+2. Không hiển thị hình ảnh vừa được chọn trên cửa sổ chat
+
+Note: KQMM có thể thay đổi tùy theo nghiệp vụ dự án"
+8890,Kiểm tra gửi hình ảnh khi người nhận chưa đăng nhập, 6: Chung,Suite_common_255,1,"3. Người B: Đăng nhập, vào Chat đơn
+4. Kiểm tra hiển thị trên màn hình",4. Không hiển thị tin nhắn hình mới nào từ Người A
+8891,Kiểm tra gửi file thất bại khi thoát khỏi chế độ chọn file/ chụp hình, 6: Chung,Suite_common_255,1,"1. Tại màn hình Gửi tin nhắn
+2. Nhấn vào option [Chọn ảnh]
+3. Chọn 1 file ( hoặc không chọn file)
+4. Click button Đóng tại cửa sổ chọn file","4. Thoát khỏi chế độ chọn file
+Không có file mới nào được gửi lên"
+8892,Kiểm tra gửi file thất bại khi thoát khỏi chế độ chọn file/ chụp hình, 6: Chung,Suite_common_255,1,"1. Tại màn hình Gửi tin nhắn
+2. Nhấn vào option [Chụp ảnh]
+3. Thực hiện chụp hình
+4. Click button Hủy ","4. Thoát khỏi chế độ chụp hình
+Không có file mới nào được gửi lên"

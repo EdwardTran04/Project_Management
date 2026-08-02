@@ -1,0 +1,28 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8226,"Kiểm tra SQL Injection - Select
+", 2: Kiểm tra SQL Injection ,Suite_common_42,1,"Kiểm tra đăng nhập hệ thống:
+1.Nhập username : test’ or ‘1’=‘1 
+2.Nhập Password trùng với 1 password của 1 user nào đó.
+3.Nhập các thông tin còn lại hợp lệ(nếu còn)
+4.Click Đăng nhập
+",Hệ thống thông báo tài khoản không tồn tại
+8227,"Kiểm tra SQL Injection - Select
+", 2: Kiểm tra SQL Injection ,Suite_common_42,1,"Đối với trang tìm kiếm, nhập dữ liệu vào ô tìm kiếm như sau:  ' union select * from trans_approve ;
+Click tìm kiếm
+Chú ý : Phải xem hệ quản trị CSDL là loại nào để sử dụng đúng câu lệnh tương ứng
+Thay TableName bằng tên bảng trong CSDL DB Client",Không cho phép tìm kiếm hoặc Tìm kiếm theo đúng dữ liệu nhập vào và không thực thi câu lệnh
+8228,"Kiểm tra SQL Injection - Select
+", 2: Kiểm tra SQL Injection ,Suite_common_42,1,"-Kiểm tra quyền
+nhập vào ô tìm kiếm như sau
+ ' ; drop table_name; ( xóa  bảng)
+Hoặc ' show tables (để xem tên tất cả các bảng có trong DB)
+Click tìm kiếm
+Chú ý : Phải xem hệ quản trị CSDL là loại nào để sử dụng đúng câu lệnh tương ứng
+Thay TableName bằng tên bảng trong CSDL DB Client",Không cho phép tìm kiếm hoặc Tìm kiếm theo đúng dữ liệu nhập vào và không thực thi câu lệnh
+8229,Kiểm tra SQL Injection - Insert, 2: Kiểm tra SQL Injection ,Suite_common_42,1,"Trong phần thêm mới dữ liệu, nhập thông tin sau vào 1 trường nào đó 
+' + (SELECT
+TOP 1 FieldName FROM TableName) + '
+Click Lưu
+
+Chú ý : Phải xem hệ quản trị CSDL là loại nào để sử dụng đúng câu lệnh tương ứng
+Thay TableName bằng tên bảng trong CSDL DB client",Hệ thống không cho phép insert hoặc insert đúng dữ liệu nhập vào

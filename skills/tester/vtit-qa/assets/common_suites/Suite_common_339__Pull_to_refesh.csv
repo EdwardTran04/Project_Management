@@ -1,0 +1,20 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8975,Kiểm tra hiển thị đúng nội dung của label Pull to refesh, 2: Pull to refesh  ,Suite_common_339,1,"1. Thực hiện vuốt từ trên xuống dưới màn hình ( kéo xuống và thả) để thực hiện làm mới dữ liệu pull-to-refresh
+2. Kiểm tra nội dung label Pull-to-refresh","2. Label pull-to-fresh có nội dung: ""..."" (Tùy thuộc DTYC) và đúng theo ngôn ngữ của ứng dụng "
+8976,"Kiểm tra thực hiện pull to refresh khi trên màn hình không có dữ liệu và sever không có bản ghi/ dữ liệu mới
+
+
+Đối với màn hình chi tiết thì không có case này", 2: Pull to refesh  ,Suite_common_339,1,"Đảm bảo trên sever không có bản ghi mới, màn hình không có dữ liệu
+1. Thực hiện vuốt từ trên xuống dưới màn hình ( kéo xuống và thả) để thực hiện làm mới dữ liệu pull-to-refresh
+2. Kiểm tra dữ liệu trên màn hình
+","1. Vẫn thực hiện pull to refresh. 
+2. Màn hình vẫn hiển thị: ""Không có dữ liệu"" (tùy thuộc DTYC)"
+8977,Kiểm tra thực hiện pull to refresh khi trên màn hình có bản ghi và sever không có bản ghi/ dữ liệu mới, 2: Pull to refesh  ,Suite_common_339,1,"Đảm bảo trên sever không có bản ghi/ dữ liệu mới, màn hình có dữ liệu
+1. Thực hiện vuốt từ trên xuống dưới màn hình ( kéo xuống và thả) để thực hiện làm mới dữ liệu pull-to-refresh
+2. Kiểm tra dữ liệu trên màn hình",1. Hiển thị dữ liệu như trước khi pull to refresh
+8978,Kiểm tra thực hiện pull to refresh khi có bản ghi  /dữ liệu mới, 2: Pull to refesh  ,Suite_common_339,1,"Đảm bảo trên sever có bản ghi/ dữ liệu mới 
+1. Thực hiện vuốt từ trên xuống dưới màn hình ( kéo xuống và thả) để thực hiện làm mới dữ liệu pull-to-refresh
+2. Kiểm tra dữ liệu trên màn hình
+","1. Refresh màn hình về trạng thái mặc định ban đầu , hiển thị bản ghi/ dữ liệu mới 
+( trường hợp là màn hình danh sách có scroll trang, refesh về trang đầu tiên)
+2. Sắp xếp theo thứ tự … (Tùy thuộc DTYC)"

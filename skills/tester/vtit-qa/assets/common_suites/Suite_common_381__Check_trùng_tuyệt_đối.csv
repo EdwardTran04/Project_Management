@@ -1,0 +1,16 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9179,"Kiểm tra check trùng khi tất cả các trường cần check trùng đều bị trùng
+(*): Các trường hợp trùng của trường A,B... sẽ thực hiện lần lượt các case dữ liệu trùng thuộc case [Check trùng 1 trường dữ liệu]_[Check trùng tuyệt đối với trường A]"," 4: Check trùng tuyệt đối
+",Suite_common_381,1,"1. Trường A nhập lần lượt các case dữ liệu trùng theo (*)
+2. Trường B nhập lần lượt các case dữ liệu trùng theo (*)
+.. Trường N nhập lần lượt các case dữ liệu trùng theo (*)
+3. Nhấn button Lưu",3. Hiển thị thông báo trùng
+9180,"Kiểm tra check trùng khi nhập từng trường trùng ( những trường còn lại nhập không trùng)
+Có bao nhiêu trường trùng thì sẽ có bấy nhiêu case mô tả cho từng trường đó nhập dữ liệu trùng"," 4: Check trùng tuyệt đối
+",Suite_common_381,1,"1. Trường A nhập dữ liệu Trùng
+2. Các trường còn lại nhập dữ liệu không trùng
+3. Nhấn lưu",3. Không hiển thị thông báo trùng
+9181,"Kiểm tra check trùng khi nhập dữ liệu không trùng cho các trường đang check trùng, các trường còn lại nhập dữ liệu Trùng"," 4: Check trùng tuyệt đối
+",Suite_common_381,1,"1.Trường cần check trùng theo DTYC nhập dữ liệu không trùng
+2. Những trường còn lại ( không phải trường có check trùng) nhập dữ liệu trùng với dữ liệu đã có trongCSDL
+3. Nhấn button Lưu",3. Không hiển thị thông báo check trùng

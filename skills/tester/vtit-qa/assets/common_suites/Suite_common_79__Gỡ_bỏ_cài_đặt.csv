@@ -1,0 +1,9 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8418,Gỡ bộ cài, 3: Gỡ bỏ cài đặt,Suite_common_79,1,Thực hiện remove APPLICATION,"- Thao tác thành công
+- Vào thư mục chứa apps, không thấy xuất hiện icon của APPLICATION
+- Kiểm tra bộ nhớ thấy dung lượng bằng trước khi install ứng dụng"
+8419,Cài đặt lại thành công sau khi đã remove ứng dụng, 3: Gỡ bỏ cài đặt,Suite_common_79,1,"1. Thực hiện cài đặt lần 1 thành công
+2. Remove APPLICATION
+3. Thực hiện cài đặt lần 2","- Cài đặt thành công
+- Vào thư mục chứa apps vừa installed, thấy có xuất hiện icon của APPLICATION
+- Launch APPLICATION thành công"

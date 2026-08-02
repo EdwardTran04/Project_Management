@@ -1,0 +1,38 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9301,Kiểm tra ký duyệt thành công các định dạng file cho phép (Tuỳ thuộc vào DTYC cho phép ký CA với những định dạng file nào), 2: Ký CA,Suite_common_395,1,"Chuẩn bị các định dạng file cho phép ký CA: pdf, doc, docx, ... (Chú ý chuẩn bị tất cả các định dạng file cho phép ký, chuẩn bị các định dạng file có cả chữ hoa và chữ thường)
+1. Touch vào icon Ký tại 1 file 
+2. Xử lý ký trên sim, trả về thành công","Hiển thị thông báo ""Thành công!"". 
+File/Văn bản vừa ký được chuyển sang trạng thái đã ký (Tuỳ vào DTYC để kiểm tra chuyển trạng thái)"
+9302,Kiểm tra khi touch vào icon Ký của file đã ký, 2: Ký CA,Suite_common_395,1,"Chuẩn bị dữ liệu có file ở trạng thái đã ký
+1. Kiểm tra icon ký ",Tùy theo DTYC mà icon ký sẽ disable hoặc là hiển thị thông báo file đã được ký
+9303,Kiểm tra ký duyệt không thành công các định dạng file không cho phép, 2: Ký CA,Suite_common_395,1,"Chuẩn bị các định dạng file không cho phép ký CA
+1. Touch vào icon Ký
+",Hiển thị thông báo File không được hỗ trợ ký CA hoặc không cho hiển thị icon Ký (Tuỳ thuộc vào DTYC)
+9304,Kiểm tra thực hiện ký khi Sim CA chưa được lắp vào thiết bị ( không bắt buộc là thiết bị đang cài app), 2: Ký CA,Suite_common_395,1,"Trường hợp chưa lắp sim CA vào thiết bị
+1. Touch vào icon Ký",Hiển thị thông báo ký không thành công (Tuỳ vào DTYC)
+9305,Kiểm tra ký duyệt khi tài khoản chưa được đăng ký sim CA, 2: Ký CA,Suite_common_395,1,"Chuẩn bị tài khoản chưa được đăng ký sim CA
+1. Thực hiện ký file/văn bản","Hiển thị thông báo ""Không thành công. Không đăng ký thông tin Sim CA"" (Hoặc câu thông báo khác tuỳ vào DTYC)"
+9306,Kiểm tra ký duyệt không thành công trường hợp nhập sai mã pin, 2: Ký CA,Suite_common_395,1,"Trường hợp trên server nhập sai mã pin
+1. Touch vào icon Ký
+2. Nhập mã pin sai
+(Chú ý chỉ test nhập sai mật khẩu 1 lần, nếu nhập sai quá 5 lần sim CA sẽ bị khóa)","Hiển thị thông báo ký không thành công. Icon Ký không thay đổi trạng thái
+"
+9307,Kiểm tra ký duyệt không thành công trường hợp từ chối bên sim, 2: Ký CA,Suite_common_395,1,"Trường hợp nhấn từ chối bên Sim CA khi xác nhận ký
+1. Touch vào icon Ký
+2. Bên sim CA thực hiện từ chối","Hiển thị thông báo ký không thành công
+icon ký không thay đổi trạng thái"
+9308,Kiểm tra ký duyệt không thành công trường hợp mất kết nối mạng , 2: Ký CA,Suite_common_395,1,"Trường hợp mất kết nối mạng trước khi thực hiện ký
+1. Ngắt kết nối mạng
+2. Touch vào icon Ký
+","Hiển thị thông báo mất kết nối mạng, ký không thành công"
+9309,Kiểm tra ký duyệt không thành công trường hợp mất kết nối mạng , 2: Ký CA,Suite_common_395,1,"Trường hợp mất kết nối mạng trong khi thực hiện ký
+1. Touch vào icon Ký
+2. Đang thực hiện ký thì ngắt kết nối mạng
+","Hiển thị thông báo có lỗi xử lý, ký không thành công"
+9310,Kiểm tra ký duyệt thành công khi ngắt kết nối mạng và bật lại mạng khi chưa hết timeout, 2: Ký CA,Suite_common_395,1,"1. Touch vào icon Ký
+2. Ngắt kết  nối mạng sau đó bật lại kết nối mạng khi chưa hết timeout","Hiển thị thông báo ""Thành công!"". 
+File/Văn bản vừa ký được chuyển sang trạng thái đã ký"
+9311,Kiểm tra ký duyệt không thành công trường hợp hết timeout, 2: Ký CA,Suite_common_395,1,"Trường hợp hết thời gian timeout (Tùy thuộc DTYC quy định thời gian timeout là bao nhiêu)
+1. Touch vào icon Ký
+2. Chờ hết thời gian timeout, server trả về trạng thái không thành công","Hiển thị thông báo ký không thành công. 
+File/Văn bản không chuyển trạng thái"

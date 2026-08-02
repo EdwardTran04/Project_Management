@@ -1,0 +1,15 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8271,Kiểm tra yêu cầu nhập capcha, 2: Kiểm tra captcha ,Suite_common_56,1,"Kiểm tra yêu cầu phải nhập capcha khi đăng nhập sai nhiều lần ( nếu hệ thống không có cơ chế khóa tài khoản khi nhập sai mật khẩu nhiều lần
+Kiểm tra yêu cầu phải nhập capcha khi đăng ký/reset mật khẩu/ quên mật khẩu/ gửi bình luận không cần đăng nhập",Hệ thống phải yêu cầu nhập captcha
+8272,"Kiểm tra sau mỗi lần nhập sai, capcha phải được thay đổi", 2: Kiểm tra captcha ,Suite_common_56,1,"1. Hệ thống hiển thị giá trị capcha yêu cầu nhập capcha
+2. Nhập các thông tin bị sai
+3. Nhấn Submit 
+",Hiển thị giá trị capcha mới
+8273,Kiểm tra giao diện captcha, 2: Kiểm tra captcha ,Suite_common_56,1," - Đảm bảo tiêu chí chống nhận dạng: áp dụng 1 trong các tiêu chí sau: làm mờ, biến dạng, xoay các ký tự, lượn sóng, ngẫu nhiên nhiều loại font.
+ - Sử dụng tiêu chí chống phân đoạn: áp dụng 1 trong các tiêu chí sau: background, lines, collapsing.
+ - Đảm bảo tiêu chí hỗ trợ người dùng: refresh khi gặp captcha khó, không sử dụng các kí tự nhập nhằng dễ gây nhầm lẫn như : 1, I, l, w, v, vv, 0, o, Q", Hệ thống sử dụng captcha đảm bảo tất cả các tiêu chí
+8274,Kiểm tra sửa biến lưu giá trị đăng nhập/đăng ký sai khi hệ thống yêu cầu hiển thị captcha sau n lần đăng nhập/đăng ký sai, 2: Kiểm tra captcha ,Suite_common_56,1,"Ví dụ : Hệ thống sẽ hiển thị yêu captcha khi đăng nhập/đăng ký sai n lần
+
+1. Đăng nhập sai n lần
+2. Dùng fire bug để sửa biến lưu số lần đăng nhập /đăng ký sai thành giá trị 0
+3. Submit ","Hệ thống yêu cầu nhập captcha để tiếp tục thực hiện tiếp chức năng đăng ký, đăng nhập"

@@ -1,0 +1,24 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9145,"Kiểm tra khi file cấu hình không tồn tại, sai đường dẫn", 2: Kiểm tra Tiến trình,Suite_common_374,1,"1. File cấu hình ko tồn tại, sai đường dẫn
+2. Chạy tiến trình",Thông báo lỗi
+9146,Kiểm tra khi các thông số trong file cấu hình sai, 2: Kiểm tra Tiến trình,Suite_common_374,1,"1. Cấu hình thông số sai
+2. Chạy tiến trình ",Thông báo lỗi
+9147,"Kiểm tra tiến trình tự động chạy theo chu kỳ
+", 2: Kiểm tra Tiến trình,Suite_common_374,1,"1. Config tiến trình chạy 30' một lần
+2. Chạy tiến trình
+3. Sau khi tiến trình hoàn thành xử lý dữ liệu, tạm ngừng, đẩy thêm dữ liệu thay đổi, kiểm tra 30 phút sau tiến trình có chạy lại để quét các dữ liệu mới đẩy không","Sau 30 phút, tiến trình được chạy lại và xử lý dữ liệu"
+9148,Kiểm tra có nhiều tiến trình chạy một lúc không, 2: Kiểm tra Tiến trình,Suite_common_374,1,1. Chạy nhiều tiến trình cùng lúc,Kết quả nhiều tiến trình chạy một lúc xử lý dữ liệu …
+9149,"Kiểm tra có alert thông báo đến  khi tiến trình bị stop , không chạy", 2: Kiểm tra Tiến trình,Suite_common_374,1,"1. Chạy tiến trình
+2. Tiến trình bị dừng",Phụ thuộc vào nghiệp vụ của từng tiến trình
+9150,Kiểm tra khi tiến trình bị dừng giữa chừng khi đang xử lý dữ liệu, 2: Kiểm tra Tiến trình,Suite_common_374,1,"1. Chạy tiến trình
+2. Stop tiến trình",Phụ thuộc vào nghiệp vụ của từng tiến trình
+9151,Kiểm tra mất kết nối đến các hệ thống liên quan khi đang chạy tiến trình, 2: Kiểm tra Tiến trình,Suite_common_374,1,"1. Chạy tiến trình
+2. Kết nối đến server khác bị lỗi","Tiến trình dừng, thông báo cho người vận hành
+Roll back các dữ liệu đã thực hiện"
+9152,Kiểm tra tiến trình xử lý dữ liệu : chỉ có dữ liệu hợp lệ, 2: Kiểm tra Tiến trình,Suite_common_374,1,"1. Chuẩn bị dữ liệu hợp lệ 
+2. Chạy tiến trình",Dữ liệu hợp lệ : xử lý thành công
+9153,Kiểm tra tiến trình xử lý dữ liệu : chỉ có dữ liệu không hợp lệ, 2: Kiểm tra Tiến trình,Suite_common_374,1,"1. Chuẩn bị dữ liệu không hợp lệ
+2. Chạy tiến trình","Dữ liệu không hợp lệ : ko xử lý , ghi log lỗi"
+9154,"Kiểm tra tiến trình xử lý dữ liệu : gồm cả dữ liệu hợp lệ, không hợp lệ", 2: Kiểm tra Tiến trình,Suite_common_374,1,"1. Chuẩn bị dữ liệu hợp lệ và không hợp lệ
+2. Chạy tiến trình","Dữ liệu không hợp lệ : ko xử lý , ghi log lỗi
+Dữ liệu hợp lệ : xử lý thành công"

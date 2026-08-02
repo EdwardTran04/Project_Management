@@ -1,0 +1,7 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8578,Kiểm tra hiển thị Notification khi cài đặt Show Notifications , 3: Notification setting,Suite_common_158,1,"1. Vào Setting -&gt; Apps -&gt; Chọn App đang thao tác -&gt; Show Notifications ( Cho phép Notification )
+2.1 Không tick chọn
+3.Tạo dữ liệu push Notification về sau khi cài đặt",Hệ thống không thực hiện hiển thị Notification dạng Banner ở đầu màn hình hình và Notifcation Bar
+8579,Kiểm tra hiển thị Notification khi cài đặt Show Notifications , 3: Notification setting,Suite_common_158,1,"2.2 Tick chọn
+3.Tạo dữ liệu push Notification về sau khi cài đặt","Hiển thị trên Notification dạng Banner ở đầu màn hình cho người dùng đọc.
+Khi kéo Notification bar xuống sẽ hiển thị Notification trên Notification bar"

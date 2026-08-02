@@ -1,0 +1,15 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8293,Kiểm tra việc scroll  để xem hết chi tiết trang, 2: Scroll trang  ,Suite_common_318,1,"1. Cuộn xuống để di chuyển đến phần nội dung phía bên dưới màn hình  
+
+","Việc di chuyển thành công, tiếp tục hiển thị  nội dung bên dưới của trang 
+"
+8294,Kiểm tra việc scroll  để xem hết chi tiết trang, 2: Scroll trang  ,Suite_common_318,1,2. Kiểm tra khi cuộn hết nội dung ,"Android :
+Không tiếp tục thực hiện scroll xuống phía dưới được 
+Không có nhiều khoảng trống phía dưới
+IOS : 
+Có thể scroll xuống phía dưới,nhìn thấy khoảng trống phía dưới,  khi nhả ra thì không hiển thị khoản trống nữa"
+8295,Kiểm tra việc scroll  để xem hết chi tiết trang, 2: Scroll trang  ,Suite_common_318,1,3. Cuộn lên để di chuyển đến phần nội dung bên trên màn hình,"
+Việc di chuyển thành công, hiển thị danh sách phía bên trên màn hình"
+8296,Kiểm tra scroll trang khi cuộn scroll về cuối danh sách rồi thực hiện tìm kiếm, 2: Scroll trang  ,Suite_common_318,1,"1. Scroll trang về cuối danh sách
+2. Thực hiện tìm kiếm trên danh sách. Kết quả trả về nhiều hơn 1 trang","Scroll trang focus vào đầu danh sách, cho phép scroll lên xuống để view hết thông tin"
+8297,Kiểm tra scroll trang liên tục nhiều lần, 2: Scroll trang  ,Suite_common_318,1,"Thực hiện scroll trang lên xuống nhanh tay, liên tục, nhiều lần","Hiển thị trang bình thường, không bị lag."

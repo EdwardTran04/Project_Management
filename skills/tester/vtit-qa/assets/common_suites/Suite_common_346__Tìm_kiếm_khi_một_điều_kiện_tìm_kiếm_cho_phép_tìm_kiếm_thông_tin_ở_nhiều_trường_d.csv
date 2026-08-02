@@ -1,0 +1,11 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9016,"Kiểm tra tìm kiếm theo thông tin trường A
+
+(Tương ứng có bao nhiều trường dữ liệu được phép tìm kiếm thì có từng đó case)", 3: Tìm kiếm khi một điều kiện tìm kiếm cho phép tìm kiếm thông tin ở nhiều trường dữ liệu,Suite_common_346,1,"Đảm bảo tồn tại giá trị cần tìm ở trường thông tin A
+
+1. Nhập điều kiện tìm kiếm
+2. Nhấn Tìm kiếm",Hiển thị các bản ghi có trường A thỏa mãn điều kiện tìm kiếm
+9017,Kiểm tra tìm kiếm kết hợp trên tất cả các trường dữ liệu, 3: Tìm kiếm khi một điều kiện tìm kiếm cho phép tìm kiếm thông tin ở nhiều trường dữ liệu,Suite_common_346,1,"Chuẩn bị dữ liệu n bản ghi sao cho mỗi bản ghi có 1 trường thông tin ( nằm trong các trường được phép tìm kiếm)  có giá trị cần tìm 
+
+1. Nhập điều kiện tìm kiếm
+2. Nhấn Tìm kiếm",Hiển thị các bản ghi có thỏa mãn điều kiện tìm kiếm trên các trường được phép tìm kiếm

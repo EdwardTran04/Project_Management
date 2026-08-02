@@ -1,0 +1,13 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9034,Tìm kiếm khi check chọn 1 giá trị của Checkbox, 4: Tìm kiếm theo giá trị của Checkbox,Suite_common_351,1,"1. Check chọn 1 giá trị trong list của checkbox
+2. Click button 'Tìm kiếm'","1. Hiển thị kết quả tìm kiếm thỏa mãn 
+ = Giá trị checkbox đã chọn
+2  Script: sử dụng script (*), phần điều kiện tìm kiếm bỏ hết các điều kiện khác điều kiện đang tìm"
+9035,Tìm kiếm khi check chọn nhiều giá trị trong list của checkbox, 4: Tìm kiếm theo giá trị của Checkbox,Suite_common_351,1,"1. Check chọn nhiều (&gt;1) gía trị trong list checkbox
+2. Click button 'Tìm kiếm'","1. Check chọn nhiều (&gt;1) gía trị trong list checkbox
+2. Click button 'Tìm kiếm'
+2  Script: sử dụng script (*), phần điều kiện tìm kiếm bỏ hết các điều kiện khác điều kiện đang tìm"
+9036,Tìm kiếm khi check chọn tất cả list của check box, 4: Tìm kiếm theo giá trị của Checkbox,Suite_common_351,1,"1. Check chọn tất cả giá trị trong list checkbox
+2. Click button 'Tìm kiếm'","1. Hiển thị kết quả tìm kiếm thỏa mãn 
+
+"

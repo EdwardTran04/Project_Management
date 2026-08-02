@@ -1,0 +1,28 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8943,iểm tra hiển thị notifications thành viên tham gia vào nhóm khi đang ở màn hình khác của ứng dụng, 5: Kiểm tra Notification khi có người vào nhóm,Suite_common_229,1,"Điều kiện: A đang ở trong ứng dụng
+- A là thành viên của nhóm X
+- A không thao tác với màn hình cửa sổ chat nhóm X
+1. C tham gia nhóm X
+2. Kiểm tra hiển thị trên màn hình của A
+",2. Có notification về màn thiết bị của A
+8944,iểm tra hiển thị notifications thành viên tham gia vào nhóm khi đang ở màn hình khác của ứng dụng, 5: Kiểm tra Notification khi có người vào nhóm,Suite_common_229,1,"3. A touch vào notification vừa được nhận
+4. Quay về Notification Bar, kiểm tra hiển thị trên thanh notification","3. Hiển thị màn hình cửa sổ chat nhóm X
+4. Mất notification vừa được nhận từ nhóm X"
+8945,Kiểm tra hiển thị notifications thành viên tham gia vào nhóm hiện tại khi đang ở màn hình chat nhóm hiện tại, 5: Kiểm tra Notification khi có người vào nhóm,Suite_common_229,1,"Điều kiện: A đang ở cửa sổ chat nhóm X
+1. C tham gia vào nhóm X
+2. Kiểm tra hiển thị trên thanh notification bar của A
+",2. Không hiển thị notification tin nhắn từ nhóm X ( Chỉ hiển thị tin nhắn trên màn hình chat nhóm của A : [C tham gia vào nhóm])
+8946,Kiểm tra hiển thị notifications thành viên vào nhóm khác nhóm hiện tại khi đang ở màn hình chat nhóm hiện tại, 5: Kiểm tra Notification khi có người vào nhóm,Suite_common_229,1,"Điều kiện: A tham gia nhóm X, Y
+-  A đang ở cửa sổ chat nhóm X
+1. B tham gia vào nhóm Y
+2. Kiểm tra hiển thị trên màn hình của A
+",3. Hiển thị notification từ nhóm Y gửi về cho A
+8947,Kiểm tra hiển thị notifications thành viên vào nhóm khác nhóm hiện tại khi đang ở màn hình chat nhóm hiện tại, 5: Kiểm tra Notification khi có người vào nhóm,Suite_common_229,1,4. A touch vào notification từ nhóm Y,4. Hiển thị cửa sổ chat nhóm Y
+8948,Kiểm tra hiển thị notification khi đang không ở trong ứng dụng, 5: Kiểm tra Notification khi có người vào nhóm,Suite_common_229,1,"Điều kiện:  A đang không ở trong ứng dụng
+1. B tham gia vào nhóm Y
+",1. Có notification về màn thiết bị của A
+8949,Kiểm tra hiển thị notification khi đang không ở trong ứng dụng, 5: Kiểm tra Notification khi có người vào nhóm,Suite_common_229,1,2.1 Touch vào notification trong notification bar,"2. Hiển thị màn hình cửa sổ chat nhóm
+3. Không còn hiển thị notification trong notitication bar"
+8950,Kiểm tra hiển thị notification khi đang không ở trong ứng dụng, 5: Kiểm tra Notification khi có người vào nhóm,Suite_common_229,1,"2.2 Touch vào notification banner
+3. Kiểm tra notification bar","2. Hiển thị màn hình cửa sổ chat nhóm
+3. Không còn hiển thị notification trong notitication bar"

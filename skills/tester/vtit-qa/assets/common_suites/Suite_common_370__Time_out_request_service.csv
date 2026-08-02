@@ -1,0 +1,9 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9128,Kiểm tra thực hiện chức năng thất bại khi yêu cầu gửi lên server bị timeout, 2: Time out request service,Suite_common_370,1,"Đảm bảo hệ thống được kết nối mạng
+1. Nhập thông tin hợp lệ vào form
+2. Touch button chức năng gửi request lên server","1. Hiển thị process bar đang xử lý
+2. Hiển thị dialog thông báo: ""Lỗi từ server. Vui lòng thử lại !"" với button Thử lại"
+9129,Kiểm tra thực hiện chức năng thất bại khi yêu cầu gửi lên server bị timeout, 2: Time out request service,Suite_common_370,1,"2.1  Nhấn Thử lại. Sau một thời gian, không có response trả về từ server","1. Hiển thị process bar đang xử lý
+2. Hiển thị dialog thông báo: ""Lỗi từ server. Vui lòng thử lại !"" với button Thử lại
+(Confirm lại message)"
+9130,Kiểm tra thực hiện chức năng thất bại khi yêu cầu gửi lên server bị timeout, 2: Time out request service,Suite_common_370,1,2.2  Nhấn Thử lại. Server trả về xử lý,3.2. Thực hiện thành  công thao tác chức năng

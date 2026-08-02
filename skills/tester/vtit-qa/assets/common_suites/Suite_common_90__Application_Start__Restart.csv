@@ -1,0 +1,5 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8458,Application Start/ Restart, 3: Application Start/ Restart,Suite_common_90,1,Start ứng dụng ,Thời gian start APPLICATION không quá 25s
+8459,Application Start/ Restart, 3: Application Start/ Restart,Suite_common_90,1,"1. Start ứng dụng
+2. Chọn qua các ứng dụng, chức năng khác
+3. Chọn lại ứng dụng",Thời gian restart APPLICATION không quá 25s

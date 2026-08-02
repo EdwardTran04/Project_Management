@@ -1,0 +1,101 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9189,"Kiểm tra khi touch vào xem video khi video chưa được download về client
+(Trường hợp DTYC cho phép xem online)", 2: Xem thông tin chi tiết video,Suite_common_384,1,"Pre: - Video chưa được download về client
+- client đã cài đặt ứng dụng xem video
+1. Touch vào xem video","- Gọi ứng dụng xem video để mở video, xem video bình thường
+- Hiển thị các control player : icon pause/play/Replay; thanh thời gian current (thời gian đang xem)/max (thời gian kết thúc Video),seekbar điều chỉnh vị trí muốn xem
+- Thanh tiến trình hiển thị tiến trình đã tải về máy và tiến trình đã xem tới vị trí nào "
+9190,"Kiểm tra khi touch vào xem video khi video chưa được download về client
+(Trường hợp DTYC cho phép xem online)", 2: Xem thông tin chi tiết video,Suite_common_384,1,"Pre: - Video chưa được download về client
+- client chưa cài đặt ứng dụng xem video
+1. Touch vào xem video",- Thông báo [Không tìm thấy ứng dụng xem video] (Tùy thuộc vào DTYC sẽ hiển thị thông báo tương ứng)
+9191,"Kiểm tra khi touch vào xem video khi video chưa được download về client
+(Trường hợp DTYC yêu cầu download về client rồi mới xem)", 2: Xem thông tin chi tiết video,Suite_common_384,1,"Pre: - Video chưa được download về client
+- client đã cài đặt ứng dụng xem video
+1. Touch vào xem video","- Thực hiện download video về client
+- Gọi ứng dụng xem video để mở video, xem video bình thường
+- Hiển thị các control player : icon pause/play/Replay; thanh thời gian current (thời gian đang xem)/max (thời gian kết thúc Video),seekbar điều chỉnh vị trí muốn xem
+- Thanh tiến trình hiển thị tiến trình đã xem tới vị trí nào "
+9192,"Kiểm tra khi touch vào xem video khi video chưa được download về client
+(Trường hợp DTYC yêu cầu download về client rồi mới xem)", 2: Xem thông tin chi tiết video,Suite_common_384,1,"Pre: - Video chưa được download về client
+- client chưa cài đặt ứng dụng xem video
+1. Touch vào xem video","- Thực hiện download video về client
+- Thông báo [Không tìm thấy ứng dụng xem video] (Tùy thuộc vào DTYC sẽ hiển thị thông báo tương ứng)"
+9193,"Kiểm tra khi touch vào xem video khi video đã được download về client 
+", 2: Xem thông tin chi tiết video,Suite_common_384,1,"Pre: - Video đã được download về client
+- client đã cài đặt ứng dụng xem video
+1. Touch vào xem video","- Không thực hiện download về client
+- Gọi ứng dụng xem video để mở video vừa chọn
+- Hiển thị các control player : icon pause/play/Replay; thanh thời gian current (thời gian đang xem)/max (thời gian kết thúc Video),seekbar điều chỉnh vị trí muốn xem
+- Thanh tiến trình hiển thị tiến trình đã xem tới vị trí nào "
+9194,"Kiểm tra khi touch vào xem video khi video đã được download về client 
+", 2: Xem thông tin chi tiết video,Suite_common_384,1,"Pre: - Video đã được download về client
+- client chưa cài đặt ứng dụng xem video
+1. Touch vào xem video","- Không thực hiện download về client
+- Thông báo [Không tìm thấy ứng dụng xem video] (Tùy thuộc vào DTYC sẽ hiển thị thông báo tương ứng)"
+9195,Kiểm tra xem video với các định dạng file khác nhau, 2: Xem thông tin chi tiết video,Suite_common_384,1,"Tuỳ vào DTYC cho phép xem các định dạng file nào để chuẩn bị các định dạng file video cho phép: .flv, .3gp, .avi, .mp4, .asf, .mov, .rm, .vob, .wmv, ...
+(Chú ý test với từng định dạng file DTYC cho phép)
+1. Touch vào xem video",- Xem video bình thường
+9196,Kiểm tra ẩn/hiện các control trong video, 2: Xem thông tin chi tiết video,Suite_common_384,1,1. Touch vào xem video,"- Gọi ứng dụng xem video
+- Hiển thị đúng chương trình video được chọn xem và thực hiện play nội dung chương trình.
+- Hiển thị các control player : icon pause/play/Replay; thanh thời gian current (thời gian đang xem)/max (thời gian kết thúc Video),seekbar điều chỉnh vị trí muốn xem
+"
+9197,Kiểm tra ẩn/hiện các control trong video, 2: Xem thông tin chi tiết video,Suite_common_384,1,2. Để màn hình 1 thời gian (khoảng 5s), Ẩn các control 
+9198,Kiểm tra ẩn/hiện các control trong video, 2: Xem thông tin chi tiết video,Suite_common_384,1,3. Touch lại vào màn hình,Hiển thị các control 
+9199,Kiểm tra thời gian tương ứng phát video trên thanh thời gian , 2: Xem thông tin chi tiết video,Suite_common_384,1,"1. Touch vào chạy video
+2. Kiểm tra hiển thị trên thanh thời gian current (thời gian đang xem)/max (thời gian kết thúc Video), thanh tiến trình điều chỉnh vị trí muốn xem","- Thời gian hiển thị tương ứng với thời gian đang phát video
+- Thanh tiến trình hiển thị đúng vị trí video đang phát"
+9200,Kiểm tra khi kéo vào vị trí bất kỳ muốn xem video trên thanh thời gian, 2: Xem thông tin chi tiết video,Suite_common_384,1,"Tại màn hình đang phát video
+1. Thực hiện kéo vào vị trí bất kỳ trên thanh tiến trình","- Thực hiện chạy video đúng thời điểm chọn trên thanh tiến trình
+- Thời gian và thanh tiến trình hiển thị đúng với thời gian phát video"
+9201,Kiểm tra khi kéo vào vị trí bất kỳ muốn xem video trên thanh thời gian, 2: Xem thông tin chi tiết video,Suite_common_384,1,2. Thực hiện kéo vị trí phát video nhiều lần trên thanh tiến trình,"- Chương trình hoạt động bình thường.
+- Thời gian và thanh tiến trình hiển thị đúng với thời gian phát video"
+9202,Kiểm tra khi nhấn vào button [Pause] trong video, 2: Xem thông tin chi tiết video,Suite_common_384,1,"Tại màn hình đang phát video
+1. Nhấn [Pause]","- Dừng video
+- Thời gian đang phát video trên thanh tiến trình dừng lại, không chạy nữa.
+
+"
+9203,Kiểm tra khi nhấn vào button [Pause] trong video, 2: Xem thông tin chi tiết video,Suite_common_384,1,2. Nhấn [Play],"- Tiếp tục phát video tiếp theo đoạn video dừng ở trước
+- Thời gian và thanh tiến trình tiếp tục chạy tương ứng với thời gian phát video"
+9204,Kiểm tra khi nhấn vào button [Stop] trong video, 2: Xem thông tin chi tiết video,Suite_common_384,1,"Tại màn hình đang phát video
+1. Nhấn [Stop]","- Dừng video, reset thời gian và thanh tiến trình về vị trí đầu tiên 
+"
+9205,Kiểm tra khi nhấn vào button [Stop] trong video, 2: Xem thông tin chi tiết video,Suite_common_384,1,2. Nhấn [Play],"- Phát lại video từ đầu
+- Thời gian và thanh tiến trình chạy tương ứng với thời gian phát video"
+9206,Kiểm tra khi touch vào icon phóng to/thu nhỏ video, 2: Xem thông tin chi tiết video,Suite_common_384,1,"Trường hợp video đang thu nhỏ
+1. Touch vào icon phóng to/thu nhỏ","- Phóng to full màn hình xem video
+- Hiển thị đúng nội dung video đang phát trước đó"
+9207,Kiểm tra khi touch vào icon phóng to/thu nhỏ video, 2: Xem thông tin chi tiết video,Suite_common_384,1,2. Touch vào các button [Play]/[Pause],"- Thực hiện chạy, dừng video bình thường"
+9208,Kiểm tra khi touch vào icon phóng to/thu nhỏ video, 2: Xem thông tin chi tiết video,Suite_common_384,1,3. Touch vào icon Thu nhỏ,"- Thu nhỏ màn hình xem video
+- Hiển thị đúng nội dung video đang phát trước đó"
+9209,Kiểm tra khi touch liên tục vào icon phóng to/thu nhỏ, 2: Xem thông tin chi tiết video,Suite_common_384,1,1. Nhấn liên tục vào icon Phóng to/thu nhỏ màn hình,"- Thực hiện phóng to/thu nhỏ màn hình
+- Chương trình hoạt động bình thường"
+9210,Kiểm tra khi nhấn liên tục vào màn hình đang phát video, 2: Xem thông tin chi tiết video,Suite_common_384,1,1. Nhấn liên tục vào màn hình đang phát video,"Chương trình hoạt động bình thường, không bị crash"
+9211,Kiểm tra dịch chuyển sang màn hình khác khi đang phát video, 2: Xem thông tin chi tiết video,Suite_common_384,1,"Trường hợp đang phát video
+1. Nhấn chuyển sang màn hình khác","- Dừng phát video
+- Chuyển màn hình bình thường"
+9212,"Kiểm tra xem video khi ngắt kết nối mạng trường hợp chưa download về client
+(Trường hợp xem online)", 2: Xem thông tin chi tiết video,Suite_common_384,1,"Trường hợp video chưa được download về client
+1. Ngắt kết nối mạng
+2. Bầm vào xem video",Hiển thị thông báo mất kết nối mạng
+9213,"Kiểm tra xem video khi ngắt kết nối mạng trường hợp chưa download về client
+(Trường hợp xem online)", 2: Xem thông tin chi tiết video,Suite_common_384,1,"3. Mở kết nối mạng
+4. Bấm vào xem video","- Gọi  trình xem video, xem video bình thường"
+9214,"Kiểm tra xem video khi ngắt kết nối mạng trường hợp chưa download về client
+(Trường hợp xem online)", 2: Xem thông tin chi tiết video,Suite_common_384,1,"5. Đang phát video, ngắt kết nối mạng","- Thực hiên xem tiếp video tới đoạn video đã được load về (phần đã download về hiển thị trên thanh tiến trình)
+- Sau đó hiển thị không có kết nối mạng ở giữa màn hình xem video (Tùy DTYC)"
+9215,"Kiểm tra xem video khi ngắt kết nối mạng trường hợp chưa download về client
+(Trường hợp xem onffline)", 2: Xem thông tin chi tiết video,Suite_common_384,1,"Trường hợp video chưa được download về client
+1. Ngắt kết nối mạng
+2. Bầm vào xem video",Hiển thị thông báo mất kết nối mạng
+9216,"Kiểm tra xem video khi ngắt kết nối mạng trường hợp chưa download về client
+(Trường hợp xem onffline)", 2: Xem thông tin chi tiết video,Suite_common_384,1,"3. Mở kết nối mạng
+4. Bấm vào xem video","- Thực hiện download video về client
+- Gọi  trình xem video, xem video bình thường"
+9217,"Kiểm tra xem video khi ngắt kết nối mạng trường hợp chưa download về client
+(Trường hợp xem onffline)", 2: Xem thông tin chi tiết video,Suite_common_384,1,"5. Đang phát video, ngắt kết nối mạng",- Vẫn xem video bình thường
+9218,Kiểm tra xem video khi ngắt kết nối mạng trường hợp đã dowload về client, 2: Xem thông tin chi tiết video,Suite_common_384,1,"Trường hợp video đã được download về client
+1. Ngắt kết nối mạng
+2. Bầm vào xem video","Gọi trình xem video, xem video bình thường"
+9219,Kiểm tra xem video khi ngắt kết nối mạng trường hợp đã dowload về client, 2: Xem thông tin chi tiết video,Suite_common_384,1,"3. Mở kết nối mạng
+4. Bấm vào xem video",Xem video bình thường

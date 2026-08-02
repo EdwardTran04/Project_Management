@@ -1,0 +1,40 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9131,"Thực hiện ""Import"" thành công, nhập đầy đủ các trường tương ứng với bản ghi trên file có dữ liệu bằng maxlength cho phép", 3: Kiểm tra Import chung ,Suite_common_372,1,"1. Chọn file import nhập đầy đủ các trường của bản ghi trên file có dữ liệu bằng maxlength cho phép
+2. Nhấn nút ""Import"" hoặc bấm Enter.","Import thành công các bản ghi trên file &amp; lưu vào CSDL chính xác:
+ - "
+9132,"Thực hiện ""Import"" thành công với các trường bắt buộc nhập tương ứng  với bản ghi trên file ", 3: Kiểm tra Import chung ,Suite_common_372,1,"1.  Chọn file import  chỉ nhập các trường bắt buộc của bản ghi trên file có dữ liệu bằng maxlength cho phép
+2. Nhấn nút ""Import"" hoặc bấm Enter.","Import thành công các bản ghi trên file &amp; lưu vào CSDL chính xác:
+ - "
+9133,"Thực hiện ""Import"" khi trong file exel có 1 số dòng trống", 3: Kiểm tra Import chung ,Suite_common_372,1,"1. Đang hiển thị màn hình Import thông tin X
+2. Chọn file Import đúng định dạng và có nhiều dòng trống ( có thể trống ở giữa và cuối, đầu)
+3. Nhấn nút ""Import"" hoặc bấm Enter.","Hệ thống vẫn thực hiện ""Import"" thành công &amp; bỏ qua các dòng trống."
+9134,"Thực hiện ""Import"" thành công nhiều bản ghi trên file & SL bản ghi <= Max", 3: Kiểm tra Import chung ,Suite_common_372,1,"1. Chọn file Import đúng định dạng, thông tin trên file hợp lệ &amp; số bản ghi &lt;= Max
+2. Nhấn nút ""Import"" hoặc bấm Enter.","Import thành công các bản ghi trên file &amp; lưu vào CSDL chính xác:
+ - "
+9135,"Kiểm tra trim space đầu và cuối
+xâu ký tự của cột trước khi insert vào cơ sở dữ liệu ", 3: Kiểm tra Import chung ,Suite_common_372,1,"1. Đang hiển thị màn hình Import thông tin X
+2. Chọn file Import đúng định dạng và thông tin trên file hợp lệ &amp; số bản ghi &lt;= Max:
+Dữ liệu cho cột đang xét có dấu cách đầu và cuối
+3. Nhấn nút ""Import"" hoặc bấm Enter.","- Thực hiện import thành công.
+1. Bản ghi được hiển thị trong danh sách trên màn hình và được lưu vào cơ sở dữ liệu
+2. Dữ liệu insert vào cơ sở dữ liệu được trim space đầu và cuối
+
+( Chú ý : Nếu yêu cầu không trim space thì giữ nguyên space khi lưu CSDL)"
+9136,"Import file đúng định dạng nhưng title in đậm, in nghiêng, viết hoa/viết thường", 3: Kiểm tra Import chung ,Suite_common_372,1,"1. Đang hiển thị màn hình Import thông tin X
+2. Chọn file Import file đúng định dạng nhưng title in đậm, in nghiêng, viết hoa/viết thường
+3. Nhấn nút ""Import"" hoặc bấm Enter.",Import thành công
+9137,"Thực hiện ""Import"" khi có ít nhất một bản ghi trên file lỗi", 3: Kiểm tra Import chung ,Suite_common_372,1,"1. Đang hiển thị màn hình Import thông tin X
+2. Chọn file Import đúng định dạng và có ít nhất một bản ghi trên file lỗi.
+3. Nhấn nút ""Import"" hoặc bấm Enter.","- Bản ghi đúng thì insert thành công
+- Bản ghi sai thì thông báo lỗi tương ứng với từng Bản ghi"
+9138,"Thực hiện ""Import"" khi trong file excel có >=2 bản ghi bị lỗi", 3: Kiểm tra Import chung ,Suite_common_372,1,"1. Chọn file Import đúng định dạng và có ít nhất 2 bản ghi bị lỗi. (cùng loại lỗi hoặc khác loại lỗi)
+2. Nhấn nút ""Import"" hoặc bấm Enter.","- Bản ghi đúng thì insert thành công
+- Bản ghi sai thì thông báo lỗi tương ứng với từng Bản ghi"
+9139,"Thực hiện ""Import"" với nhiều cột dữ liệu, định dạng  cột đúng, cột sai", 3: Kiểm tra Import chung ,Suite_common_372,1,"
+1. Chọn file Import với nhiều cột dữ liệu, định dạng  cột đúng, cột sai
+2. Nhấn nút ""Import"" hoặc bấm Enter.","- Bản ghi đúng thì insert thành công
+- Bản ghi sai thì thông báo lỗi tương ứng với từng Bản ghi"
+9140,"Thực hiện ""Import"" với nhiều bản ghi : bản ghi lỗi, bản ghi đúng", 3: Kiểm tra Import chung ,Suite_common_372,1,"
+1. Chọn file Import với nhiều bản ghi : bản ghi lỗi, bản ghi đúng
+2. Nhấn nút ""Import"" hoặc bấm Enter.","- Bản ghi đúng thì insert thành công
+- Bản ghi sai thì thông báo lỗi tương ứng với từng Bản ghi"

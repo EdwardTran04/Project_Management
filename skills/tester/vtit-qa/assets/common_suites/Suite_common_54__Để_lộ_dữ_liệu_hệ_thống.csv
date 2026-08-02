@@ -1,0 +1,34 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8263,Xác thực tài khoản khi download, 2: Để lộ dữ liệu hệ thống,Suite_common_54,1,"1. Đăng nhập vào hệ thống và chọn download báo cáo hoặc tài liệu =&gt; xuât báo cáo và download thành công
+2. Copy link download.
+3. Logoff  khỏi hệ thống và chép link download vừa có đươc vào trình quyệt ","Thông báo không có quyền hoặc thông báo không tồn tại link này.
+"
+8264,Kiểm soát  các ký tự : ../../…  trong tên file khi download, 2: Để lộ dữ liệu hệ thống,Suite_common_54,1,"- Dùng tool burpsuit  để bắt request download file ( bật chế độ : Intercept on)/ hoặc sửa tên file trên đường link download: 
+- Chỉnh sửa tên file theo dạng:
+* Server Linux:
+../../../../../../../../../../etc/passwd
+../../../../../../../../../../boot.ini
+* Server Windows: 
+..\..\..\..\..\..\..\..\..\..\etc\passwd
+..\..\..\..\..\..\..\..\..\..\boot.ini
+-  Forward request
+
+
+
+",Hệ thống không cho phép download file nằm ngoài thư mục được phép
+8265,"Kiểm soát ký tự ../, ..\ khi  ứng dụng sử dụng cơ chế chèn file với mỗi trang nội dung tương ứng.", 2: Để lộ dữ liệu hệ thống,Suite_common_54,1,"Bước 1:  phần help sẽ chèn vào trang help. URL của đường dẫn sẽ có dạng:
+ http://example.com/getUserProfile.jsp?page=main.html
+ http://example.com/index.php?file=help
+ http://example.com/main.cgi?home=index.htm
+Bước 2: Chỉnh sửa lại tên file như dưới:
+* Server Linux:
+../../../../../../../../../../etc/passwd
+../../../../../../../../../../boot.ini
+* Server Windows: 
+..\..\..\..\..\..\..\..\..\..\etc\passwd
+..\..\..\..\..\..\..\..\..\..\boot.ini
+
+Ví dụ : http://example.com/getUserProfile.jsp?page=../../../etc/passwd
+",Hệ thống không cho phép mở file nằm ngoài thư mục được phép
+8266,Kiểm tra thư mục chứa file, 2: Để lộ dữ liệu hệ thống,Suite_common_54,1,Kiểm tra thư mục chứa file upload/download trên server ,"Thư mục thuộc ngoài thư mục web, có giới hạn quyền thực thi (VD: /u02/cntt_test_app/im_app/sale_vtt/upload
+Không nhìn thấy cây thư mục file "

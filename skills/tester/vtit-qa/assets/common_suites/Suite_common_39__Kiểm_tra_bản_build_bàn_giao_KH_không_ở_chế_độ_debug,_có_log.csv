@@ -1,0 +1,6 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8212,"Kiểm tra bản build cuối cùng cho KH không ở chế độ debug, có log"," 2: Kiểm tra bản build bàn giao KH không ở chế độ debug, có log",Suite_common_39,1,"Android: Dùng tool DDMS
+1. Chạy máy ảo, dùng DDMS để check log
+2. Thao tác các chức năng
+IOS : Không cần test trường hợp này vì bản build bàn giao KH là file IPA không có chế độ debug, có log.
+",Không hiển thị log chương trình

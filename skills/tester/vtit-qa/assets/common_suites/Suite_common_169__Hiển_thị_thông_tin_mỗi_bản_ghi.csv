@@ -1,0 +1,41 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8616,Kiểm tra hiển thị đúng thông tin của mỗi bản ghi, 2: Hiển thị thông tin mỗi bản ghi ,Suite_common_169,1,"1. Kiểm tra thông tin  của mỗi bản ghi
+Link/DB:","1. Hiển thị đúng các thông tin của từng bản ghi:
++ Thông tin A=
++ Thông tin B=
++ Thông tin C=
+"
+8617,"Kiểm tra hiển thị khi dữ liệu trả về trên các trường thông tin là null
+Note: chỉ test cho các trường mà trên DB được phép nulll", 2: Hiển thị thông tin mỗi bản ghi ,Suite_common_169,1,"Chuẩn bị  dữ liệu cho các trường thông tin là null
+1. Kiểm tra hiển thị thông tin của mỗi trường trên bản ghi
+Link/DB:",1. Hiển thị  thông tin trên các trường là bank
+8618,"Kiểm tra hiển thị khi dữ liệu trả về trên các trường thông tin có độ dài maxlength
+", 2: Hiển thị thông tin mỗi bản ghi ,Suite_common_169,1,"Chuẩn bị dữ liệu cho các trường thông tin là maxlength
+1. Kiểm tra hiển thị thông tin của mỗi trường trên bản ghi
+Link/DB:","1. Thông tin hiển thị trên các trường tùy thuộc vào DTYC: có thể
+- Hiển thị đủ thông tin hoặc hiển thị 1 phần thông tin phần còn lại hiển thị… hoặc hiển thị 1 phần thông tin phần còn lại cho chạy chữ"
+8619,"Kiểm tra hiển thị chi tiết trạng thái khi app A đã download nhưng chưa được cài đặt
+Note: chỉ áp dụng khi có trường trạng thái trong DTYC ", 2: Hiển thị thông tin mỗi bản ghi ,Suite_common_169,1,"Đảm bảo app  A được download về thiết bị nhưng chưa được cài đặt
+1. Kiểrm tra trạng thái của app/file A","2. Trạng thái hiển thị (label ): INSTALL (Tùy thuộc vào DTYC)
+
+"
+8620,"Kiểm tra hiển thị  chi tiết trạng thái khi app A đã được cài đặt với version đã cài <version hiện tại đang có trên ứng dụng đang test
+", 2: Hiển thị thông tin mỗi bản ghi ,Suite_common_169,1,Đảm bảo app được cài đặt nhưng version =,"2. Trạng thái hiển thị (label ): UPDATE(Tùy thuộc vào DTYC)
+
+"
+8621,"Kiểm tra hiển thị  chi tiết trạng thái khi app A đã được cài đặt với version đã cài =version hiện tại đang có trên ứng dụng đang test
+", 2: Hiển thị thông tin mỗi bản ghi ,Suite_common_169,1,"Đảm bảo app được cài đặt nhưng version = version đang có trên ứng dụng đang test
+1. Kiểrm tra trạng thái của app A trong danh sách","2. Trạng thái hiển thị (label ): UPDATE(Tùy thuộc vào DTYC)
+
+"
+8622,"Kiểm tra hiển thị đúng trạng thái khi app A đã được cài đặt  với version đã cài >version hiện tại đang có trên nguồn X
+", 2: Hiển thị thông tin mỗi bản ghi ,Suite_common_169,1,"Đảm bảo app được cài đặt nhưng version &gt; version đang có trên ứng dụng đang test
+1. Kiểrm tra trạng thái của app A trong danh sách","2. Trạng thái hiển thị (label ): OPEN(Tùy thuộc vào DTYC)
+
+"
+8623,"Kiểm tra hiển thị đúng trạng thái  khi app A có đã cài đặt nhưng thực hiện gỡ app A
+", 2: Hiển thị thông tin mỗi bản ghi ,Suite_common_169,1,"Đảm bảo app A đã có trong danh sách lịch sử download trước đó
+1. Thực hiện gỡ app A ra khỏi ưng dụng
+2. Kiểrm tra trạng thái của app/file A","2. Trạng thái hiển thị (label ): GET (tùy  thuộc vào DTYC)
+
+"

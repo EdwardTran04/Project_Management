@@ -1,0 +1,39 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8200,"Upload file không đúng định dạng
+", 2: Upload File,Suite_common_313,1,"- Upload file không có định dạng(.xsl)
+- Nhập dữ liệu đầy đủ và hợp lệ với các trường khác
+- Click ""Save"" hoặc ""Save and back to list"" hoặc&nbsp; ""Save and add"" hoặc ""Save and next""",Hệ thống thông báo file không hợp lệ
+8201,"Upload file có dung lượng lớn hơn qui định(10MB)
+
+", 2: Upload File,Suite_common_313,1,"- Upload file có dung lượng &gt; 10MB
+- Nhập dữ liệu đầy đủ và hợp lệ với các trường khác
+- Click ""Save"" hoặc ""Save and back to list"" hoặc&nbsp; ""Save and add"" hoặc ""Save and next""",Hệ thống thông báo file quá lớn
+8202,"Upload file có dung lượng nhỏ hơn qui định(3MB)
+", 2: Upload File,Suite_common_313,1,"- Upload file có dung lượng &lt; 3MB
+- Nhập dữ liệu đầy đủ và hợp lệ với các trường khác
+- Click ""Save"" hoặc ""Save and back to list"" hoặc&nbsp; ""Save and add"" hoặc ""Save and next""",Hệ thống thông báo file quá lớn
+8203,"Upload file có dung lượng bằng dung lượng qui định
+", 2: Upload File,Suite_common_313,1,"- Upload file có dung lượng = dung lượng cho phép(10MB hoặc 3MB)
+- Nhập dữ liệu đầy đủ và hợp lệ với các trường khác
+- Click ""Save"" hoặc ""Save and back to list"" hoặc&nbsp; ""Save and add"" hoặc ""Save and next""",Hệ thống thông báo thành công
+8204,"Upload file ảnh sai đường dẫn
+
+", 2: Upload File,Suite_common_313,1,"- Nhập các thông tin đầy đủ và hợp lệ
+- Upload file ảnh đúng định dạng(.xsl)
+- Sửa đường dẫn của file ảnh vừa upload
+- Click ""Save""",Hệ thống thông báo lỗi
+8205,"Upload file ảnh có tên là các kí tự đặc biệt
+
+", 2: Upload File,Suite_common_313,1,"- Nhập các thông tin đầy đủ và hợp lệ
+- Upload file đúng định dạng(.xsl), tên file chứa kí tự đặc biệt. Ví dụ:!@#$%^&amp;&amp;**^/table/body
+- Các trường khác nhập hợp lệ
+- Click ""Save"" hoặc ""Save and back to list"" hoặc&nbsp; ""Save and add"" hoặc ""Save and next""","Hệ thống thông báo thành công, file ảnh"
+8206,"Không upload file
+
+", 2: Upload File,Suite_common_313,1,"- Không upload file
+- Nhập dữ liệu đầy đủ và hợp lệ vào các trường khác
+- Click ""Save"" hoặc ""Save and back to list"" hoặc&nbsp; ""Save and add"" hoặc ""Save and next""
+",Hệ thống yêu cầu nhập dữ liệu
+8207,"Upload file ảnh có định dạng giả
+
+", 2: Upload File,Suite_common_313,1,- Đổi tên file ko đúng định dạng thành file đúng định dạng(.xsl),Hệ thống thông báo lỗi file ko đung định dạng

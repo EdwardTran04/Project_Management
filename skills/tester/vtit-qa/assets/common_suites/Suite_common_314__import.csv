@@ -1,0 +1,29 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8208,"Kiểm tra trim space đầu và cuối
+xâu ký tự của cột trước khi insert vào database ", 2: import ,Suite_common_314,1,"1. Đang hiển thị màn hình Import thông tin X
+2. Chọn file Import đúng định dạng và thông tin trên file hợp lệ &amp; số bản ghi &lt;= Max:
+Dữ liệu cho cột đang xét có dấu cách đầu và cuối
+3. Nhấn nút ""Import"" hoặc bấm Enter.","- Thực hiện import thành công.
+1. Bản ghi được hiển thị trong danh sách trên màn hình và được lưu vào database
+2. Dữ liệu insert vào database được trim space đầu và cuối"
+8959,"Import file đúng định dạng nhưng title in đậm, in nghiêng, viết hoa/viết thường", 2: import ,Suite_common_314,1,"1. Đang hiển thị màn hình Import thông tin X
+2. Chọn file Import file đúng định dạng nhưng title in đậm, in nghiêng, viết hoa/viết thường
+3. Nhấn nút ""Import"" hoặc bấm Enter.",Import thành công
+8960,Kiểm tra khi chọn file Import không đúng định dạng, 2: import ,Suite_common_314,1,"1. Đang hiển thị màn hình Import thông tin X
+2. Chọn file không đúng định dạng.
+3. Nhấn nút ""Import"" hoặc bấm Enter.","Hiển thị thông báo lỗi: ""Hãy chọn file dạng .doc, .xls,…"""
+8961,"Tr.hợp chưa chọn file Import, nhấn nút ""Import""", 2: import ,Suite_common_314,1,"1. Đang hiển thị màn hình Import thông tin X
+2. Chưa chọn file Import
+3. Nhấn nút ""Import"".","Hiển thị thông báo lỗi: ""Hãy chọn file thông tin X cần Import"""
+8962,Tr.hợp số lượng Item trên file > Max (Số lượng Item lớn nhất cho phép), 2: import ,Suite_common_314,1,"1. Đang hiển thị màn hình Import thông tin X
+2. Chọn file Import đúng định dạng, có số lượng Item &gt; Max
+3. Nhấn nút ""Import"" hoặc bấm Enter.","Hiển thị thông báo lỗi: ""Số lượng Item trên file vượt quá Max"""
+8963,Tr.hợp thông tin trên file Import không đúng nội dung theo định dạng file mẫu, 2: import ,Suite_common_314,1,"1. Đang hiển thị màn hình Import thông tin X
+2. Chọn file Import không đúng nội dung theo định dạng file mẫu
+3. Nhấn nút ""Import"" hoặc bấm Enter.",Hiển thị thông báo lỗi tương ứng
+8964,Tr.hợp thông tin trên file Import rỗng, 2: import ,Suite_common_314,1,"1. Đang hiển thị màn hình Import thông tin X
+2. Chọn file Import đúng định dạng và thông tin rỗng.
+3. Nhấn nút ""Import"" hoặc bấm Enter.","Hiển thị thông báo lỗi ""Thông tin trên file Import rỗng"""
+8965,"Kiểm tra file import vượt quá dung lượng cho phép
+", 2: import ,Suite_common_314,1,"1. Chọn file import vượt quá dung lượng max
+2. Nhấn nút Import",Hiển thị thông báo lỗi file import không vượt quá dung lượng max

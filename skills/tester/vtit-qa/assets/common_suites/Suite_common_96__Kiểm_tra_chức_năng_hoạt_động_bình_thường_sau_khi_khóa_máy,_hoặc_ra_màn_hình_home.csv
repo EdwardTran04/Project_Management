@@ -1,0 +1,57 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8473,Kiểm tra ứng dụng hoạt động bình thường sau khi mở khóa máy/ bật lại màn hình máy," 3: Kiểm tra chức năng hoạt động bình thường sau khi khóa máy, hoặc ra màn hình home",Suite_common_96,1,"1. Đang ở một màn hình chức năng (Không trong quá trình gửi request)
+2. Để thời gian máy tự động khóa hoặc nhấn khóa máy
+3. Mở khóa máy ","- Hiển thị đúng màn hình đang view trước khi thực hiện thao tác hạ app, ứng dụng sẵn sàng để thực hiện luồng thao tác tiếp theo
+- Chức năng vẫn hoạt động bình thường như trước khi khóa máy "
+8474,Kiểm tra ứng dụng hoạt động bình thường sau khi mở khóa máy/ bật lại màn hình máy," 3: Kiểm tra chức năng hoạt động bình thường sau khi khóa máy, hoặc ra màn hình home",Suite_common_96,1,"1. Đang  trong quá trình thực hiện gửi request của 1 chức năng
+2. Thực hiện khóa máy.
+3. Mở khóa máy ","- Ứng không bị crash
+- Ứng dụng sẵn sàng để thực hiện luồng thao tác tiếp theo
+- Chức năng vẫn hoạt động bình thường như trước khi khóa máy"
+8475,Kiểm tra ứng dụng hoạt động bình thường sau khi mở khóa máy/ bật lại màn hình máy," 3: Kiểm tra chức năng hoạt động bình thường sau khi khóa máy, hoặc ra màn hình home",Suite_common_96,1,"1. Tại một màn hình của ứng dụng, touch chọn vào khung nhập liệu của EditText (hiển thị bàn phím) 
+2. Sau đó tắt màn hình thiết bị, bật lại màn hình kiểm tra xem bàn phím có bị ẩn không","- Hiển thị đúng màn hình đang view trước khi thực hiện thao tác hạ app, ứng dụng sẵn sàng để thực hiện luồng thao tác tiếp theo
+- Sau khi chọn lại Ứng dụng, có thể xử lý đóng hoặc mở bàn   phím không bắt buộc
+- Chức năng vẫn hoạt động bình thường như trước khi khóa máy "
+8476,Kiểm tra ứng dụng hoạt động bình thường khi đang gửi request thì nhấn phím home trên ứng dụng," 3: Kiểm tra chức năng hoạt động bình thường sau khi khóa máy, hoặc ra màn hình home",Suite_common_96,1,"1. Đang thao tác chức năng ví dụ Lưu dữ liệu/ gửi request server
+2. Nhấn 1 lần vào phím home trên thiết bị
+3. Vào lại ứng dụng
+4. Thao tác trên màn hình chức năng ","- Chương trình không bị crash, thực hiện request bình thường.
+- Không hiển thị thông báo mất kết nối hoặc lỗi trong quá trình kết nối đến máy chủ (lưu ý cho WP: hay gặp trường hợp này)
+- Tiến trình request được chạy tiếp ( lưu ý cho WP: tiến trình request được chạy lại từ đầu)
+- Ứng dụng sẵn sàng để thực hiện luồng thao tác tiếp theo
+- Chức năng vẫn hoạt động bình thường"
+8477,Kiểm tra ứng dụng hoạt động bình thường khi đang gửi request thì nhấn phím home trên ứng dụng," 3: Kiểm tra chức năng hoạt động bình thường sau khi khóa máy, hoặc ra màn hình home",Suite_common_96,1,5. Lặp lại bước 1-&gt; 3 nhiều lần,"- Chương trình không bị crash, thực hiện request bình thường
+- Ứng dụng sẵn sàng để thực hiện luồng thao tác tiếp theo
+- Chức năng vẫn hoạt động bình thường"
+8478,Kiểm tra ứng dụng hoạt động bình thường khi đang gửi request thì nhấn phím home trên ứng dụng," 3: Kiểm tra chức năng hoạt động bình thường sau khi khóa máy, hoặc ra màn hình home",Suite_common_96,1,"Trường hợp hạ ứng dụng sau đó trở lại ứng dụng qua các tabs màn hình Recent (hiển thị các ứng dụng đang mở)
+1. Tại một màn hình của ứng dụng đang thực hiện một chức năng
+2. Nhấn 1 lần vào phím home trên thiết bị
+3. Nhấn giữ phím home trên thiết bị (android), nhấn 2 lần vào phím home (đối với IOS)
+4. Trong tabs Recent chọn lại ứng dụng để trở lại màn hình ứng dụng 
+5. Thao tác trên màn hình chức năng 
+
+Đối với Windows Phone: cần chú ý trường hợp nhấn giữ lâu nút [Back] của thiết bị để recent ứng dụng nhưng chưa home màn hình, sau đó chọn để mở lại ứng dụng ","- Chương trình không bị crash, thực hiện request bình thường
+- Ứng dụng sẵn sàng để thực hiện luồng thao tác tiếp theo
+- Chức năng vẫn hoạt động bình thường như trước khi khóa máy "
+8479,Kiểm tra ứng dụng hoạt động bình thường  khi đang ở một màn hình chức năng mà home ứng dụng (màn hình chức năng không trong quá trình gửi request)," 3: Kiểm tra chức năng hoạt động bình thường sau khi khóa máy, hoặc ra màn hình home",Suite_common_96,1,"1. Đang ở 1 màn hình chức năng
+2. Nhấn 1 lần vào phím home trên thiết bị
+3. Vào lại ứng dụng
+4. Thao tác trên màn hình chức năng ","- Hiển thị đúng màn hình đang view trước khi thực hiện thao tác hạ app. (Lưu ý: trên WP ứng dụng hay bị lỗi chạy lại từ đầu như khi mới start app)
+- Chức năng vẫn hoạt động bình thường"
+8480,Kiểm tra ứng dụng hoạt động bình thường  khi đang ở một màn hình chức năng mà home ứng dụng (màn hình chức năng không trong quá trình gửi request)," 3: Kiểm tra chức năng hoạt động bình thường sau khi khóa máy, hoặc ra màn hình home",Suite_common_96,1,"1. Đang ở 1 màn hình chức năng
+2. Nhấn 1 lần vào phím home trên thiết bị
+3. Nhấn giữ phím home trên thiết bị (android), nhấn 2 lần vào phím home (đối với IOS)
+4. Trong tabs Recent chọn lại ứng dụng 
+5. Thao tác trên màn hình chức năng 
+
+Đối với Windows Phone: cần chú ý trường hợp nhấn giữ lâu nút [Back] của thiết bị để recent ứng dụng nhưng chưa home màn hình, sau đó chọn để mở lại ứng dụng ","- Hiển thị đúng màn hình đang view trước khi thực hiện thao tác hạ app
+- Chức năng vẫn hoạt động bình thường"
+8481,Kiểm tra home màn hình khi popup/dialog đang được mở," 3: Kiểm tra chức năng hoạt động bình thường sau khi khóa máy, hoặc ra màn hình home",Suite_common_96,1,"1. Touch vào button chức năng để hiển thị popup/dialog và đang trong quá trình processing 
+2. Bấm nút home thiết bị
+3. Vào lại ứng dụng. Touch nhanh vào button khác hoặc button Back trước khi popup/dialog được hiển thị","-  Không bị crash chương trình,
+-  Hiển thị popup/dialog ở đúng màn hình gọi popup/dialog và không tác động được vào chức năng phía dưới popup/dialog"
+8482,Kiểm tra home màn hình khi popup/dialog đã được mở," 3: Kiểm tra chức năng hoạt động bình thường sau khi khóa máy, hoặc ra màn hình home",Suite_common_96,1,"1. Đảm bảo popup/dialog đã được mở trên màn hình chức năng 
+2. Bấm nút home thiết bị.
+3. Vào lại ứng dụng","- Hiển thị popup/dialog đúng màn hình đang view trước khi thực hiện thao tác hạ app
+                                                                                                                                                                                                                                                             (lưu ý: khi test trên WP,nếu sử dụng dạng dilaog mặc định của WP thì dialog sẽ bị đóng)
+- Chức năng vẫn hoạt động bình thường"

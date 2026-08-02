@@ -1,0 +1,26 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8986,Kiểm tra việc không hiển thị các liên kết khi số bản ghi nhỏ hơn M, 3: Dạng đánh số trang,Suite_common_342,1,Giả sử trong danh sách/grid có &lt;=M bản ghi,"1. Hiển thị đủ M bản ghi trên danh sách
+2. Không hiển thị dòng : Số bản ghi  ;   Trang [số thự tự các trang]"
+8987,Kiểm tra hiển thị phân trang khi số bản ghi > M, 3: Dạng đánh số trang,Suite_common_342,1,Kiểm tra cách hiển thị của chức năng phân trang,"1. Danh sách được phân trang, mỗi trang M bản ghi
+2.Hiển thị dòng :  Số bản ghi [Tổng số bản ghi]  Trang  [Số thứ tự trang, cách nhau bởi dấu , ]"
+8988,Kiểm tra cách đánh số các bản ghi, 3: Dạng đánh số trang,Suite_common_342,1,"Trong grid dữ liệu 
+Kiểm tra số thứ tự các bản ghi.","Đánh số thứ tự tăng dần và liên tục: Số thứ tự đầu tiên của trang sau là số tiếp theo của trang trước.
+"
+8989,Kiểm tra mở các trang, 3: Dạng đánh số trang,Suite_common_342,1,"Chọn vào số trang bất kỳ: trang đầu, trang cuối, trang giữa","Mở trang tương ứng
+Số bản ghi đầu tiên của trang sau là số tiếp theo của trang trước."
+8990,"Kiểm tra hiển thị menu và header, footer sau khi chuyển trang", 3: Dạng đánh số trang,Suite_common_342,1,"Trên grid
+Thực hiện chuyển các trang sau
+","Menu, header, footer không thay đổi"
+8991,Kiểm tra việc đánh dấu trang hiện tại, 3: Dạng đánh số trang,Suite_common_342,1,1. Chọn 1 trang để xem thông tin ,Trang được chọn hight light để phân biệt
+8992,"Kiểm tra vị trí trang sau khi thực hiện 1 thao tác(sửa, xóa, thêm mới,...) trên trang dữ liệu", 3: Dạng đánh số trang,Suite_common_342,1,"1. Đang ở trang thứ 4, click vào nút ""Thêm mới""/""Sửa""
+2. Click vào nút ""Đóng""  trên popup Thêm/ Sửa","1. Item được mở ra
+2. Quay lại trang thứ 1"
+8993,"Kiểm tra vị trí trang sau khi thực hiện 1 thao tác(sửa, xóa, thêm mới,...) trên trang dữ liệu", 3: Dạng đánh số trang,Suite_common_342,1,"1. Đang ở trang thứ 4, chọn 1 item và click vào nút ""Thêm mới""/""Sửa""
+2. Update data, Click vào nút xác nhận lưu","1. Item được mở ra
+2. Quay lại trang thứ 1"
+8994,"Kiểm tra vị trí trang sau khi thực hiện 1 thao tác(sửa, xóa, thêm mới,...) trên trang dữ liệu", 3: Dạng đánh số trang,Suite_common_342,1,"1. Đang ở trang thứ 4, chọn 1 item và click vào nút ""Xóa""
+2. Click nút ""Có"" trên confirm message","1. Hiển thị confirm mesage
+2. Quay lại trang thứ 1"
+8995,"Kiểm tra vị trí trang sau khi thực hiện 1 thao tác(sửa, xóa, thêm mới,...) trên trang dữ liệu", 3: Dạng đánh số trang,Suite_common_342,1,"Có 11 bản ghi, chia làm 2 trang: trang 1 có 10 bản ghi, trang 2 có 1 bản ghi. 
+1. Open trang thứ 2
+2. Delete bản ghi thứ 11 ở trang 2",Quay lại trang 1

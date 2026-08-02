@@ -1,0 +1,40 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9076,"Upload file đúng định dạng quy định ( liệt kê các file đúng đinh dạng)
+", 4: Kiểm tra File upload,Suite_common_361,1,"1. Lần lượt upload file đúng định dang quy định (liệt kê các file đúng định dạng )
+2. Nhập dữ liệu đầy đủ và hợp lệ với các trường khác
+3. Nhấn Ghi lại","1. Thực hiện lưu thành công. Kiểm tra lưu đúng như case lưu CSDL
+"
+9077,"Upload file có dung lượng bằng dung lượng qui định
+", 4: Kiểm tra File upload,Suite_common_361,1,"- Upload file có dung lượng &lt;= dung lượng cho phép(2 MB)
+- Nhập dữ liệu đầy đủ và hợp lệ với các trường khác
+- Nhấn Ghi lại
+","1. Thực hiện lưu thành công. Kiểm tra lưu đúng như case lưu CSDL
+"
+9078,Upload nhiều file đúng định dạng có dung lượng  <= dung lượng quy định, 4: Kiểm tra File upload,Suite_common_361,1,"- Upload nhiều file đúng định dạng có dung lượng &lt;=  dung lượng cho phép
+- Nhập dữ liệu đầy đủ hợp lệ với các trường hợp khác
+- Nhấn Ghi lại","1. Thực hiện lưu thành công. Kiểm tra lưu đúng như case lưu CSDL
+"
+9079,"Upload số lượng file tối đa cho phép, mỗi file có dung lượng tối đa cho phép
+
+", 4: Kiểm tra File upload,Suite_common_361,1,"- Upload số lượng file cho phép tối đa 
+- Nhập dữ liệu đầy đủ và hợp lệ với các trường khác
+- Nhấn Ghi lại
+","1. Thực hiện lưu thành công. Kiểm tra lưu đúng như case lưu CSDL
+"
+9080,"Upload file ảnh có tên là các kí tự đặc biệt
+
+", 4: Kiểm tra File upload,Suite_common_361,1,"- Nhập các thông tin đầy đủ và hợp lệ
+- Upload file đúng định dạng (jpe,gif,png,jpg), tên file chứa kí tự đặc biệt. Ví dụ:!@#$%^&amp;&amp;**^/table/body, """"
+hoặc : NULL hoặc 0  hoặc :  ../../../abc
+- Các trường khác nhập hợp lệ
+- Nhấn Ghi lại
+","Hệ thống thông báo thành công, và đổi tên file lưu trên server
+
+Confirm lại nghiệp vụ với dev có cần đổi tên file không"
+9081,"Upload file ảnh có định dạng giả
+
+", 4: Kiểm tra File upload,Suite_common_361,1,"- Đổi tên file ko đúng định dạng thành file đúng định dạng (jpe,gif,png,jpg)
+- Upload file
+- Các trường khác nhập hợp lệ
+- Nhấn Ghi lại","1. Khi chọn file thì file vẫn cho phép hiển thị lên màn hình
+2. Khi thực hiện lưu vào CSDL thì server sẽ trả về thông báo lỗi"

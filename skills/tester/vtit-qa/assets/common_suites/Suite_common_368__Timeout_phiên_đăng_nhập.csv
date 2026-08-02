@@ -1,0 +1,49 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9118,Kiểm tra hết phiên đăng nhập khi ứng dụng cho phép 1 tài khoản được đăng nhập ở nhiều máy, 2: Timeout  phiên đăng nhập ,Suite_common_368,1,"1. Đăng nhập vào ứng dụng trên máy A
+2. Đăng nhập vào ứng dụng bằng tài khoản ở bước 1 trên máy B","2. - Máy B đăng nhập thành công, ứng dụng hoạt động bình thường
+ - Máy A hiển thị thông báo hết phiên đăng nhập và thoát ra màn hình đăng nhập"
+9119,Kiểm tra không hết phiên đăng nhập khi chưa thỏa mãn thời gian hết phiên đăng nhập, 2: Timeout  phiên đăng nhập ,Suite_common_368,1,"Chuẩn bị: Thời gian timeout khi không sử dụng máy là : 30 phút
+
+1. Mở ứng dụng. Không sử dụng ứng dụng 1, 10, 30 phút
+2. Nhấn vào bất kỳ chức năng nào trên ứng dụng",Thao tác ứng dụng bình thường
+9120,"Kiểm tra hết phiên đăng nhập sau một thời gian ứng dụng không được sử dụng.
+
+
+DTYC có cơ chế time out sau một thời gian ", 2: Timeout  phiên đăng nhập ,Suite_common_368,1,"1. Để ứng dụng một thời gian cho hết phiên đăng nhập
+(thời gian tùy vào DTYC)
+2. Vào thời điểm sau 30 phút 1 s, nhấn chọn nhanh vào một chức năng bất kỳ
+3. Focus ra ngoài thông báo hoặc close thông báo
+4. Nhấn back trên client( android) -&gt; ( chỉ dành cho ứng dụng Mobile)
+4.2 Nhấn back trên trình duyệt 
+","2. Hiển thị thông báo hết phiên đăng nhập 
+3. Hiển thị màn hình đăng nhập vào ứng dụng
+4.1Thoát khỏi ứng dụng( chỉ dành cho ứng dụng Mobile)
+4.2 Hiển thị màn hình đăng nhập 
+"
+9121,"Kiểm tra hết phiên đăng nhập sau một thời gian ứng dụng không được sử dụng.
+
+
+DTYC có cơ chế time out sau một thời gian ", 2: Timeout  phiên đăng nhập ,Suite_common_368,1,"1. Vào chức năng có popup. Nhấn vào một button để mở popup
+2. Để ứng dụng một thời gian cho đến hết phiên đăng nhập
+2.Nhấn chọn vào icon bất kỳ trên popup
+3. Focus ra ngoài thông báo hoặc close thông báo
+4.1 Nhấn back trên client( android) -&gt; ( chỉ dành cho ứng dụng Mobile)
+4.2 Nhấn back trên trình duyệt 
+","2. Hiển thị thông báo hết phiên đăng nhập 
+3. Hiển thị màn hình đăng nhập vào ứng dụng, và không còn hiển thị popup
+4.1Thoát khỏi ứng dụng( chỉ dành cho ứng dụng Mobile)
+4.2 Hiển thị màn hình đăng nhập "
+9122,"Kiểm tra hết phiên đăng nhập đối với ứng dụng có tiến trình ngầm như đồng bộ dữ liệu
+
+
+DTYC có cơ chế time out sau một thời gian ", 2: Timeout  phiên đăng nhập ,Suite_common_368,1,"1. Để ứng dụng một thời gian cho hết phiên đăng nhập
+(thời gian tùy vào DTYC)
+2.1 Ứng dụng có các tiến trình ngầm như tiến trình đồng bộ dữ liệu. Đúng thời điểm tiến trình ngầm gửi request đồng bộ dữ liệu
+",- Không có thông báo hết phiên đăng nhập được hiển thị nếu  không tác động vào ứng dụng
+9123,"Kiểm tra hết phiên đăng nhập đối với ứng dụng có tiến trình ngầm như đồng bộ dữ liệu
+
+
+DTYC có cơ chế time out sau một thời gian ", 2: Timeout  phiên đăng nhập ,Suite_common_368,1,"2.2 Ứng dụng có các tiến trình ngầm như tiến trình đồng bộ dữ liệu. Tác động vào chức năng ứng dụng cùng thời điểm với tiến trình ngầm của ứng dụng  gửi request
+3. Focus ra ngoài thông báo hoặc close thông báo","2. Hiển thị thông báo hết phiên đăng nhập 
+3. Hiển thị màn hình đăng nhập vào ứng dụng
+4. Thoát khỏi ứng dụng"

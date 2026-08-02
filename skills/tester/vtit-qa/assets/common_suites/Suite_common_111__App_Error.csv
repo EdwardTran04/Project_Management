@@ -1,0 +1,4 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8542,Kiểm tra không hiển thị message error của app khi không mở app, 3: App Error,Suite_common_111,1,"Vào màn hình Home của mobile
+1. Không ở app
+2. Kiểm tra hiển thị ",Không mở App thì không hiển thị error msg trên màn hình mobile

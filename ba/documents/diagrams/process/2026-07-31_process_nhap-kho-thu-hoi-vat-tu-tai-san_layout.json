@@ -1,0 +1,530 @@
+{
+  "process_name": "Quy Trình Nhập Kho Thu Hồi Vật Tư Tài Sản (Từ Trạm / Sự Cố GNOC) — AI-WMS & SAP",
+  "lanes": [
+    "NV KT Trạm / Sự Cố GNOC",
+    "Người Phê Duyệt (V-Office)",
+    "Thủ Kho / NV Kho / Bảo Vệ",
+    "Bộ Phận KCS & Tài Chính",
+    "Hệ Thống (GNOC / SAP / AI-WS)"
+  ],
+  "nodes": [
+    {
+      "id": "start",
+      "lane": 0,
+      "col": 0,
+      "row": 0,
+      "type": "start",
+      "label": ""
+    },
+    {
+      "id": "b1_gnoc",
+      "lane": 4,
+      "col": 1,
+      "row": 0,
+      "type": "system",
+      "label": "B1: GNOC phát sinh sự cố\nTháo dỡ / Ứng cứu trạm\nSinh Work Order"
+    },
+    {
+      "id": "b1_sap",
+      "lane": 4,
+      "col": 2,
+      "row": 0,
+      "type": "system",
+      "label": "SAP tự động sinh\nReservation (Phiếu thu hồi)\ntừ Work Order"
+    },
+    {
+      "id": "b2_trinh",
+      "lane": 0,
+      "col": 3,
+      "row": 0,
+      "type": "task",
+      "label": "B2: NV KT Trạm trình\nyêu cầu nhập kho thu hồi\nlên V-Office"
+    },
+    {
+      "id": "dec_pd",
+      "lane": 1,
+      "col": 3,
+      "row": 0,
+      "type": "gateway",
+      "label": "Phê duyệt?"
+    },
+    {
+      "id": "tc_chinh",
+      "lane": 0,
+      "col": 3,
+      "row": 1,
+      "type": "task_err",
+      "label": "Chỉnh sửa Reservation\ntrên SAP [SAP]"
+    },
+    {
+      "id": "tc_trinh",
+      "lane": 0,
+      "col": 3,
+      "row": 2,
+      "type": "task_err",
+      "label": "Trình lại lên\nV-Office"
+    },
+    {
+      "id": "b3_api1",
+      "lane": 4,
+      "col": 4,
+      "row": 0,
+      "type": "system",
+      "label": "B3: SAP duyệt -> AI-WS\ntự động gọi T-API1 kéo\ndữ liệu lệnh & vật tư"
+    },
+    {
+      "id": "b3_gr2",
+      "lane": 2,
+      "col": 5,
+      "row": 0,
+      "type": "task",
+      "label": "B3: Thủ kho xem lệnh\nBấm \"Đồng ý nhận hàng\"\n(T-GR2) & hẹn giờ"
+    },
+    {
+      "id": "dec_tk",
+      "lane": 2,
+      "col": 6,
+      "row": 0,
+      "type": "gateway",
+      "label": "Thủ kho\nđồng ý?"
+    },
+    {
+      "id": "tc_tk",
+      "lane": 2,
+      "col": 6,
+      "row": 2,
+      "type": "task_err",
+      "label": "Từ chối nhận lệnh\nAI-WS gọi T-API3 -> SAP\nbáo Từ chối & đóng lệnh"
+    },
+    {
+      "id": "end_tc_tk",
+      "lane": 2,
+      "col": 6,
+      "row": 3,
+      "type": "end",
+      "label": ""
+    },
+    {
+      "id": "b4_s2",
+      "lane": 4,
+      "col": 7,
+      "row": 0,
+      "type": "system",
+      "label": "B4: AI phân việc (T-S2)\nTính toán khối lượng & nhân sự\nChia task kèm KPI"
+    },
+    {
+      "id": "b5_s7",
+      "lane": 4,
+      "col": 8,
+      "row": 0,
+      "type": "system",
+      "label": "B5: Gửi Notification (T-S7)\ngiao việc -> App Mobile\nBảo vệ, NV kho, Lái xe nâng"
+    },
+    {
+      "id": "b6_s8",
+      "lane": 4,
+      "col": 9,
+      "row": 0,
+      "type": "system",
+      "label": "B6: Giám sát KPI (T-S8)\nĐồng hồ đếm ngược\nTự động nhắc việc khi gần hết giờ"
+    },
+    {
+      "id": "b7_scr",
+      "lane": 2,
+      "col": 10,
+      "row": 0,
+      "type": "task",
+      "label": "B7: Xe về cổng\nBảo vệ / Camera AI\nghi nhận giờ vào (T-Scr)"
+    },
+    {
+      "id": "b8_unl",
+      "lane": 2,
+      "col": 11,
+      "row": 0,
+      "type": "task",
+      "label": "B8: NV kho Dỡ hàng (T-Unl)\nKiểm đếm thực tế (T-HO)\nso với phiếu yêu cầu"
+    },
+    {
+      "id": "dec_kd",
+      "lane": 2,
+      "col": 12,
+      "row": 0,
+      "type": "gateway",
+      "label": "Kết quả\nkiểm đếm?"
+    },
+    {
+      "id": "tc_kd",
+      "lane": 2,
+      "col": 12,
+      "row": 2,
+      "type": "task_err",
+      "label": "Sai lệch -> Bấm Từ chối\nAI-WS gọi T-API3 -> SAP\ncập nhật Từ chối bởi NV kho"
+    },
+    {
+      "id": "end_tc_kd",
+      "lane": 2,
+      "col": 12,
+      "row": 3,
+      "type": "end",
+      "label": ""
+    },
+    {
+      "id": "b8_bbbg",
+      "lane": 2,
+      "col": 13,
+      "row": 0,
+      "type": "task_ok",
+      "label": "Đúng đủ -> Ký BBBG điện tử\n(T-HO) trực tiếp trên App\nChụp ảnh hiện trạng"
+    },
+    {
+      "id": "b9_mv1",
+      "lane": 2,
+      "col": 14,
+      "row": 0,
+      "type": "task",
+      "label": "B9: Chuyển thiết bị vào\nKhu vực chờ nhập kho\n(T-Mv1)"
+    },
+    {
+      "id": "b10_api4",
+      "lane": 4,
+      "col": 15,
+      "row": 0,
+      "type": "system",
+      "label": "B10: Kích hoạt KCS (T-API4)\nAI-WS gọi T-API4 -> SAP sinh\nInspection Lot (QM.04)"
+    },
+    {
+      "id": "b11_kcs",
+      "lane": 3,
+      "col": 16,
+      "row": 0,
+      "type": "external",
+      "label": "B11: Bộ phận KCS đánh giá\nchất lượng thiết bị (QM.04)\nCập nhật kết quả lên SAP"
+    },
+    {
+      "id": "b11_api5",
+      "lane": 4,
+      "col": 17,
+      "row": 0,
+      "type": "system",
+      "label": "SAP gọi T-API5 trả\nkết quả KCS về AI-WS"
+    },
+    {
+      "id": "dec_kcs",
+      "lane": 2,
+      "col": 18,
+      "row": 0,
+      "type": "gateway",
+      "label": "KCS đạt?"
+    },
+    {
+      "id": "tc_kcs",
+      "lane": 2,
+      "col": 18,
+      "row": 2,
+      "type": "task_err",
+      "label": "KCS Không đạt -> AI-WS sinh\ntask T-S12 yêu cầu trả hàng\nvà giảm tồn kho"
+    },
+    {
+      "id": "end_tc_kcs",
+      "lane": 2,
+      "col": 18,
+      "row": 3,
+      "type": "end",
+      "label": ""
+    },
+    {
+      "id": "b12_agr",
+      "lane": 2,
+      "col": 19,
+      "row": 0,
+      "type": "task_ok",
+      "label": "B12: KCS Đạt -> Thủ kho\nbấm Xác nhận thực nhập (T-AGR)\ntrên App Mobile"
+    },
+    {
+      "id": "b13_api6",
+      "lane": 4,
+      "col": 20,
+      "row": 0,
+      "type": "system",
+      "label": "B13: AI-WS gọi T-API6 -> SAP\nhạch toán kho (MM.10C) theo 3 kịch bản\n(Ứng cứu / Hủy trạm / Sửa chữa)"
+    },
+    {
+      "id": "b14_sig",
+      "lane": 2,
+      "col": 21,
+      "row": 0,
+      "type": "task_ok",
+      "label": "B14: SAP trả Số Phiếu ->\nThủ kho & Sếp ký V-Office (T-Sig)\ntrên Mobile app"
+    },
+    {
+      "id": "b15_s20",
+      "lane": 4,
+      "col": 22,
+      "row": 0,
+      "type": "system",
+      "label": "B15: AI vẽ sơ đồ chỉ định vị trí\n(T-S20). Lái xe nâng cất hàng (T-Mv3)\nCập nhật sơ đồ 2D/3D real-time"
+    },
+    {
+      "id": "b16_close",
+      "lane": 4,
+      "col": 23,
+      "row": 0,
+      "type": "system",
+      "label": "B16: SAP tham chiếu PM.02/PM.03\nTự động Đóng Work Order sự cố"
+    },
+    {
+      "id": "dec_kb",
+      "lane": 4,
+      "col": 24,
+      "row": 0,
+      "type": "gateway",
+      "label": "Kịch bản\nhạch toán?"
+    },
+    {
+      "id": "b17_reval",
+      "lane": 3,
+      "col": 25,
+      "row": 0,
+      "type": "task",
+      "label": "B17: Kịch bản 2 (Hủy trạm)\nTài chính chạy program SAP\nRevaluation điều chỉnh giá mới"
+    },
+    {
+      "id": "end_main",
+      "lane": 4,
+      "col": 26,
+      "row": 0,
+      "type": "end",
+      "label": ""
+    }
+  ],
+  "edges": [
+    {
+      "from": "start",
+      "to": "b1_gnoc",
+      "label": "",
+      "type": "normal"
+    },
+    {
+      "from": "b1_gnoc",
+      "to": "b1_sap",
+      "label": "Work Order",
+      "type": "normal"
+    },
+    {
+      "from": "b1_sap",
+      "to": "b2_trinh",
+      "label": "Reservation",
+      "type": "normal"
+    },
+    {
+      "from": "b2_trinh",
+      "to": "dec_pd",
+      "label": "",
+      "type": "normal"
+    },
+    {
+      "from": "dec_pd",
+      "to": "tc_chinh",
+      "label": "Từ chối (chỉnh sửa)",
+      "type": "error"
+    },
+    {
+      "from": "dec_pd",
+      "to": "tc_trinh",
+      "label": "Từ chối (trình lại)",
+      "type": "error"
+    },
+    {
+      "from": "tc_chinh",
+      "to": "b2_trinh",
+      "label": "Quay lại B2",
+      "type": "error"
+    },
+    {
+      "from": "tc_trinh",
+      "to": "b2_trinh",
+      "label": "Quay lại B2",
+      "type": "error"
+    },
+    {
+      "from": "dec_pd",
+      "to": "b3_api1",
+      "label": "Phê duyệt",
+      "type": "normal"
+    },
+    {
+      "from": "b3_api1",
+      "to": "b3_gr2",
+      "label": "T-API1 (Đồng bộ app)",
+      "type": "normal"
+    },
+    {
+      "from": "b3_gr2",
+      "to": "dec_tk",
+      "label": "",
+      "type": "normal"
+    },
+    {
+      "from": "dec_tk",
+      "to": "tc_tk",
+      "label": "Từ chối (T-GR2)",
+      "type": "error"
+    },
+    {
+      "from": "tc_tk",
+      "to": "end_tc_tk",
+      "label": "",
+      "type": "normal"
+    },
+    {
+      "from": "dec_tk",
+      "to": "b4_s2",
+      "label": "Đồng ý nhận hàng",
+      "type": "normal"
+    },
+    {
+      "from": "b4_s2",
+      "to": "b5_s7",
+      "label": "T-S2",
+      "type": "normal"
+    },
+    {
+      "from": "b5_s7",
+      "to": "b6_s8",
+      "label": "T-S7",
+      "type": "normal"
+    },
+    {
+      "from": "b6_s8",
+      "to": "b7_scr",
+      "label": "T-S8",
+      "type": "normal"
+    },
+    {
+      "from": "b7_scr",
+      "to": "b8_unl",
+      "label": "T-Scr",
+      "type": "normal"
+    },
+    {
+      "from": "b8_unl",
+      "to": "dec_kd",
+      "label": "T-Unl & T-HO",
+      "type": "normal"
+    },
+    {
+      "from": "dec_kd",
+      "to": "tc_kd",
+      "label": "Sai lệch",
+      "type": "error"
+    },
+    {
+      "from": "tc_kd",
+      "to": "end_tc_kd",
+      "label": "",
+      "type": "normal"
+    },
+    {
+      "from": "dec_kd",
+      "to": "b8_bbbg",
+      "label": "Đúng đủ",
+      "type": "normal"
+    },
+    {
+      "from": "b8_bbbg",
+      "to": "b9_mv1",
+      "label": "T-HO",
+      "type": "normal"
+    },
+    {
+      "from": "b9_mv1",
+      "to": "b10_api4",
+      "label": "T-Mv1",
+      "type": "normal"
+    },
+    {
+      "from": "b10_api4",
+      "to": "b11_kcs",
+      "label": "T-API4 (Inspection Lot)",
+      "type": "normal"
+    },
+    {
+      "from": "b11_kcs",
+      "to": "b11_api5",
+      "label": "QM.04",
+      "type": "normal"
+    },
+    {
+      "from": "b11_api5",
+      "to": "dec_kcs",
+      "label": "T-API5",
+      "type": "normal"
+    },
+    {
+      "from": "dec_kcs",
+      "to": "tc_kcs",
+      "label": "Không đạt",
+      "type": "error"
+    },
+    {
+      "from": "tc_kcs",
+      "to": "end_tc_kcs",
+      "label": "",
+      "type": "normal"
+    },
+    {
+      "from": "dec_kcs",
+      "to": "b12_agr",
+      "label": "Đạt",
+      "type": "normal"
+    },
+    {
+      "from": "b12_agr",
+      "to": "b13_api6",
+      "label": "T-AGR",
+      "type": "normal"
+    },
+    {
+      "from": "b13_api6",
+      "to": "b14_sig",
+      "label": "T-API6 (Số Phiếu)",
+      "type": "normal"
+    },
+    {
+      "from": "b14_sig",
+      "to": "b15_s20",
+      "label": "T-Sig",
+      "type": "normal"
+    },
+    {
+      "from": "b15_s20",
+      "to": "b16_close",
+      "label": "T-Mv3 (Cất kệ)",
+      "type": "normal"
+    },
+    {
+      "from": "b16_close",
+      "to": "dec_kb",
+      "label": "Đóng WO",
+      "type": "normal"
+    },
+    {
+      "from": "dec_kb",
+      "to": "b17_reval",
+      "label": "KB 2 (Hủy trạm)",
+      "type": "alt"
+    },
+    {
+      "from": "dec_kb",
+      "to": "end_main",
+      "label": "KB 1 & KB 3",
+      "type": "normal"
+    },
+    {
+      "from": "b17_reval",
+      "to": "end_main",
+      "label": "Revaluation xong",
+      "type": "normal"
+    }
+  ]
+}

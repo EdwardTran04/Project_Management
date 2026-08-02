@@ -1,0 +1,33 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8441,Kiểm tra khi scroll lên xuống ứng dụng nhiều lần, 3: Bộ nhớ Ram ,Suite_common_86,1,"1. Ứng dụng dữ liệu lớn
+2. Thực hiện scroll nhanh tay, nhiều lần, nhiều trang để load dữ liệu
+3. Kiểm tra cho các chức năng có lượng dữ liệu lớn",Ứng dụng thực hiện bình thường không bị crash
+8442,Kiểm tra khi scroll qua lại liên tục giữa các tab đối với màn hình chức năng có nhiều tab, 3: Bộ nhớ Ram ,Suite_common_86,1,"1. Màn hình chức năng có nhiều tab và có dữ liệu trong từng tab lớn
+2. Thực hiện scroll nhanh liên tục qua lại giữa các tab
+3. Kiểm tra cho các chức năng có nhiều tab","- Scroll qua lại thành công và hiển thị nôi dung tương ứng với các tab
+- Ứng dụng không bị giật, chậm hoặc crash 
+(Lưu ý : Đối với các ứng dụng WP rất dễ xảy ra crash chương trình trong trường hợp có &gt; 30 tab) 
+"
+8443,Kiểm tra load dữ liệu có nhiều nội dung, 3: Bộ nhớ Ram ,Suite_common_86,1,"1. Khởi tạo dữ liệu có nhiều nội dung
+(Ví dụ: Xem thông tin 1 địa điểm có hình ảnh -&gt; Tạo nội dung địa điểm có thật nhiều hình ảnh)
+2. Thực hiện load nhanh
+3. Kiểm tra cho các chức năng có lượng dữ liệu lớn",Ứng dụng thực hiện bình thường không bị crash
+8444,"Kiểm tra khi chức năng sử dụng bản đồ, load hình ảnh nhiều, post ảnh nhiều", 3: Bộ nhớ Ram ,Suite_common_86,1,"1. Thao tác chức năng liên tục, nhiều lần trong một khoảng thời gian
+2. Kiểm tra cho các chức năng có lượng dữ liệu lớn",Đảm bảo chức năng không bị Force Close
+8445,Kiểm tra thực hiện nhanh nhiều thao tác cùng một lúc, 3: Bộ nhớ Ram ,Suite_common_86,1,"1. Thực hiện slide nhanh, chưa load xong dữ liệu vẫn tiếp tục slide
+2. Thực hiện nhanh qua lại giữa các tab
+3. Kiểm tra cho các chức năng có nhiều tab",Ứng dụng thực hiện bình thường không bị crash
+8446,Bộ nhớ RAM đầy, 3: Bộ nhớ Ram ,Suite_common_86,1,"Chuẩn bị : Mở nhiều ứng dụng cùng lúc, thao tác chức năng -&gt; bộ nhớ ram đầy
+
+1. Thực hiện thao tác chức năng trên ứng dụng đang test
+2. Kiểm tra cho toàn ứng dụng",APPLICATION thông báo cho user biết và tự động thoát khỏi ứng dụng 1 cách an toàn
+8447,Kiểm tra ứng dụng hoạt động bình thường sau khi bị mất vùng nhớ (ứng dụng online - lưu biên tạm trong code cho HĐH Android), 3: Bộ nhớ Ram ,Suite_common_86,1,"1. Mở ứng dụng
+2. Bấm Home để minimize ứng dụng
+3. Mở và dùng nhiều ứng dụng khác 
+4. Vào lại ứng dụng, thao tác các chức năng trên ứng dụng
+5. Kiểm tra cho toàn ứng dụng","Ứng dụng hoạt động bình thường không bị crash, không bị mất control, các màn hình trong ứng dụng."
+8448,Kiểm tra ứng dụng hoạt động bình thường sau khi bị mất vùng nhớ (ứng dụng online - lưu biên tạm trong code cho HĐH Android), 3: Bộ nhớ Ram ,Suite_common_86,1,"1. Mở ứng dụng
+2. Bấm Home để minimize ứng dụng
+3. Sử dụng tool làm sạch bộ nhớ Ram (Clean &amp; Clear)
+4. Vào lại ứng dụng, thao tác các chức năng trên ứng dụng
+5. Kiểm tra cho toàn ứng dụng","Ứng dụng hoạt động bình thường không bị crash, không bị mất control, các màn hình trong ứng dụng."

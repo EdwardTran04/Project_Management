@@ -1,0 +1,22 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8239,"Kiểm soát việc loại bỏ các ký tự : \, /, NULL, %00 trong tên file khi upload", 2: Kiểm tra thao tác với file,Suite_common_47,1,"- Dùng tool burpsuit  để bắt request upload file ( bật chế độ : Intercept on)
+- Chỉnh sửa tên file theo dạng:
+../../../../../../../../../../etc/passwd
+../../../../../../../../../../boot.ini
+..\..\..\..\..\..\..\..\..\..\etc\passwd
+..\..\..\..\..\..\..\..\..\..\boot.ini
+../text.jpg
+hoặc  java.exe%00.jpg
+-  Forward request
+
+
+
+","Hệ thống không thực hiện upload file thành công hoặc có lưu file nhưng phải lưu đúng định dạng file hợp lệ, loại bỏ các ký tự k \,/, %00 và lưu đúng thư mục cấu hình lưu file
+
+Ví dụ: lưu file  java.exe%00.jpg thành file java.exe trên server thì là lỗi"
+8240,"Kiểm soát phần mở rộng của file, chỉ cho phép thực hiện với các file có định dạng theo yêu cầu. (Không bắt buộc phải kiểm tra nội dung file)", 2: Kiểm tra thao tác với file,Suite_common_47,1,"
+1. Dùng tool để bắt request và sửa thành định dạng file không hợp lệ
+2. Forward request
+
+Ví dụ: Hệ thống chỉ cho phép import, upload file có định dạng .doc, xls, xlsx,…nhưng khi test lại upload/import cả file dạng .exe","Hệ thống không thực hiện upload file thành công
+Không cho phép upload, Import file  .exe vào hệ thống"

@@ -1,0 +1,40 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9038,Kiểm tra yêu cầu chọn bản ghi trước khi xóa, 2: Kiểm tra Xóa,Suite_common_353,1,"1. Không chọn bản ghi nào
+2. Nhấn nút Xóa",Hiển thị thông báo phải chọn bản ghi trước khi xóa
+9039,Kiểm tra khi hủy bỏ thao tác xóa, 2: Kiểm tra Xóa,Suite_common_353,1,"1. Chọn 1, 1 số hoặc tất cả các bản ghi
+2. Nhấn nút Xóa
+3. Nhấn nút Cancel để hủy bỏ thao tác","1. Các bản ghi lựa chọn không bị xóa khỏi danh sách.
+2. Kiểm tra CSDL : bản ghi ko bị xóa ( hoặc không cập nhật trạng thái)"
+9040,Kiểm tra xóa thành công bản ghi không có ràng buộc, 2: Kiểm tra Xóa,Suite_common_353,1,"1. Chọn 1 bản ghi không có ràng buộc
+2. Nhấn nút Xóa
+3. Xác nhận việc xóa","1. Xóa thành công: Các bản ghi được chọn bị xóa khỏi danh sách
+2. Kiểm tra CSDL: bản ghi bị xóa ( hoặc cập nhật trạng thái)"
+9041,Kiểm tra xóa thành công bản ghi không có ràng buộc, 2: Kiểm tra Xóa,Suite_common_353,1,"1. Chọn 1 số bản ghi không có ràng buộc
+2. Nhấn nút Xóa
+3. Xác nhận việc xóa","1. Xóa thành công: Các bản ghi vừa xóa không còn hiển thị trên danh sách.
+2. Kiểm tra CSDL: bản ghi bị xóa ( hoặc cập nhật trạng thái)"
+9042,Kiểm tra xóa thành công bản ghi không có ràng buộc, 2: Kiểm tra Xóa,Suite_common_353,1,"Giả sử các bản ghi đều không có ràng buộc
+1. Tích chọn tất cả các bản ghi
+2. Nhấn nút Xóa
+3. Xác nhận việc xóa",Xóa thành công: Hiển thị thông báo danh sách rỗng
+9043,Kiểm tra xóa không thành công 1 bản ghi có ràng buộc, 2: Kiểm tra Xóa,Suite_common_353,1,"1. Chọn 1 bản ghi có ràng buộc
+2. Nhấn nút Xóa","1. Hiển thị thông báo: Không thể xóa bản ghi vì ràng buộc dữ liệu.
+2. Kiểm tra CSDL : bản ghi ko bị xóa ( hoặc không cập nhật trạng thái)"
+9044,Kiểm tra xóa không thành công 1 bản ghi có ràng buộc, 2: Kiểm tra Xóa,Suite_common_353,1,"1. Chọn 1 số bản ghi trong đó có cả các bản ghi có ràng buộc và 1 số bản ghi không có ràng buộc
+2. Nhấn nút Xóa
+3. Xác nhận việc Xóa","1. Các bản ghi không có ràng buộc thì bị xóa khỏi danh sách.
+2. Các bản ghi có ràng buộc không được xóa khỏi danh sách và được liệt kê trong một danh sách riêng.
+3. Kiểm tra CSDL: tương ứng với bản ghi xóa và không xóa"
+9045,Kiểm tra xóa không thành công 1 bản ghi có ràng buộc, 2: Kiểm tra Xóa,Suite_common_353,1,"Giả sử có 1 số bản ghi có ràng buộc
+1. Tích chọn tất cả các bản ghi
+2. Nhấn nút Xóa
+3. Xác nhận việc xóa","1. Các bản ghi không có ràng buộc thì bị xóa khỏi danh sách.
+2. Các bản ghi có ràng buộc không được xóa khỏi danh sách và được liệt kê trong một danh sách riêng."
+9046,Kiểm tra xóa tất cả bản ghi ở trang cuối , 2: Kiểm tra Xóa,Suite_common_353,1,1. Xóa tất cả các bản ghi ở trang cuối,"1. Xóa thành công
+2. Hiển thị danh sách không bị lỗi ở trang trước trang cuối hoặc ngay về đầu trang"
+9047,Kiểm tra xóa bản ghi ở trang cuối sau khi tìm kiếm, 2: Kiểm tra Xóa,Suite_common_353,1,"1. Thực hiện tìm kiếm -&gt; Danh sách phân trang
+2. Xóa bản ghi ở trang cuối","1. Xóa thành công
+2. Vẫn hiển thị danh sách tìm kiếm theo điều kiện và đang ở trang cuối"
+9048,Từ 2 Client ( 2 Tab trình duyệt) thực hiện xóa cùng 1 bản ghi, 2: Kiểm tra Xóa,Suite_common_353,1,"1.  Xóa cùng 1 bản ghi từ  2client (2 tab) cùng lúc
+","Client 1/ Tab 1 : Xóa thành công, lưu thông tin lịch sử xóa theo người dùng tab 1
+Client 2/ Tab 2 : Thông báo bản ghi đã bị xóa"

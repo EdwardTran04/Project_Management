@@ -1,0 +1,34 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9105,Kiểm tra tính duy nhất của trường dữ liệu ( nếu nghiệp vụ có yêu cầu)," 3: Kiểm tra sửa với các trường hợp ràng buộc, nghiệp vụ khác của ĐTYC",Suite_common_366,1,"Trường hợp dữ liệu nhập so với dữ liệu đã có có tên gần giống nhau:  Minh Hạ
+1. Nhập dữ liệu: Minh Hà  (minh hà)
+2. Các thông tin khác được nhập hợp lệ
+3. Nhấn [Ghi lại]","1.Hiển thị thông báo lưu thành công
+2.Bản ghi vừa được update phải được
+hiển thị lên đầu danh sách hoặc giữ nguyên vị trí những có focus vào đó.
+3. Kiểm tra lưu CSDL đúng
+"
+9106,Kiểm tra tính duy nhất của trường dữ liệu ( nếu nghiệp vụ có yêu cầu)," 3: Kiểm tra sửa với các trường hợp ràng buộc, nghiệp vụ khác của ĐTYC",Suite_common_366,1,"Trường hợp dữ liệu nhập so với dữ liệu đã có trùng nhau hoàn toàn, khác nhau hoa thường: Minh Hạ
+1. Nhập dữ liệu: Minh Hạ ( minh hạ)
+2. Các thông tin khác được nhập hợp lệ
+3. Nhấn [Ghi lại]","1. Hiển thị thông báo lỗi
+2. Không thực hiện thêm mới thành công"
+9107,Kiểm tra tính duy nhất của trường dữ liệu ( nếu nghiệp vụ có yêu cầu)," 3: Kiểm tra sửa với các trường hợp ràng buộc, nghiệp vụ khác của ĐTYC",Suite_common_366,1,"Trường hợp nhập dữ liệu trùng với dữ liệu đã ở trạng thái xóa
+1. Nhập dữ liệu đã có trong CSDL, trạng thái bản ghi đã bị xóa
+2. Các thông tin khác được nhập hợp lệ
+3. Nhấn [Ghi lại]","1. Hiển thị thông báo lỗi
+2. Không thực hiện thêm mới thành công"
+9108,"Kiểm tra  với các user khác nhau
+( Trường hợp hệ thống cho phép truy cập từ nhiều tài khoản, mỗi tài khoản chỉ nhìn thấy dữ liệu do mình được phân quyền )"," 3: Kiểm tra sửa với các trường hợp ràng buộc, nghiệp vụ khác của ĐTYC",Suite_common_366,1,"1. Login bằng user 1
+2. Thực hiện sửa bản ghi
+3. Logout, đăng nhập bằng user 2, 
+4. Thực hiện sửa bản ghi","2. Thực hiện sửa thành công bản ghi cho user 1
+4. Thực hiện sửa thành công bản ghi cho user 2"
+9109,Kiểm tra khi nhập trùng dữ liệu cùng lúc từ 2 tab hoặc 2 client khác nhau," 3: Kiểm tra sửa với các trường hợp ràng buộc, nghiệp vụ khác của ĐTYC",Suite_common_366,1,1. Nhập trùng dữ liệu từ 2 tab hoặc 2 client khác nhau tại cùng 1 thời điểm ( chú ý chỉ rõ trường nào cần nhập trùng),"Tab 1( Client 1) : Lưu thành công
+Tab 2( Client 2) : Thông báo lỗi, không thực hiện lưu"
+9110,"Kiểm tra vừa sửa, xóa trên 1 bản ghi tại 1 thời điểm"," 3: Kiểm tra sửa với các trường hợp ràng buộc, nghiệp vụ khác của ĐTYC",Suite_common_366,1,"1. Tại tab 1, thực hiện xóa bản ghi
+2. Tại tab 2, thực hiện sửa bản ghi này ","Tab 1: xóa thành công ( trường hợp xóa hẳn khỏi CSDL)
+Tab 2: lưu không thành công, báo lỗi"
+9111,"Kiểm tra khi đang thực hiện xử lý lưu dữ liệu, đóng trình duyệt"," 3: Kiểm tra sửa với các trường hợp ràng buộc, nghiệp vụ khác của ĐTYC",Suite_common_366,1,"1. Dữ liệu đầu vào hợp lệ
+2. Đang thực hiện lưu thông tin",1. Kiểm tra CSDL sau đó được lưu thông tin đúng hoặc ko được lưu thành công
+9112,"Kiểm tra khi đang thực hiện xử lý lưu dữ liệu, đóng trình duyệt"," 3: Kiểm tra sửa với các trường hợp ràng buộc, nghiệp vụ khác của ĐTYC",Suite_common_366,1,"1. Dữ liệu đầu vào  không hợp lệ
+2. Đang thực hiện lưu thông tin","1. Kiểm tra CSDL , dữ liệu đầu vào ko được lưu thành công"

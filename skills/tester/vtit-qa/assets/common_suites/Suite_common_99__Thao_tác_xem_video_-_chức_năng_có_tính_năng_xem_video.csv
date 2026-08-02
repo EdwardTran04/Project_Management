@@ -1,0 +1,17 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8498,Kiểm tra xem video khi thực hiện lock máy và mở lại, 3: Thao tác xem video -  chức năng có tính năng xem video,Suite_common_99,1,"1. Đang thực hiện xem video
+2. Bấm và phím lock máy trên thiết bị hoặc để chờ cho máy tự lock (đảm bảo máy bị lock trước khi chạy hết đoạn video)
+3. Mở khóa lock máy và quan sát màn chi tiết video","Video phát được phát tiếp theo 
+(Ví dụ thời gian lock máy video phát được 1 phút 50s thì sau mở may video sẽ phát tiếp: 1 phút 51s)"
+8499,Kiểm tra xem video khi thực hiện xoay ngang/dọc màn hình, 3: Thao tác xem video -  chức năng có tính năng xem video,Suite_common_99,1,"1. Thực hiện xem video ở chế đọc ngang
+2. Xoay dọc màn hình
+3. Xoay ngang màn hình","Vẫn thực hiện xem được tiếp video khi xoay ngang, xoay dọc màn hình
+(Nếu yêu cầu ở một chế độ màn hình dọc hoặc ngang thì không xoay được màn hình)"
+8500,Kiểm tra việc tạm dừng  trình diễn video khi đang xem thì mất kết nối mạng, 3: Thao tác xem video -  chức năng có tính năng xem video,Suite_common_99,1,"Đảm bảo đang xem video
+1. Thực hiện ngắt kết nối mạng","- Hiển thị pop up mất kết nối mạng
+- Đóng popup, chức năng không thực hiện tiếp"
+8501,Kiểm tra việc tạm dừng  trình diễn video khi đang xem thì mất kết nối mạng, 3: Thao tác xem video -  chức năng có tính năng xem video,Suite_common_99,1,2. Khi có kết nối mạng trở lại,Xem tiếp phần còn lại của video
+8502,Kiểm tra việc tạm dừng trình diễn video đang xem khi có tương tác mobile, 3: Thao tác xem video -  chức năng có tính năng xem video,Suite_common_99,1,"1. Đang thực hiện xem video
+2. Thực hiện tương tác Mobile
+(Home, Lock key, có cuộc gọi đến, tin nhắn đến…)","- Khi có interupt thì video phải được Pause 
+- Khi touch vào button Pause thì video phải được chạy lại và xem tiếp phần còn lại của video"

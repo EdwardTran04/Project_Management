@@ -1,0 +1,8 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8142,Kiểm tra giá trị mặc định, 2: Kiểm tra combo - box,Suite_common_302,1,"1. Trên màn hình Tìm kiếm
+2. Kiểm tra giá trị của trường này","Gía trị mặc định là """""
+8143,Kiểm tra số lượng và sắp xếp các giá trị trong combo, 2: Kiểm tra combo - box,Suite_common_302,1,"1. Trên màn hình Tìm kiếm
+2. Kiểm tra giá trị của trường này",Giá trị trong combo được sắp xếp theo thứ tự alphabet 
+8144,"Kiểm tra căn lề
+", 2: Kiểm tra combo - box,Suite_common_302,1,"1. Trên màn hìnhTìm kiếm
+2. Kích vào combo box để kiểm tra căn lề của các giá trị trong combo ",Các giá trị trong combo box được căn lề trái.

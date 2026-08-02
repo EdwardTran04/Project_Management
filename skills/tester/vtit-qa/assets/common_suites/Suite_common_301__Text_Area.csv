@@ -1,0 +1,32 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8133,Kiểm tra giá trị mặc định, 2: Text Area,Suite_common_301,1,"1. Kiểm tra giá trị mặc định
+",Giá trị mặc định là rỗng
+8134,Kiểm tra dữ liệu không được vượt quá maxlength, 2: Text Area,Suite_common_301,1,"1. Nhập dữ liệu vượt quá maxlength
+2. Các thông tin khác được nhập hợp lệ
+","1. Thông báo độ dài dữ liệu vượt quá maxlength là 300 ký tự
+2. Set focus vào trường lỗi"
+8135,"Kiểm tra khi nhập dữ liệu là các ký tự đặc biệt, thẻ html", 2: Text Area,Suite_common_301,1,"1. Nhập X đúng định dạng  có chứa ký tự đặc biệt, thẻ html: #@abc&lt;,….
+2. Các thông tin khác được nhập hợp lệ
+","1. Thực hiện thành công
+2. Các ký tự đặc biệt, thẻ html không bị mã hóa khi view lên và khi lưu vào database
+"
+8136,Kiểm tra chức năng Trim space, 2: Text Area,Suite_common_301,1,"1. Nhập dữ liệu hợp lệ và thêm space vào đầu và cuối 
+2. Các thông tin khác được nhập hợp lệ
+","1. Thực hiện thành công
+2. Thực hiện trim space ở đầu và cuối trường dữ liệu
+"
+8137,Kiểm tra thực hiện thành công khi dữ liệu là chữ tiếng Việt có dấu, 2: Text Area,Suite_common_301,1,"1. Nhập dữ liệu là chữ tiếng việt có dấu
+2. Các thông tin khác được nhập hợp lệ
+","1. Thực hiện thành công
+2. Dữ liệu của trường dữ liệu được view lên bình thường, không bị lỗi font
+"
+8138,Kiểm tra trường hợp Text Area là CKEditor, 2: Text Area,Suite_common_301,1,1. Nhúng thẻ hoặc copy bảng dữ liệu vào ,"1. Trên giao diện nhận thẻ hoặc hiển thị dữ liệu không lỗi.
+"
+8139,Kiểm tra trường hợp Text Area là CKEditor, 2: Text Area,Suite_common_301,1,2. Sử dụng các tiện ích format dữ liệu nhập vào,"1. Sau khi lưu thành công, view lại không bị lỗi, hiển thị đúng như lúc nhập vào"
+8140,"Kiểm tra copy nội dung dữ liệu, paste vào textbox", 2: Text Area,Suite_common_301,1,"1. Copy nội dung dữ liệu, paste vào textbox
+2. Các thông tin khác được nhập hợp lệ",1. Thực hiện thành công
+8141,Kiểm tra khi nhập nhiều dòng trên area box, 2: Text Area,Suite_common_301,1,"1. Nhập dữ liệu trên nhiều dòng
+2. Các thông tin khác được nhập hợp lệ
+","1. Thực hiện thành công
+2. Dữ liệu được hiển thị trên nhiều dòng như khi nhập
+"

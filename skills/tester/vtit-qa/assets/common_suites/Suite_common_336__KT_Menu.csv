@@ -1,0 +1,4 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8402,Kiểm tra khi chọn một menu item mong muốn, 2: KT Menu,Suite_common_336,1,1. Nhấn vào một menu item mong muốn,"1. Người dùng có thể dễ dàng lựa chọn một menu item mong muốn.
+2. Khi click vào menu item thì trang load ra phải trên cùng cửa sổ (interlink), không được load sang tab mới hoặc new windows của trình duyệt. 
+3. External link thì mở new tab hoặc new windows, không mở cùng tab với ứng dụng"

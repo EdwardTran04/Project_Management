@@ -1,0 +1,17 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8086,"Kiểm tra thông tin header, footer"," 2: Header, footer",Suite_common_293,1,"Kiểm tra các thông tin sau ở header, footer:
+Header:
+'- Image, icon ở header.
+- Nội dung, kích thước ở header
+Footer:
+- Thông tin version, tác giả.
+- Thông tin  địa chỉ công ty
+- Thông tin bản quyền
+","Header:
+1.Image, icon của công ty hiển thị đúng 
+2. Kích thước Image hợp lý, nội dung header đúng chính tả
+Footer:
+1.Thông tin footer hiển thị đúng version đang triển khai
+2. Hiển thị đúng tên tác giả theo tên mới nhất.
+3. Hiển thị đúng địa chỉ theo địa chỉ mới nhất
+4.Hiển thị đúng thông tin bản quyền tác giả đã được đăng ký"

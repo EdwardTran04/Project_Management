@@ -1,0 +1,15 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9182,"Kiểm tra không hiển thị popup check trùng khi nhập dữ liệu không trùng
+(Nếu DTYC mô tả là hiển thị popup check trùng khi nhập trùng dữ liệu)", 3: Hiển thị popup check trùng,Suite_common_382,1,"1. Đảm bảo dữ liệu nhập vào không tồn tại dữ liệu check trùng
+2. Nhấn button Lưu",2. Không hiển thị thông báo check trùng
+9183,Kiểm tra hiển thị thông báo check trùng khi số record check trùng là 1 record (Nếu DTYC mô tả sẽ hiển thị thông báo/popup check trùng), 3: Hiển thị popup check trùng,Suite_common_382,1,"1. Đảm bảo dữ liệu nhập vào thỏa mãn điều kiện check trùng đúng 1 record
+2. Nhấn button Lưu","2. Hiển thị thông báo check trùng ( Tùy Theo DTYC mà kiểm tra nội dung thông báo)
+Nội dung thông báo :""""
+Thông tin hiển thị trên popup thông báo:
+=&gt;Tùy theo DTYC"
+9184,"Kiểm tra hiển thị thông báo check trùng khi số record check trùng > 1 record (Nếu DTYC mô tả sẽ hiển thị thông báo/popup check trùng)
+-Trường hợp có hiển thị scroll khi danh sách nhiều record thì viết thêm chức năng scroll cho danh sách check trùng.", 3: Hiển thị popup check trùng,Suite_common_382,1,"1. Đảm bảo dữ liệu nhập vào thỏa mãn điều kiện check trùng có &gt; 1 record
+2. Nhấn button Lưu","2. Hiển thị thông báo check trùng ( Tùy Theo DTYC mà kiểm tra nội dung thông báo)
+Nội dung thông báo :""""
+Thông tin các record hiển thị theo đúng design:
+=&gt;Tùy theo DTYC"

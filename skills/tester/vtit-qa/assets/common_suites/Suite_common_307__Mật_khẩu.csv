@@ -1,0 +1,40 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8175,Kiểm tra giá trị mặc định, 2: Mật khẩu,Suite_common_307,1,Kiểm tra giá trị mặc định,Giá trị mặc định là trống
+8176,Kiểm tra dữ liệu được thay thế bằng ký tự đại diện khi gõ, 2: Mật khẩu,Suite_common_307,1,Nhập trường Mật khẩu từ bàn phím,Hiển thị thông tin đã nhập là các dấu * hoặc dấu chấm tròn
+8177,"Kiểm tra dữ liệu không được vượt quá maxlength
+
+", 2: Mật khẩu,Suite_common_307,1,"1. Nhập dữ liệu vượt quá maxlength
+2. Các thông tin khác được nhập hợp lệ","1. Thông báo độ dài dữ liệu vượt quá maxlength
+2. Set focus vào trường lỗi"
+8178,Kiểm tra việc xử lý bỏ dấu trắng đầu và cuối xâu dữ liệu khi lưu vào database, 2: Mật khẩu,Suite_common_307,1,"1. Nhập dữ liệu hợp lệ và thêm dấu trắng vào đầu và cuối 
+2. Các thông tin khác được nhập hợp lệ","1. Thực hiện thành công
+2. Thực hiện bỏ dấu trắng ở đầu và cuối trường dữ liệu"
+8179,Kiểm tra việc copy & paste dữ liệu từ nơi khác vào trường mật, 2: Mật khẩu,Suite_common_307,1,"Kiểm tra copy &amp; paste từ nơi khác
+Copy nội dung từ nơi khác và paste vào textbox mật khẩu",Hệ thống cho phép paste nội dung
+8180,"Kiểm tra yêu cầu nhập mật khẩu mạnh
+
+", 2: Mật khẩu,Suite_common_307,1,"1. Nhập trường mật khẩu với độ dài &lt;8 ký tự
+2. Các thông tin khác được nhập hợp lệ","Thông báo lỗi
+Set focus vào trường lỗi"
+8181,"Kiểm tra yêu cầu nhập mật khẩu mạnh
+
+", 2: Mật khẩu,Suite_common_307,1,"1. Nhập mật khẩu với độ dài = 8 ký tự (Bao gồm đầy đủ cả chữ, số và kí tự đặc biệt: @#$%^&amp;*()_+~&gt;&lt;""? )
+2. Các thông tin khác được nhập hợp lệ",Thực hiện thành công
+8182,"Kiểm tra yêu cầu nhập mật khẩu mạnh
+
+", 2: Mật khẩu,Suite_common_307,1,"1. Nhập trường mật khẩu với độ dài &gt; 8 ký tự (Bao gồm đầy đủ cả chữ, số và kí tự đặc biệt )
+2. Các thông tin khác được nhập hợp lệ",Thực hiện thành công
+8183,"Kiểm tra yêu cầu nhập mật khẩu mạnh
+
+", 2: Mật khẩu,Suite_common_307,1,"1. Nhập mật khẩu toàn là kí tự chữ hoặc toàn kí tự số hoặc toàn kí tự đặc biệt 
+2. Các thông tin khác được nhập hợp lệ","Thông báo lỗi
+Set focus vào trường lỗi"
+8184,"Kiểm tra yêu cầu nhập mật khẩu mạnh
+
+", 2: Mật khẩu,Suite_common_307,1,"1. Mật khẩu: Là tiếng Việt có dấu + số + kí tự đặc biệt
+2. Các thông tin khác được nhập hợp lệ",Thực hiện thành công
+8185,"Kiểm tra nhập các ký tự html, script
+
+", 2: Mật khẩu,Suite_common_307,1,"Nhập kí tự đặc biệt vào trường mật khẩu
+
+",Cho phép nhập

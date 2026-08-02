@@ -1,0 +1,7 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8871,Kiểm tra định dạng file gửi, 6: File ảnh được lấy từ thư mục Hình ảnh của thiết bị,Suite_common_253,1,"1. Gửi file không thuộc định dạng cho phép(jpeg, png, jpg): .exe: .data, .doc, gif..
+2. Click icon Gửi","1. Hệ thống không nhận dạng file
+Note: File .gif  --&gt; hiển thị thông báo định dạng file ko hợp lệ"
+8872,Kiểm tra định dạng file gửi, 6: File ảnh được lấy từ thư mục Hình ảnh của thiết bị,Suite_common_253,1,"1. Gửi file  thuộc định dạng cho phép: jpeg, png, jpg
+2. Click icon Gửi","- Hiển thị hình ảnh đúng với file đã chọn
+- Hệ thống thông báo thành công"

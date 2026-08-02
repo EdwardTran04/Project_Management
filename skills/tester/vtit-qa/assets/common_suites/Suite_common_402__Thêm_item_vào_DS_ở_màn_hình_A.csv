@@ -1,0 +1,71 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9356,Kiểm tra hiển thị khi không chọn bất kỳ item nào trên Cây thư mục, 3: Thêm item vào DS ở màn hình A,Suite_common_402,1,"1. Tại màn hình Chọn các nhân, đơn vị: 
+Không chọn bất kỳ item nào
+2. Nhấn vào button Xong
+3. Nhấn vào button Đóng","2. Hiển thị thông báo chưa chọn item trên Cây thư mục/Quay về màn hình A (Tùy theo ĐTYC)
+
+3. Hiển thị lại màn hình Chọn đơn vị, item với các thông tin trước đó"
+9357,"Kiểm tra hiển thị khi chọn item, Đơn vị không được phép thêm
+
+Note: Tùy theo ĐTYC để thêm case này", 3: Thêm item vào DS ở màn hình A,Suite_common_402,1,"1. Tại màn hình Chọn các nhân, đơn vị: 
+Chọn item, Đơn vị không được phép thêm
+2. Nhấn vào button Xong
+3. Nhấn vào button Đóng","2. Hiển thị thông báo item hoặc Đơn vị không được phép chọn (Tùy theo ĐTYC)
+
+3. Hiển thị lại màn hình Chọn đơn vị, item với các thông tin trước đó"
+9358,Kiểm tra hiển thị khi chọn 1 item/Đơn vị được phép thêm, 3: Thêm item vào DS ở màn hình A,Suite_common_402,1,"1. Tại màn hình Chọn các nhân, đơn vị: 
+- Chọn 1 item/Đơn vị được phép thêm
+
+2. Nhấn vào button Xong","2. Thực hiện thêm item/Đơn vị thành công
+Quay về màn hình A"
+9359,Kiểm tra hiển thị khi chọn 1 item/Đơn vị được phép thêm, 3: Thêm item vào DS ở màn hình A,Suite_common_402,1,3. Kiểm tra hiển thị trên DS ở màn hình A,3. Hiển thị item/Đơn vị vừa được thêm ở cuối DS 
+9360,Kiểm tra khi chọn tất cả item của 1 đơn vị, 3: Thêm item vào DS ở màn hình A,Suite_common_402,1,"Điều kiện: Đơn vị A có 10 item
+1. Tại màn hình Chọn các nhân, đơn vị: 
+- Chọn tất cả item trong đơn vị A
+2. Nhấn vào button Xong","2. Thực hiện thêm item/Đơn vị thành công
+Quay về màn hình A"
+9361,Kiểm tra khi chọn tất cả item của 1 đơn vị, 3: Thêm item vào DS ở màn hình A,Suite_common_402,1,3. Kiểm tra hiển thị trên DS ở màn hình A,3. Hiển thị item/Đơn vị vừa được thêm ở cuối DS 
+9362,"Kiểm tra thêm các item thuộc các thư mục khác nhau trên cây thư mục
+ thành công", 3: Thêm item vào DS ở màn hình A,Suite_common_402,1,"1. Tại màn hình Chọn các nhân, đơn vị: Chọn các item thuộc các thư mục khác nhau trên cây thư mục
+
+2. Nhấn vào button Xong","2. Thực hiện thêm thành công
+Quay về màn hình A"
+9363,"Kiểm tra thêm các item thuộc các thư mục khác nhau trên cây thư mục
+ thành công", 3: Thêm item vào DS ở màn hình A,Suite_common_402,1,3. Kiểm tra hiển thị trên DS ở màn hình A,"3. Hiển thị đúng các item vừa được thêm ở cuối DS 
+Thứ tự hiển thị đúng với lần check chọn trên Cây thư mục"
+9364,Kiểm tra thêm tất cả item của Cây thư mục thành công, 3: Thêm item vào DS ở màn hình A,Suite_common_402,1,"Điều kiện: Cây thư mục có nhiều cấp, nhiều item
+1. Tại màn hình Chọn các nhân, đơn vị:
+- Check vào thư mục cấp 1
+2. Nhấn vào button Xong","2. Thực hiện thêm thành công
+Quay về màn hình A"
+9365,Kiểm tra thêm tất cả item của Cây thư mục thành công, 3: Thêm item vào DS ở màn hình A,Suite_common_402,1,3. Kiểm tra hiển thị trên DS ở màn hình A,3. Hiển thị TẤT CẢ item trong Cây thư mục vừa được thêm ở cuối DS 
+9366,Kiểm tra khi thêm mới item đã tồn tại trong DS ở màn hình A, 3: Thêm item vào DS ở màn hình A,Suite_common_402,1,"Điều kiện: DS ở màn hình A đã tồn tại item X
+1. Tại màn hình Cây thư mục, tắt kết nối mạng
+2. Thêm item X 
+3. Kiểm tra DS trên màn hình A","3. Không thực hiện thêm mới bản ghi
+Note: Trường hợp item X gồm có trường thông tin cho phép chọn nhiều giá trị ví dụ loại xử lý: phê duyệt/ sửa/phối hợp thì KQMM: 
+- Không thực hiện thêm mới bản ghi, chỉ cập nhật loại xử lý"
+9367,Kiểm tra thêm khi bỏ chọn item được chọn trước đó, 3: Thêm item vào DS ở màn hình A,Suite_common_402,1,"Điều kiện: Item X đã tồn tại trong DS ở màn hình A
+1. Vào cây thư mục, nhấn bỏ chọn item X
+2. Nhấn button Xong/Thêm
+3. Kiểm tra hiển thị trên DS ở màn hình A",3. Không còn tồn tại X trên DS ở màn hình A
+9368,Kiểm tra thêm khi bỏ chọn item được chọn trước đó, 3: Thêm item vào DS ở màn hình A,Suite_common_402,1,"Điều kiện: Item X đã tồn tại trong DS ở màn hình A
+1. Vào cây thư mục, nhấn bỏ chọn item X
+- Chọn item Y, Z
+2. Nhấn button Xong/Thêm
+3. Kiểm tra hiển thị trên DS ở màn hình A","3. Không còn tồn tại X trên DS ở màn hình A
+Item Y, Z được thêm vào cuối DS "
+9369,Kiểm tra khi nhấn vào button Đóng (TH chưa tương tác với dữ liệu trên màn hình), 3: Thêm item vào DS ở màn hình A,Suite_common_402,1,"Điều kiện: Chưa tương tác với dữ liệu trên màn hình
+1. Vào màn hình Cây thư mục
+2. Nhấn vào button Đóng","2. Thực hiện đóng màn hình Chọn item, đơn vị
+Quay về màn hình A với các thông tin trước đó"
+9370,Kiểm tra khi nhấn vào button Đóng (TH chưa tương tác với dữ liệu trên màn hình), 3: Thêm item vào DS ở màn hình A,Suite_common_402,1,"Điều kiện: Đã tương tác với dữ liệu trên màn hình
+1. Vào màn hình Cây thư mục
+2. Check vào checkbox/ Thay đổi loại xử lý
+2. Nhấn vào button Đóng","2. Thực hiện đóng màn hình Chọn item, đơn vị
+Quay về màn hình A 
+Hoặc hiển thị thông báo xác nhận hủy việc thêm"
+9371,Kiểm tra khi on/off mạng (TH: item chưa có trong DS bên màn hình A), 3: Thêm item vào DS ở màn hình A,Suite_common_402,1,"Điều kiện: DS ở màn hình A chưa tồn tại item X
+1. Tại màn hình Cây thư mục, tắt kết nối mạng
+2. Thêm ITEM X 
+3. Kiểm tra DS tại màn hình A",3. Thực hiện thêm mới X vào cuối DS

@@ -1,0 +1,17 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8236,Kiểm tra hệ thống có sử dụng token không , 2: CSRF,Suite_common_46,1,"1.Vào trong form thêm mới user, nhập đầy đủ thông tin, nhấn ghi lại
+2. Vào tool để bắt request gửi lên server
+3. Kiểm tra trong request có biến token không ( csrf, bpid, token)
+4. Thay đổi giá trị token gửi lên server
+5. Submit request",Hệ thống không cho phép thực hiện giao dịch.
+8237,Kiểm tra có dùng token của user khác được không, 2: CSRF,Suite_common_46,1,"1. Login vào hệ thống bằng 2 user khác nhau
+2. Vào trong form thêm mới user, nhập đầy đủ thông tin, nhấn ghi lại ( cả 2 user cùng thực hiện )
+3. Vào tool để bắt request gửi lên server, tìm giá trị token
+4. Thay giá trị token của user 1 cho user 2
+5. Submit request của user 2 sau khi thay giá trị token",Hệ thống không cho phép thực hiện giao dịch.
+8238,Kiểm tra token có bị disable khi logout khỏi hệ thống, 2: CSRF,Suite_common_46,1,"Kiểm tra token có bị disable khi logout khỏi hệ thống
+1.Login vào hệ thống
+2.Vào thực hiện 1 giao dịch, lấy ra giá trị token
+3.Thực hiện logout khỏi hệ thống
+4. Login lại vào hệ thống
+5.Thực hiện một giao dịch khác và chỉnh sửa giá trị token = giá trị token của phiên login  trước, sau đó gửi thông tin lên server( Dùng tool bắt request để chỉnh sửa để chỉnh sửa)",Hệ thống không cho phép thực hiện giao dịch.

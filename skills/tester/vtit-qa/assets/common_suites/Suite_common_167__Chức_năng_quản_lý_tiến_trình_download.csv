@@ -1,0 +1,42 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8624,"Kiểm tra hiển thị danh sách khi chưa download app/file nào
+Note:áp dụng khi chức năng có màn hình riêng chỉ chứa danh sách các app/file đang tải", 2: Chức năng quản lý tiến trình download,Suite_common_167,1,"1. Chưa thực hiện download app/ file nào
+2. Kiểm tra hiển thị trên danh sách đang download","1. Màn hình danh sách hiển thị ""Không có dữ liệu"" (Tùy thuộc vào ĐTYC)"
+8625,Kiểm tra hiển thị danh sách khi đang thực hiện download các app/file, 2: Chức năng quản lý tiến trình download,Suite_common_167,1,"1. Chọn download một vài app/file A,B,C,D,...
+2. Kiểm tra hiển thị trên danh sách đang download","1. Màn hình danh sách hiển thị: 
+- Hiển thị đủ số lượng thanh tiến trình đang download
+- Thanh tiến trình của các app/file đang download sắp xếp theo thứ tự download( trước sắp dưới, sau sắp trên hoặc tùy thuộc vào DTYC)
+"
+8626,"Kiểm tra  hiển thị danh sách khi chọn download lại app/file đang thực hiện download
+Note: chỉ áp dụng khi DTYC có cho phép đang download mà có thể chọn download lại", 2: Chức năng quản lý tiến trình download,Suite_common_167,1,"Đảm bảo app /file A đang được download chưa hoàn thành trong danh sách
+1. Chọn download lại app/file A
+2. Kiểm tra hiển thị app/file A trên danh sách đang download","1. Tùy thuộc vào DTYC có thể:
+- Hiển thị thông báo xác nhận app/file đang thực hiện download và  hoặc
+- Vẫn cho phép download app/file A và hiển thị app/file A trong danh sách đang download ( chỉ hiển thị 1 lần và đè lên app đã download trước đó)"
+8627,"Kiểm tra hiển thị danh sách khi chọn download tối đa app/file (tối đa bản ghi )
+", 2: Chức năng quản lý tiến trình download,Suite_common_167,1,"1. Thực hiện download tối đa bản ghi được phép
+2. Kiểm tra hiển thị trên danh sách đang download","1. Hiển thị đủ danh sách các app/file đang download, chương trình không bị lag, giật, crash
+
+
+"
+8628,Kiểm tra hiển thị thanh tiến trình khi app/file đang tải, 2: Chức năng quản lý tiến trình download,Suite_common_167,1,"1. Chọn tải app/file A
+2. Kiểm tra hiên thị thanh tiến trình của app/file A",1 .Thanh tiến trình  hiển thị tăng dần từ 0% -&gt; x % (x  là số phần trăm đang được tải)
+8629,Kiểm tra hiển thị thanh tiến trình khi đang tải mà có thông báo lỗi trả về từ server (không phải trường hợp mất kết nối đến server), 2: Chức năng quản lý tiến trình download,Suite_common_167,1,"Đảm bảo đang có kết nối mạng
+1. Đang tải app/file A được x% thì có lỗi trả về tử server
+2. Kiểm tra hiển thị thanh tiến trình của app/file A","2.  
+- Hiển thị thông báo lỗi
+- Thanh tiến trình A hiển thị x % (Tùy thuộc vào  DTYC)
+
+"
+8630,Kiểm tra hiển thị thanh tiến trình khi đang tải mà có thông báo lỗi trả về từ server (không phải trường hợp mất kết nối đến server), 2: Chức năng quản lý tiến trình download,Suite_common_167,1,3. Tải lại app/file A,"3. Thanh tiến trình A tiếp tục tự động chạy phần trăm tiếp (% download tăng dần) Tùy thuộc vào DTYC
+
+"
+8631,Kiểm tra download khi app/file đang tải mà mất kết đến server , 2: Chức năng quản lý tiến trình download,Suite_common_167,1,"1. Đảm bảo đang tải app/file A được x% thì mất kết đến server
+2. Kiểm tra hiên thị thanh tiến trình của app/file A","2.  
+- Hiển thị thông báo mất kết đến server trong khoảng thời gian timeout
+- Thanh tiến trình A hiển thị dừng ở x % (Tùy thuộc vào  DTYC)
+
+"
+8632,Kiểm tra download khi app/file đang tải mà mất kết đến server , 2: Chức năng quản lý tiến trình download,Suite_common_167,1,3. Server có kết nối lại,"3. Thanh tiến trình A tiếp tục tự động chạy phần trăm tiếp (% download tăng dần) Tùy thuộc vào DTYC
+
+"

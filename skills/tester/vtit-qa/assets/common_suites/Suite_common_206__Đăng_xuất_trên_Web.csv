@@ -1,0 +1,9 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8769,Kiểm tra việc đăng xuất thành công, 2: Đăng xuất trên Web,Suite_common_206,1,"1. Thực hiện thao tác qua nhiều trang của ứng dụng web
+2. Nhấn chọn vào đăng xuất 
+","1. Hiển thi màn hình Đăng nhập khi mở lại ứng dụng
+
+
+
+"
+8770,Kiểm tra việc đăng xuất thành công, 2: Đăng xuất trên Web,Suite_common_206,1,2. Nhấn back lại trên trình duyệt ,2. Vẫn hiển thị màn hình Đăng nhập

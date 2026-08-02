@@ -1,0 +1,5 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8470,Kiểm thử với nhiều loại thiết bị, 3: Kiểm tra khả năng tương thích ,Suite_common_94,1,"1. Cài đặt app trên nhiều loại thiết bị máy cơ bản
+2. Kiểm tra tính tương thích của ứng dụng",Ứng dụng chạy ko bị lỗi trên các thiết bị đó
+8471,Kiểm thử tính tương thích hệ điều hành, 3: Kiểm tra khả năng tương thích ,Suite_common_94,1,Cài đặt ứng dụng trên các hệ điêu hành phổ biến ,Ứng dụng chạy không bị lỗi 
+8472,"Kiểm tra với nhiều loại màn hình, độ phân giải khác nhau", 3: Kiểm tra khả năng tương thích ,Suite_common_94,1,Kiểm tra chức năng trên nhiều loại màn hình (Phụ thuộc yêu cầu bài toán ),"Đảm bảo dữ liệu hiển thị hợp lý, ko bị xô lệnh, phá vỡ giao diện"

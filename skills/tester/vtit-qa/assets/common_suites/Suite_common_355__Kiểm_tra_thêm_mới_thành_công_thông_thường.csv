@@ -1,0 +1,97 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9049,Kiểm tra hiển thị message trước khi thực hiện thêm mới vào cơ sở dữ liệu, 3: Kiểm tra thêm mới thành công thông thường,Suite_common_355,1,"- Nhập dữ liệu hợp lệ vào các trường
+- Nhấn nút Ghi lại","Hiển thị hộp thoại confirm trước khi thêm mới vào cơ sở dữ liệu
+
+Confirm lại với GP có cần thông báo xác nhận lưu khi thực hiện lưu hay không ? Nếu không thì không cần case này và case dưới
+
+
+"
+9050,Kiểm tra việc hủy bỏ thao tác thêm mới, 3: Kiểm tra thêm mới thành công thông thường,Suite_common_355,1,"- Nhập dữ liệu hợp lệ vào các trường
+- Nhấn nút Ghi lại
+- Hủy bỏ thao tác lưu","Close hộp thoại confirm.
+Không thêm mới bản ghi nào."
+9051,"Kiểm tra việc lưu thành công khi xác nhận việc lưu, nhập đầy đủ các trường trên form ( nhập tối đa độ dài cho phép của trường dữ liệu)", 3: Kiểm tra thêm mới thành công thông thường,Suite_common_355,1,"- Nhập dữ liệu hợp lệ vào các trường:
+( Liệt kê dữ liệu các trường tối đa như thế nào)
+- Nhấn nút Ghi lại.
+- Xác nhận việc lưu","1.Hiển thị thông báo lưu thành công
+2.Bản ghi vừa thêm mới phải được hiển thị lên đầu danh sách và lưu đúng ( check theo case (*))
+"
+9052,"Kiểm tra việc lưu thành công khi xác nhận việc lưu, nhập đầy đủ các trường trên form ( nhập tối thiểu giá trị cho phép của các trường)", 3: Kiểm tra thêm mới thành công thông thường,Suite_common_355,1,"- Nhập dữ liệu hợp lệ vào các trường
+( Liệt kê dữ liệu các trường tối thiểu như thế nào)
+- Nhấn nút Ghi lại.
+- Xác nhận việc lưu","1.Hiển thị thông báo lưu thành công
+2.Bản ghi vừa thêm mới phải được hiển thị lên đầu danh sách và lưu đúng 
+"
+9053,"Kiểm tra lưu vào đúng cơ sở dữ liệu  ( trường hợp phải check Cơ sở dữ liệu)
+", 3: Kiểm tra thêm mới thành công thông thường,Suite_common_355,1,"- Nhập dữ liệu hợp lệ vào các trường
+- Nhấn nút Ghi lại.
+- Xác nhận việc lưu
+","Dữ liệu được lưu lại thành công vào cơ sở dữ liệu:
+Tương ứng với dữ liệu nhập vào , có 1 bản ghi được thêm vào bảng …. với thông tin:
+[Trường 1] : [Tên trường 1 trên form]
+…..
+
+Thời gian tạo bản ghi : lấy theo giờ CSDL server
+"
+9054,"Kiểm tra việc lưu thành công khi xác nhận việc thêm mới, chỉ nhập  các trường bắt buộc trên form", 3: Kiểm tra thêm mới thành công thông thường,Suite_common_355,1,"- Nhập dữ liệu hợp lệ vào các trường
+- Nhấn nút Ghi lại.
+- Xác nhận việc lưu","1.Hiển thị thông báo lưu thành công
+2.Bản ghi vừa thêm mới phải được hiển thị lên đầu danh sách và lưu đúng 
+"
+9055,Kiểm tra trường hợp màn hình có combox , 3: Kiểm tra thêm mới thành công thông thường,Suite_common_355,1,"Trường hợp: Combox là các giá trị fix cứng
+- Lần lượt chọn các giá trị trong Spinner
+- Nhập dữ liệu hợp lệ các trường
+- Nhấn [Ghi lại]","1.Hiển thị thông báo lưu thành công
+2.Bản ghi vừa thêm mới phải được hiển thị lên đầu danh sách và lưu đúng  và hiển thị đúng giá trị combox box chọn
+"
+9056,Kiểm tra trường hợp màn hình có combox , 3: Kiểm tra thêm mới thành công thông thường,Suite_common_355,1,"Trường hợp: Combox là các giá trị lấy từ một danh sách trong bảng CSDL
+- Chọn random các giá trị trong Spinner ( test với tầm 5-10 giá trị, dựa vào các đặc điểm khác nhau của giá trị trong danh sách)
+- Nhập dữ liệu hợp lệ các trường
+- Nhấn [Ghi lại]","1.Hiển thị thông báo lưu thành công
+2.Bản ghi vừa thêm mới phải được hiển thị lên đầu danh sách và lưu đúng  và hiển thị đúng giá trị combox box chọn
+"
+9057,Kiểm tra trường hợp màn hình có radio, 3: Kiểm tra thêm mới thành công thông thường,Suite_common_355,1,"1. Check radio ( chọn 1 trong 2 trường hợp dưới)
+1.1 Lần lượt check từng radio nếu giá trị radio là fix cứng
+1.2 Chọn random check vài radio nếu danh sách giá trị radio lấy từ một bảng trong CSDL
+2. Nhập dữ liệu hợp lệ các trường
+3. Nhấn [Ghi lại]","1.Hiển thị thông báo lưu thành công
+2.Bản ghi vừa thêm mới phải được hiển thị lên đầu danh sách và lưu đúng 
+"
+9058,Kiểm tra trường hợp màn hình có radio, 3: Kiểm tra thêm mới thành công thông thường,Suite_common_355,1,"1.  Không check radio
+2. Nhập dữ liệu hợp lệ các trường
+3. Nhấn [Ghi lại]","1.Hiển thị thông báo lưu thành công
+2.Bản ghi vừa thêm mới phải được hiển thị lên đầu danh sách và lưu đúng 
+"
+9059,Kiểm tra trường hợp màn hình có các check box, 3: Kiểm tra thêm mới thành công thông thường,Suite_common_355,1,"1. Tích tất cả các check box
+2. Nhập dữ liệu hợp lệ các trường
+3. Nhấn [Ghi lại]","1.Hiển thị thông báo lưu thành công
+2.Bản ghi vừa thêm mới phải được hiển thị lên đầu danh sách và lưu đúng 
+"
+9060,Kiểm tra trường hợp màn hình có các check box, 3: Kiểm tra thêm mới thành công thông thường,Suite_common_355,1,"1. Không tích checkbox nào
+2. Nhập dữ liệu hợp lệ các trường
+3. Nhấn [Ghi lại]","1.Hiển thị thông báo lưu thành công
+2.Bản ghi vừa thêm mới phải được hiển thị lên đầu danh sách và lưu đúng
+"
+9061,Kiểm tra trường hợp màn hình có các check box, 3: Kiểm tra thêm mới thành công thông thường,Suite_common_355,1,"1. Lần lượt check từng check box ( chọn 1 trong 2 trường hợp)
+1.1 Lần lượt check từng check box nếu giá trị checkbox là fix cứng
+1.2 Chọn random check vài checkbox nếu danh sách giá trị checkbox  lấy từ một bảng trong CSDL
+2. Nhập dữ liệu hợp lệ các trường
+3. Nhấn [Ghi lại]","1.Hiển thị thông báo lưu thành công
+2.Bản ghi vừa thêm mới phải được hiển thị lên đầu danh sách và lưu đúng
+"
+9062,Kiểm tra chức năng trim space, 3: Kiểm tra thêm mới thành công thông thường,Suite_common_355,1,"1. Nhập dữ liệu hợp lệ và thêm space vào đầu và cuối  các trường cho phép Trim Space.( hoặc thực hiện copy paste một số có chứa space ở đầu, cuối)
+2. Các thông tin khác được nhập hợp lệ
+3. Nhấn [Ghi Lại]
+","1. Thực hiện trim space ở đầu và cuối trường dữ liệu
+2. Thực hiện lưu thành công. Kiểm tra lưu đúng như case lưu CSDL
+
+
+"
+9063,Kiểm tra không Trim space, 3: Kiểm tra thêm mới thành công thông thường,Suite_common_355,1,"1. Nhập dữ liệu hợp lệ và thêm space vào đầu và cuối  các trường không cho  phép Trim Space
+2. Các thông tin khác được nhập hợp lệ
+3. Nhấn [Ghi Lại]
+","1. Thực hiện lưu thành công. Kiểm tra lưu đúng như case lưu CSDL
+2.  Không thực hiện trim space ở đầu và cuối trường dữ liệu
+
+
+"

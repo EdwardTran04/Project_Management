@@ -1,0 +1,19 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9030,"Tìm kiếm theo ""Datetime1""", 4: Tìm kiếm theo Datetime,Suite_common_350,1,"1. Nhập ""Datetime1""
+2. Click button 'Tìm kiếm'","1. Hiển thị kết quả tìm kiếm thỏa mãn: ""Datetime1"" &gt;= Giá trị ngày đã nhập
+2  Script: sử dụng script (*), phần điều kiện tìm kiếm bỏ hết các điều kiện khác điều kiện đang tìm
+"
+9031,"Tìm kiếm theo ""Datetime2""", 4: Tìm kiếm theo Datetime,Suite_common_350,1,"1. Nhập ""Datetime2""
+2. Click button 'Tìm kiếm'","1. Hiển thị kết quả tìm kiếm thỏa mãn: ""Datetime2"" &lt;= Giá trị ngày đã nhập
+2  Script: sử dụng script (*), phần điều kiện tìm kiếm bỏ hết các điều kiện khác điều kiện đang tìm
+"
+9032,"Tìm kiếm trong khoảng (Datetime1 & Datetime2)
+", 4: Tìm kiếm theo Datetime,Suite_common_350,1,"1. Nhập giá trị Datetime1 và Datetime 2
+- Với Datetime1 &lt; Datetime2
+2. Click button 'Tìm kiếm'","1. Hiển thị kết quả tìm kiếm thỏa mãn nằm trong khoảng (Giá trị từ Datetime1 đến Datetime2)
+2  Script: sử dụng script (*), phần điều kiện tìm kiếm bỏ hết các điều kiện khác điều kiện đang tìm"
+9033,"Tìm kiếm  khi Datetime1 = Datetime2
+", 4: Tìm kiếm theo Datetime,Suite_common_350,1,"1. Nhập giá trị Datetime1 và Datetime 2
+- Với Datetime1 = Datetime2
+2. Click button 'Tìm kiếm'","1. Hiển thị kết quả tìm kiếm thỏa mãn nằm trong khoảng (Giá trị từ Datetime1 = Datetime2)
+2  Script: sử dụng script (*), phần điều kiện tìm kiếm bỏ hết các điều kiện khác điều kiện đang tìm"

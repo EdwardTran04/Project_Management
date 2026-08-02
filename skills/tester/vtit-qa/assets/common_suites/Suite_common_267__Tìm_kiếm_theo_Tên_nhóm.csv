@@ -1,0 +1,54 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8873,Kiểm tra tìm kiếm khi không nhập gì cả, 4: Tìm kiếm theo Tên nhóm,Suite_common_267,1,"1. Touch vào EditText 
+2. Không nhập gì cả ",2. Vẫn  hiển thị danh sách mặc định ban đầu
+8874,Kiểm ra tìm kiếm khi nhập toàn các ký tự space , 4: Tìm kiếm theo Tên nhóm,Suite_common_267,1,1. Nhập ký tự space vào edittext,1. Vẫn hiển thị danh sách mặc định ban đầu
+8875,Kiểm tra tìm kiếm khi không có dữ liệu tương ứng với từ khóa cần tìm, 4: Tìm kiếm theo Tên nhóm,Suite_common_267,1,"Đảm bảo không có dữ liệu thỏa mãn điều kiện tìm kiếm
+1. Nhập vào dữ liệu không thỏa mãn điều kiện tìm kiếm
+2. Kiểm tra hiển thị màn hình danh sách     ","2. Hiển thị  thông báo ""KHÔNG CÓ DỮ LIỆU"""
+8876,"Kiểm tra tìm kiếm tương đối khi Nhập EditText là một phần của xâu  hoặc toàn bộ xâu đã tồn tại( nhập hoa, thường)", 4: Tìm kiếm theo Tên nhóm,Suite_common_267,1,"Đảm bảo có dữ liệu thỏa mãn điều kiện tìm kiếm
+1. Nhập vào 1 phần của xâu cần tìm kiếm (nhập hoa, thường)
+2. Kiểm tra hiển thị màn hình danh sách     
+","2. Hiển thị các kết quả tìm kiếm với  EditText chứa xâu đã nhập không phân biệt chữ hoa, chữ thường. 
+
+
+
+"
+8877,"Kiểm tra tìm kiếm tương đối khi Nhập EditText là một phần của xâu  hoặc toàn bộ xâu đã tồn tại( nhập hoa, thường)", 4: Tìm kiếm theo Tên nhóm,Suite_common_267,1,"Đảm bảo có dữ liệu thỏa mãn điều kiện tìm kiếm
+1. Nhập vào toàn bộ xâu cần tìm kiếm(nhập hoa, thường)
+2. Kiểm tra hiển thị màn hình danh sách     
+","2. Hiển thị các kết quả tìm kiếm với  EditText chứa xâu đã nhập không phân biệt chữ hoa, chữ thường. 
+
+
+
+
+"
+8878,Kiểm tra tìm kiếm khi nhập vào EditText là một chuỗi có ký tự Space ở đầu và cuối chuỗi, 4: Tìm kiếm theo Tên nhóm,Suite_common_267,1,"Đảm bảo có dữ liệu thỏa mãn điều kiện tìm kiếm
+1. Nhập  vào chuỗi có ký tự Space ở đầu và cuối chuỗi
+2. Kiểm tra hiển thị màn hình danh sách màn hình     ","2. Hiển thị các kết quả tìm kiếm thỏa mãn điều kiện  EditText nhập vào đã được Trim Space ở đầu và cuối chuỗi
+
+
+"
+8879,Kiểm tra tìm kiếm khi nhập vào các ký tự đặc biệt, 4: Tìm kiếm theo Tên nhóm,Suite_common_267,1,"Đảm bảo có dữ liệu thỏa mãn điều kiện tìm kiếm
+1. Nhập lần lượt các ký tự đặc biệt vào edittext
+- % (hoặc %test)
+- &amp;
+- _
+- *
+- \
+- dấu nháy '
+- thẻ HTML ( ví dụ:  ha noi )
+- $, #, !, ), (, [, ], /, 
+2. Kiểm tra hiển thị màn hình danh sách     ","2. Hiển thị kết quả tìm kiếm thỏa mãn  EditText chứa ký tự đã nhập
+"
+8880,Kiểm tra tìm kiếm khi nhập vào các ký tự là tiếng việt có dấu, 4: Tìm kiếm theo Tên nhóm,Suite_common_267,1,"Đảm bảo có dữ liệu thỏa mãn điều kiện tìm kiếm
+1. Nhập tiếng việt có dấu vào Edittext
+2.Kiểm tra hiển thị màn hình danh sách     ","1. Hiển thị kết quả tìm kiếm thỏa mãn  điều kiện tìm kiếm
+
+"
+8881,Kiểm tra tìm kiếm nhập dữ liệu là chuỗi ký tự có nội dung dài, 4: Tìm kiếm theo Tên nhóm,Suite_common_267,1,"Đảm bảo có dữ liệu thỏa mãn điều kiện tìm kiếm
+1.  Nhập dữ liệu dài vào edittext
+2. Kiểm tra hiển thị màn hình danh sách     ","1. Hiển thị kết quả tìm kiếm thỏa mãn điều kiện tìm kiếm và khi nhập vào không bị lỗi font
+
+"
+8882,Kiểm tra khi thực hiện tìm kiếm liên tục, 4: Tìm kiếm theo Tên nhóm,Suite_common_267,1,"1. Nhập dữ liệu vào edittext
+2. Lặp lại bước 1,2  nhiều lần","2. Chương trình hoạt động bình thường, không có lỗi xảy ra"

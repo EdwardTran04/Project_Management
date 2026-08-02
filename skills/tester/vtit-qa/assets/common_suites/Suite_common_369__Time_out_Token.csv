@@ -1,0 +1,40 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9124,"Kiểm tra hết thời hạn của Token trường hợp ứng dụng có cơ chế tự động đăng nhập sau khi đăng nhập lần đầu tiên không logout, ứng dụng có tiến trình ngầm như đồng bộ dữ liệu
+
+
+", 2: Time out Token ,Suite_common_369,1,"Chuẩn bị:
+- Kiểm tra 1 Token do server sinh ra khi đăng nhập vào hệ thống có thời gian bao lâu
+- Ứng dụng có các tiến trình ngầm như tiến trình đồng bộ dữ liệu
+
+1. Đăng nhập vào hệ thống lần đầu tiên
+2. Đảm bảo hết thời gian hiệu lực của Token. Đúng thời điểm tiến trình ngầm gửi request đồng bộ dữ liệu
+",- Không có thông báo hết phiên đăng nhập được hiển thị nếu  không tác động vào ứng dụng
+9125,"Kiểm tra hết thời hạn của Token trường hợp ứng dụng có cơ chế tự động đăng nhập sau khi đăng nhập lần đầu tiên không logout, ứng dụng có tiến trình ngầm như đồng bộ dữ liệu
+
+
+", 2: Time out Token ,Suite_common_369,1,"Chuẩn bị:
+- Kiểm tra 1 Token do server sinh ra khi đăng nhập vào hệ thống có thời gian bao lâu
+- Ứng dụng có các tiến trình ngầm như tiến trình đồng bộ dữ liệu
+
+1. Đăng nhập vào hệ thống lần đầu tiên
+2. Đảm bảo hết thời gian hiệu lực của Token. Tác động vào chức năng ứng dụng cùng thời điểm với tiến trình ngầm của ứng dụng  gửi request
+3. Focus ra ngoài thông báo hoặc close thông báo","2. Hiển thị 1 thông báo hết phiên đăng nhập 
+3. Hiển thị màn hình đăng nhập vào ứng dụng
+"
+9126,"Kiểm tra khi hết thời hạn của Token khi đăng nhập lần đầu tiên không logout, mở lại ứng dụng", 2: Time out Token ,Suite_common_369,1,"Chuẩn bị:
+- Kiểm tra 1 Token do server sinh ra khi đăng nhập vào hệ thống có thời gian bao lâu
+
+1. Đăng nhập vào hệ thống lần đầu tiên, Sau đó tắt ứng dụng
+2. Mở lại ứng dụng sau một khoảng thời gian đảm bảo Token bị time out
+","2. Hiển thị 1 thông báo hết phiên đăng nhập 
+3. Hiển thị màn hình đăng nhập vào ứng dụng
+
+( Tùy vào cơ chế sinh token của mỗi hệ thống, và cơ chế đăng nhập tự động, hỏi lại dev xem nếu token hết hạn thì server sẽ sinh thêm token mới trả về hay  thông báo hết phiên đăng nhập và yêu cầu đăng nhập lại)"
+9127,"Kiểm tra khi hết thời hạn của Token trường hợp ứng dụng có cơ chế tự động đăng nhập sau khi đăng nhập lần đầu tiên không logout, thao tác ứng dụng", 2: Time out Token ,Suite_common_369,1,"Chuẩn bị:
+- Kiểm tra 1 Token do server sinh ra khi đăng nhập vào hệ thống có thời gian bao lâu
+
+1. Đăng nhập vào hệ thống lần đầu tiên
+2. Đảm bảo hết thời gian hiệu lực của Token, tác động vào chức năng
+3. Focus ra ngoài thông báo hoặc close thông báo","2. Hiển thị 1 thông báo hết phiên đăng nhập 
+3. Hiển thị màn hình đăng nhập vào ứng dụng
+( Tùy vào cơ chế sinh token của mỗi hệ thống, và cơ chế đăng nhập tự động, hỏi lại dev xem nếu token hết hạn thì server sẽ sinh thêm token mới trả về hay  thông báo hết phiên đăng nhập và yêu cầu đăng nhập lại)"

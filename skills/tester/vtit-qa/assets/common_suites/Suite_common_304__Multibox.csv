@@ -1,0 +1,6 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8151,Kiểm tra giá trị mặc định, 2: Multibox,Suite_common_304,1,1. Kiểm tra giá trị mặc định,Không giá trị nào được chọn
+8152,Kiểm tra sắp xếp các giá trị trong multibox, 2: Multibox,Suite_common_304,1,1. Kiểm tra thứ tự sắp xếp giá trị của trường này,Giá trị trong combo được sắp xếp theo thứ tự alphabet 
+8153,Kiểm tra tích chọn nhiều giá trị 1 lúc, 2: Multibox,Suite_common_304,1,"1. Kích vào Multibox
+3.Chọn nhiều giá trị",Cho phép chọn
+8154,Kiểm tra căn lề, 2: Multibox,Suite_common_304,1,1. Kích vào multibox để kiểm tra căn lề của các giá trị,Các giá trị trong multibox được căn lề trái.

@@ -1,0 +1,5 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8198,Kiểm tra hiển thị confirm trước khi xóa, 2: Xóa,Suite_common_312,1,"Chọn 1 bản ghi
+Chọn Xóa",Hiển thị confirm xác nhận: Bạn có chắc chắn muốn xóa bản ghi?
+8199,Kiểm tra hiển thị thông báo Ấn xóa khi không chọn bản ghi nào, 2: Xóa,Suite_common_312,1,"Trên màn hình chưa chọn bản ghi nào để xóa
+Ấn Xóa",Hiển thị thông báo: Bạn chưa chọn bản ghi nào để xóa

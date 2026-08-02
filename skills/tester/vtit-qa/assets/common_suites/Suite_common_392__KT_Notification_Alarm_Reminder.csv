@@ -1,0 +1,71 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9254,Kiểm tra không hiển thị lịch nhắc nhở khi tắt chế độ lịch nhắc nhở trong thiết bị, 4: KT Notification Alarm/Reminder,Suite_common_392,1,"1. Vào Setting -&gt; Notifications + Actions -&gt; Chọn App đang thao tác -&gt; Show in Action Center ( Cho phép thông báo )
+2. Chọn OFF
+3. Tạo lịch nhắc nhở sau khi cài đặt ",3. Không hiển thị lịch nhắc nhở về thiết bị(Không hiển thị lịch trên thanh Notification Bar + Notification Banner)
+9255,"Kiểm tra không hiển thị lịch nhắc nhở khi bật chế độ lịch nhắc nhở trong thiết bị và tắt nhắc nhở trong ứng dụng
+TH1: Tắt chế độ lịch nhắc nhở trong ứng dụng", 4: KT Notification Alarm/Reminder,Suite_common_392,1,"1. Vào Setting -&gt; Notifications + Actions -&gt; Chọn App đang thao tác -&gt; Show in Action Center ( Cho phép thông báo )
+2. Chọn ON
+3. Tắt chế độ nhắc nhở lịch trong ứng dụng
+4.Tick chọn checkbox [Show notification banners]
+5.Tạo lịch nhắc nhở sau khi cài đặt ",5.Không hiển thị lịch nhắc nhở về thiết bị(Không hiển thị lịch trên thanh Notification Bar + Notification Banner)
+9256,"Kiểm tra hiển thị lịch nhắc nhở khi bật chế độ lịch nhắc nhở trong thiết bị và bật nhắc nhở của ứng dụng
+TH2: Bật chế độ lịch nhắc nhở trong ứng dụng", 4: KT Notification Alarm/Reminder,Suite_common_392,1,"1. Vào Setting -&gt; Notifications + Actions -&gt; Chọn App đang thao tác -&gt; Show in Action Center ( Cho phép thông báo )
+2. Chọn ON
+3.Bật chế độ nhắc nhở lịch trong ứng dụng
+4.1 Tick chọn checkbox [Show notification banners]
+5.Tạo lịch nhắc nhở sau khi cài đặt ","5.Hệ thống nhận thực hiện nhận tin nhắn về ứng dụng:
++ Hiển thị tin nhắn trên thanh Notification Bar
++ Hiển thị Notification Banner"
+9257,"Kiểm tra hiển thị lịch nhắc nhở khi bật chế độ lịch nhắc nhở trong thiết bị và bật nhắc nhở của ứng dụng
+TH2: Bật chế độ lịch nhắc nhở trong ứng dụng", 4: KT Notification Alarm/Reminder,Suite_common_392,1,"3.Bật chế độ nhắc nhở lịch trong ứng dụng
+4. 2. Tick bỏ chọn checkbox [Show notification banners]
+5.Tạo lịch nhắc nhở sau khi cài đặt ","5. Hệ thống nhận thực hiện nhận tin nhắn về ứng dụng:
++ Hiển thị tin nhắn trên thanh Notification Bar
++ Không hiển thị Notification Banner"
+9258,Kiểm tra hiển thị lịch nhắc nhở khi cài đặt Sound , 4: KT Notification Alarm/Reminder,Suite_common_392,1,"1. Vào Setting -&gt; Notifications + Actions -&gt; Chọn App đang thao tác -&gt; Show in Action Center ( Cho phép thông báo )
+2.1. Chọn OFF
+3.Tạo lịch nhắc nhở sau khi cài đặt ","Khi có lịch nhắc nhở thì :
++ Không có chuông (Khi chọn OFF Show Action Center, Notification sound sẽ tự disable)
+
+"
+9259,Kiểm tra hiển thị lịch nhắc nhở khi cài đặt Sound , 4: KT Notification Alarm/Reminder,Suite_common_392,1,"2.2 Chọn ON
+3.Tạo lịch nhắc nhở sau khi cài đặt ","Khi có lịch nhắc nhở thì :
++ Nếu chọn notification sound là default --&gt; chuông mặc định
++ Nếu chọn notification sound là none --&gt; Không có chuông 
++ Nếu chọn notification sound là chuông bất kì --&gt; Chuông 
+
+"
+9260,Kiểm tra hiển thị lịch nhắc nhở khi cài đặt Vibrate, 4: KT Notification Alarm/Reminder,Suite_common_392,1,"1. Vào Setting -&gt; Notifications + Actions -&gt; Chọn App đang thao tác -&gt; Show in Action Center ( Cho phép thông báo )
+2.1. Chọn OFF
+3.Tạo lịch nhắc nhở sau khi cài đặt ","Khi có lịch nhắc nhở thì :
++ Không có chuông và không rung
+
+"
+9261,Kiểm tra hiển thị lịch nhắc nhở khi cài đặt Vibrate, 4: KT Notification Alarm/Reminder,Suite_common_392,1,"2.2 Chọn ON
+3.1. Tick chọn checkbox Vibrate
+4.Tạo lịch nhắc nhở sau khi cài đặt  ","Khi có lịch nhắc nhở thì :
++  Rung và Chuông (nếu đặt chuông khác none)
+
+"
+9262,Kiểm tra hiển thị lịch nhắc nhở khi cài đặt Vibrate, 4: KT Notification Alarm/Reminder,Suite_common_392,1,"2.2. Chọn ON
+3.2. Không tick chọn checkbox Vibrate
+4. Tạo lịch nhắc nhở sau khi cài đặt ","Khi có lịch nhắc nhở thì :
++ Không rung và có Chuông (nếu đặt chuông khác none)
+
+"
+9263,Kiểm tra hiển thị lịch nhắc nhở khi cài đặt hiển thị thông báo khi màn hình bị khóa, 4: KT Notification Alarm/Reminder,Suite_common_392,1,"1. Vào Setting -&gt; Notifications + Actions 
+2.1. Không tick chọn checkbox [Show notifications in action center when my phone is locked]
+3.Tạo lịch nhắc nhở sau khi cài đặt ",Không hiển thị lịch nhắc nhở khi khóa màn hình
+9264,Kiểm tra hiển thị lịch nhắc nhở khi cài đặt hiển thị thông báo khi màn hình bị khóa, 4: KT Notification Alarm/Reminder,Suite_common_392,1,"2.1. Tick chọn checkbox [Show notifications in action center when my phone is locked]
+3.Tạo lịch nhắc nhở sau khi cài đặt ","Hệ thống nhận thực hiện nhận tin nhắn về ứng dụng:
++ Hiển thị lịch nhắc nhở Banner trên màn hình khóa"
+9265,Kiểm tra khi nhấn Snooze , 4: KT Notification Alarm/Reminder,Suite_common_392,1,"1. Có lịch nhắc nhở
+2. Lần lượt chọn giá trị trong combo box Thông báo lại sau 
+3. Nhấn Snooze",3.Đóng lịch nhắc nhở
+9266,Kiểm tra khi nhấn Snooze , 4: KT Notification Alarm/Reminder,Suite_common_392,1,"4. Tương ứng với mỗi giá trị lựa chọn
+Ví dụ: Lựa chọn 5 phút tại thời điểm giờ hiện tại là 9h00
+Đến 9h05","4.Hiển thị lịch nhắc nhở vừa Snooze, nội dung lịch hiển thị đầy đủ"
+9267,Kiểm tra khi nhấn Snooze , 4: KT Notification Alarm/Reminder,Suite_common_392,1,"5. Nhấn Snooze tiếp
+6. Sau khoảng thời gian được lựa chọn thông báo lại","6. Hiển thị thông báo Alarm vừa Snooze, nội dung lịch hiển thị đầy đủ"
+9268,Kiểm tra khi nhấn Dismiss , 4: KT Notification Alarm/Reminder,Suite_common_392,1,"1. Có lịch nhắc nhở
+2. Nhấn Dismiss trên lịch nhắc nhở",2.Đóng lịch nhắc nhở và không hiển thị lại lịch nữa

@@ -1,0 +1,23 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8122,Kiểm tra khi trường email là bắt buộc nhập, 2: Kiểm tra text - email,Suite_common_299,1," Không nhập dữ liệu  hoặc nhập toàn các space
+
+","1. Hiển thị thông báo trường email là bắt buộc.
+2. Set focus vào trường lỗi."
+8123,Kiểm tra khi trường email là duy nhất, 2: Kiểm tra text - email,Suite_common_299,1,"Nhập vào trường email dữ liệu đã tồn tại 
+
+","1. Hiển thị thông báo trường email là duy nhất.
+2. Set focus vào trường lỗi."
+8124,Nhập vượt quá độ dài cho phép của trường dữ liệu trong CSDL, 2: Kiểm tra text - email,Suite_common_299,1,Nhập hơn 100 (giả định maxlength của trường email = 100) ký tự vào trường email,"1. Hiển thị thông báo lỗi bạn đã nhập vượt quá độ dài ký tự cho phép
+2. Set focus vào trường lỗi."
+8125,Kiểm tra xử lý bỏ dấu cách đầu và cuối email trước khi lưu vào database, 2: Kiểm tra text - email,Suite_common_299,1,Nhập vào textbox giá trị email hợp lệ và thêm dấu trắng vào đầu và cuối,"1. Ghi lại thành công
+2. Dấu cách ở đầu và cuối được bỏ trước khi lưu vào database"
+8126,Kiểm tra định dạng email, 2: Kiểm tra text - email,Suite_common_299,1,"1. Nhập vào textbox lần lượt các giá trị khác với định dạng
+- abc@xyz.xxx","1. Thông báo địa chỉ email không hợp lệ
+2. Set focus vào trường lỗi"
+8127,Kiểm tra khi địa chỉ email hợp lệ, 2: Kiểm tra text - email,Suite_common_299,1,"1. Nhập địa chỉ email hợp lệ:
+firstname@viettel.com.vn
+firstname.lastname@domain.com
+email@subdomain.domain.com
+email@domain-one.com
+firstname-lastname@domain.com
+email@domain.co.jp",1. Ghi lại thành công.

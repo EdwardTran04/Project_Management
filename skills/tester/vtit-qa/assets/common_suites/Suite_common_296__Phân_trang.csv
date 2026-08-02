@@ -1,0 +1,30 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8090,Kiểm tra cách đánh số các bản ghi, 2: Phân trang,Suite_common_296,1,"Trong grid dữ liệu 
+Kiểm tra số thứ tự các bản ghi.","Đánh số thứ tự tăng dần và liên tục: Số thứ tự đầu tiên của trang sau là số tiếp theo của trang trước.
+"
+8091,Kiểm tra việc không hiển thị các liên kết khi số bản ghi nhỏ hơn 10, 2: Phân trang,Suite_common_296,1,Giả sử trong danh sách/grid có &lt;=10 bản ghi,Không hiển thị: Số bản ghi/Trang &lt;&gt;
+8092,Kiểm tra Số bản ghi trên 1 trang (gỉa sử là X), 2: Phân trang,Suite_common_296,1,"Kiểm tra số bản ghi trên một trang nếu grid (danh sách) có hơn X bản ghi""",Hiển thị X bản ghi trên một trang
+8093,Style của paging, 2: Phân trang,Suite_common_296,1,Kiểm tra cách hiển thị của chức năng phân trang,Số bản ghi &lt;&gt; Trang &lt;&gt;  Số bản ghi/Trang &lt;&gt;
+8094,Kiểm tra mở các trang, 2: Phân trang,Suite_common_296,1,"Chọn vào số trang bất kỳ: trang đầu, trang cuối, trang giữa","Mở trang tương ứng
+Số bản ghi đầu tiên của trang sau là số tiếp theo của trang trước."
+8095,"Kiểm tra hiển thị menu và header, footer sau khi chuyển trang", 2: Phân trang,Suite_common_296,1,"
+Trên grid
+Thực hiện chuyển các trang sau
+","Menu, header, footer không thay đổi"
+8096,"Kiểm tra vị trí trang sau khi thực hiện 1 thao tác(sửa, xóa, thêm mới,...) trên trang dữ liệu", 2: Phân trang,Suite_common_296,1,"1. Đang ở trang thứ 4, click vào nút ""Thêm mới""
+2. Click vào nút ""Close""","1. Item được mở ra
+2. Quay lại trang thứ 1"
+8097,"Kiểm tra vị trí trang sau khi thực hiện 1 thao tác(sửa, xóa, thêm mới,...) trên trang dữ liệu", 2: Phân trang,Suite_common_296,1,"1. Đang ở trang thứ 4, chọn 1 item và click vào nút ""Edit""
+2. Update data, Click vào nút ""Save""","1. Item được mở ra
+2. Quay lại trang thứ 1"
+8098,"Kiểm tra vị trí trang sau khi thực hiện 1 thao tác(sửa, xóa, thêm mới,...) trên trang dữ liệu", 2: Phân trang,Suite_common_296,1,"1. Đang ở trang thứ 4, chọn 1 item và click vào nút ""Delete""
+2. Click nút ""Yes"" trên confirm message","1. Hiển thị confirm mesage
+2. Quay lại trang thứ 1"
+8099,"Kiểm tra vị trí trang sau khi thực hiện 1 thao tác(sửa, xóa, thêm mới,...) trên trang dữ liệu", 2: Phân trang,Suite_common_296,1,"Có 11 bản ghi, chia làm 2 trang: trang 1 có 10 bản ghi, trang 2 có 1 bản ghi. 
+1. Open trang thứ 2
+2. Delete bản ghi thứ 11 ở trang 2",Quay lại trang 1
+8100,"Kiểm tra lưu cache
+
+", 2: Phân trang,Suite_common_296,1,"1. Tab 1: Click chọn danh sách A có 5 bản ghi
+2. Tab 2: Click chọn sang danh sách B cũng có 5 bản ghi","Hệ thống không bị lưu cache
+(Khi người dùng chuyển sang danh sách B, thì hiển thị đúng các bản ghi thuộc danh sách B)"

@@ -1,0 +1,17 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8370,Kiểm tra khi click button chọn file, 2: KT Upload File,Suite_common_330,1,1.Click button Chọn file,Mở ra một hộp directory tương ứng trong máy
+8371,Kiểm tra hiển thị danh sách file upload trên màn hình , 2: KT Upload File,Suite_common_330,1,"1. Lần lượt chọn các file hợp lệ cần upload lên màn hình
+","Hiển thị từng bản ghi file lên màn hình chức năng chính
+Danh sách file sắp xếp theo thứ tự thêm mới nhất
+File upload cuối, được hiển thị sao cho người dùng có thể nhìn thấy
+Nếu số file &gt; n bản ghi ( số bản ghi cho phép hiển thị trên vùng màn hình) , có thể scroll lên xuống, xem  được toàn bộ danh sách file"
+8372,Kiểm tra hiển thị danh sách file upload trên màn hình , 2: KT Upload File,Suite_common_330,1,2. Thực hiện scroll danh sách file,Xem được hết danh sách file từ trên xuống theo scroll
+8373,Kiểm tra việc hiển thị tên file lên màn hình  khi 1 file được chọn nhiều lần., 2: KT Upload File,Suite_common_330,1,1. Chọn upload nhiều lần cùng 1 file A,Hiển thị các file được upload lên màn hình theo thứ upload
+8374,"Kiểm tra có thể collapse danh sách file đính kèm
+
+(Trường hợp ứng dụng chỉ hiển thị một phần danh sách file đính kèm, có thể collapse danh sách)", 2: KT Upload File,Suite_common_330,1,"1. Đính kèm nhiều file
+2. Nhấn icon v để mở ra danh sách file đính kèm",Thực hiện mở danh sách file đính kèm và icon v chuyển sang ^
+8375,"Kiểm tra có thể collapse danh sách file đính kèm
+
+(Trường hợp ứng dụng chỉ hiển thị một phần danh sách file đính kèm, có thể collapse danh sách)", 2: KT Upload File,Suite_common_330,1,"1. Đính kèm nhiều file
+2. Nhấn icon ^ để thu danh sách file đính kèm",Thực hiện thu danh sách file đính kèm và icon ^ chuyển sang v

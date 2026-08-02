@@ -1,0 +1,18 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8186,"Kiểm tra việc hiển thị mật khẩu người dùng nhập dưới dạng không tường minh
+", 2: Mật khẩu nhập lại,Suite_common_308,1,Nhập trường Mật khẩu từ bàn phím,Hiển thị thông tin đã nhập là các dấu * hoặc dấu chấm tròn
+8187,"Kiểm tra trường Nhắc lại mật khẩu có trùng khớp với trường Mật khẩu không
+
+", 2: Mật khẩu nhập lại,Suite_common_308,1,"1. Nhập dữ liệu vượt quá maxlength
+2. Các thông tin khác được nhập hợp lệ","1. Thông báo lỗi
+2. Set focus vào trường lỗi
+Hoặc chặn không cho nhập quá maxlength"
+8188,"Kiểm tra trường Nhắc lại mật khẩu có trùng khớp với trường Mật khẩu không
+
+", 2: Mật khẩu nhập lại,Suite_common_308,1,"1. Không nhập dữ liệu, hoặc nhập toàn các space, hoặc nhập Nhắc lại mật khẩu không trùng khớp với Mật khẩu
+2. Các trường khác nhập hợp lệ","Thông báo lỗi
+Set focus vào trường lỗi"
+8189,"Kiểm tra trường Nhắc lại mật khẩu có trùng khớp với trường Mật khẩu không
+
+", 2: Mật khẩu nhập lại,Suite_common_308,1,"1. Nhập Nhắc lại mật khẩu trùng khớp với Mật khẩu
+2. Các trường khác nhập hợp lệ",Thực hiện thành công

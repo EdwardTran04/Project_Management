@@ -1,0 +1,30 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8748,Kiểm tra không hiển thị captchar khi đăng nhập thất bại < N lần, 4: Trường hợp hiển thị captchar sau N lần nhập dữ liệu không hợp lệ,Suite_common_202,1,Đảm bảo đăng nhập thất bại ,"1. Không hiển thị  hình ảnh captchar, editText captchar, icon thay đổi captchar trên màn hình  (Tùy thuộc vào ĐTYC)"
+8749,Kiểm tra hiển thị captchar khi đăng nhập thất bại >= N lần, 4: Trường hợp hiển thị captchar sau N lần nhập dữ liệu không hợp lệ,Suite_common_202,1,"Đảm bảo đã đăng nhập thất bại &gt;=N lần
+1. Kiểm tra hiển thị captchar trên màn hình","1. Hiển thị  hình ảnh captchar, editText captchar, icon thay đổi captchar trên màn hình  (Tùy thuộc vào ĐTYC)"
+8750,Kiểm tra reset số lần đăng nhập thất bại sau khi đăng nhập thành công, 4: Trường hợp hiển thị captchar sau N lần nhập dữ liệu không hợp lệ,Suite_common_202,1,"Đảm bảo đã đăng nhập thất bại N-1 lần
+1. Thực hiện đăng nhập thành công lần tiếp theo
+2. Đăng xuất
+3. Kiểm tra màn hình có captchar ở bước 1",3. Trở về màn hình đăng nhập. Không hiển thị captchar trên màn hình
+8751,Kiểm tra reset số lần đăng nhập thất bại sau khi đăng nhập thành công, 4: Trường hợp hiển thị captchar sau N lần nhập dữ liệu không hợp lệ,Suite_common_202,1,4. Thực hiện đăng nhập thất bại,4. Không hiển thị captchar trên màn hình
+8752,Kiểm tra reset số lần đăng nhập thất bại sau khi đăng nhập thành công, 4: Trường hợp hiển thị captchar sau N lần nhập dữ liệu không hợp lệ,Suite_common_202,1,5. Tiếp tục đăng nhập thất bại cho đến khi đủ N lần,5. Hiển thị captchar sau N lần đăng nhập thất bại
+8753,Kiểm tra hiển thị captchar khi đăng nhập sai N lần bằng nhiều tài khoản khác nhau, 4: Trường hợp hiển thị captchar sau N lần nhập dữ liệu không hợp lệ,Suite_common_202,1,"1. User 1 login N-1 lần sai mật khẩu/tên đăng nhập, sau đó
+2. User 2 login , nhập sai mật khẩu/tên đăng nhập","2. Hiển thị hình ảnh captchar, editText captchar, icon thay đổi captchar trên màn hình , không phụ thuộc vào tài khoản đăng nhập(Tùy thuộc vào DTYC)"
+8754,Kiểm tra không mất captchar khi mất kết nối mạng, 4: Trường hợp hiển thị captchar sau N lần nhập dữ liệu không hợp lệ,Suite_common_202,1,"Đảm bảo đã hiển thị captchar sau N lần đăng nhập thất bại
+1. Ngắt kết nối mạng
+2. Tiếp tục thực hiện đăng nhập thất bại
+3. Kiểm tra hiển thị captchar","3. Vẫn hiển thị captchar trên màn hình
+Note: chỉ áp dụng cho trường hợp hiển thị captchar dưới client, sẽ không đúng với trường hợp captchar trả về từ server"
+8755,"Kiểm tra hiển thị captchar khi đang mở màn hình chứa captchar, sau đó thực hiện đóng và mở lại ", 4: Trường hợp hiển thị captchar sau N lần nhập dữ liệu không hợp lệ,Suite_common_202,1,"Đảm bảo màn hình chức năng A đang hiển thị captchar
+1.Nhập thông tin tài khoản vào các editText trên màn hình
+2. Đóng màn hình chức năng A (nhưng không kill app )
+3. Mở lại màn hình chức năng A
+4. Kiểm tra hiển thị captcha trên màn hình",4. Hiển thị hình ảnh captchar trên màn hình (Tùy thuộc vào DTYC)
+8756,Kiểm tra thay đổi hình ảnh captchar khi click icon [Đổi captchar], 4: Trường hợp hiển thị captchar sau N lần nhập dữ liệu không hợp lệ,Suite_common_202,1,"1. Click vào Icon [Đổi captchar]
+2. Kiểm tra hiển thị hình ảnh captchar",2. Thay đổi hình ảnh captchar
+8757,Kiểm tra khi click vào icon nhiều lần liên tục, 4: Trường hợp hiển thị captchar sau N lần nhập dữ liệu không hợp lệ,Suite_common_202,1,"1. Click vào icon nhiều lần liên tục
+2. Kiểm tra hiển thị hình ảnh captchar",1. Hình ảnh captchar thay đổi liên tục vào không bị crash chương trình
+8758,Kiểm tra thay đổi captchar khi nhập các thông tin khác không hợp lệ, 4: Trường hợp hiển thị captchar sau N lần nhập dữ liệu không hợp lệ,Suite_common_202,1,"1. Nhập đúng captchar
+2. Nhập 1 trong các thông tin khác không hợp lệ
+3. Nhấn button [Đăng nhập] / [Đăng ký] / [Quên mật khẩu]/…","3. - Edittext captchar reset về trạng thái mặc định
+- Hình ảnh captchar thay đổi"

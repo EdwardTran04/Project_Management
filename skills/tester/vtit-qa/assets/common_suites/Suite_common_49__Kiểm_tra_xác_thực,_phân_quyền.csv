@@ -1,0 +1,64 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8245,Kiểm tra user chỉ được thao tác trên loại dữ liệu được phân quyền ," 2: Kiểm tra xác thực, phân quyền",Suite_common_49,1,"Pre: User không có quyền download/ view/update/insert/ delete với đối tượng y
+1. Đăng nhập bằng user 1 quyền view chỉ 1 item x
+* Giao thức Get: 
+2. Sửa tham số URL từ x--&gt; y ( trường hợp không thấy link trên trình duyệt có thể trỏ vào link màn hình, sẽ hiển thị link ở tool bar phía dưới trình duyệt 
+Ví dụ action sửa điểm học sinh: smas.com/changeMark?pupilId=1&amp;schoolId=10
+Sửa pupilID bằng giá trị học sinh bất kỳ, ví dụ thuộc trường khác hoàn toàn --&gt; để kiểm tra phân quyền.
+Chú ý các ràng buộc giữ liệu, ví dụ server có thể kiểm tra xem pupilId có nằm trong schoolID không --&gt; phải sửa 2 tham số tương ứng.
+* Với giao thức POST: sử dụng burpsuit để chặn request và thay đổi giá trị tham số
+
+",Hệ thống không cho insert/update/view/delete/download và thông báo lỗi 
+8246,Kiểm tra user chỉ được thao tác trên loại dữ liệu được phân quyền ," 2: Kiểm tra xác thực, phân quyền",Suite_common_49,1,"Pre : User A, B cùng có quyền vào chức năng X để cập nhật dữ liệu, nhưng loại dữ liệu của A và B là khác nhau.
+
+1. Đăng nhập vào chương trình ở tab 1 với account A quyền vào chức năng X, được phép thao tác với loại dữ liệu A1
+2. Đăng nhập vào chương trình ở tab 2 với account B được quyền vào chức năng X, n chỉ được phép thao tác với loại dữ liệu B1
+3. Quay lại tab 1, thực hiện tác động vào dữ liệu A1 mà user B không được quyền ","- Tab  2:  User B chỉ được phép thao tác với dữ liệu B1
+- Tab 1: refresh màn hình về thông tin của user B, không thực thi được tác động lên dữ liệu A1"
+8247,Kiểm tra user chỉ được phép tác động lên dữ liệu đã định nghĩa," 2: Kiểm tra xác thực, phân quyền",Suite_common_49,1,"- Vào chức năng có combo hoặc checkbox, trường readonly-&gt; Chọn 1 giá trị.
+- Dùng firebug để thay đổi giá trị đã chọn của các trường mà đc lấy từ DB( ví dụ dữ liệu combobox, checkbox, các trường readonly …) sao cho giá trị đó không tồn tại trong DB hoặc không được định nghĩa
+- Click nút lưu.
+
+(Có thể dùng burpsuite để xem được các request gửi đi sẽ dễ dàng thay đổi hơn.)",Hệ thống không cho insert/update và thông báo lỗi 
+8248,Kiểm tra user chỉ được phép tác động trên chức năng được phân quyền khi copy link chức năng," 2: Kiểm tra xác thực, phân quyền",Suite_common_49,1,"Pre: Account CP1 có quyền cao hơn  account CP2
+1.  Log bằng account CP 1
+2. Thực hiện chức năng mà CP2 không có quyền
+3. Copy link URL
+4. Log in bằng account CP2
+5. Paste link URL 
+","Hệ thống thông báo ""Bạn không có quyền view thông tin"""
+8249,"Kiểm tra khi mở 2 tab, 1 tab thực hiện logout, tab thứ 2 khi click vao bất kỳ button nào sẽ thông báo lỗi đã logout khỏi hệ thống"," 2: Kiểm tra xác thực, phân quyền",Suite_common_49,1,"1. Đăng nhập vào chương trình ở 2 tab của trình duyệt.
+2. Vào chức năng ở tab 1. 
+3. Logout ở Tab 2.
+4. Tại Tab 1, nhấn vào bất kỳ button vào hoặc icon để thực hiện chức năng ",Thông báo lỗi đã logout khỏi hệ thống
+8250,"Kiểm tra khi mở 2 tab, 1 tab thực hiện logout, tab thứ 2 khi click vao bất kỳ button nào sẽ thông báo lỗi đã logout khỏi hệ thống"," 2: Kiểm tra xác thực, phân quyền",Suite_common_49,1,"1. Đăng nhập vào chương trình ở 2 tab của trình duyệt.
+2. Vào chức năng ở tab 1, mở popup
+3. Logout ở Tab 2.
+4. Tại  popup ở Tab 1, nhấn vào bất kỳ button vào hoặc icon để thực hiện chức năng ",Thông báo lỗi đã logout khỏi hệ thống
+8251,"Kiểm tra mở 2 tab, login bằng 2 user khác nhau"," 2: Kiểm tra xác thực, phân quyền",Suite_common_49,1,"Pre: Account CP1 có quyền cao hơn  account CP2
+
+1. Đăng nhập vào chương trình ở tab 1 với account CP1 quyền vào chức năng A, được phép thao tác với tất cảcác button
+
+2. Đăng nhập vào chương trình ở tab 2 với account CP2  không có quyền vào chức năng A (hoặc chỉ có quyền 1 button)
+
+3. Quay lại tab 1, thực hiện nhấn vào những button mà account CP2 không được quyền ","- Tab  2:  User chỉ được phép thao tác với button được quyền 
+- Tab 1: Thao tác chức năng A : không thao tác tiếp được, refresh màn hình về thông tin của user 2, không thực thi cập nhật dữ liệu."
+8252,"Kiểm tra mở 2 tab, login bằng 2 user khác nhau"," 2: Kiểm tra xác thực, phân quyền",Suite_common_49,1,"1. Đăng nhập vào chương trình ở tab 1 với user CP1 có quyền vào chức năng A
+2. Đăng nhập vào chương trình ở tab 2 với user CP2 không có quyền vào chức năng A
+3. Kiểm tra quyền ở 2 tab","- Tab 1: Thao tác chức năng A : không thao tác được, refresh màn hình về thông tin của user 2
+- Tab 2:  User không nhìn thấy chức năng, ko thực hiện được chức năng"
+8253,"Kiểm tra mở 2 trình duyệt, login bằng 2 user khác nhau
+"," 2: Kiểm tra xác thực, phân quyền",Suite_common_49,1,"1. Đăng nhập vào chương trình ở trình duyệt 1 với user có quyền vào chức năng A
+2. Đăng nhập vào chương trình ở trình duyệt 2 với user không có quyền vào chức năng A
+3. Kiểm tra quyền ở 2 trình duyệt","- Trình duyệt 1: User vẫn nhìn thấy chức năng và thực hiện được chức năng
+- Trình duyệt  2:  User không nhìn thấy chức năng, ko thực hiện được chức năng"
+8254,Kiểm tra khi sửa cookies của tài khoản," 2: Kiểm tra xác thực, phân quyền",Suite_common_49,1,"1. Đăng nhập vào hệ thống với  Tài khoản A có quyền cao hơn tài khoản  bằng trình duyệt firefox trên máy 1.
+2. Đăng nhập vào hệ thống với  Tài khoản B (tài khoản B có quyền thấp nhất) bằng trình duyệt firefox trên máy 2.
+3.  Dùng tiện ích để lấy cookie của tài khoản A.
+4. Thay cookie của tài khoản B bằng cookie của tài khoản A và lưu lại (save) và close tiện ích quản lý cookie (cookie manager).
+5. Refresh URI trên trình duyệt của  B vừa thay đổi cookie mới ",Menu của hệ thống vẫn đúng quyền của tài khoản B
+8255,Kiểm tra khi sửa cookies của tài khoản," 2: Kiểm tra xác thực, phân quyền",Suite_common_49,1,"Kiểm tra trên 2 máy
+1. Đăng nhập vào hệ thống với  Tài khoản A trên 1 trình duyệt máy 1.Copy Cookies đã đăng nhập và copy link.
+2. Trên máy 2 -&gt; Mở trình duyệt, trên file bug -&gt; Click tab cookies -&gt; Chọn create cookie -&gt; Nhập host = địa chỉ cài đặt ứng dụng -&gt; Chọn lại thời gian expiredate &gt; thời gian hiện tại) -&gt; Nhập value = giá trị cookies đã copy ở trên -&gt; Click OK.
+3. Paste đường link đã copy vào trình duyệt trên máy 2
+4. Refresh URI trên trình duyệt của máy 2","Thực hiện logout ra khỏi hệ thống, không cho phép đăng nhập"

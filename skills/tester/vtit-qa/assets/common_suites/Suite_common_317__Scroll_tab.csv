@@ -1,0 +1,28 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8290,Kiểm tra việc scroll tab khi có nhiều tab, 2: Scroll tab  ,Suite_common_317,1,"Đang ở tab đầu tiên
+1. Thực hiện scroll ngang qua bên trái màn hình
+2. Thực hiện scroll ngang qua bên phải màn hình
+
+
+","- Androi, IOS :
+1.  Hiển thị tab tiếp theo
+2.  Không tiếp tục thực hiện scroll ngang sang bên phải màn hình
+- Window Phones: 
+1. Hiển thị tab cuối cùng trong danh sách tab
+2. Hiển thị tab tiếp theo trong danh sách tab
+
+"
+8291,Kiểm tra việc scroll tab khi có nhiều tab, 2: Scroll tab  ,Suite_common_317,1,"Đang ở tab giữa
+1. Thực hiện scroll ngang qua bên trái màn hình
+2. Thực hiện scroll ngang qua bên phải  màn hình","
+1. Hiển thị tab trước liền trước đó
+2. Hiển thị tab liền sau đó
+"
+8292,Kiểm tra việc scroll tab khi có nhiều tab, 2: Scroll tab  ,Suite_common_317,1,"Đang ở tab đầu cuối
+1. Thực hiện scroll ngang qua bên trái màn hình
+2. Thực hiện scroll ngang qua bên phải màn hình","- Androi, IOS :Không tiếp tục thực hiện scroll ngang sang bên trái, phải màn hình
+1.  Không tiếp tục thực hiện scroll ngang sang bên trái màn hình
+2.  Hiển thị tap trước đó
+- Window Phones: 
+1. Hiển thị tab liền trước đó
+2. Hiển thị tab đầu tiên trong danh sách tab"

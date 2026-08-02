@@ -1,0 +1,4 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8191,Kiểm tra giá trị mặc định, 2: Radio,Suite_common_310,1,Kiểm tra giá trị mặc định của radio,Không chọn giá trị nào
+8192,Kiểm tra khi chọn giá trị của radio, 2: Radio,Suite_common_310,1,"Tích chọn 1 giá trị
+","Cho phép chọn và lưu đúng lựa chọn đã tích, không cho phép chọn nhiều giá trị"

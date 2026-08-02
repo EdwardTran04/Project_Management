@@ -1,0 +1,13 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8483,Kiểm tra hiển thị màn hình của ứng dụng khi thực hiện back trên thiết bị, 3: Thoát ứng dụng,Suite_common_97,1,"1. Khởi chạy ứng dụng
+2. Chuyển đến màn hình &amp; thao tác chúc năng
+3. Thực hiện back trên thiết bị:
+- Với Android: Nhấn button Back hoặc vuốt sang phải (Tuỳ dòng máy)
+- Với IOS: Vuốt sang phải","Tùy vào ứng dụng và các màn hình cụ thể mà thể hiện của chức năng Back khác nhau, nhưng không làm lỗi chức năng: 
+- Nếu đang ở màn hình chính của ứng dụng -&gt; Có thể thoát khỏi ứng dụng.
+- Nếu đang ở màn hình con, thì quay trở về màn hình trước đó"
+8484,"Kiểm tra đang hiển thị process bar, nhấn Back trên thiết bị", 3: Thoát ứng dụng,Suite_common_97,1,"1. Khởi chạy ứng dụng
+2. Chọn &amp; thực hiện chức năng hiển thị process bar
+3. Thực hiện back trên thiết bị:
+- Với Android: Nhấn button Back hoặc vuốt sang phải (Tuỳ dòng máy)
+- Với IOS: Vuốt sang phải","Tùy vào ứng dụng và các màn hình cụ thể mà thể hiện của chức năng Back khác nhau, nhưng không làm lỗi chức năng"

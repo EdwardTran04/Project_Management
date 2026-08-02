@@ -1,0 +1,50 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9009,Tìm kiếm theo giá trị mặc định, 3: Tìm kiếm chung,Suite_common_345,1,"1. Trên màn hình Tìm kiếm:
+- Không nhập bất kỳ tiêu chí tìm kiếm nào
+2. Click button 'Tìm kiếm'
+3. Script:
+select * from table 
+where 1=1
+--- dieu kien chung ----
+and a= '1'
+and b = '2'
+order by .....","Hiện thị kết quả thỏa mãn điều kiện theo ĐTYC yêu cầu mô tả:
+(Ví dụ : Hiển thị tất cả các bản ghi có trạng thái hiệu lực thuộc quản lý của user đăng nhập
+Hoặc Hiển thị danh sách các văn bản ở trạng thái chờ ký của user đăng nhập )
+
+
+Chú ý :  Tùy thiết kế của từng chức năng, có thể thông báo lỗi hoặc có thể hiển thị tất cả danh sách"
+9010,Tìm kiếm không ra kết quả với từng điều kiện tìm kiếm hoặc tất cả các điều kiện, 3: Tìm kiếm chung,Suite_common_345,1,"1. Trên màn hình Tìm kiếm:
+- Nhập các điều kiện để tìm kiếm không có kết quả
+2. Click button 'Tìm kiếm'",Hiển thị thông báo: Không có bản ghi nào.
+9011,"Kiểm tra khi điều kiện tìm kiếm, có trở về màn hình mặc định ban đầu hay không
+( Confirm theo từng DTYC)", 3: Tìm kiếm chung,Suite_common_345,1,"1. Vào màn hình tìm kiếm -&gt; hiển thị màn hình mặc định theo ĐTYC
+2. Nhập điều kiện tìm kiếm -&gt; hiển thị kết quả tìm kiếm hợp lệ
+3. Xóa kết quả tìm kiếm","Tùy theo DTYC, chọn KQMM:
+-  Hiển thị màn hình danh sách mặc định
+-  Giữ nguyên kết quả tìm kiếm vừa thực hiện"
+9012,Tìm kiếm kết hợp tất cả các điều kiện tìm kiếm (*), 3: Tìm kiếm chung,Suite_common_345,1,"1. Nhập tất cả các điều kiện tìm kiếm
+2. Nhấn Tìm kiếm
+3. Script :
+
+select * from table 
+where 1=1
+--- dieu kien chung ----
+and a= '1'
+and b = '2'
+--- dieu kien tim kiem ----
+and c = 'dieu kien 1'
+and d = 'dieu kien 2'
+order by ….",Hiện thị kết quả thỏa mãn điều kiện tìm kiếm
+9013,Thực hiện tìm kiếm lần lượt 2 điều kiện khác nhau nhưng đều ra số bản ghi kết quả giống nhau, 3: Tìm kiếm chung,Suite_common_345,1,"1. Nhập điều kiện tìm kiếm 1 -&gt; ra kết quả n bản ghi thỏa mãn tiêu chí 1
+2. Nhập tiếp điều kiện tìm kiếm 2 -&gt; ",Hiển thị kết quả n bản ghi nhưng thỏa mãn tiêu chí 2
+9014,"Kiểm tra khi tìm kiếm với các user khác nhau
+( Trường hợp hệ thống cho phép truy cập từ nhiều tài khoản, mỗi tài khoản chỉ nhìn thấy dữ liệu do mình được phân quyền )", 3: Tìm kiếm chung,Suite_common_345,1,"1. Login bằng user 1
+2. Thực hiện tìm kiếm
+3. Logout, đăng nhập bằng user 2, 
+4. Thực hiện tìm kiếm","2. Hiển thị kết quả tìm kiếm theo toàn khoản user 1
+4. Hiển thị kết quả tìm kiếm theo toàn khoản user 2"
+9015,Kiểm tra khi kết quả tìm kiếm hiển thị trên nhiều Tab , 3: Tìm kiếm chung,Suite_common_345,1,"1. Thực hiện tìm kiếm -&gt; Hiển thị kết quả tìm kiếm gồm nhiều Tab
+2. Nhấn qua lại giữa các Tab kết quả nhiều lần","1. Các kết quả hiển thị ở các Tab hiển thị đúng các bản ghi thỏa mãn điều kiện tìm kiếm.
+2. Khi nhấn qua lại giữa các Tab, nội dung tìm kiếm ở mỗi Tab vẫn hiển thị đúng
+"

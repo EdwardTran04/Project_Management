@@ -1,0 +1,7 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8209,Kiểm tra không sử dụng tính năng ghi nhớ mật khẩu, 2: Kiểm tra không sử dụng tính năng ghi nhớ mật khẩu,Suite_common_37,1,"1. Thực hiện đăng nhập ứng dụng trên mobile.
+2. Thực hiện logout.
+3. Thực hiện đăng nhập lại.
+","Không hiển thị password 
+Khi đăng nhập lần đầu vẫn hiển thị confirm ghi nhớ mật khẩu.
+Khi đăng nhập lại vẫn hiển thị cả password hoặc vẫn nhớ password"

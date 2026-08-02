@@ -1,0 +1,66 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9269,"Kiểm tra hiển thị lịch nhắc nhở đúng thời điểm cần nhắc nhở ( thời điểm x)
+", 3: Nhắc nhở tạo thời điểm được cài đặt,Suite_common_393,1,"Đảm bảo đã tạo thành công một lịch nhắc nhở A vào lúc  t(thời gian)
+1. Kiểm tra hiển thị lịch nhắc nhở A tại thời điểm chưa đến thời gian nhắc nhở (chưa đến thời gian x)
+",2. Không hiển thị lịch nhắc nhở về ứng dụng
+9270,"Kiểm tra hiển thị lịch nhắc nhở đúng thời điểm cần nhắc nhở ( thời điểm x)
+", 3: Nhắc nhở tạo thời điểm được cài đặt,Suite_common_393,1,2. Kiểm tra hiển thị lịch nhắc nhở A tại thời điểm cần nhắc nhở,2. Hiển thị lịch nhắc nhở về ứng dụng. 
+9271,"Kiểm tra hiển thị lịch nhắc nhở đúng thời điểm cần nhắc nhở ( thời điểm x)
+", 3: Nhắc nhở tạo thời điểm được cài đặt,Suite_common_393,1,"3. Kiểm tra hiển thị lịch nhắc nhở A sau thời điểm cần nhắc nhở. ( test sau 1 phút, trước khi đến thời điểm nhắc nhở kế tiếp)
+",3.Không hiển thị lịch nhắc nhở về ứng dụng
+9272,Kiểm tra hiển thị đúng nội dung nhắc nhở, 3: Nhắc nhở tạo thời điểm được cài đặt,Suite_common_393,1,"
+1. Kiểm tra hiển thị nội dung nhắc nhở tại thời điểm có lịch",1. Hiển thị đúng nội dung nhắc nhở đã được thiết lập ( Theo server trả về hay DB client)
+9273,Kiểm tra hiển thị đúng nội dung nhắc nhở, 3: Nhắc nhở tạo thời điểm được cài đặt,Suite_common_393,1,"Chuẩn bị lịch nhắc nhở có nội dung dài (maxlength)
+1. Kiểm tra hiển thị nội dung nhắc nhở tại thời điểm có lịch","1. Hiển thị đầy đủ nội dung nhắc nhở đã được thiết lập, không bị mất thông tin"
+9274,Kiểm tra hiển thị đúng nội dung nhắc nhở, 3: Nhắc nhở tạo thời điểm được cài đặt,Suite_common_393,1,"Chuẩn bị lịch nhắc nhở có nội dung null ( trường hợp ĐTYC cho phép null) 
+1. Kiểm tra hiển thị nội dung nhắc nhở tại thời điểm có lịch",1. Hiển thị nội dung nhắc nhở  ….( Tùy theo ĐTYC)
+9275,Kiểm tra hiển thị lịch nhắc nhở khi  có nhiều lịch trùng thời điểm sẽ hiển thị nhắc nhở ( Trường hợp lịch hiển thị dưới dạng Alert View), 3: Nhắc nhở tạo thời điểm được cài đặt,Suite_common_393,1,"1. Chuẩn bị dữ liệu : có 2 lịch cùng thời điểm cần nhắc nhở
+2. Tại thời điểm mong muốn có lịch nhắc nhở","2. Hiển thị thông báo của 1 lịch, nội dung lịch hiển thị đầy đủ
+Nhấn Dissmis một lịch, thông báo của lịch thứ 2 hiển thị
+( Thứ tự hiển thị lịch nào trước, lịch nào sau phụ thuộc vào ưu tiên theo DTYC)"
+9276,Kiểm tra hiển thị lịch nhắc nhở khi  có nhiều lịch trùng thời điểm sẽ hiển thị nhắc nhở ( Trường hợp lịch hiển thị dưới dạng Alert View), 3: Nhắc nhở tạo thời điểm được cài đặt,Suite_common_393,1,"1. Chuẩn bị dữ liệu : có 10 lịch cùng thời điểm cần nhắc nhở
+2. Tại thời điểm mong muốn có lịch nhắc nhở","Hiển thị thông báo của 1 lịch, nội dung lịch hiển thị đầy đủ
+Nhấn Dissmis một lịch, thông báo lịch tiếp theo hiển thị cho đến khi hết lịch.
+( Thứ tự hiển thị lịch nào trước, lịch nào sau phụ thuộc vào ưu tiên theo DTYC)"
+9277,Kiểm tra hiển thị lịch nhắc nhở khi  có nhiều lịch trùng thời điểm sẽ hiển thị nhắc nhở ( Trường hợp lịch hiển thị dưới dạng Notification Bar ), 3: Nhắc nhở tạo thời điểm được cài đặt,Suite_common_393,1,"1. Chuẩn bị dữ liệu : có 2 lịch cùng thời điểm cần nhắc nhở
+2. Tại thời điểm mong muốn có lịch nhắc nhở",2. Hiển thị đầy đủ lịch nhắc nhở trên thanh notification bar ( Thứ tự sắp xếp theo hiển thị theo đúng ĐTYC)
+9278,Kiểm tra hiển thị lịch nhắc nhở khi  có nhiều lịch trùng thời điểm sẽ hiển thị nhắc nhở ( Trường hợp lịch hiển thị dưới dạng Notification Bar ), 3: Nhắc nhở tạo thời điểm được cài đặt,Suite_common_393,1,"1. Chuẩn bị dữ liệu : có 10 lịch cùng thời điểm cần nhắc nhở
+2. Tại thời điểm mong muốn có lịch nhắc nhở",2. Hiển thị đầy đủ lịch nhắc nhở trên thanh notification bar ( Thứ tự sắp xếp theo hiển thị theo đúng ĐTYC)
+9279,Kiểm tra hiển thị lịch nhắc nhở khi qua ngày khác, 3: Nhắc nhở tạo thời điểm được cài đặt,Suite_common_393,1,"Đảm bảo đã tạo thành công một lịch nhắc nhở A vào lúc  t(thời gian) của ngày hôm qua
+- Đến thời điểm cần nhắc nhở (t) nhưng của ngày hôm nay , kiểm tra hiển thị nhắc nhở.
+Ví dụ:
+ Trường hợp lịch có thiết lập ngày cố định ( Giả sử 10:00 ngày 24/08/2015, x = 10 phút)
+1. Kiểm tra hiển thị lịch nhắc nhở A tại thời điểm  9:50 ngày 24/08/2015. 
+2. Kiểm tra hiển thị lịch nhắc nhở tại thời điểm 9:50 ngày 25/08/2015
+","1. Có lịch nhắc nhở A về ứng dụng
+2. Không có lịch nhắc nhở A về ứng dụng"
+9280,Kiểm tra hiển thị lịch nhắc nhở khi qua ngày khác, 3: Nhắc nhở tạo thời điểm được cài đặt,Suite_common_393,1,"Đảm bảo đã tạo thành công một lịch nhắc nhở B vào lúc  t(thời gian). 
+ Trường hợp lịch được thiết lập hằng ngày ( Giả sử 10:00, x = 10 phút)
+1. Kiểm tra hiển thị lịch nhắc nhở A tại thời điểm  9:50 ngày 24/08/2015. 
+2. Kiểm tra hiển thị lịch nhắc nhở tại thời điểm 9:50 ngày 25/08/2015
+","1. Có lịch nhắc nhở A về ứng dụng
+2. Có lịch nhắc nhở A về ứng dụng"
+9281,Kiểm tra không hiển thị lịch nhắc nhở khi lịch đã bị hủy, 3: Nhắc nhở tạo thời điểm được cài đặt,Suite_common_393,1,"Đảm bảo đã tạo thành công một lịch nhắc nhở A vào lúc  t(thời gian)
+1. Thực hiện hủy lịch ( Bằng cách xóa trực tiếp trên danh sách lịch của ứng dụng hoặc xóa dữ liệu trong DB server)
+2. Kiểm tra hiển thị lịch nhắc nhở A tại thời điểm nhắc lịch được lập trước đó.
+
+",2. Không có lịch nhắc nhở A về ứng dụng
+9282,Kiểm tra chức năng alarm khi thay đổi giờ của client, 3: Nhắc nhở tạo thời điểm được cài đặt,Suite_common_393,1,"Đảm bảo đã tạo thành công một lịch nhắc nhở A vào lúc 10:00 ngày 24.08.2015, x = 10 phút
+1. Lúc 8:50 ngày 24.08.2015, thay đổi giờ client thành 9:50
+2. Kiếm tra hiển thị lịch nhắc nhở
+",2. Có lịch nhắc nhở tại thời điểm nhắc lịch theo giờ client
+9283,Kiểm tra chức năng alarm khi thay đổi định dạng giờ của client, 3: Nhắc nhở tạo thời điểm được cài đặt,Suite_common_393,1,"Giả sử  client đang có định dạng 12h, lịch nhắc nhở được thiết lập lúc 2:00 PM ngày 24.08.2015, t = 10 phút
+1. Thay đổi định dạng giờ client thành 24h
+2. Kiếm tra lịch nhắc nhở tại thời điểm  13:50 ngày 24.08.2015
+",2. Có lịch nhắc nhở tại thời điểm nhắc lịch theo giờ client
+9284,Kiểm tra chức năng alarm khi thay đổi định dạng giờ của client, 3: Nhắc nhở tạo thời điểm được cài đặt,Suite_common_393,1,"Giả sử  client đang có định dạng 24h, lịch nhắc nhở được thiết lập lúc 14:00  ngày 24.08.2015
+1. Thay đổi định dạng giờ client thành 12h
+2. Kiếm tra lịch nhắc nhở tại thời điểm  1:50 PM ngày 24.08.2015
+",2. Có lịch nhắc nhở tại thời điểm nhắc lịch theo giờ client
+9285,"Kiểm tra khi đang ở ngoài ứng dụng , thao tác các chức năng khác", 3: Nhắc nhở tạo thời điểm được cài đặt,Suite_common_393,1,"Đảm bảo đã tạo thành công một lịch nhắc nhở A vào lúc  t(thời gian)
+1. Đang ở ngoài ứng dụng, thao tác các chức năng khác.
+2. Tại thời điểm nhắc lịch
+",2. Hiển thị thông báo lịch nhắc nhở
+9286,Kiểm tra khi đang thực hiện cuộc gọi, 3: Nhắc nhở tạo thời điểm được cài đặt,Suite_common_393,1,"Đảm bảo đã tạo thành công một lịch nhắc nhở A vào lúc  t(thời gian)
+1.Thực hiện cuộc gọi tại thời điểm có lịch nhắc nhở
+",1. Hiển thị thông báo lịch nhắc nhở

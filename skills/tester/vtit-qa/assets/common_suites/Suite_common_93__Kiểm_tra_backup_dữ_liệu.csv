@@ -1,0 +1,10 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8468,Kiểm tra backup dữ liệu save hoặc recovery, 3: Kiểm tra backup dữ liệu,Suite_common_93,1,"1. Đang upgrading phần mềm từ ứng dụng hoặc cài đặt đè lên ứng dụng đã cài
+2. Máy hết pin (tắt máy)
+3. Kiểm tra backup dữ liệu save hoặc recovery ","- Dữ liệu phải được backup, save hoặc recovery 
+- Khi mở lại ứng dụng vẫn có dữ liệu cũ"
+8469,Kiểm tra backup dữ liệu save hoặc recovery, 3: Kiểm tra backup dữ liệu,Suite_common_93,1,"Kiểm tra việc lưu dữ liệu khi sử dụng app đến khi hết pin
+1. Thực hiện các chức năng có lưu dữ liệu ở dưới client
+2. Sử dụng ứng dụng cho đến khi hết pin (bật các tính năng như GPS, wifi, 3G… để cho ứng dụng nhanh hết pin)
+3. Kiểm tra dữ liệu khi vào lại ứng dụng","- Dữ liệu không bị mất hoặt bị reset khi có pop up pin yếu xuất hiện
+- Dữ liệu không bị mất hoặc reset khi thiết bị bị tắt nguồn."

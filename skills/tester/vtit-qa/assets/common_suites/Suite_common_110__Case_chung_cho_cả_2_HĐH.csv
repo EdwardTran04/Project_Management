@@ -1,0 +1,9 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8540,Kiểm tra khi đã bật GPS trên thiết bị mà không định vị được vị trí , 4: Case chung cho cả 2 HĐH,Suite_common_110,1,"1. Bật 3G /WIfi
+2. Bật GPS 
+3. Di chuyển thiết bị ra vùng sóng yếu hoặc không định vị được
+4. Đi đến ứng dụng, mở màn hình sử dụng map hoặc định vị GPS","Icon vị trí hiện tại trên bản đồ xám, không lấy được lat, long hiện tại và hiển thị thông báo: Không lấy đươc vị trí của người dùng"
+8541,Kiểm tra thông tin GPS được thay đổi khi di chuyển, 4: Case chung cho cả 2 HĐH,Suite_common_110,1,"1. Bật GPS 
+2. Ứng dụng đang lấy vị trí GPS lại vị trí 1 
+3. Di chuyển sang vị trí 2 ( xa vị trí 1 )
+4. Kiểm tra việc cập nhật GPS mới trên ứng dụng",Icon vị trí hiện tại trên bản đồ cập nhật theo vị trí GPS mới

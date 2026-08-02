@@ -1,0 +1,18 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8432,Cắm/ bỏ sạc pin , 3: Kiểm tra xử lý ứng dụng đang chạy khi thực hiện các thao tác khác,Suite_common_84,1,"1. Đang thao tác trên APPLICATION
+2. Inserting hoặc removing charger","- Có message thông báo của phone hiển thị trên nền APPLICATION
+- Thao tác bình thường trên APPLICATION"
+8433,Headphone Effect, 3: Kiểm tra xử lý ứng dụng đang chạy khi thực hiện các thao tác khác,Suite_common_84,1,"1. Đang thao tác trên APPLICATION
+2. Inserting hoặc removing headphone","- Có message thông báo của phone hiển thị trên nền APPLICATION
+- Thao tác bình thường trên APPLICATION"
+8434,Chụp hình, 3: Kiểm tra xử lý ứng dụng đang chạy khi thực hiện các thao tác khác,Suite_common_84,1,"1. Đang thao tác trên apps
+2. Chuyển sang chế độ chụp hình trên phone (bấm nút chụp hình nhanh hoặc mở nắp chụp hình trên phone)","- Chụp hình vẫn thành công
+- Quay trở lại APPLICATION vẫn hoạt động bình thường"
+8435,Pin yếu, 3: Kiểm tra xử lý ứng dụng đang chạy khi thực hiện các thao tác khác,Suite_common_84,1,"1. Đang thao tác trên APPLICATION
+2. Pin yếu","- Có message thông báo của phone hiển thị trên nền APPLICATION
+- Thao tác bình thường trên APPLICATION"
+8436,External incoming communication – infrared, 3: Kiểm tra xử lý ứng dụng đang chạy khi thực hiện các thao tác khác,Suite_common_84,1,"1. Đang thao tác tại bất kỳ chức năng nào
+2. Bluetooth mở
+3. Device khác truyền dữ liệu cho device đang test",Có alert thông báo cho user biết
+8437,External incoming communication – infrared, 3: Kiểm tra xử lý ứng dụng đang chạy khi thực hiện các thao tác khác,Suite_common_84,1,4. Thao tác nhận/từ chối truyền dữ liệu,"- Trở lại APPLICATION, hiển thị vị trí ngay trước khi user nhận alert
+- Thao tác bình thường trên APPLICATION"

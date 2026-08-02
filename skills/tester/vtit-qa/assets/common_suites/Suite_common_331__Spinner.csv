@@ -1,0 +1,23 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8376,Kiểm tra hiển thị màn hình spinner khi touch vào spinner(chỉ kiểm tra cho ứng dụng Window Phones), 2: Spinner ,Suite_common_331,1,1. Touch vào spinner,1. Mở màn hình spinner riêng biệt
+8377,Kiểm tra hiển thị title màn hình spinner (chỉ kiểm tra cho ứng dụng Window Phones), 2: Spinner ,Suite_common_331,1,1. Kiểm tra hiển thị title của màn hình spinner,"1. Title của màn hình spinner là ""…."" (mô tả theo ĐTYC )"
+8378,Kiểm tra khi nhấn nút back trên thiết bị khi màn hình spinner đang mở (chỉ kiểm tra cho ứng dụng Window Phones ), 2: Spinner ,Suite_common_331,1,1.  Nhấn vào nút back trên thiết bị,"1. Đóng màn hình spinner, quay về màn hình trước đó"
+8379,"Kiểm tra căn lề
+", 2: Spinner ,Suite_common_331,1,1. Kích vào Spinner box để kiểm tra căn lề của các giá trị trong spiner,Các giá trị trong spiner được căn lề trái.(Theo DTYC)
+8380,Kiểm tra khi nhập giá trị vào spinner (nếu spinner cho phép nhập), 2: Spinner ,Suite_common_331,1,"1. Nhập giá trị vào spinner
+",Load giá trị có trong spinner theo ký tự nhập vào
+8381,Kiểm tra khi mở/đóng spinner liên tục, 2: Spinner ,Suite_common_331,1,1. Thực hiện mở/đóng spinner liên tục nhiều lần,"Mở/đóng spinner tương ứng với thao tác mở/đóng spinner. Không bị lag, không bị crash chương trình"
+8382,Kiểm tra hiển thị khi nội dung dữ liệu dài, 2: Spinner ,Suite_common_331,1,1. Kiểm tra hiển thị khi nội dung của bản ghi  dài trong danh sách spinner xổ xuống,"- Hiển thị đầy đủ dữ liệu, nếu dữ liệu dài thì xuống dòng"
+8383,Kiểm tra hiển thị khi nội dung dữ liệu dài, 2: Spinner ,Suite_common_331,1,"Chuẩn bị dữ liệu  bản ghi trong spinner dài
+1. Touch vào spinner và giá trị có nội dung dài trong danh sách đổ xuống
+2. Chọn bản ghi đó và kiểm tra hiển thị giá trị trong ô spinner","1. Hiển thị đầy đủ nội dung trường có nội dung dài
+2. Hiển thị đầy đủ nội dung vừa khung spinner, phần còn lại hiển thị ...."
+8384,Kiểm tra scroll các giá trị trong spiner, 2: Spinner ,Suite_common_331,1,"Đảm bảo danh sách giá trị  dài
+1.  Nhấn vào spiner cuộn xuống để di chuyển đến các giá trị trong spiner phía bên dưới màn hình","Việc di chuyển thành công, hiển thị các giá trị tiếp theo dưới màn hình"
+8385,Kiểm tra scroll các giá trị trong spiner, 2: Spinner ,Suite_common_331,1,2. Tiếp tục cuộn xuống khi đã cuộn hết danh sách,Di chuyển đến giá trị cuối cùng. Không có khoảng trống phía dưới cùng
+8386,Kiểm tra scroll các giá trị trong spiner, 2: Spinner ,Suite_common_331,1,"3. Cuộn lên để di chuyển đến phần nội dung bên trên, các giá trị phía trước","Việc di chuyển thành công, tiếp tục hiển thị danh sách bên trên  màn hình"
+8387,"Kiểm tra các giá trị đặc biệt như  ""--Select all--"" hoặc chỉ dẫn ""--Chọn--""", 2: Spinner ,Suite_common_331,1,"1. Touch vào spinner
+2. Kiểm tra hiển thị","Các giá trị đặc biệt như ""--Select all--"" hoặc chỉ dẫn ""--Chọn--"" cần thiết kế sao cho phân biệt với các giá trị thật của dropdown và nhất quán trong toàn hệ thống."
+8388,Kiểm tra không hiển thị giá trị mặc định là các giá trị hợp lệ của spinner nếu spinner là bắt buộc nhập, 2: Spinner ,Suite_common_331,1,"Đảm bảo: Màn hình thêm mới
+1. Tại màn hình thêm mới, 
+2. Kiểm tra giá trị mặc định",Các dropdown là bắt buộc nhập thì không để giá trị mặc định là 1 trong các giá trị hợp lệ (vì người dùng có thể bỏ qua không chọn giá trị đúng =&gt; Gây lỗi dữ liệu)

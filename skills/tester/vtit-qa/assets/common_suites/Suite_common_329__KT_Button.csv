@@ -1,0 +1,12 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8363,"Kiểm tra căn lề, chính tả của button", 2: KT Button,Suite_common_329,1,"Kiểm tra căn lề, chính tả của button","Đúng chính tả, text trong button được căn lề giữa"
+8364,Kiểm tra khi highlight button khi touch vào button., 2: KT Button,Suite_common_329,1,1. Touch vào button,Highlight button được touch
+8365,Kiểm tra hiển thị của button, 2: KT Button,Suite_common_329,1,Kiểm tra hiển thị của button,"- Hiển thị nổi bật cho người dùng thấy
+- Đối với màn hình nhập liệu có nhiều trường, khi nhập đến trường cuối, phải nhìn thấy button "
+8366,Kiểm tra các text hiển thị dưới button, 2: KT Button,Suite_common_329,1,Kiểm tra các text hiển thị dưới button,"Các button hiển thị nổi thì các text phía dưới scroll lên phải nhìn thấy hết được nội dung, không bị button che một số phần nội dung phía dưới"
+8367,Kiểm tra hiển thị khi nhấn nhiều lần vào 1 button (button thực hiện dịch chuyển sang màn hình khác), 2: KT Button,Suite_common_329,1,1. Nhấn nhiều lần vào 1 button (chỉ tính nhấn nhiều lần vào button của màn hình hiện tại)," - Hiển thị 1 màn hình cần chuyển đển, không hiển thị nhiều lần màn hình                                                                                                                                                                                                                     "
+8368,"Kiểm tra nhấn nhiều lần vào các button có lưu dữ liệu, hoặc nhấn vào button , giữ lâu", 2: KT Button,Suite_common_329,1,"- Thực hiện nhấn nhiều lần vào các button có lưu dữ liệu, hoặc nhấn vào button , giữ lâu
+- Kiểm tra xử lý của button"," - Hệ thống không thực hiện lưu dữ liệu nhiều lần hoặc không gửi request nhiều lần (tải, tặng, đăng ký, sửa, xóa..)
+ - Button search có thể request nhiều lần ( Tùy theo ĐTYC  )                                                                                                                                                                                                                       "
+8369,Kiểm tra nhấn button sau khi nhập nội dung từ hộp EditText (có mở bàn phím máy), 2: KT Button,Suite_common_329,1,"1. Thực hiện nhập dữ liệu cho 1 hộp EditText,…
+2. Nhấn chọn button",Bàn phím máy phải sụp xuống

@@ -1,0 +1,2 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8190,"Kiểm tra căn lề, chính tả của button", 2: Button,Suite_common_309,1,"Kiểm tra căn lề, chính tả của button","Đúng chính tả, text trong button được căn lề giữa"

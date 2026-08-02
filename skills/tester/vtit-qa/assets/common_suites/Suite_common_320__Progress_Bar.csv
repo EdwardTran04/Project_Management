@@ -1,0 +1,29 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8298,Kiểm tra xử lý  khi Progress bar chưa kịp xuất hiện, 2: Progress Bar ,Suite_common_320,1,"1. Nhấn  Đăng nhập/Tìm kiếm/ Cập nhật
+2. Lúc Progress bar chưa kịp xuất hiện, thao tác nhanh tay nhập dữ liệu",Phải chặn bàn phím lại khi đã touch vào button trong lúc progress bar chưa xuất hiện 
+8299,"Kiểm tra hiển thị biểu tượng Progress Bar khi hệ thống đang trong quá trình thực hiện xử lý dữ liệu mà chưa hoàn tất quá trình, thời gian xử lý chậm  trong các chức năng ", 2: Progress Bar ,Suite_common_320,1,"1. Nhấn  Đăng nhập/Tìm kiếm/ Cập nhật/ hoặc hệ thống đang load danh sách, xử lý thao tác ngầm","1. Hiển thị biểu tượng Progress Bar trên màn hình. Nội dung hiển thị trên process Bar phải thống nhất theo ngôn ngữ đang hiển thị của ứng dụng và đúng ý nghĩa của chức năng hiện tại. 
+2. Không tác động được vào các chức năng trên màn hình
+3. Thời gian xử lý không được quá lâu ( &lt;= 10 s)
+4. Sau khi xử lý xong hoặc hiển thị hết dữ liệu mới được tắt biểu tượng Progress Bar
+
+Chú ý : Không được hiển thị màn hình đen trong quá trình xử lý ( tùy ĐTYC)"
+8300,Kiểm tra nhấn 1 icon thực thi chức năng vào màn hình đang có Progress Bar, 2: Progress Bar ,Suite_common_320,1,1. Nhấn 1 icon thực thi chức năng,"Không cho phép thực thi chức năng
+"
+8301,Kiểm tra nhấn liên tục vào màn hình đang có Progress Bar, 2: Progress Bar ,Suite_common_320,1,1. Nhấn liên tục vào màn hình đang có Progress Bar,"1. Vẫn hiển thị loading trên màn hình 
+2. Chương trình vẫn hoạt động bình thường và không bị stop
+3. Không tác động được vào các chức năng trên màn hình
+"
+8302,Kiểm tra không hiển thị progress bar khi mất kết nối mạng, 2: Progress Bar ,Suite_common_320,1,"Điều kiện: Đang hiển thị progress bar
+1. Ngắt kết nối mạng ( đi ra chỗ sóng wifi / 3g yếu hoặc rút tắt thiết bị phát wifi)
+","- Nếu mất kết nối mạng trước khi hiển thị thanh process bar: thì sẽ hiển thị ngay thông báo mất kết nối mạng
+- Nếu đang hiển thị thanh processbar mà Ngắt kết nối mạng ( đi ra chỗ sóng wifi / 3g yếu hoặc rút tắt thiết bị phát wifi): sẽ hiển thị thông báo mất kết nối mạng khi hết time out
+"
+8303,Kiểm tra nhấn 1 icon thực thi chức năng trên màn hình đang có Progress Bar, 2: Progress Bar ,Suite_common_320,1,1. Nhấn 1 icon thực thi chức năng," - Nếu chức năng đang được thực thi không thuộc vùng có process bar (không phải dạng dialog) thì tác động được vào chức năng.
+ Ví dụ: màn hình search hoặc nhấn Pull refresh, điều liện search không thuộc vùng loading thì khi đang load kết quả search có thể nhập lại điều kiện search và search lại.
+"
+8304,Nút Collapse, 2: Collepse/expand mobile,Suite_common_320,1,Click vào nút (-),"'Phần thông tin được hide theo dạng : 
+""[+] ""
+Danh sách của group được ẩn đi"
+8305,Nút Expand, 2: Collepse/expand mobile,Suite_common_320,1,Click vào nút (+),"'Phần thông tin được unhide theo dạng : 
+""[-] ""
+Danh sách của group được hiện ra"

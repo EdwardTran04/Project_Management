@@ -1,0 +1,47 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8610,"Kiểm tra hiển thị danh sách lịch sử download khi chưa tồn tại lịch sử download nào
+
+", 2: Hiển thị danh sách lịch sử download ứng dụng cài đặt/ file,Suite_common_168,1,"1. Chưa thực hiện download app/file nào
+2. Kiểm tra hiển thị trên danh sách lịch sử download","2. Màn hình danh sách hiển thị ""Không có dữ liệu"" (Tùy thuộc vào ĐTYC)"
+8611,"Kiểm tra hiển thị danh sách lịch sử download khi đã tồn tại lịch sử download
+Note: áp dụng khi DTYC có yêu cầu chỉ hiển thị lịch sử download trên thiết bị", 2: Hiển thị danh sách lịch sử download ứng dụng cài đặt/ file,Suite_common_168,1,"1. User A đăng nhập trên thiết bị 1 và thực hiện download một vài app/file A,B,C
+2. User A đăng nhập trên thiết bị 2 và thực hiện download một vài app/file D,E,F
+3. User tiếp tục đăng nhập lại trên thiết bị 1 và kiểm tra hiển thị danh sách lịch sử download","3. Màn hình chỉ hiển thị danh sách các app đã cài đặt trên thiết bị 1
+- Hiển thị đủ số lượng app/file trong danh sách
+- Hiển thị đúng thứ tự sắp xếp theo lịch sử download: download sau cùng sẽ hiển thị lên trên (tùy thuộc vào DTYC)
+
+
+"
+8612,"Kiểm tra hiển thị danh sách lịch sử download khi đã tồn tại lịch sử download
+Note: áp dụng khi DTYC có yêu cầu hiển thị lịch sử download theo tài khoản trên các thiết bị khác nhau", 2: Hiển thị danh sách lịch sử download ứng dụng cài đặt/ file,Suite_common_168,1,"1. User A đăng nhập trên thiết bị 1 và thực hiện download một vài app/file A,B,C
+2. User A đăng nhập trên thiết bị 2 và thực hiện download một vài app/file D,E,F
+3. User tiếp tục đăng nhập lại trên thiết bị 1 và kiểm tra hiển thị danh sách lịch sử download","3. Màn hình  hiển thị danh sách các app đã cài đặt trên thiết bị 1 và 2:
+- Hiển thị đủ số lượng app/file trong danh sách
+- Hiển thị đúng thứ tự sắp xếp theo lịch sử download: download sau cùng sẽ hiển thị lên trên (tùy thuộc vào DTYC)
+
+
+"
+8613,"Kiểm tra hiển thị danh sách lịch sử download khi gỡ bỏ app đã từng cài đặt
+Note: áp dụng cho file tải là ứng dụng", 2: Hiển thị danh sách lịch sử download ứng dụng cài đặt/ file,Suite_common_168,1,"Đảm bảo app A đã được cài đặt trong ứng dụng
+1. Gỡ bỏ cài đặt của app A
+2. Kiểm tra hiển thị app A trong danh sách lịch sử download","2. Tùy thuộc vào DTYC có thể
+- Không hiển thị app A trong danh sách lịch sử download hoặc
+- Vẫn hiển thị app A trong danh sách lịch sử download (có thể chỉ thay đổi trạng thái)
+
+"
+8614,"Kiểm tra hiển thị danh sách lịch sử download khi download lại app/file đã từng download
+", 2: Hiển thị danh sách lịch sử download ứng dụng cài đặt/ file,Suite_common_168,1,"Đảm bảo app/ file A đã được download về trước đó
+1. Download lại app/file A
+2. Kiểm tra hiển thị app/file A trong danh sách lịch sử download","2. Tùy thuộc vào DTYC có thể
+ Đối với app:
+-  Chỉ hiển thị 1 lần tên app A trong danh sách lịch sử download và sắp xếp lên đầu danh sách sau khi download hoàn thành
+- Hiển thị nhiều tên app A trong danh sách
+Đối với file A
+- Vẫn hiển thị file A cũ trong danh sách, file  A mới sẽ tự động thêm ký tự số vào cuối file(tạo thành 1 tên khác) và hiển thị  lên đầu danh sách
+"
+8615,"Kiểm tra hiển thị danh sách lịch sử download khi danh sách chứa tối đa bản ghi
+", 2: Hiển thị danh sách lịch sử download ứng dụng cài đặt/ file,Suite_common_168,1,"Chuẩn bị dữ liệu danh sách lịch sử download chứa tối đa bản ghi
+1. Thực hiện scroll để xem danh sách lịch sử download","1. Hiển thị đủ danh sách lịch sử download, chương trình không bị lag, giật, crash
+
+
+"

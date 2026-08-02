@@ -1,0 +1,12 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8348,Kiểm tra giá trị mặc định của 1 nhóm radio button, 2: Nhóm radio button,Suite_common_326,1,1. Kiểm tra giá trị mặc định của 1 nhóm radio button.,"1. Mặc định sẽ có 1 radio button trong group sẽ ở trạng thái check
+"
+8349,"Kiểm tra mối liên hệ giữa các radion button khi thay đổi dữ liệu
+", 2: Nhóm radio button,Suite_common_326,1,"
+1. Touch chọn radio button bất kỳ trong nhóm khác giá trị mặc định","1.
+- Radio button tương ứng khi touch vào sẽ được check
+- Các radion button còn lại ở trạng thái không check"
+8350,Kiểm tra thứ tự sắp xếp của các giá trị , 2: Nhóm radio button,Suite_common_326,1,1. Kiểm tra thứ tự sắp xếp của các giá trị,"Tùy thuộc vào DTYC
+- Theo thứ tự API trả ra
+- Thứ tự ABC"
+8351,Kiểm tra khi nhấn vào label của option, 2: Nhóm radio button,Suite_common_326,1,1. Nhấn vào label của option,"Khi nhấn vào label của option thì cũng phải coi như nhấn được vào option, vì diện tích tương tác lớn thì người dùng thuận tiện thao tác hơn."

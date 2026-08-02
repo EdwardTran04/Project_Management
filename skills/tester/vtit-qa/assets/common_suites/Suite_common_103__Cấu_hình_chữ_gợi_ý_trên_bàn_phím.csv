@@ -1,0 +1,9 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8510,"Kiểm tra khi setting bàn phím có thanh gợi ý, không che các thông tin quan trọng trên màn hình", 3: Cấu hình chữ gợi ý trên bàn phím,Suite_common_103,1,"1. Cài đặt bàn phím có thanh gợi ý
+2. Quan sát ứng dụng",Bàn phím không che các thông tin quan trọng ( ví dụ: captcha)
+8511,Kiểm tra chọn nội dung từ thanh gợi ý vẫn thực hiện chức năng bình thường, 3: Cấu hình chữ gợi ý trên bàn phím,Suite_common_103,1,"1. Cài đặt bàn phím có thanh gợi ý. Chọn chế độ gõ tiếng việt
+2. Nhập dữ liệu -&gt; hiển thị gợi ý tiếng việt
+3. Chọn nội dung trên thanh  gợi ý
+4. Thực hiện Lưu/ Tìm kiếm","Thực hiện đúng chức năng:
+- Lưu đứng dữ liệu nhập
+- Tìm kiếm đúng dữ liệu"

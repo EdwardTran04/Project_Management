@@ -1,0 +1,20 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8503,"Kiểm tra khi thay đổi giờ client khác ngày, giờ hiện tại trên server"," 3: Thay đổi cấu hình thời gian, định dạng thời gian của thiết bị",Suite_common_100,1,"1. Thay đổi ngày, giờ client 
+2. Thực hiện chức năng
+
+Chú ý: Thực hiện cấu hình thời gian vào trước thời điểm 0h , 0h, sau 0h để kiểm tra xem hệ thống có thực hiện lưu/ hiển thị đúng ngày theo timezone đang chọn không","Đảm bảo chức năng vẫn thực hiện bình thường 
+Đặc biệt chú ý với chức năng Notification, Đồng bộ , Hiển thị dữ liệu theo thời gian 
+Đối với chức năng có lưu DB - Client cần thống nhất với KH, thời gian lưu DB là theo thời gian client hay thời gian server
+Chú ý : Dữ liệu lưu ở server hệ thống giải giữ nguyên, không chuyển đổi theo cấu hình timezone của thiết bị"
+8504,Kiểm tra khi thay đổi định dạng thời gian ở client," 3: Thay đổi cấu hình thời gian, định dạng thời gian của thiết bị",Suite_common_100,1,"1. Thay đổi định dạng ngày giờ theo các định dạng có trong Cài đặt của thiết bị (ví dụ: yyyy-mm-dd / định dạng 24h/12h )
+2. Thực hiện chức năng
+","Chương trình không bị crash, thực hiện chức năng lưu / hiển thị ngày giờ theo đúng yêu cầu:
+- Trường hợp yêu cầu hiển thị theo định dạng fix : dữ liệu hiển thị không thay đổi theo cấu hình
+- Trường hợp yêu cầu hiển thị theo thiết bị: dữ liệu hiển thị/ lưu theo thay đổi cấu hình"
+8505,Kiểm tra khi thay đổi timezone," 3: Thay đổi cấu hình thời gian, định dạng thời gian của thiết bị",Suite_common_100,1,"1. Thay đổi timezone
+(Chọn timezone của các nước lệch giờ nhiều với VN ví dụ Mỹ
+Thời gian : 10h 25/5 - Giờ Viet Nam
+-&gt; Giờ Mỹ : 22h : 24/5 )
+2. Thực hiện chức năng","Chương trình không bị crash, thực hiện chức năng lưu / hiển thị ngày giờ theo đúng theo giờ hệ thống server
+
+Chú ý : Dữ liệu lưu ở server hệ thống giải giữ nguyên, không chuyển đổi theo cấu hình timezone của thiết bị"

@@ -1,0 +1,2 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8397,Kiểm tra khi gạt trái hoặc chạm  vào humberger icon , 2: Hamburger menu,Suite_common_334,1,1. Kiểm tra hiển thị,Gạt trái hoặc chạm vào Hamburgur icon đều phải mở ra được Left-Menu

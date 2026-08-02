@@ -1,0 +1,31 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9064,"Kiểm tra khi dữ liệu là trường số 
+( Ví dụ: trường số chỉ cho phép nhập từ 1 -> 1000)", 4: Edittext - Số,Suite_common_357,1,"1. Nhập dữ liệu = giá  trị min được phép
+2. Các thông tin khác được nhập hợp lệ
+3. Nhấn button [Ghi lại]
+","1. Thực hiện lưu thành công. Kiểm tra lưu đúng như case lưu CSDL
+"
+9065,"Kiểm tra khi dữ liệu là trường số 
+( Ví dụ: trường số chỉ cho phép nhập từ 1 -> 1000)", 4: Edittext - Số,Suite_common_357,1,"1. Nhập dữ liệu = giá  trị max
+2. Các thông tin khác được nhập hợp lệ
+3. Nhấn button [Ghi lại]
+","1. Thực hiện lưu thành công. Kiểm tra lưu đúng như case lưu CSDL
+"
+9066,Kiểm tra làm tròn đối với dữ liệu là số thập phân( tùy từng chức năng quy định như nào), 4: Edittext - Số,Suite_common_357,1,"1. Nhập dữ liệu là số thập phân có số chữ số sau dấu phẩy lớn hơn số chữ số được phép hiển thị  phần thập phân
+2. Các thông tin khác được nhập hợp lệ
+3. Nhấn button [Ghi lại]","1. Thực hiện làm tròn (lên, xuống) dữ liệu theo quy định của dự án"
+9067,Kiểm tra khi dữ liệu là số có chữ số 0 đầu tiên, 4: Edittext - Số,Suite_common_357,1,"1. Nhập dữ liệu là số có chữ số 0 đầu tiên
+2. Các thông tin khác được nhập hợp lệ
+3. Nhấn button [Ghi lại]","Nếu trường số có thể có số 0 ở đầu(ví dụ số điện thoại):
+- Thực hiện lưu thành công  và giữ nguyên số 0 ở đầu
+Nếu trường số không cho số 0 ở đầu:
+- Tự động cắt các số 0 đầu tiên
+Chọn từng KQMM với từng yêu cầu cụ thể"
+9068,Kiểm tra khi nhập dữ liệu là số thập phân (tùy từng chức năng có cho phép hoặc không), 4: Edittext - Số,Suite_common_357,1,"1. Nhập dữ liệu là số thập phân
+2. Các thông tin khác được nhập hợp lệ
+3. Nhấn button [Ghi lại]",1. Thực hiện lưu thành công. Kiểm tra lưu đúng như case lưu CSDL
+9069,Nhập Dữ liệu là số âm(tùy từng chức năng có cho phép hoặc không), 4: Edittext - Số,Suite_common_357,1,"1.Nhập dữ liệu là số âm
+2. Các thông tin khác được nhập hợp lệ
+3. Nhấn button [Ghi lại]",1. Thực hiện lưu thành công. Kiểm tra lưu đúng như case lưu CSDL
+9070,Kiểm tra trường hợp màn hình có trường số thuê bao ( phải check tính đúng của thuê bao), 4: Edittext - Số,Suite_common_357,1,"1. Nhập : số điện thoại 09/1xxx, 849/1xxx, 9/1xxx
+2. Nhấn [Ghi lại]",Lưu thành công và đúng định dạng lưu theo nghiệp vụ yêu cầu

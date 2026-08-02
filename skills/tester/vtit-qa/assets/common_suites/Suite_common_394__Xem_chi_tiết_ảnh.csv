@@ -1,0 +1,26 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+9287,Kiểm tra thông tin hiển thị khi nhấn chọn vào từng hình ảnh trong một album, 2: Xem chi tiết ảnh  ,Suite_common_394,1,"1. Nhấn chọn vào một hình ảnh của một album để xem chi tiết
+2. Kiểm tra màn hình hiển thị","1. Hiển thị màn hình Chi tiết hình ảnh (Mã người chụp - Tên người chụp, Thời gian chụp: dd/mm/yyyy - hh24:mm)
+2. Với các thông tin:
+- Icon Bản đồ ở góc phải phía dưới của màn hình
+- Hình ảnh được chọn hiển thị dạng lớn
+"
+9288,Kiểm tra thao tác zoom hình ảnh đang xem (ảnh được chọn), 2: Xem chi tiết ảnh  ,Suite_common_394,1,Hình đang ở chế độ zoom 100% -&gt; zoom out hình,Thực hiện thành công
+9289,Kiểm tra thao tác zoom hình ảnh đang xem (ảnh được chọn), 2: Xem chi tiết ảnh  ,Suite_common_394,1,Hình đang ở chế độ zoom 100% -&gt; zoom in hình,Không thu nhỏ được nữa
+9290,Kiểm tra thao tác zoom hình ảnh đang xem (ảnh được chọn), 2: Xem chi tiết ảnh  ,Suite_common_394,1,Hình đang ở chế độ zoom &gt; 100% -&gt; zoom out hình,Thực hiện thành công
+9291,Kiểm tra thao tác zoom hình ảnh đang xem (ảnh được chọn), 2: Xem chi tiết ảnh  ,Suite_common_394,1,Hình đang ở chế độ zoom &gt; 100% -&gt; zoom in hình,"Thực hiện thành công, zoom in nhỏ dần và đến mức zoom 100% là không zoom nhỏ được nưa"
+9292,Kiểm tra hiển thị ảnh tiếp theo khi vuốt qua màn hình, 2: Xem chi tiết ảnh  ,Suite_common_394,1,"1. Đang xem chi tiết 1 hình ảnh giữa album( có hình trước, và có hình ở sau)
+2.1 Vuốt qua trái",2. Hiển thị hình ảnh tiếp theo phía sau
+9293,Kiểm tra hiển thị ảnh tiếp theo khi vuốt qua màn hình, 2: Xem chi tiết ảnh  ,Suite_common_394,1,2.2 Vuốt qua phải,2. Hiển thị hình ảnh phía trước
+9294,Kiểm tra không di chuyển khi xem chi tiết ảnh trong album chỉ có 1 hình ảnh, 2: Xem chi tiết ảnh  ,Suite_common_394,1,"1. Đang xem chi tiết hình ảnh đầu tiên của album (album chỉ có 1 hình ảnh)
+2.1 Vuốt qua trái",2. Không di chuyển hình ảnh
+9295,Kiểm tra không di chuyển khi xem chi tiết ảnh trong album chỉ có 1 hình ảnh, 2: Xem chi tiết ảnh  ,Suite_common_394,1,2.2 Vuốt qua phải,2. Không di chuyển hình ảnh
+9296,Kiểm tra hiển thị khi di chuyển qua lại nhiều lần giữa các hình ảnh, 2: Xem chi tiết ảnh  ,Suite_common_394,1,"1. Thực hiện di chuyển qua lại nhiều lần liên tục các ảnh trong album
+2. Kiểm tra hiển thị ",2. Hiển thị đúng hình ảnh di chuyển đến
+9297,Kiểm tra đóng hình ảnh, 2: Xem chi tiết ảnh  ,Suite_common_394,1,"1. Đang xem chi tiết hình ảnh
+2. Nhấn vào button Done ( đối với IOS)",2. Đóng hình ảnh đang xem
+9298,Kiểm tra đóng hình ảnh, 2: Xem chi tiết ảnh  ,Suite_common_394,1,2. Nhấn button Back ( đối với Android),2. Đóng hình ảnh đang xem
+9299,Kiểm tra xóa hình ảnh ( Nếu DTYC có cho xóa), 2: Xem chi tiết ảnh  ,Suite_common_394,1,"1. Đang ở màn hình chi tiết hình ảnh
+2. Nhấn vào icon xóa hình ảnh
+3.1 Nhấn đồng ý trên popup confirm xóa","3. Xóa hình ảnh thành công, quay lại màn hình trước khi xem chi tiết ( nếu là màn hình xem album thì trong album lúc này sẽ không còn hình ảnh đã xóa)"
+9300,Kiểm tra xóa hình ảnh ( Nếu DTYC có cho xóa), 2: Xem chi tiết ảnh  ,Suite_common_394,1,3.2 Nhấn Từ chối,3. Hiển thị lại màn hình chi tiết hình ảnh

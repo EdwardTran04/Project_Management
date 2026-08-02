@@ -1,0 +1,17 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8633,"Kiểm tra màn hình ở trạng thái mặc định
+", 2: Giao diện,Suite_common_171,1,"1. Kiểm tra title màn hình
+2. Kiểm tra sự đầy đủ của các control
+3. Kiểm tra trạng thái mặc định của các control
+4. Kiểm tra Header, Footer","1. Title màn hình: Màn hình A 
+2. Màn hình gồm có các thông tin sau:
+- Spinner Chọn người xử lý
+- EditText Chọn người xử lý
+- Button Thêm '+'
+- DS người được chọn
+3. Trạng thái mặc định của các control:
+- Button Thêm '+': disable/enable
+- EditText Chọn người xử lý  = null
+- DS người được chọn: 0 record
+
+4. Header, Footer hiển thị giống với design"

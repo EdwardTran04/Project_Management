@@ -1,0 +1,67 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8594,Kiểm tra notify khi đang thao tác ứng dụng khác, 3: Notification ngoài chương trình WP,Suite_common_161,1,"1. Không tắt ứng dụng
+2. Home màn hình và dùng ứng dụng khác
+3. Kiểm tra thông báo notify","1. Hiển thị thông báo và có notify đủ cho người dùng đọc
+2. Các thông báo realtime không bị lỗi phông chữ,
+"
+8595,Kiểm tra trường hợp chạm vào thông báo khi không ở trong ứng dụng, 3: Notification ngoài chương trình WP,Suite_common_161,1,"1. Mở ứng dụng
+2. Bấm Home key để minimize ứng dụng
+3. Có thông báo notify của ứng dụng
+4. Touch vào thông báo khi có thông báo mới","4.1. Đối với các ứng dụng có chức năng màn hình thông báo riêng : mở lại ứng dụng và hiển thị màn hình thông báo(hiển thị màn hình nào thì tùy ĐTYC). Thao tác ứng dụng bình thường. 
+4.2 Đối với các ứng dụng không có chức năng màn hình thông báo :  Mở lại ứng dụng mà không bị crash, hiển thị màn hình cuối cùng khi home ứng dụng xuống. Thao tác ứng dụng bình thường. "
+8596,Kiểm tra trường hợp chạm vào thông báo khi không ở trong ứng dụng, 3: Notification ngoài chương trình WP,Suite_common_161,1,5. Nhấn nút Back của thiết bị,"5.Hệ thống tắt ứng dụng, thoát ứng dụng ra ngoài màn hình và không bị crash chương trình 
+hoặc
+Sẽ trở về màn hình chính của ứng dụng (Nếu ĐTYC có yêu cầu)"
+8597,Kiểm tra trường hợp mở ứng dụng khi touch vào thông báo khi đã tắt ứng dụng, 3: Notification ngoài chương trình WP,Suite_common_161,1,"Đảm bảo thiết bị chưa bị khóa màn hình
+Chưa mở ứng dụng, có thông báo realtime của ứng dụng
+1. Touch vào thông báo khi có thông báo đến
+","1.1. Đối với các ứng dụng có chức năng màn hình thông báo riêng : mở lại ứng dụng và hiển thị màn hình thông báo (hiển thị màn hình nào thì tùy ĐTYC).Thao tác ứng dụng bình thường. 
+1.2 Đối với các ứng dụng không có chức năng màn hình thông báo :  Mở lại ứng dụng mà không bị crash, hiển thị màn hình chính của ứng dụng. Thao tác ứng dụng bình thường. "
+8598,Kiểm tra trường hợp mở ứng dụng khi touch vào thông báo khi đã tắt ứng dụng, 3: Notification ngoài chương trình WP,Suite_common_161,1,2.Nhấn nut Back của thiết bị,"5.Hệ thống tắt ứng dụng, thoát ứng dụng ra ngoài màn hình và không bị crash chương trình 
+hoặc
+Sẽ trở về màn hình chính của ứng dụng (Nếu ĐTYC có yêu cầu)"
+8599,Kiểm tra trường hợp mở ứng dụng khi màn hình của thiết bị đã bị khóa, 3: Notification ngoài chương trình WP,Suite_common_161,1,"Chưa mở ứng dụng, Có thông báo realtime . Đảm bảo màn hình của thiết bị đã bị khóa
+1. Kéo thanh thông báo của thiết bị xuống
+2. Touch vào thông báo khi có thông báo đến
+3. Nhấn nut Back của thiết bị
+","2.1. Đối với các ứng dụng có chức năng màn hình thông báo riêng : mở lại ứng dụng và hiển thị màn hình thông báo (hiển thị màn hình nào thì tùy ĐTYC)
+2.2 Đối với các ứng dụng không có chức năng màn hình thông báo :  Mở lại ứng dụng mà không bị crash, hiển thị màn hình chính của ứng dụng.Thao tác ứng dụng bình thường. 
+3.Hệ thống tắt ứng dụng, thoát ứng dụng ra ngoài màn hình và không bị crash chương trình"
+8600,Kiểm tra trường hợp mở ứng dụng khi màn hình của thiết bị đã bị khóa, 3: Notification ngoài chương trình WP,Suite_common_161,1,"Mở ứng dụng
+2. Bấm Lock key
+3. Có thông báo notify
+4. Kéo thanh thông báo của thiết bị xuống
+5. Touch vào thông báo khi có thông báo đến
+6. Nhấn nút Back của thiết bị
+","5.1. Đối với các ứng dụng có chức năng màn hình thông báo riêng : mở lại ứng dụng và hiển thị màn hình thông báo (hiển thị màn hình nào thì tùy ĐTYC).Thao tác ứng dụng bình thường. 
+5.2 Đối với các ứng dụng không có chức năng màn hình thông báo :  Mở lại ứng dụng mà không bị crash, hiển thị màn hình chính của ứng dụng. Thao tác ứng dụng bình thường. 
+6.Hệ thống tắt ứng dụng, thoát ứng dụng ra ngoài màn hình và không bị crash chương trình"
+8601,Kiểm tra hiển thị notification khi chưa khóa màn hình, 3: Notification ngoài chương trình WP,Suite_common_161,1,"1. Vào Setting -&gt; Notifications + Actions -&gt; Chọn App đang thao tác -&gt; Show in Action Center ( Cho phép thông báo )
+2.1 Chọn OFF
+3.Tạo dữ liệu push thông báo về sau khi cài đặt",Hệ thống không thực hiện nhận tin nhắn về ứng dụng (Không hiển thị thông báo trên thanh Notification Bar + Notification Banner)
+8602,Kiểm tra hiển thị notification khi chưa khóa màn hình, 3: Notification ngoài chương trình WP,Suite_common_161,1,"1. Vào Setting -&gt; Notifications + Actions -&gt; Chọn App đang thao tác -&gt; Show in Action Center ( Cho phép thông báo )
+2.2. Chọn ON
+3.1. Tick chọn checkbox [Show notification banners]
+4.Tạo dữ liệu push thông báo về sau khi cài đặt","Hệ thống nhận thực hiện nhận tin nhắn về ứng dụng:
++ Hiển thị tin nhắn trên thanh Notification Bar
++ Hiển thị Notification Banner"
+8603,Kiểm tra hiển thị notification khi chưa khóa màn hình, 3: Notification ngoài chương trình WP,Suite_common_161,1,"3.2. Tick bỏ chọn checkbox [Show notification banners]
+4.Tạo dữ liệu push thông báo về sau khi cài đặt","Hệ thống nhận thực hiện nhận tin nhắn về ứng dụng:
++ Hiển thị tin nhắn trên thanh Notification Bar
++ Không hiển thị Notification Banner"
+8606,Kiểm tra hiển thị notification khi chưa khóa màn hình, 3: Notification ngoài chương trình WP,Suite_common_161,1,"1. Vào Setting -&gt; Notifcation Center -&gt; Chọn App đang thao tác -&gt; Show in notification Center -&gt; Bật On -&gt; Chọn Include -&gt; 
+2.1  5 Recent item
+3.Tạo dữ liệu push nhiều thông báo về sau khi cài đặt  
+",Hiển thị 5 thông báo gần nhất trên thanh notification center
+8607,Kiểm tra hiển thị notification khi chưa khóa màn hình, 3: Notification ngoài chương trình WP,Suite_common_161,1,"1. Vào Setting -&gt; Notifcation Center -&gt; Chọn App đang thao tác -&gt; Show in notification Center -&gt; Bật On -&gt; Chọn Include -&gt; 
+2.1  10 Recent item
+3.Tạo dữ liệu push nhiều thông báo   về sau khi cài đặt  
+",Hiển thị 10 thông báo gần nhất trên thanh notification center
+8608,Kiểm tra cùng lúc có nhiều thông báo được đẩy về nhiều hơn số lượng thông báo setting cho 1 lần nhận của HDH - IOS, 3: Notification ngoài chương trình WP,Suite_common_161,1,"1. Vào Setting -&gt; Notifcation Center -&gt; Chọn App đang thao tác -&gt; Show in notification Center -&gt; Bật On -&gt; Chọn Include -&gt; 
+ a. 1 Recent item
+ b.5 recent items
+ c.10 recent Items 
+2. Lựa chọn Items push về: 10
+3. Từ server pust về số lượng thông báo &gt; số config: 20","Nếu push 20 thông báo nó chỉ hiển thị 10 thông báo : từ tin 20 đến 11 trên thanh notification center
+Touch vào thông báo -&gt; vào chức năng của ứng dụng
+Tải về tất cả các thông báo tùy theo ĐTYC và chức năng hệ thống có màn hình thông báo thì vào thông báo tải về và hiển thị"

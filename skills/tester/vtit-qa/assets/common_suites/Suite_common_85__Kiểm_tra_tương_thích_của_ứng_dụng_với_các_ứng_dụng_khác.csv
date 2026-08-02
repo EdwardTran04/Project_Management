@@ -1,0 +1,16 @@
+﻿ID,Tên testcase,Tên testsuite common,Mã test suite common,Trạng thái,Các bước thực hiện,Mong muốn
+8438,Ảnh hưởng của ứng dụng đối với các ứng dụng khác (ứng dụng gốc) , 3: Kiểm tra tương thích của ứng dụng với các ứng dụng khác,Suite_common_85,1,"1. Launch APPLICATION, thao tác 5'
+2. Đồng thời start những apps khác như nghe nhạc, email... Sử dụng các ứng dụng này trong vòng 10 - 15'
+3. Chọn lại ứng dụng đang test. Tiếp tục thao tác","2. Các ứng dụng khác chạy bình thường.
+3. Chọn lại ứng dụng đang test thì thao tác tiếp tục các chức năng bình thường"
+8439,Kiểm tra ứng dụng hoạt động bình thường sau một khoảng thời gian không thao tác, 3: Kiểm tra tương thích của ứng dụng với các ứng dụng khác,Suite_common_85,1,"1. Mở ứng dụng
+2. Để một thời gian không tác động vào ứng dụng (1.5h-4h hoặc qua đêm)
++ Đang ở màn hình đăng nhập
+3. Nhập thông tin hợp lệ. Nhấn đăng nhập","- Đăng nhập thành công vào ứng dụng
+- Thao tác bình thường
+ "
+8440,Kiểm tra ứng dụng hoạt động bình thường sau một khoảng thời gian không thao tác, 3: Kiểm tra tương thích của ứng dụng với các ứng dụng khác,Suite_common_85,1,"1. Mở ứng dụng
+2. Để một thời gian không tác động vào ứng dụng ( 1.5h -4h, hoặc qua đêm)
++ Đang ở màn hình đăng nhập
++ Đã đăng nhập vào hệ thống
+3. Tác động vào các button chức năng của ứng dụng","Thao tác bình thường, đối với các màn hình có hiển thị thì hiển thị dữ liệu bình thường không được mất dữ liệu hoặc mất control."
