@@ -1,0 +1,2466 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chi tiết lệnh nhập kho — Viettel WMS</title>
+  <!-- Google Fonts: Outfit for Headings/Numbers & Inter for Body -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ── DESIGN TOKENS ────────────────────────── */
+    :root {
+      --font-body: 'Inter', sans-serif;
+      --font-title: 'Outfit', sans-serif;
+      
+      /* Colors */
+      --primary: #EE0033; /* Viettel Red */
+      --primary-hover: #D6002A;
+      --primary-light: #FDF2F4;
+      --primary-glow: rgba(238, 0, 51, 0.15);
+      
+      --success: #10B981;
+      --success-light: #ECFDF5;
+      --success-border: #A7F3D0;
+      
+      --warning: #F59E0B;
+      --warning-light: #FEF3C7;
+      --warning-border: #FDE68A;
+      
+      --danger: #EF4444;
+      --danger-light: #FEF2F2;
+      --danger-border: #FCA5A5;
+      
+      --info: #3B82F6;
+      --info-light: #EFF6FF;
+      --info-border: #BFDBFE;
+      
+      /* Slate shades for UI */
+      --slate-50: #F8FAFC;
+      --slate-100: #F1F5F9;
+      --slate-200: #E2E8F0;
+      --slate-300: #CBD5E1;
+      --slate-400: #94A3B8;
+      --slate-500: #64748B;
+      --slate-600: #475569;
+      --slate-700: #334155;
+      --slate-800: #1E293B;
+      --slate-900: #0F172A;
+      
+      --bg: #FFFFFF;
+      --border: #E2E8F0;
+      --radius: 12px;
+      --radius-sm: 8px;
+      
+      /* Shadows */
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-glow: 0 0 20px rgba(238, 0, 51, 0.08);
+      
+      --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--slate-800);
+      background-color: var(--slate-50);
+      font-size: 14px;
+      line-height: 1.5;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-title);
+      color: var(--slate-900);
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--slate-100);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--slate-300);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--slate-400);
+    }
+
+    /* ── PAGE LAYOUT ──────────────────────────── */
+    .app-layout {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ── HEADER & BREADCRUMBS ─────────────────── */
+    .top-header {
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      flex-shrink: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow-sm);
+      z-index: 10;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--slate-500);
+      margin-bottom: 4px;
+    }
+
+    .breadcrumb span.sep {
+      color: var(--slate-300);
+    }
+
+    .breadcrumb a, .breadcrumb span.curr {
+      color: var(--slate-500);
+      text-decoration: none;
+    }
+    .breadcrumb span.curr {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .header-info h1 {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .header-info .sub-meta {
+      font-size: 12px;
+      color: var(--slate-500);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 2px;
+    }
+
+    .header-info .sub-meta span.dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--slate-300);
+      display: inline-block;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* ── BUTTONS ──────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: var(--transition);
+      user-select: none;
+      outline: none;
+    }
+
+    .btn svg {
+      width: 16px;
+      height: 16px;
+      stroke-width: 2.2;
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      box-shadow: 0 4px 12px rgba(238, 0, 51, 0.2);
+    }
+
+    .btn-secondary {
+      background: var(--slate-100);
+      color: var(--slate-700);
+      border-color: var(--slate-200);
+    }
+    .btn-secondary:hover {
+      background: var(--slate-200);
+      color: var(--slate-900);
+    }
+
+    .btn-outline {
+      background: #fff;
+      color: var(--slate-700);
+      border-color: var(--slate-200);
+    }
+    .btn-outline:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    /* ── USER PANEL ───────────────────────────── */
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-left: 16px;
+      border-left: 1px solid var(--slate-200);
+      margin-left: 6px;
+    }
+
+    .user-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      color: var(--primary);
+      font-weight: 700;
+      font-family: var(--font-title);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 2px var(--primary-glow);
+    }
+
+    .user-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .user-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--slate-800);
+      line-height: 1.2;
+    }
+
+    .user-role {
+      font-size: 10px;
+      color: var(--slate-500);
+      font-weight: 500;
+    }
+
+    .btn-icon-only {
+      width: 34px;
+      height: 34px;
+      padding: 0;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--slate-600);
+      background: var(--slate-100);
+      cursor: pointer;
+      border: none;
+      transition: var(--transition);
+    }
+    .btn-icon-only:hover {
+      background: var(--slate-200);
+      color: var(--slate-900);
+    }
+    .btn-icon-only svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* ── SUMMARY KPI CARDS ────────────────────── */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+      padding: 18px 24px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .kpi-card {
+      background: var(--slate-50);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .kpi-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--slate-300);
+    }
+
+    .kpi-card::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--slate-400);
+    }
+
+    .kpi-card.status-card::after { background: var(--info); }
+    .kpi-card.sla-card::after { background: var(--success); }
+    .kpi-card.sla-card.urgent::after { background: var(--warning); }
+    .kpi-card.sla-card.expired::after { background: var(--danger); }
+    .kpi-card.lines-card::after { background: var(--slate-700); }
+    .kpi-card.qty-card::after { background: var(--primary); }
+    .kpi-card.user-card::after { background: #9333EA; }
+
+    .kpi-card.qty-card {
+      background: var(--primary-light);
+      border-color: rgba(238, 0, 51, 0.15);
+    }
+
+    .kpi-card-header {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--slate-500);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .kpi-card-header svg {
+      width: 16px;
+      height: 16px;
+      color: var(--slate-400);
+    }
+
+    .kpi-card-body {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .kpi-card-value {
+      font-family: var(--font-title);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--slate-900);
+      line-height: 1.2;
+    }
+
+    .kpi-card.qty-card .kpi-card-value {
+      color: var(--primary);
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .kpi-card-desc {
+      font-size: 11px;
+      color: var(--slate-500);
+      font-weight: 500;
+      margin-top: 4px;
+    }
+
+    /* SLA Bar Indicator */
+    .sla-progress-bar {
+      height: 4px;
+      background: var(--slate-200);
+      border-radius: 2px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+    .sla-progress-fill {
+      height: 100%;
+      background: var(--success);
+      width: 100%;
+      transition: var(--transition);
+    }
+    .kpi-card.sla-card.urgent .sla-progress-fill {
+      background: var(--warning);
+      width: 40%;
+    }
+    .kpi-card.sla-card.expired .sla-progress-fill {
+      background: var(--danger);
+      width: 10%;
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .badge-primary { background: var(--primary-light); color: var(--primary); }
+    .badge-success { background: var(--success-light); color: var(--success); border: 1px solid var(--success-border); }
+    .badge-warning { background: var(--warning-light); color: var(--warning); border: 1px solid var(--warning-border); }
+    .badge-danger { background: var(--danger-light); color: var(--danger); border: 1px solid var(--danger-border); }
+    .badge-info { background: var(--info-light); color: var(--info); border: 1px solid var(--info-border); }
+    .badge-slate { background: var(--slate-100); color: var(--slate-600); }
+
+    /* ── TABS NAVIGATION ──────────────────────── */
+    .tabs-container {
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      flex-shrink: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .tab-list {
+      display: flex;
+      gap: 6px;
+    }
+
+    .tab-btn {
+      padding: 16px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--slate-500);
+      background: none;
+      border: none;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tab-btn svg {
+      width: 16px;
+      height: 16px;
+      color: var(--slate-400);
+      transition: var(--transition);
+    }
+
+    .tab-btn:hover {
+      color: var(--slate-900);
+    }
+    .tab-btn:hover svg {
+      color: var(--slate-600);
+    }
+
+    .tab-btn.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+    .tab-btn.active svg {
+      color: var(--primary);
+    }
+
+    .tab-badge {
+      font-size: 10px;
+      background: var(--slate-100);
+      color: var(--slate-600);
+      padding: 1px 6px;
+      border-radius: 10px;
+      font-weight: 700;
+    }
+    .tab-btn.active .tab-badge {
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+
+    /* ── CONTENT AREA ─────────────────────────── */
+    .main-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 24px;
+    }
+
+    .tab-pane {
+      display: none;
+      animation: fadeIn 0.25s ease-out;
+    }
+
+    .tab-pane.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── CARDS & SECTIONS ─────────────────────── */
+    .card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--slate-50);
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--slate-800);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-title svg {
+      width: 18px;
+      height: 18px;
+      color: var(--primary);
+    }
+
+    .card-body {
+      padding: 20px;
+    }
+
+    /* Warning & Info Banners */
+    .banner {
+      display: flex;
+      gap: 12px;
+      padding: 12px 18px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 16px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .banner-warning {
+      background: var(--warning-light);
+      color: #92400E;
+      border: 1px solid var(--warning-border);
+    }
+    .banner-warning svg {
+      width: 20px;
+      height: 20px;
+      color: var(--warning);
+      flex-shrink: 0;
+    }
+    .banner-danger {
+      background: var(--danger-light);
+      color: #991B1B;
+      border: 1px solid var(--danger-border);
+    }
+    .banner-danger svg {
+      width: 20px;
+      height: 20px;
+      color: var(--danger);
+      flex-shrink: 0;
+    }
+
+    /* ── TAB 1: INFO & GOODS ─────────────────── */
+    .info-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px 20px;
+    }
+
+    .info-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .info-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--slate-400);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .info-val {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--slate-800);
+    }
+
+    .info-val.mono {
+      font-family: monospace;
+      font-size: 12px;
+      background: var(--slate-100);
+      padding: 2px 6px;
+      border-radius: 4px;
+      width: fit-content;
+    }
+
+    /* ── TABLES GENERAL ───────────────────────── */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    .wms-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+
+    .wms-table th {
+      background: var(--slate-50);
+      padding: 12px 16px;
+      font-weight: 700;
+      color: var(--slate-600);
+      border-bottom: 2px solid var(--slate-200);
+      white-space: nowrap;
+    }
+
+    .wms-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--slate-200);
+      vertical-align: middle;
+    }
+
+    .wms-table tbody tr:hover {
+      background: var(--slate-50);
+    }
+
+    /* Discrepancy styles */
+    .diff-negative {
+      color: var(--danger);
+      font-weight: 700;
+    }
+    .diff-none {
+      color: var(--slate-400);
+    }
+
+    /* Tree structure visualizer */
+    .tree-cell {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tree-join {
+      font-family: monospace;
+      color: var(--slate-400);
+      font-weight: 400;
+      user-select: none;
+      margin-right: 2px;
+    }
+    
+    .row-parent {
+      background: rgba(248, 250, 252, 0.8);
+      font-weight: 600;
+    }
+    .row-parent td {
+      border-bottom: 1px solid var(--slate-300);
+    }
+
+    /* ── TAB 2: TRANSPORTATION ────────────────── */
+    .transport-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Selected Trip highlight */
+    .trip-row {
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .trip-row.active {
+      background: var(--primary-light) !important;
+    }
+    .trip-row.active td {
+      border-bottom-color: rgba(238, 0, 51, 0.15);
+    }
+
+    /* Timeline details */
+    .detail-header {
+      padding: 12px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--slate-800);
+      background: var(--slate-50);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .timeline {
+      position: relative;
+      padding-left: 20px;
+      margin-left: 10px;
+      border-left: 2px solid var(--slate-200);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .timeline-item {
+      position: relative;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -27px;
+      top: 2px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--slate-300);
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 2px var(--slate-200);
+    }
+
+    .timeline-item.done .timeline-dot {
+      background: var(--success);
+      box-shadow: 0 0 0 2px var(--success-light);
+    }
+    .timeline-item.active .timeline-dot {
+      background: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-glow);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(238, 0, 51, 0.4); }
+      70% { transform: scale(1.1); box-shadow: 0 0 0 6px rgba(238, 0, 51, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(238, 0, 51, 0); }
+    }
+
+    .timeline-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--slate-800);
+    }
+    .timeline-time {
+      font-size: 11px;
+      color: var(--slate-500);
+      margin-top: 2px;
+    }
+
+    /* Photo Gallery */
+    .photo-gallery {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .photo-gallery {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .photo-card {
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: var(--slate-50);
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .photo-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .photo-img {
+      height: 100px;
+      background-size: cover;
+      background-position: center;
+      background-color: var(--slate-200);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--slate-500);
+    }
+
+    .photo-info {
+      padding: 8px 10px;
+      font-size: 11px;
+    }
+    .photo-title {
+      font-weight: 700;
+      color: var(--slate-800);
+    }
+    .photo-time {
+      color: var(--slate-500);
+      margin-top: 2px;
+    }
+
+    /* ── TAB 4: KCS QUALITY CONTROL ────────────── */
+    .kcs-header-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .kcs-sync-box {
+      background: var(--slate-50);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 12px;
+    }
+
+    .kcs-sync-item {
+      display: flex;
+      flex-direction: column;
+    }
+    .kcs-sync-label {
+      color: var(--slate-400);
+      font-weight: 500;
+      font-size: 10px;
+      text-transform: uppercase;
+    }
+    .kcs-sync-val {
+      color: var(--slate-800);
+      font-weight: 600;
+    }
+
+    .kcs-mini-kpis {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .kcs-mini-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      text-align: center;
+    }
+
+    .kcs-mini-label {
+      font-size: 10px;
+      color: var(--slate-500);
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+    .kcs-mini-val {
+      font-family: var(--font-title);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--slate-800);
+    }
+    .kcs-mini-card.pass .kcs-mini-val { color: var(--success); }
+    .kcs-mini-card.fail .kcs-mini-val { color: var(--danger); }
+    .kcs-mini-card.partial .kcs-mini-val { color: var(--warning); }
+    .kcs-mini-card.pending .kcs-mini-val { color: var(--slate-500); }
+
+    /* Filters toolbar */
+    .filters-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+      background: var(--slate-50);
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+    }
+
+    .search-input-wrap {
+      position: relative;
+      flex: 1;
+      max-width: 300px;
+    }
+    .search-input-wrap input {
+      width: 100%;
+      padding: 6px 10px 6px 30px;
+      border-radius: 6px;
+      border: 1px solid var(--slate-200);
+      font-size: 13px;
+      outline: none;
+      transition: var(--transition);
+    }
+    .search-input-wrap input:focus {
+      border-color: var(--primary);
+    }
+    .search-input-wrap svg {
+      position: absolute;
+      left: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 14px;
+      height: 14px;
+      color: var(--slate-400);
+    }
+
+    .filters-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .wms-select {
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--slate-200);
+      font-size: 13px;
+      background-color: #fff;
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* ── TAB 6: AUDIT TRAIL TIMELINE ─────────── */
+    .history-timeline {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      padding-left: 24px;
+      margin-left: 12px;
+    }
+    .history-timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: var(--slate-200);
+    }
+
+    .history-node {
+      position: relative;
+      margin-bottom: 24px;
+    }
+    .history-node:last-child {
+      margin-bottom: 0;
+    }
+
+    .history-node-dot {
+      position: absolute;
+      left: -30px;
+      top: 4px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--slate-300);
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 2px var(--slate-200);
+    }
+
+    .history-node.system .history-node-dot {
+      background: var(--info);
+      box-shadow: 0 0 0 2px var(--info-light);
+    }
+    .history-node.user .history-node-dot {
+      background: var(--primary);
+      box-shadow: 0 0 0 2px var(--primary-glow);
+    }
+
+    .history-node-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      color: var(--slate-500);
+      margin-bottom: 4px;
+    }
+    .history-node-time {
+      font-family: monospace;
+      font-weight: 600;
+    }
+    .history-node-author {
+      font-weight: 700;
+      color: var(--slate-700);
+    }
+
+    .history-node-card {
+      background: var(--slate-50);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+    }
+
+    .history-node-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--slate-900);
+      margin-bottom: 6px;
+    }
+    .history-node-changes {
+      font-size: 12px;
+      color: var(--slate-600);
+      font-family: var(--font-body);
+      background: #fff;
+      border: 1px solid var(--slate-200);
+      padding: 8px 12px;
+      border-radius: 4px;
+      white-space: pre-wrap;
+    }
+
+    /* ── MODALS ───────────────────────────────── */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    .overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-box {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      width: 90%;
+      max-width: 600px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      transform: scale(0.95);
+      transition: transform 0.2s ease;
+    }
+    .overlay.active .modal-box {
+      transform: scale(1);
+    }
+
+    .modal-hdr {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--slate-50);
+      border-radius: var(--radius) var(--radius) 0 0;
+    }
+    .modal-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--slate-800);
+    }
+    .modal-close {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--slate-400);
+      cursor: pointer;
+      border: none;
+      background: none;
+      transition: var(--transition);
+    }
+    .modal-close:hover {
+      color: var(--slate-900);
+    }
+
+    .modal-bdy {
+      padding: 20px;
+      overflow-y: auto;
+      font-size: 13px;
+    }
+
+    .modal-ftr {
+      padding: 14px 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      background: var(--slate-50);
+      border-radius: 0 0 var(--radius) var(--radius);
+    }
+
+    /* VOffice Signature List */
+    .voffice-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .voffice-step {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px;
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-sm);
+      background: var(--slate-50);
+    }
+    .voffice-step.signed {
+      border-color: var(--success-border);
+      background: var(--success-light);
+    }
+    .voffice-step.pending {
+      border-color: var(--warning-border);
+      background: var(--warning-light);
+    }
+    .voffice-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--slate-200);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 12px;
+      color: var(--slate-600);
+    }
+    .voffice-step.signed .voffice-circle {
+      background: var(--success);
+      color: #fff;
+    }
+    .voffice-step.pending .voffice-circle {
+      background: var(--warning);
+      color: #fff;
+    }
+    
+    /* API Log JSON styling */
+    .json-code {
+      background: var(--slate-900);
+      color: #38BDF8;
+      font-family: monospace;
+      padding: 14px;
+      border-radius: var(--radius-sm);
+      white-space: pre-wrap;
+      overflow-x: auto;
+      font-size: 12px;
+      max-height: 350px;
+    }
+    /* New styles for split/sync tabs */
+    .trip-detail-subwrap {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .timestamp-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+    .timestamp-box {
+      background: var(--slate-50);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .timestamp-title {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--slate-400);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .timestamp-val {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--slate-800);
+    }
+    .timestamp-val.empty {
+      color: var(--slate-400);
+      font-weight: 500;
+    }
+    .image-gallery-placeholder {
+      font-size: 12.5px;
+      color: var(--slate-500);
+      padding: 10px 0;
+    }
+    .code-link {
+      font-family: monospace;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .code-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Banners & Alerts */
+    .alert-banner {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .alert-banner-warning {
+      background: #FFFBEB;
+      border: 1px solid #FDE68A;
+      color: #B45309;
+    }
+    .alert-banner-danger {
+      background: #FEF2F2;
+      border: 1px solid #FCA5A5;
+      color: #B91C1C;
+    }
+    .alert-banner svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      stroke-width: 2.5;
+    }
+
+    /* Assignee Badge in Tables */
+    .assignee-badge-table {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .assignee-avatar-table {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--slate-100);
+      border: 1px solid var(--slate-200);
+      font-weight: 700;
+      font-size: 10px;
+      color: var(--slate-600);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app-layout" id="app-root">
+
+    <!-- ── TOPBAR HEADER ────────────────────────── -->
+    <!-- ── TOPBAR HEADER ────────────────────────── -->
+    <div class="top-header" style="justify-content: flex-start; gap: 16px; align-items: center; padding: 16px 24px 8px 24px;">
+      <button class="btn btn-secondary btn-icon-only" onclick="goBack()" title="Quay lại danh sách">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      </button>
+      <h1 style="margin: 0; font-size: 24px; font-family: 'Outfit', sans-serif; font-weight: 700; color: var(--slate-900);">
+        <span id="header-order-id">INB-2026-00118</span>
+      </h1>
+    </div>
+
+    <!-- Thông tin chung nghiệp vụ (đẩy lên trước tab) -->
+    <div style="padding: 0 24px; margin-bottom: 16px;">
+      <div class="card" style="margin-bottom: 0;">
+        <div class="card-header" style="padding: 10px 20px;">
+          <div class="card-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
+            Thông tin chung nghiệp vụ
+          </div>
+          <span class="badge badge-success">Đồng bộ từ SAP</span>
+        </div>
+        <div class="card-body" style="padding: 12px 20px;">
+          <div class="info-grid" style="gap: 10px 20px;">
+            <div class="info-group">
+              <span class="info-label">Loại nhập kho</span>
+              <span class="info-val" id="inf-category-label">INB-NCC (Nhập kho nhà cung cấp)</span>
+            </div>
+            <div class="info-group">
+              <span class="info-label">Chứng từ gốc (PO)</span>
+              <span class="info-val mono" id="inf-ref-code">PO-2026-0991</span>
+            </div>
+            <div class="info-group">
+              <span class="info-label">Mã hợp đồng</span>
+              <span class="info-val mono" id="inf-contract-code">HD-2026-0991</span>
+            </div>
+            <div class="info-group">
+              <span class="info-label">Mã lô ngày</span>
+              <span class="info-val mono">LOT-20260518-118</span>
+            </div>
+            
+            <div class="info-group">
+              <span class="info-label">Mã &amp; Tên dự án</span>
+              <span class="info-val">DA-0118 · Triển khai hạ tầng 5G HN01</span>
+            </div>
+            <div class="info-group">
+              <span class="info-label">Kho nhập thực tế</span>
+              <span class="info-val">HN01 · Kho Hà Nội 01</span>
+            </div>
+            <div class="info-group">
+              <span class="info-label">Đơn vị quản lý kho</span>
+              <span class="info-val">Ban Vật tư – Chi nhánh Hà Nội</span>
+            </div>
+            <div class="info-group">
+              <span class="info-label">Ngày ký hợp đồng</span>
+              <span class="info-val">03/05/2026 09:00:00</span>
+            </div>
+            
+            <div class="info-group">
+              <span class="info-label">Ngày giao dự kiến</span>
+              <span class="info-val" id="inf-date">18/05/2026 09:00:00</span>
+            </div>
+            <div class="info-group">
+              <span class="info-label">Lý do nhập</span>
+              <span class="info-val">Nhập hàng theo PO với nhà cung cấp</span>
+            </div>
+            <div class="info-group" style="grid-column: span 2;">
+              <span class="info-label">Diễn giải tóm tắt</span>
+              <span class="info-val" style="font-weight:500;" id="inf-summary-desc">Nhập phân rã hàng · 12 dòng · 480 đơn vị · Phụ trách: Trần Văn Kho</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TAB BAR ──────────────────────────────── -->
+    <div class="tabs-container">
+      <div class="tab-list">
+        <button class="tab-btn active" onclick="switchTab('info')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
+          Thông tin hàng hóa
+        </button>
+        <button class="tab-btn" onclick="switchTab('transport')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          Vận chuyển <span class="tab-badge" id="tab-badge-transport">1</span>
+        </button>
+        <button class="tab-btn" onclick="switchTab('task')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1" ry="1"/></svg>
+          Task <span class="tab-badge" id="tab-badge-task">10</span>
+        </button>
+        <button class="tab-btn" onclick="switchTab('kcs')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          Kết quả KCS <span class="tab-badge" id="tab-badge-kcs">8</span>
+        </button>
+        <button class="tab-btn" onclick="switchTab('docs')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Chứng từ <span class="tab-badge" id="tab-badge-docs">4</span>
+        </button>
+        <button class="tab-btn" onclick="switchTab('history')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+          Lịch sử
+        </button>
+      </div>
+      <div style="font-size:12px; color:var(--slate-400); font-weight:600;" id="last-sync-time">
+        Đã đồng bộ SAP: 18/05/2026 15:00
+      </div>
+    </div>
+
+    <!-- ── TAB CONTENT PANES ────────────────────── -->
+    <div class="main-content">
+
+      <!-- ── TAB 1: THÔNG TIN HÀNG HÓA (MẶC ĐỊNH) ── -->
+      <div class="tab-pane active" id="pane-info">
+        <div class="info-layout">
+          <!-- Bảng Hàng hóa phân rã Cha - Con -->
+            <div class="card-header">
+              <div class="card-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                Danh sách hàng hóa (Cấu trúc phân rã Kit Cha - Con)
+              </div>
+              <span class="badge badge-slate" id="goods-list-count">12 dòng hàng</span>
+            </div>
+            <div class="table-container">
+              <table class="wms-table" id="goods-table">
+                <thead>
+                  <tr>
+                    <th style="width: 220px;">Mã hàng (SKU)</th>
+                    <th>Tên hàng hóa</th>
+                    <th style="width: 80px;">ĐVT</th>
+                    <th style="text-align: right; width: 100px;">Chứng từ</th>
+                    <th style="text-align: right; width: 100px;">Thực nhận</th>
+                    <th style="text-align: right; width: 100px;">Chênh lệch</th>
+                    <th style="width: 130px;">Trạng thái KCS</th>
+                    <th style="width: 120px;">Handling Unit (HU)</th>
+                    <th style="width: 140px;">Vị trí lưu kho</th>
+                  </tr>
+                </thead>
+                <tbody id="goods-tbody">
+                  <!-- Generated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- /#pane-info -->
+
+
+      <!-- ── TAB 2: VẬN CHUYỂN (N) ────────────────── -->
+      <div class="tab-pane" id="pane-transport">
+        <!-- Warning Alert -->
+        <div class="alert-banner alert-banner-warning">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          Bắt buộc có ít nhất 1 xe vào dock trước khi dỡ hàng.
+        </div>
+
+        <!-- Vehicle List Card -->
+        <div class="card">
+          <div class="card-header" style="font-size:13px; font-weight:700; display:flex; justify-content:space-between; align-items:center;">
+            <span>Danh sách chuyến xe (1)</span>
+            <span style="font-size:11px; font-weight:500; color:var(--slate-400);">Cập nhật từ app Bảo vệ cổng – không thao tác trực tiếp tại đây.</span>
+          </div>
+          <div class="table-container">
+            <table class="wms-table">
+              <thead>
+                <tr>
+                  <th>Mã chuyến</th>
+                  <th>Nhà vận chuyển</th>
+                  <th>Biển số DK</th>
+                  <th>Biển số TT</th>
+                  <th>Tài xế / SĐT</th>
+                  <th>ETA</th>
+                  <th>Dock</th>
+                  <th>Vào cổng</th>
+                  <th>Vào dock</th>
+                  <th>Ra dock</th>
+                  <th>Ra cổng</th>
+                  <th>Trạng thái</th>
+                  <th style="text-align:center;">PS</th>
+                </tr>
+              </thead>
+              <tbody id="transport-tbody">
+                <!-- Dynamic content -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Vehicle Detail Sub-Section -->
+        <div class="trip-detail-subwrap">
+          <div class="card">
+            <div class="card-header" style="font-size:12.5px; font-weight:700; color:var(--slate-800);">
+              Chi tiết chuyến VT-3019
+            </div>
+            <div class="card-body" style="display:flex; flex-direction:column; gap:16px;">
+              <!-- Mốc thời gian xe -->
+              <div>
+                <div style="font-size:11px; font-weight:700; color:var(--slate-500); margin-bottom:8px; display:flex; align-items:center; gap:4px;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:12px; height:12px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  Mốc thời gian xe
+                </div>
+                <div class="timestamp-grid">
+                  <div class="timestamp-box">
+                    <span class="timestamp-title">VÀO CỔNG</span>
+                    <span class="timestamp-val empty">—</span>
+                  </div>
+                  <div class="timestamp-box">
+                    <span class="timestamp-title">VÀO DOCK</span>
+                    <span class="timestamp-val empty">—</span>
+                  </div>
+                  <div class="timestamp-box">
+                    <span class="timestamp-title">RA DOCK</span>
+                    <span class="timestamp-val empty">—</span>
+                  </div>
+                  <div class="timestamp-box">
+                    <span class="timestamp-title">RA CỔNG</span>
+                    <span class="timestamp-val empty">—</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Phát sinh banner -->
+              <div class="alert-banner alert-banner-danger" style="margin-bottom: 0;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                <span>Phát sinh: Quá ETA - 13:30 - Vũ Anh Tuấn - Chưa đến &mdash; chậm 20 phút</span>
+              </div>
+
+              <!-- Ảnh gallery -->
+              <div>
+                <div style="font-size:11px; font-weight:700; color:var(--slate-500); margin-bottom:4px; display:flex; align-items:center; gap:4px;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:12px; height:12px;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                  Ảnh xe / biển số (0)
+                </div>
+                <div class="image-gallery-placeholder">
+                  Chưa có ảnh.
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /#pane-transport -->
+
+
+      <!-- ── TAB 3: TASK ──────────────────────────── -->
+      <div class="tab-pane" id="pane-task">
+        <div class="card">
+          <div class="card-header" style="font-size:13px; font-weight:700;">Danh sách các Task của Order</div>
+          <div class="table-container">
+            <table class="wms-table">
+              <thead>
+                <tr>
+                  <th>Task</th>
+                  <th>Loại</th>
+                  <th>Phụ trách</th>
+                  <th>Thời gian bắt đầu</th>
+                  <th>Thời gian kết thúc</th>
+                  <th>SLA</th>
+                  <th>Trạng thái</th>
+                  <th style="text-align:center;">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="task-tbody">
+                <!-- Dynamic content -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div><!-- /#pane-task -->
+
+
+      <!-- ── TAB 4: KẾT QUẢ KCS ────────────────────── -->
+      <div class="tab-pane" id="pane-kcs">
+        
+        <!-- Banner cảnh báo chặn hoàn tất đơn nếu KCS lỗi/chờ -->
+        <div class="banner banner-danger" id="kcs-blocker-banner">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+          <div>
+            <strong>Ràng buộc Nghiệp vụ:</strong> Lệnh nhập kho <strong>không thể hoàn thành</strong> vì còn dòng hàng có yêu cầu kiểm tra KCS bắt buộc chưa đạt hoặc đang chờ kết quả.
+            <div style="margin-top: 4px; font-weight: 600;" id="kcs-blocker-reason">
+              Hiện còn: 2 dòng Chờ kết quả, 1 dòng Không đạt, 1 dòng Đạt một phần.
+            </div>
+          </div>
+        </div>
+
+        <div class="kcs-header-wrap">
+          <h3 style="font-size:16px; font-weight:700;">Nhật ký Kiểm tra Chất lượng (KCS/QC)</h3>
+          
+          <div class="kcs-sync-box">
+            <div class="kcs-sync-item">
+              <span class="kcs-sync-label">Trạng thái đồng bộ</span>
+              <span class="badge badge-danger" style="margin-top:2px;" id="kcs-sync-badge">Lỗi đồng bộ (SAP)</span>
+            </div>
+            <div class="kcs-sync-item">
+              <span class="kcs-sync-label">Cập nhật gần nhất</span>
+              <span class="kcs-sync-val">18/05/2026 11:12:05</span>
+            </div>
+            <div class="kcs-sync-item">
+              <span class="kcs-sync-label">Nguồn dữ liệu</span>
+              <span class="kcs-sync-val">SAP · QM Module</span>
+            </div>
+            <div style="display:flex; gap:6px;">
+              <button class="btn btn-outline" style="padding: 6px 12px; font-size:12px;" onclick="syncKCS()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:13px; height:13px;"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 11-.57-8.38l5.67-5.67"/></svg>
+                Làm mới
+              </button>
+              <button class="btn btn-secondary" style="padding: 6px 12px; font-size:12px;" onclick="openApiLog()">
+                Xem API Log
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metric cards KCS -->
+        <div class="kcs-mini-kpis">
+          <div class="kcs-mini-card">
+            <div class="kcs-mini-label">Tổng số dòng KCS</div>
+            <div class="kcs-mini-val" id="kcs-total-lines">8</div>
+          </div>
+          <div class="kcs-mini-card pass">
+            <div class="kcs-mini-label">Đạt tiêu chuẩn</div>
+            <div class="kcs-mini-val" id="kcs-pass-lines">3</div>
+          </div>
+          <div class="kcs-mini-card fail">
+            <div class="kcs-mini-label">Không đạt (Hủy/Hỏng)</div>
+            <div class="kcs-mini-val" id="kcs-fail-lines">1</div>
+          </div>
+          <div class="kcs-mini-card partial">
+            <div class="kcs-mini-label">Đạt một phần</div>
+            <div class="kcs-mini-val" id="kcs-partial-lines">1</div>
+          </div>
+          <div class="kcs-mini-card pending">
+            <div class="kcs-mini-label">Chờ kết quả (Pending)</div>
+            <div class="kcs-mini-val" id="kcs-pending-lines">2</div>
+          </div>
+        </div>
+
+        <!-- Toolbar lọc tìm kiếm KCS -->
+        <div class="card">
+          <div class="filters-bar">
+            <div class="search-input-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="kcs-search-input" placeholder="Tìm theo mã hàng, tên hàng..." onkeyup="filterKcsTable()">
+            </div>
+            
+            <div class="filters-controls">
+              <select class="wms-select" id="kcs-status-filter" onchange="filterKcsTable()">
+                <option value="all">Tất cả trạng thái KCS</option>
+                <option value="Đạt">Đạt</option>
+                <option value="Không đạt">Không đạt</option>
+                <option value="Đạt một phần">Đạt một phần</option>
+                <option value="Chờ kết quả">Chờ kết quả</option>
+                <option value="Không áp dụng">Không áp dụng</option>
+              </select>
+              
+              <select class="wms-select" id="kcs-sort-filter" onchange="filterKcsTable()">
+                <option value="stt">Mặc định (Số thứ tự)</option>
+                <option value="name">Tên hàng hóa (A-Z)</option>
+                <option value="date">Thời gian cập nhật (Mới nhất)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <table class="wms-table">
+              <thead>
+                <tr>
+                  <th style="width:50px; text-align:center;">STT</th>
+                  <th style="width:140px;">Mã hàng (SKU)</th>
+                  <th>Tên hàng hóa</th>
+                  <th style="text-align:right; width:90px;">SL kiểm</th>
+                  <th style="width:70px;">ĐVT</th>
+                  <th style="width:140px;">Trạng thái KCS</th>
+                  <th style="text-align:right; width:95px; color:var(--success);">SL đạt</th>
+                  <th style="text-align:right; width:110px; color:var(--danger);">SL không đạt</th>
+                  <th>Lý do không đạt / Ghi chú lỗi</th>
+                  <th style="width:140px;">Thời gian cập nhật</th>
+                  <th>Người / Đơn vị KCS</th>
+                  <th style="width:100px; text-align:center;">Hành động</th>
+                </tr>
+              </thead>
+              <tbody id="kcs-tbody">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div><!-- /#pane-kcs -->
+
+
+      <!-- ── TAB 5: CHỨNG TỪ ──────────────────────── -->
+      <div class="tab-pane" id="pane-docs">
+        <div class="card">
+          <div class="card-header" style="font-size:13px; font-weight:700;">Hồ sơ Chứng từ &amp; Trình ký</div>
+          <div class="table-container">
+            <table class="wms-table">
+              <thead>
+                <tr>
+                  <th>Loại chứng từ</th>
+                  <th>Mã / Thông tin</th>
+                  <th>Trạng thái</th>
+                  <th>Thời gian cập nhật</th>
+                  <th>Hành động</th>
+                </tr>
+              </thead>
+              <tbody id="docs-tbody">
+                <!-- Dynamic content -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div><!-- /#pane-docs -->
+
+
+      <div class="tab-pane" id="pane-history">
+        <div class="card">
+          <div class="card-header" style="font-size:13px; font-weight:700;">Lịch sử thao tác &amp; Hệ thống</div>
+          <div class="table-container">
+            <table class="wms-table">
+              <thead>
+                <tr>
+                  <th>Thời gian</th>
+                  <th>Người/Hệ thống</th>
+                  <th>Hành động</th>
+                  <th>Dữ liệu thay đổi</th>
+                </tr>
+              </thead>
+              <tbody id="history-tbody">
+                <!-- Dynamic content -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div><!-- /#pane-history -->
+
+    </div><!-- /.main-content -->
+
+  </div><!-- /.app-layout -->
+
+  <!-- ── MODAL COMPONENT ──────────────────────── -->
+  <div class="overlay" id="wms-modal-overlay">
+    <div class="modal-box">
+      <div class="modal-hdr">
+        <div class="modal-title" id="wms-modal-title">Tiêu đề Modal</div>
+        <button class="modal-close" onclick="closeWmsModal()">&times;</button>
+      </div>
+      <div class="modal-bdy" id="wms-modal-body">
+        <!-- Content -->
+      </div>
+      <div class="modal-ftr" id="wms-modal-footer">
+        <button class="btn btn-secondary" onclick="closeWmsModal()">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- External mock data framework -->
+  <script src="../mockdata.js"></script>
+
+  <!-- Script logic for Redesigned Detailed View -->
+  <script>
+    'use strict';
+
+    const FIXED_ID = 'INB-2026-00118';
+    let CURRENT_TAB = 'info';
+    let ORDER_DATA = null;
+
+    /* ── MOCK DATA EXTENSION ───────────────────── */
+     const MOCK_TRIPS_NEW = [
+      { id: 'VT-3019', provider: 'Vận tải Thành Đạt', plateReg: '30A-552.18', plateReal: '—', driver: 'Trần Văn Mạnh<br><span style="font-size:11px;color:var(--slate-500);">0904 112 887</span>', eta: '2026-05-18 13:30', dock: 'DK-05', gateIn: '—', dockIn: '—', dockOut: '—', gateOut: '—', status: 'Quá ETA', statusCls: 'badge-danger', ps: 1 }
+    ];
+
+    const MOCK_TASKS_NEW = [
+      { id: 'ITSK-5520', type: 'Duyệt lịch giao việc', user: 'Trần Đăng Khoa', start: '08:10', end: '08:22', sla: 'Hoàn thành', slaCls: 'badge-success', status: 'Hoàn thành', statusCls: 'badge-success' },
+      { id: 'ITSK-5521', type: 'Kiểm hàng - Bàn giao', user: 'Nguyễn Hữu An', start: '09:00', end: '—', sla: 'Trong hạn —', slaCls: 'badge-success', status: 'Đang xử lý', statusCls: 'badge-info' },
+      { id: 'ITSK-5522', type: 'Dỡ hàng', user: 'Đỗ Minh Khôi', start: '09:05', end: '—', sla: 'Trong hạn - 30p còn', slaCls: 'badge-success', status: 'Đang xử lý', statusCls: 'badge-info' },
+      { id: 'ITSK-5523', type: 'Đưa vào khu chờ nhập', user: 'Phạm Thị Hằng', start: '—', end: '—', sla: 'Trong hạn —', slaCls: 'badge-success', status: 'Chưa bắt đầu', statusCls: 'badge-slate' },
+      { id: 'ITSK-5524', type: 'Ký Voffice', user: 'Giám đốc kho', start: '—', end: '—', sla: 'Trong hạn —', slaCls: 'badge-success', status: 'Chưa bắt đầu', statusCls: 'badge-slate' },
+      { id: 'ITSK-5525', type: 'Đưa sang khu đóng gói', user: 'Bùi Quốc Việt', start: '—', end: '—', sla: 'Trong hạn —', slaCls: 'badge-success', status: 'Chưa bắt đầu', statusCls: 'badge-slate' },
+      { id: 'ITSK-5526', type: 'Đóng gói hàng', user: '—', start: '—', end: '—', sla: 'Trong hạn —', slaCls: 'badge-success', status: 'Chưa bắt đầu', statusCls: 'badge-slate' },
+      { id: 'ITSK-5527', type: 'Đưa vào khu lưu trữ', user: 'Bùi Quốc Việt', start: '—', end: '—', sla: 'Trong hạn —', slaCls: 'badge-success', status: 'Chưa bắt đầu', statusCls: 'badge-slate' },
+      { id: 'ITSK-5528', type: 'Giám sát lệnh', user: 'Trần Văn Kho', start: '07:00', end: '—', sla: 'Trong hạn —', slaCls: 'badge-success', status: 'Đang xử lý', statusCls: 'badge-info' },
+      { id: 'ITSK-5529', type: 'Giám sát an ninh', user: '—', start: '07:00', end: '—', sla: 'Trong hạn —', slaCls: 'badge-success', status: 'Chờ phân công', statusCls: 'badge-warning' }
+    ];
+
+    const MOCK_DOCS_NEW = [
+      { type: 'Phiếu xuất T-AGI', info: '—', status: 'Chờ API3', statusCls: 'badge-slate', time: '—', action: '—' },
+      { type: 'BBBG bàn giao', info: '—', status: 'Chưa ký', statusCls: 'badge-slate', time: '—', action: '—' },
+      { type: 'VOffice', info: '—', status: 'Chờ ký', statusCls: 'badge-slate', time: '—', action: '—' },
+      { type: 'Đơn xuất gốc', info: 'SO-2026-1188', status: 'Đã có', statusCls: 'badge-success', time: '—', action: 'Xem &rarr;' }
+    ];
+
+    const MOCK_HISTORY_NEW = [
+      { time: '08:15', author: 'Nguyễn Văn A', action: 'Xác nhận tiếp nhận lệnh', detail: 'Trạng thái: WAIT_CONFIRM &rarr; ACCEPTED' },
+      { time: '08:31', author: 'AIWS', action: 'Sinh task tự động', detail: 'Tạo task TSK-001, TSK-002' },
+      { time: '09:05', author: 'Trần Văn B', action: 'Cập nhật task dỡ hàng', detail: 'Trạng thái: IN_PROGRESS &rarr; COMPLETED' },
+      { time: '09:10', author: 'Trần Văn B', action: 'Upload ảnh bằng chứng', detail: 'Thêm 2 file ảnh' }
+    ];
+
+    const REDESIGNED_MOCK_GOODS = [
+      // Parent Kit 1
+      { code: 'KIT-5G-SITE-A', name: 'Tổ hợp trạm thu phát 5G Massive MIMO - Site A (Broken down)', unit: 'Bộ', doc: null, actual: null, diff: null, kcs: '', hu: '', loc: '', isParent: true, childOf: null },
+      { code: 'ANT-5G-32T', name: 'Anten 5G Massive MIMO 32T32R (Con)', unit: 'Bộ', doc: 24, actual: 24, diff: 0, kcs: 'pass', hu: 'HU-001', loc: 'G01-T02-B05', isParent: false, childOf: 'KIT-5G-SITE-A' },
+      { code: 'BBU-6648', name: 'Baseband Unit BBU 6648 (Con)', unit: 'Bộ', doc: 40, actual: 40, diff: 0, kcs: 'pass', hu: 'HU-002', loc: 'G01-T02-B06', isParent: false, childOf: 'KIT-5G-SITE-A' },
+      { code: 'CAB-FO-LC', name: 'Cáp sợi quang Single-mode LC-LC 10m (Con)', unit: 'Cuộn', doc: 200, actual: 198, diff: -2, kcs: 'pass', hu: 'HU-003', loc: 'I01-T01-B12', isParent: false, childOf: 'KIT-5G-SITE-A' },
+      
+      // Parent Kit 2
+      { code: 'KIT-PWR-DC', name: 'Bộ nguồn tủ DC 48V phụ trợ truyền dẫn (Broken down)', unit: 'Bộ', doc: null, actual: null, diff: null, kcs: '', hu: '', loc: '', isParent: true, childOf: null },
+      { code: 'PWR-48V-30A', name: 'Nguồn DC Rectifier 48V 30A (Con)', unit: 'Cái', doc: 60, actual: 60, diff: 0, kcs: 'partial', hu: 'HU-004', loc: 'H01-T01-B03', isParent: false, childOf: 'KIT-PWR-DC' },
+      
+      // Independent items (breakdowns of standard PO lists)
+      { code: 'RRU-4408', name: 'Remote Radio Unit RRU 4408 (Chờ kiểm)', unit: 'Bộ', doc: 16, actual: 16, diff: 0, kcs: 'pending', hu: null, loc: null, isParent: false, childOf: null },
+      { code: 'SFP-10G-LR', name: 'Module quang SFP+ 10G Dual-fiber 10km', unit: 'Cái', doc: 100, actual: 100, diff: 0, kcs: 'pass', hu: 'HU-005', loc: 'H01-T01-B04', isParent: false, childOf: null },
+      { code: 'UPS-2KVA', name: 'Bộ lưu điện UPS 2KVA dạng Rack', unit: 'Bộ', doc: 10, actual: 10, diff: 0, kcs: 'pending', hu: null, loc: null, isParent: false, childOf: null },
+      { code: 'CBL-PWR-16', name: 'Cáp nguồn DC đồng 16mm2 đỏ/đen', unit: 'Mét', doc: 30, actual: 32, diff: 2, kcs: 'fail', hu: 'HU-006', loc: 'I01-T01-B15', isParent: false, childOf: null }
+    ];
+
+
+
+    const MOCK_KCS_ITEMS = [
+      { stt: 1, code: 'ANT-5G-32T', name: 'Anten 5G Massive MIMO 32T32R', total: 24, unit: 'Bộ', status: 'Đạt', passed: 24, failed: 0, reason: 'Chỉ tiêu sóng phản hồi đều vượt ngưỡng chuẩn.', date: '18/05/2026 10:15', checker: 'Trung tâm KCS Miền Bắc – Lê Văn Minh' },
+      { stt: 2, code: 'BBU-6648', name: 'Baseband Unit BBU 6648', total: 40, unit: 'Bộ', status: 'Đạt', passed: 40, failed: 0, reason: 'Firmware load thành công, kiểm tra port hoạt động ổn định.', date: '18/05/2026 10:30', checker: 'Trung tâm KCS Miền Bắc – Lê Văn Minh' },
+      { stt: 3, code: 'CAB-FO-LC', name: 'Cáp sợi quang Single-mode LC-LC 10m', total: 200, unit: 'Cuộn', status: 'Đạt', passed: 200, failed: 0, reason: 'Độ suy hao quang đạt yêu cầu (<= 0.2dB/km).', date: '18/05/2026 11:00', checker: 'Phòng kiểm định Viettel – Trần Văn Thắng' },
+      { stt: 4, code: 'PWR-48V-30A', name: 'Nguồn DC Rectifier 48V 30A', total: 60, unit: 'Cái', status: 'Đạt một phần', passed: 58, failed: 2, reason: '2 cái bị nứt vỏ nhựa cách điện đầu cực đấu nối nguồn vào.', date: '18/05/2026 11:10', checker: 'Phòng kiểm định Viettel – Trần Văn Thắng' },
+      { stt: 5, code: 'RRU-4408', name: 'Remote Radio Unit RRU 4408', total: 16, unit: 'Bộ', status: 'Chờ kết quả', passed: 0, failed: 0, reason: '—', date: '—', checker: 'Chưa thực hiện' },
+      { stt: 6, code: 'SFP-10G-LR', name: 'Module quang SFP+ 10G Dual-fiber 10km', total: 100, unit: 'Cái', status: 'Đạt', passed: 100, failed: 0, reason: 'Độ nhạy thu tốt, công suất phát quang đạt chuẩn TX/RX.', date: '18/05/2026 11:05', checker: 'Trung tâm KCS Miền Bắc – Lê Văn Minh' },
+      { stt: 7, code: 'UPS-2KVA', name: 'Bộ lưu điện UPS 2KVA dạng Rack', total: 10, unit: 'Bộ', status: 'Chờ kết quả', passed: 0, failed: 0, reason: '—', date: '—', checker: 'Chưa thực hiện' },
+      { stt: 8, code: 'CBL-PWR-16', name: 'Cáp nguồn DC đồng 16mm2 đỏ/đen', total: 30, unit: 'Mét', status: 'Không đạt', passed: 0, failed: 30, reason: 'Sai đường kính lõi đồng thực tế (đo đạc chỉ đạt 12.8mm2), không an toàn tải điện.', date: '18/05/2026 11:12', checker: 'Ban Giám sát Chất lượng – Nguyễn Thị Hồng' }
+    ];
+
+
+
+    /* ── INIT ───────────────────────────────────── */
+    document.addEventListener('DOMContentLoaded', () => {
+      try {
+        if (typeof MOCK === 'undefined') {
+          console.error("Mock library is not defined!");
+          document.getElementById('header-order-id').textContent = 'Lỗi: Không tìm thấy thư viện MOCK';
+          return;
+        }
+
+        ORDER_DATA = MOCK.inboundOrders.find(o => o.id === FIXED_ID);
+        if (!ORDER_DATA) {
+          alert('Không tìm thấy dữ liệu cho đơn: ' + FIXED_ID);
+          return;
+        }
+
+        // Render everything
+        renderTopbar();
+        renderKPIs();
+        renderInfoTab();
+        renderGoodsTable();
+        renderTransportTab();
+        renderTasksTab();
+        renderKcsTab();
+        renderDocsTab();
+        renderHistoryTab();
+
+
+
+      } catch (e) {
+        console.error('Lỗi khi khởi tạo màn hình chi tiết:', e);
+      }
+    });
+
+    /* ── GENERAL FUNCTIONS ──────────────────────── */
+    function renderTopbar() {
+      document.title = ORDER_DATA.id + ' — Chi tiết lệnh nhập | Viettel WMS';
+      document.getElementById('header-order-id').textContent = ORDER_DATA.id;
+    }
+
+    function renderKPIs() {
+      // Empty dummy since KPIs are removed
+    }
+
+
+    /* ── TAB 1: THÔNG TIN HÀNG HÓA ──────────────── */
+    function renderInfoTab() {
+      document.getElementById('inf-category-label').textContent = ORDER_DATA.categoryLabel || 'INB-NCC – Nhập kho NCC';
+      document.getElementById('inf-ref-code').textContent = ORDER_DATA.refCode || '—';
+      
+      const supplier = MOCK.getSupplierById(ORDER_DATA.supplier);
+      document.getElementById('inf-contract-code').textContent = supplier ? supplier.taxCode : 'HD-2026-0991';
+      document.getElementById('inf-date').textContent = ORDER_DATA.inboundDate || '—';
+      
+      const totalQty = REDESIGNED_MOCK_GOODS.reduce((s, g) => s + (g.actual || 0), 0);
+      document.getElementById('inf-summary-desc').textContent = 
+        `Nhập phân rã hàng · ${REDESIGNED_MOCK_GOODS.length} dòng hàng · ${totalQty} đơn vị · Phụ trách: ${ORDER_DATA.assigneeName || 'Trần Văn Kho'}`;
+    }
+
+    function renderGoodsTable() {
+      const tbody = document.getElementById('goods-tbody');
+      tbody.innerHTML = '';
+
+      REDESIGNED_MOCK_GOODS.forEach(g => {
+        const tr = document.createElement('tr');
+        
+        if (g.isParent) {
+          tr.className = 'row-parent';
+          tr.innerHTML = `
+            <td colspan="3">
+              <div class="tree-cell">
+                <span class="badge badge-primary">Cha</span>
+                <span style="font-family:monospace; font-weight:700; color:var(--primary);">${esc(g.code)}</span>
+              </div>
+            </td>
+            <td colspan="3" style="color:var(--slate-500); font-style:italic;">${esc(g.name)}</td>
+            <td style="color:var(--slate-400);">—</td>
+            <td style="color:var(--slate-400);">—</td>
+            <td style="color:var(--slate-400);">—</td>
+          `;
+        } else {
+          // Child or normal row
+          let indent = '';
+          if (g.childOf) {
+            indent = `<span class="tree-join">└─</span>`;
+          }
+
+          const diffVal = g.diff;
+          let diffTd = `<td class="diff-none" style="text-align:right;">0</td>`;
+          if (diffVal < 0) {
+            diffTd = `<td class="diff-negative" style="text-align:right;">${diffVal}</td>`;
+          } else if (diffVal > 0) {
+            diffTd = `<td style="text-align:right; font-weight:700; color:var(--success);">+${diffVal}</td>`;
+          }
+
+          let kcsBadge = '<span class="badge badge-slate">Không</span>';
+          if (g.kcs === 'pass') kcsBadge = '<span class="badge badge-success">Đạt</span>';
+          else if (g.kcs === 'partial') kcsBadge = '<span class="badge badge-warning">Một phần</span>';
+          else if (g.kcs === 'pending') kcsBadge = '<span class="badge badge-slate">Pending</span>';
+          else if (g.kcs === 'fail') kcsBadge = '<span class="badge badge-danger">Lỗi QC</span>';
+
+          const huText = g.hu ? `<a href="#" class="hu-link" style="color:var(--info); font-family:monospace; font-weight:600; text-decoration:none;" onclick="alert('Xem chi tiết Handling Unit: ${g.hu}')">${esc(g.hu)}</a>` : '<span style="color:var(--slate-400);">—</span>';
+          const locText = g.loc ? `<span class="badge badge-slate" style="font-family:monospace;">${esc(g.loc)}</span>` : '<span style="color:var(--slate-400);">—</span>';
+
+          tr.innerHTML = `
+            <td>
+              <div class="tree-cell" style="padding-left: ${g.childOf ? '15px' : '0'};">
+                ${indent}
+                <span style="font-family:monospace; font-weight:600; color:var(--slate-800);">${esc(g.code)}</span>
+              </div>
+            </td>
+            <td>
+              <div style="font-weight: 500; color:var(--slate-900);">${esc(g.name)}</div>
+            </td>
+            <td style="color:var(--slate-500);">${esc(g.unit)}</td>
+            <td style="text-align:right; font-weight:600;">${g.doc !== null ? g.doc : '—'}</td>
+            <td style="text-align:right; font-weight:700; color:var(--slate-800);">${g.actual !== null ? g.actual : '—'}</td>
+            ${diffTd}
+            <td>${kcsBadge}</td>
+            <td>${huText}</td>
+            <td>${locText}</td>
+          `;
+        }
+
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById('goods-list-count').textContent = REDESIGNED_MOCK_GOODS.length + ' dòng hàng';
+    }
+
+    /* ── TAB 2: VẬN CHUYỂN ────────────────────── */
+    function renderTransportTab() {
+      const tbody = document.getElementById('transport-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      MOCK_TRIPS_NEW.forEach(t => {
+        const tr = document.createElement('tr');
+        const psHtml = t.ps ? `<span style="color:var(--primary); font-weight:700; display:inline-flex; align-items:center; gap:2px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:12px; height:12px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> ${t.ps}</span>` : '—';
+
+        tr.innerHTML = `
+          <td>
+            <span class="code-link" style="display:inline-flex; align-items:center; gap:4px;" onclick="alert('Xem chi tiết chuyến ${t.id}')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:12px; height:12px; transform:rotate(90deg);"><polyline points="9 18 15 12 9 6"/></svg>
+              ${esc(t.id)}
+            </span>
+          </td>
+          <td style="font-weight:600; color:var(--slate-900);">${esc(t.provider)}</td>
+          <td style="font-family:monospace; font-weight:600;">${esc(t.plateReg)}</td>
+          <td style="font-family:monospace; color:var(--slate-400);">${esc(t.plateReal)}</td>
+          <td>${t.driver}</td>
+          <td style="font-family:monospace; color:var(--slate-600);">${esc(t.eta)}</td>
+          <td><span class="badge badge-slate" style="font-family:monospace;">${esc(t.dock)}</span></td>
+          <td style="color:var(--slate-400);">—</td>
+          <td style="color:var(--slate-400);">—</td>
+          <td style="color:var(--slate-400);">—</td>
+          <td style="color:var(--slate-400);">—</td>
+          <td><span class="badge ${t.statusCls}">${esc(t.status)}</span></td>
+          <td style="text-align:center;">${psHtml}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById('tab-badge-transport').textContent = MOCK_TRIPS_NEW.length;
+    }
+
+
+    /* ── TAB 3: TASK ──────────────────────────── */
+    function renderTasksTab() {
+      const tbody = document.getElementById('task-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      MOCK_TASKS_NEW.forEach(t => {
+        const tr = document.createElement('tr');
+        const userInitials = t.user !== '—' ? getInitials(t.user) : '—';
+        const userHtml = t.user !== '—' ? `
+          <div class="assignee-badge-table">
+            <div class="assignee-avatar-table">${esc(userInitials)}</div>
+            <span style="font-weight:500;">${esc(t.user)}</span>
+          </div>
+        ` : '<span style="color:var(--slate-400);">—</span>';
+
+        tr.innerHTML = `
+          <td><span class="code-link" onclick="alert('Xem chi tiết Task ${t.id}')">${esc(t.id)}</span></td>
+          <td style="font-weight:500; color:var(--slate-900);">${esc(t.type)}</td>
+          <td>${userHtml}</td>
+          <td style="font-family:monospace; color:var(--slate-600);">${esc(t.start)}</td>
+          <td style="font-family:monospace; color:var(--slate-600);">${esc(t.end)}</td>
+          <td><span class="badge ${t.slaCls}">${esc(t.sla)}</span></td>
+          <td><span class="badge ${t.statusCls}">${esc(t.status)}</span></td>
+          <td style="text-align:center;">
+            <button class="btn btn-secondary" onclick="updateTaskProgress('${t.id}')" style="padding: 4px 8px; font-size: 11px; font-weight:600; border-radius: 6px;">Cập nhật tiến độ</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById('tab-badge-task').textContent = MOCK_TASKS_NEW.length;
+    }
+
+    function updateTaskProgress(taskId) {
+      alert('Cập nhật tiến độ cho task: ' + taskId + '. Giao diện cập nhật tiến độ chi tiết sẽ được cập nhật sau.');
+    }
+
+
+    /* ── TAB 4: KẾT QUẢ KCS ────────────────────── */
+    function renderKcsTab() {
+      // Metric counters
+      document.getElementById('kcs-total-lines').textContent = MOCK_KCS_ITEMS.length;
+      
+      const count = (status) => MOCK_KCS_ITEMS.filter(k => k.status === status).length;
+      document.getElementById('kcs-pass-lines').textContent = count('Đạt');
+      document.getElementById('kcs-fail-lines').textContent = count('Không đạt');
+      document.getElementById('kcs-partial-lines').textContent = count('Đạt một phần');
+      document.getElementById('kcs-pending-lines').textContent = count('Chờ kết quả');
+
+      document.getElementById('tab-badge-kcs').textContent = MOCK_KCS_ITEMS.length;
+
+      // Update Blocker Warning Banner details
+      const pendingNum = count('Chờ kết quả');
+      const failNum = count('Không đạt');
+      const partialNum = count('Đạt một phần');
+
+      if (pendingNum > 0 || failNum > 0) {
+        document.getElementById('kcs-blocker-banner').style.display = 'flex';
+        document.getElementById('kcs-blocker-reason').textContent = 
+          `Hiện còn: ${pendingNum} dòng Chờ kết quả, ${failNum} dòng Không đạt, ${partialNum} dòng Đạt một phần.`;
+      } else {
+        document.getElementById('kcs-blocker-banner').style.display = 'none';
+      }
+
+      filterKcsTable();
+    }
+
+    function filterKcsTable() {
+      const q = document.getElementById('kcs-search-input').value.trim().toLowerCase();
+      const statusFilter = document.getElementById('kcs-status-filter').value;
+      const sortFilter = document.getElementById('kcs-sort-filter').value;
+
+      let list = [...MOCK_KCS_ITEMS];
+
+      // Search query filter
+      if (q) {
+        list = list.filter(item => 
+          item.code.toLowerCase().includes(q) || 
+          item.name.toLowerCase().includes(q)
+        );
+      }
+
+      // Status filter
+      if (statusFilter !== 'all') {
+        list = list.filter(item => item.status === statusFilter);
+      }
+
+      // Sort
+      if (sortFilter === 'name') {
+        list.sort((a, b) => a.name.localeCompare(b.name, 'vi'));
+      } else if (sortFilter === 'date') {
+        list.sort((a, b) => b.date.localeCompare(a.date));
+      } else {
+        list.sort((a, b) => a.stt - b.stt);
+      }
+
+      const tbody = document.getElementById('kcs-tbody');
+      tbody.innerHTML = '';
+
+      if (list.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="12" style="text-align:center; padding:32px; color:var(--slate-400);">Không tìm thấy kết quả KCS phù hợp.</td></tr>';
+        return;
+      }
+
+      list.forEach(k => {
+        const tr = document.createElement('tr');
+        
+        let kcsBadge = '';
+        if (k.status === 'Đạt') kcsBadge = '<span class="badge badge-success">Đạt</span>';
+        else if (k.status === 'Đạt một phần') kcsBadge = '<span class="badge badge-warning">Đạt một phần</span>';
+        else if (k.status === 'Không đạt') kcsBadge = '<span class="badge badge-danger">Không đạt</span>';
+        else if (k.status === 'Chờ kết quả') kcsBadge = '<span class="badge badge-slate">Chờ kết quả</span>';
+        else kcsBadge = `<span class="badge badge-slate">${k.status}</span>`;
+
+        let actionHtml = `<a href="#" style="color:var(--info); text-decoration:none; font-weight:600;" onclick="viewKcsLog(${k.stt})">Xem log</a>`;
+        if (k.status === 'Chờ kết quả') actionHtml = '<span style="color:var(--slate-400);">—</span>';
+
+        tr.innerHTML = `
+          <td style="text-align:center; font-weight:600; color:var(--slate-500);">${k.stt}</td>
+          <td style="font-family:monospace; font-weight:700; color:var(--primary);">${esc(k.code)}</td>
+          <td style="font-weight:600; color:var(--slate-900);">${esc(k.name)}</td>
+          <td style="text-align:right; font-weight:600;">${k.total}</td>
+          <td style="color:var(--slate-500);">${esc(k.unit)}</td>
+          <td>${kcsBadge}</td>
+          <td style="text-align:right; font-weight:700; color:var(--success);">${k.passed}</td>
+          <td style="text-align:right; font-weight:700; color:var(--danger);">${k.failed}</td>
+          <td style="font-size:12px; color:var(--slate-600); max-width:250px;">${esc(k.reason)}</td>
+          <td style="font-family:monospace; font-size:12px;">${esc(k.date)}</td>
+          <td style="font-size:12px; font-weight:500;">${esc(k.checker)}</td>
+          <td style="text-align:center; font-size:12px;">${actionHtml}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function syncKCS() {
+      // Simulating dynamic sync
+      const syncBadge = document.getElementById('kcs-sync-badge');
+      syncBadge.className = 'badge badge-slate';
+      syncBadge.textContent = 'Đang đồng bộ...';
+      
+      setTimeout(() => {
+        syncBadge.className = 'badge badge-success';
+        syncBadge.textContent = 'Đồng bộ thành công';
+        
+        // Update updated time
+        const now = new Date();
+        const dateStr = `${pad(now.getDate())}/${pad(now.getMonth()+1)}/${now.getFullYear()} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+        document.querySelector('.kcs-sync-val').textContent = dateStr;
+        
+        // Alter one pending item to simulation
+        const rru = MOCK_KCS_ITEMS.find(k => k.code === 'RRU-4408');
+        if (rru && rru.status === 'Chờ kết quả') {
+          rru.status = 'Đạt';
+          rru.passed = 16;
+          rru.date = dateStr;
+          rru.checker = 'Trung tâm KCS Miền Bắc – Lê Văn Minh';
+          rru.reason = 'Tần số hoạt động ổn định, suy hao phản xạ tốt.';
+          
+          renderKcsTab();
+          renderGoodsTable(); // Also update first tab
+          alert('Đồng bộ KCS hoàn tất! SKU RRU-4408 đã nhận kết quả: Đạt.');
+        } else {
+          alert('Đồng bộ thành công! Không có dữ liệu KCS mới từ SAP.');
+        }
+      }, 1000);
+    }
+
+    function viewKcsLog(stt) {
+      const item = MOCK_KCS_ITEMS.find(k => k.stt === stt);
+      if (!item) return;
+
+      const mockJson = {
+        SAP_QM_RESPONSE: {
+          TransactionID: "TXN-QM-" + Math.floor(Math.random()*90000 + 10000),
+          SyncTimestamp: item.date === '—' ? new Date().toISOString() : item.date,
+          SourceSystem: "SAP_QM_SERVER_PRODUCTION_01",
+          InspectionLot: "LOT-09923894",
+          MaterialDetail: {
+            MaterialCode: item.code,
+            MaterialName: item.name,
+            InspectedQuantity: item.total,
+            UnitOfMeasure: item.unit
+          },
+          QualityInspectionResult: {
+            OverallStatus: item.status === 'Đạt' ? "RELEASED" : item.status === 'Không đạt' ? "REJECTED" : "PARTIAL",
+            QuantityReleased: item.passed,
+            QuantityRejected: item.failed,
+            RejectionReason: item.reason,
+            InspectorName: item.checker
+          }
+        }
+      };
+
+      openWmsModal(
+        `Log API Đồng bộ KCS — ${item.code}`,
+        `<p style="margin-bottom:12px; font-weight:600;">Thông tin phản hồi JSON từ hệ thống SAP QM:</p>
+         <pre class="json-code">${JSON.stringify(mockJson, null, 2)}</pre>`,
+        `<button class="btn btn-secondary" onclick="closeWmsModal()">Đóng log</button>`
+      );
+    }
+
+    function openApiLog() {
+      // General API Log modal
+      openWmsModal(
+        "Nhật ký gọi API Hệ thống KCS",
+        `<p style="margin-bottom:12px;">Nhật ký trao đổi gói tin API với <strong>SAP integration broker</strong> gần nhất:</p>
+         <pre class="json-code">[18/05/2026 11:12:05] ERROR: SAP_QM_TIMEOUT_408 (Connection timed out)
+GET /api/v2/inspection-lots/INB-2026-00118 HTTP/1.1
+Host: sap-api.viettel.vn
+Connection: close
+
+[18/05/2026 11:00:00] SUCCESS: 200 OK
+POST /api/v2/inspection-lots/sync-status HTTP/1.1
+Response: {"status":"success","synced_items":4}
+
+[18/05/2026 09:20:10] SUCCESS: 201 Created
+POST /api/v2/orders/INB-2026-00118/tasks HTTP/1.1
+Response: {"status":"tasks_created","count":13}</pre>`,
+        `<button class="btn btn-primary" onclick="syncKCS(); closeWmsModal();">Đồng bộ lại</button>
+         <button class="btn btn-secondary" onclick="closeWmsModal()">Đóng</button>`
+      );
+    }
+
+    /* ── TAB 5: CHỨNG TỪ ──────────────────────── */
+    function renderDocsTab() {
+      const tbody = document.getElementById('docs-tbody');
+      tbody.innerHTML = '';
+
+      MOCK_DOCS_NEW.forEach(d => {
+        const tr = document.createElement('tr');
+        
+        let actHtml = '<span style="color:var(--slate-400);">—</span>';
+        if (d.action !== '—') {
+          actHtml = `<span class="code-link" onclick="alert('Đang mở file ${d.info}')">${esc(d.action)}</span>`;
+        }
+
+        const infoHtml = d.info !== '—' ? `<span style="font-family:monospace; font-weight:600;">${esc(d.info)}</span>` : '<span style="color:var(--slate-400);">—</span>';
+
+        tr.innerHTML = `
+          <td style="font-weight:600; color:var(--slate-900);">${esc(d.type)}</td>
+          <td>${infoHtml}</td>
+          <td><span class="badge ${d.statusCls}">${esc(d.status)}</span></td>
+          <td style="font-family:monospace; color:var(--slate-600);">${esc(d.time)}</td>
+          <td>${actHtml}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById('tab-badge-docs').textContent = MOCK_DOCS_NEW.length;
+    }
+
+
+    function viewVOfficeFlow(code) {
+      openWmsModal(
+        `Luồng trình ký VOffice — ${code}`,
+        `<p style="margin-bottom:16px; font-weight:500;">Quy trình phê duyệt phiếu bàn giao tài sản trên hệ thống VOffice:</p>
+         <div class="voffice-flow">
+           <div class="voffice-step signed">
+             <div class="voffice-circle">1</div>
+             <div>
+               <div style="font-weight:700;">Trần Văn Kho (Thủ kho khởi tạo)</div>
+               <div style="font-size:11px; color:var(--slate-500);">Đã ký duyệt · 18/05/2026 14:15:00</div>
+             </div>
+           </div>
+           <div class="voffice-step signed">
+             <div class="voffice-circle">2</div>
+             <div>
+               <div style="font-weight:700;">Phạm Thị Hằng (Kế toán kho soát xét)</div>
+               <div style="font-size:11px; color:var(--slate-500);">Đã ký duyệt · 18/05/2026 14:45:00</div>
+             </div>
+           </div>
+           <div class="voffice-step pending">
+             <div class="voffice-circle">3</div>
+             <div>
+               <div style="font-weight:700; color:#92400E;">Nguyễn Huy Hoàng (Trưởng Ban Vật tư)</div>
+               <div style="font-size:11px; color:#B45309;">Đang chờ duyệt...</div>
+             </div>
+           </div>
+         </div>`,
+        `<button class="btn btn-primary" onclick="alert('Đã gửi thông báo nhắc duyệt trên VOffice!'); closeWmsModal();">Gửi nhắc nhở</button>
+         <button class="btn btn-secondary" onclick="closeWmsModal()">Đóng</button>`
+      );
+    }
+
+    /* ── TAB 6: LỊCH SỬ THAY ĐỔI ──────────────── */
+    function renderHistoryTab() {
+      const tbody = document.getElementById('history-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      MOCK_HISTORY_NEW.forEach(h => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td style="font-family:monospace; color:var(--slate-600);">${esc(h.time)}</td>
+          <td style="font-weight:600; color:var(--slate-900);">${esc(h.author)}</td>
+          <td style="font-weight:500;">${esc(h.action)}</td>
+          <td style="font-family:monospace; font-size:12px; color:var(--slate-600);">${h.detail}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+
+    /* ── TAB SWITCH ─────────────────────────────── */
+    function switchTab(tab) {
+      CURRENT_TAB = tab;
+      
+      // Update tab buttons class
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        const tabName = btn.getAttribute('onclick').match(/'([^']+)'/)[1];
+        btn.classList.toggle('active', tabName === tab);
+      });
+
+      // Update active panel
+      document.querySelectorAll('.tab-pane').forEach(pane => {
+        const id = pane.getAttribute('id');
+        pane.classList.toggle('active', id === 'pane-' + tab);
+      });
+    }
+
+    /* ── ACTIONS ────────────────────────────────── */
+    function goBack() {
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage({ action: 'navigate', view: 'inbound-receipt' }, '*');
+      } else {
+        window.location.href = 'PH2.html';
+      }
+    }
+
+    function downloadAllDocs() {
+      alert('Đang tải nén toàn bộ chứng từ liên quan (BBBG, Phiếu nhập, KCS, Phiếu trình ký) ...');
+    }
+
+    function viewTaskList() {
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage({ action: 'navigate', view: 'tasks-list' }, '*');
+      } else {
+        window.location.href = '../PH6_Task/PH6.html';
+      }
+    }
+
+    function confirmCurrentOrder() {
+      if (!ORDER_DATA) return;
+      ORDER_DATA.status = 'processing';
+      ORDER_DATA.statusLabel = 'Đang xử lý';
+      
+      // Insert new log into history
+      const now = new Date();
+      const timeStr = `${pad(now.getDate())}/${pad(now.getMonth()+1)}/${now.getFullYear()} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
+      
+      MOCK_AUDIT_LOGS.unshift({
+        time: timeStr,
+        type: 'user',
+        author: 'Nguyễn Quản Trị (Admin WMS)',
+        title: 'Xác nhận lệnh nhập kho thành công',
+        changes: 'Trạng thái lệnh: WAIT_CONFIRM → PROCESSING (Đang xử lý)'
+      });
+
+      updateStatusBadges(ORDER_DATA.status, ORDER_DATA.statusLabel);
+      renderKPIs();
+      renderHistoryTab();
+      alert('Đã xác nhận tiếp nhận lệnh nhập kho ' + FIXED_ID + ' thành công!');
+    }
+
+    /* ── QUICK SEARCH ───────────────────────────── */
+    function quickSearch(val) {
+      const q = val.trim().toLowerCase();
+      
+      if (!q) {
+        renderGoodsTable();
+        return;
+      }
+
+      // Filter local goods table based on code or name
+      const tbody = document.getElementById('goods-tbody');
+      tbody.innerHTML = '';
+
+      const filtered = REDESIGNED_MOCK_GOODS.filter(g => 
+        !g.isParent && 
+        (g.code.toLowerCase().includes(q) || g.name.toLowerCase().includes(q))
+      );
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding:32px; color:var(--slate-400);">Không tìm thấy hàng hóa.</td></tr>';
+        return;
+      }
+
+      filtered.forEach(g => {
+        const tr = document.createElement('tr');
+        const diffVal = g.diff;
+        let diffTd = `<td class="diff-none" style="text-align:right;">0</td>`;
+        if (diffVal < 0) {
+          diffTd = `<td class="diff-negative" style="text-align:right;">${diffVal}</td>`;
+        } else if (diffVal > 0) {
+          diffTd = `<td style="text-align:right; font-weight:700; color:var(--success);">+${diffVal}</td>`;
+        }
+
+        let kcsBadge = '<span class="badge badge-slate">Không</span>';
+        if (g.kcs === 'pass') kcsBadge = '<span class="badge badge-success">Đạt</span>';
+        else if (g.kcs === 'partial') kcsBadge = '<span class="badge badge-warning">Một phần</span>';
+        else if (g.kcs === 'pending') kcsBadge = '<span class="badge badge-slate">Pending</span>';
+        else if (g.kcs === 'fail') kcsBadge = '<span class="badge badge-danger">Lỗi QC</span>';
+
+        const huText = g.hu ? `<a href="#" class="hu-link" style="color:var(--info); font-family:monospace; font-weight:600; text-decoration:none;" onclick="alert('Xem chi tiết Handling Unit: ${g.hu}')">${esc(g.hu)}</a>` : '<span style="color:var(--slate-400);">—</span>';
+        const locText = g.loc ? `<span class="badge badge-slate" style="font-family:monospace;">${esc(g.loc)}</span>` : '<span style="color:var(--slate-400);">—</span>';
+
+        tr.innerHTML = `
+          <td>
+            <div class="tree-cell">
+              <span style="font-family:monospace; font-weight:600; color:var(--slate-800);">${esc(g.code)}</span>
+            </div>
+          </td>
+          <td>
+            <div style="font-weight: 500; color:var(--slate-900);">${esc(g.name)}</div>
+          </td>
+          <td style="color:var(--slate-500);">${esc(g.unit)}</td>
+          <td style="text-align:right; font-weight:600;">${g.doc !== null ? g.doc : '—'}</td>
+          <td style="text-align:right; font-weight:700; color:var(--slate-800);">${g.actual !== null ? g.actual : '—'}</td>
+          ${diffTd}
+          <td>${kcsBadge}</td>
+          <td>${huText}</td>
+          <td>${locText}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    /* ── MODALS CONTROLLERS ────────────────────── */
+    function openWmsModal(title, bodyHtml, footerHtml = '') {
+      document.getElementById('wms-modal-title').textContent = title;
+      document.getElementById('wms-modal-body').innerHTML = bodyHtml;
+      
+      const footer = document.getElementById('wms-modal-footer');
+      if (footerHtml) {
+        footer.innerHTML = footerHtml;
+        footer.style.display = 'flex';
+      } else {
+        footer.style.display = 'none';
+      }
+
+      document.getElementById('wms-modal-overlay').classList.add('active');
+    }
+
+    function closeWmsModal() {
+      document.getElementById('wms-modal-overlay').classList.remove('active');
+    }
+
+    /* ── UTILS ──────────────────────────────────── */
+    function esc(s) {
+      if (s === null || s === undefined) return '';
+      return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function getInitials(name) {
+      if (!name) return '?';
+      const parts = name.trim().split(' ');
+      if (parts.length >= 2) return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+      return name[0].toUpperCase();
+    }
+
+    function pad(num) {
+      return String(num).padStart(2, '0');
+    }
+  </script>
+
+</body>
+
+</html>

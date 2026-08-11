@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Xác nhận lệnh xuất – OTSK-5535 | Viettel WMS</title>
+  <!-- Google Fonts: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- External stylesheet -->
+  <link rel="stylesheet" href="outbound_confirm.css">
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <div class="page-header">
+    <div class="header-title-wrap">
+      <div class="breadcrumb">
+        <a href="#" onclick="goBack()">Kho Thông Minh</a>
+        <span class="sep">/</span>
+        <a href="#" onclick="goBack()">Xuất kho</a>
+        <span class="sep">/</span>
+        <a href="#">Task</a>
+        <span class="sep">/</span>
+        <span style="color:var(--slate-800);">OTSK-5535</span>
+      </div>
+      <h1>Xác nhận lệnh xuất – OTSK-5535</h1>
+      <p id="header-order-subtitle">Order OUT-2026-00452 · SO-2026-1190</p>
+    </div>
+    <div class="header-actions">
+      <span class="badge badge-success">Đã nhận · 08:00</span>
+      <button class="badge badge-outline" style="cursor:pointer;" onclick="alert('Đã gửi yêu cầu gia hạn KPI lên ban quản lý!')">Gia hạn KPI</button>
+      <button class="btn btn-primary" onclick="submitDecision()">Hoàn thành</button>
+    </div>
+  </div>
+
+  <!-- ===== KPI GRID ===== -->
+  <div class="kpi-grid">
+    <div class="kpi-item">
+      <span class="kpi-lbl">Trạng thái</span>
+      <span class="kpi-val">
+        <span class="badge badge-success" style="font-size:12px; padding:2px 8px;">Hoàn thành</span>
+      </span>
+    </div>
+    <div class="kpi-item">
+      <span class="kpi-lbl">SLA / KPI</span>
+      <span class="kpi-val" style="color:var(--success);">
+        Hoàn thành
+      </span>
+      <div class="kpi-progress-bg">
+        <div class="kpi-progress-fill"></div>
+      </div>
+    </div>
+    <div class="kpi-item">
+      <span class="kpi-lbl">Order</span>
+      <span class="kpi-val order-bold" id="kpi-order-id">OUT-2026-00452</span>
+    </div>
+    <div class="kpi-item">
+      <span class="kpi-lbl">Loại Task</span>
+      <span class="kpi-val">Check lệnh xuất kho</span>
+    </div>
+    <div class="kpi-item">
+      <span class="kpi-lbl">Khu vực</span>
+      <span class="kpi-val">VP Kho / Thủ kho</span>
+    </div>
+    <div class="kpi-item">
+      <span class="kpi-lbl">Phụ trách</span>
+      <div class="kpi-val">
+        <div class="assignee-badge-circle">TK</div>
+        <span style="font-size:12.5px;" id="kpi-assignee-name">Trần Văn Kho</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CONTENT ===== -->
+  <div class="content-section">
+    
+    <!-- Quyết định xử lý -->
+    <div class="card">
+      <div class="card-header">Quyết định xử lý</div>
+      <div class="card-body">
+        <div class="decision-row">
+          
+          <!-- Đồng ý lệnh -->
+          <div class="decision-card active-accept" id="card-accept" onclick="selectDecision('accept')">
+            <div class="decision-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="decision-text">
+              <span class="decision-title" style="color: #065F46;">Đồng ý lệnh</span>
+              <span class="decision-desc">Tiếp nhận lệnh và xác nhận thời gian dự kiến xuất.</span>
+            </div>
+          </div>
+
+          <!-- Từ chối lệnh -->
+          <div class="decision-card" id="card-reject" onclick="selectDecision('reject')">
+            <div class="decision-icon" style="background:var(--slate-200); color:var(--slate-600);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </div>
+            <div class="decision-text">
+              <span class="decision-title">Từ chối lệnh</span>
+              <span class="decision-desc">Bắt buộc nhập lý do. Hệ thống gọi OUT-API2 đồng bộ SAP/VERP.</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Form fields -->
+        <div class="fields-row" id="form-fields">
+          <div class="form-group">
+            <label for="input-date">Ngày dự kiến xuất *</label>
+            <input type="date" id="input-date" value="2026-05-18">
+          </div>
+          <div class="form-group">
+            <label for="input-time">Giờ dự kiến xuất *</label>
+            <input type="time" id="input-time" value="18:00">
+          </div>
+        </div>
+
+        <!-- Reject Reason Field (hidden by default) -->
+        <div class="form-group" id="reject-fields" style="display:none; margin-top:10px;">
+          <label for="input-reason">Lý do từ chối *</label>
+          <textarea id="input-reason" rows="3" placeholder="Nhập lý do từ chối tiếp nhận lệnh xuất kho..."></textarea>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Chi tiết lệnh -->
+    <div class="card">
+      <div class="card-header" style="display:flex; justify-content:space-between; align-items:center;">
+        <span>Chi tiết Order</span>
+        <a href="#" style="font-size:12px; color:var(--primary); font-weight:700; text-decoration:none;" id="link-order-detail" onclick="openFullDetail()">Mở chi tiết Order →</a>
+      </div>
+      <div class="card-body">
+        <div class="detail-grid">
+          <div class="detail-group">
+            <span class="detail-lbl">Mã Order</span>
+            <span class="detail-val mono" id="dt-order-id">OUT-2026-00452</span>
+          </div>
+          <div class="detail-group">
+            <span class="detail-lbl">Loại</span>
+            <span class="detail-val type-badge-inline" id="dt-order-type">OUT-VC</span>
+          </div>
+          <div class="detail-group">
+            <span class="detail-lbl">Chứng từ gốc</span>
+            <span class="detail-val mono" id="dt-order-ref">SO-2026-1190</span>
+          </div>
+          <div class="detail-group">
+            <span class="detail-lbl">Đơn vị nhận</span>
+            <span class="detail-val" id="dt-order-customer">Trạm BTS Đà Nẵng</span>
+          </div>
+          
+          <div class="detail-group">
+            <span class="detail-lbl">Kho</span>
+            <span class="detail-val mono" id="dt-order-wh">HN01</span>
+          </div>
+          <div class="detail-group">
+            <span class="detail-lbl">Ngày kế hoạch</span>
+            <span class="detail-val" id="dt-order-plan-date">2026-05-18 18:00</span>
+          </div>
+          <div class="detail-group">
+            <span class="detail-lbl">Số dòng</span>
+            <span class="detail-val" id="dt-order-lines">5</span>
+          </div>
+          <div class="detail-group">
+            <span class="detail-lbl">Tổng SL</span>
+            <span class="detail-val" id="dt-order-qty" style="font-weight:700; color:var(--slate-900);">120</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rule nghiệp vụ -->
+    <div class="rules-banner">
+      <div class="rules-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Rule nghiệp vụ
+      </div>
+      <ol class="rules-list">
+        <li>Thủ kho kiểm tra Order (đơn vị nhận, dòng, số lượng, tồn) trước khi xử lý.</li>
+        <li>Đồng ý &mdash; nhập ngày &amp; giờ dự kiến xuất. Hệ thống sinh task theo template OUT-* và đề xuất NS.</li>
+        <li>Từ chối &mdash; bắt buộc nhập lý do, gọi OUT-API2 đồng bộ lại SAP/VERP.</li>
+        <li>Hết ngày làm việc mà xe/đơn vị nhận chưa tới &mdash; hệ thống tự động chuyển đơn về trạng thái Chờ xác nhận để thủ kho xử lý tiếp ngày hôm sau.</li>
+        <li>Nút "Hoàn thành" chỉ kích hoạt sau khi đã chọn quyết định. Sau khi Đồng ý &mdash; hệ thống tự động mở bước Gom order &amp; sắp lịch vận chuyển.</li>
+      </ol>
+    </div>
+
+  </div>
+
+  <!-- External mock data and logic scripts -->
+  <script src="../mockdata.js"></script>
+  <script src="outbound_confirm.js" defer></script>
+</body>
+</html>

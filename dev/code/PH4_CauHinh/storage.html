@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Công cụ lưu trữ | Viettel AIWS</title>
+    <link rel="stylesheet" href="storage.css">
+</head>
+
+<body>
+
+    <div id="storage-app" class="app-container">
+        <!-- TOAST NOTIFIER -->
+        <div id="toast-container" class="toast-container"></div>
+
+        <!-- ==============================================
+         MH-01: DANH SÁCH CÔNG CỤ LƯU TRỮ
+         ============================================== -->
+        <div id="view-list" class="view-panel active">
+            <div class="page-header">
+                <div class="header-title">
+                    <h1>Danh sách Công cụ lưu trữ</h1>
+                </div>
+                <div style="display:flex; gap:8px;">
+                    <button class="btn btn-primary" onclick="showFormView()">
+                        <svg viewBox="0 0 20 20" fill="currentColor" class="icon-sm">
+                            <path fill-rule="evenodd"
+                                d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        Thêm mới
+                    </button>
+                </div>
+            </div>
+
+            <!-- SEARCH & FILTERS -->
+            <div
+                style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(15,23,42,.04)">
+                <div style="display:grid;grid-template-columns:2fr 1.5fr auto;gap:10px;align-items:end">
+                    <div>
+                        <label
+                            style="font-size:11px;font-weight:600;color:var(--text2);display:block;margin-bottom:5px">Mã
+                            công cụ / Tên công cụ</label>
+                        <div style="position:relative">
+                            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"
+                                style="position:absolute;left:10px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:var(--text3);pointer-events:none">
+                                <circle cx="9" cy="9" r="6" />
+                                <path d="m15 15 3 3" />
+                            </svg>
+                            <input id="filter-search" type="text" placeholder="Nhập mã công cụ, tên công cụ..."
+                                oninput="handleFilterChange()"
+                                style="width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:8px 12px 8px 32px;border-radius:8px;font-family:var(--font);font-size:13px;outline:none;transition:.15s"
+                                onfocus="this.style.borderColor='var(--primary)'"
+                                onblur="this.style.borderColor='var(--border)'">
+                        </div>
+                    </div>
+                    <div>
+                        <label
+                            style="font-size:11px;font-weight:600;color:var(--text2);display:block;margin-bottom:5px">Loại
+                            CCLT</label>
+                        <select id="filter-type" onchange="handleFilterChange()"
+                            style="width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:8px;font-family:var(--font);font-size:13px;outline:none;cursor:pointer">
+                            <option value="">Tất cả loại CCLT</option>
+                            <option value="Pallet">Pallet</option>
+                            <option value="Thùng gỗ">Thùng gỗ</option>
+                            <option value="Thùng carton">Thùng carton</option>
+                            <option value="Dụng cụ kho">Dụng cụ kho</option>
+                            <option value="Thiết bị kho">Thiết bị kho</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary" onclick="resetFilters()"
+                            style="width:100%;height:38px;border-radius:8px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:6px;font-size:13px;">Xóa
+                            lọc</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TABLE SECTION -->
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px; text-align: center;">STT</th>
+                            <th>Mã VT</th>
+                            <th>Tên VT</th>
+                            <th>Loại CCLT</th>
+                            <th>Quy cách</th>
+                            <th>ĐVT</th>
+                            <th style="width: 120px; text-align: center;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="storage-list-body">
+                        <!-- Dynamic content loaded via JS -->
+                    </tbody>
+                </table>
+
+                <!-- PAGINATION -->
+                <div class="pagination-bar">
+                    <div class="pagination-info">
+                        Tổng cộng: <span id="pag-total" style="font-weight: 700;">0</span> bản ghi
+                    </div>
+                    <div class="pagination-controls">
+                        <button class="pag-btn" id="pag-prev" onclick="changePage(-1)">
+                            <svg viewBox="0 0 20 20" fill="currentColor" class="icon-xs">
+                                <path fill-rule="evenodd"
+                                    d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        <div class="pag-numbers" id="pag-numbers">
+                            <!-- Dynamic page list -->
+                        </div>
+                        <button class="pag-btn" id="pag-next" onclick="changePage(1)">
+                            <svg viewBox="0 0 20 20" fill="currentColor" class="icon-xs">
+                                <path fill-rule="evenodd"
+                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        <select id="pag-size" class="pag-select" onchange="changePageSize(this.value)">
+                            <option value="20">20 dòng/trang</option>
+                            <option value="50">50 dòng/trang</option>
+                            <option value="100">100 dòng/trang</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==============================================
+         MH-02 & MH-04: FORM VIEW (CREATE & EDIT)
+         ============================================== -->
+        <div id="view-form" class="view-panel">
+            <div
+                style="display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1px solid var(--border);padding-bottom:16px;margin-bottom:20px;">
+                <div>
+                    <h1 id="tool-form-title" style="font-size:20px;font-weight:800;color:var(--text);margin:0;">Chỉnh
+                        sửa công cụ lưu trữ</h1>
+
+                </div>
+                <!-- Header buttons -->
+                <div style="display:flex;gap:8px;">
+                    <button class="btn btn-secondary" onclick="cancelForm()"
+                        style="height:36px;padding:0 14px;border-radius:8px;font-weight:600;font-size:12px;background:#fff;border:1px solid var(--border2);color:var(--text2);display:flex;align-items:center;gap:6px;">
+                        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"
+                            style="width:14px;height:14px;transform:rotate(180deg);">
+                            <path d="M7.5 15l5-5-5-5" />
+                        </svg>
+                        Hủy bỏ
+                    </button>
+                    <button class="btn btn-primary" onclick="saveForm(true)"
+                        style="height:36px;padding:0 14px;border-radius:8px;font-weight:600;font-size:12px;background:var(--primary);color:#fff;border:none;display:flex;align-items:center;gap:6px;">
+                        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5"
+                            style="width:14px;height:14px;">
+                            <path d="M4 10l4 4 8-8" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        Lưu lại
+                    </button>
+                </div>
+            </div>
+
+            <!-- Hidden status field -->
+            <input type="hidden" id="tf-status" value="Mới">
+
+            <div style="display:grid;grid-template-columns:1fr 360px;gap:20px;align-items:start;">
+                <!-- LEFT COLUMN -->
+                <div style="display:flex;flex-direction:column;gap:20px;">
+                    <!-- Card 1: Thông tin chung vật tư -->
+                    <div
+                        style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.02)">
+                        <div
+                            style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+                            <svg viewBox="0 0 20 20" fill="none" stroke="var(--primary)" stroke-width="2"
+                                style="width:16px;height:16px">
+                                <circle cx="10" cy="10" r="8" />
+                                <path d="M10 6v4l3 3" />
+                            </svg>
+                            Thông tin chung vật tư
+                        </div>
+
+                        <!-- Row 1: 4 columns - all basic fields on one row -->
+                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;margin-bottom:16px;">
+                            <div class="form-group">
+                                <span class="form-label">Loại công cụ, vật tư <span
+                                        style="color:var(--danger)">*</span></span>
+                                <select class="form-input" id="tf-group">
+                                    <option value="">-- Chọn loại vật tư --</option>
+                                    <option value="Pallet">Pallet</option>
+                                    <option value="Thùng gỗ">Thùng gỗ</option>
+                                    <option value="Thùng carton">Thùng carton</option>
+                                    <option value="Dụng cụ kho">Dụng cụ kho</option>
+                                    <option value="Thiết bị kho">Thiết bị kho</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <span class="form-label">Mã vật tư <span style="color:var(--danger)">*</span></span>
+                                <input class="form-input mono" id="tf-code" placeholder="PL-001">
+                            </div>
+                            <div class="form-group">
+                                <span class="form-label">Tên vật tư <span style="color:var(--danger)">*</span></span>
+                                <input class="form-input" id="tf-name" placeholder="Pallet gỗ thông tiêu chuẩn PL1">
+                            </div>
+                            <div class="form-group" id="tf-unit-wrapper">
+                                <span class="form-label">Đơn vị tính</span>
+                                <select class="form-input" id="tf-unit">
+                                    <option value="Cái">Cái</option>
+                                    <option value="Chiếc">Chiếc</option>
+                                    <option value="Bộ">Bộ</option>
+                                    <option value="Kiện">Kiện</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Kích thước & Tải trọng -->
+                    <div
+                        style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.02)">
+                        <div
+                            style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+                            <svg viewBox="0 0 20 20" fill="none" stroke="var(--primary)" stroke-width="2"
+                                style="width:16px;height:16px">
+                                <rect x="3" y="3" width="14" height="14" rx="2" />
+                                <path d="M9 3v14M3 9h14" />
+                            </svg>
+                            Kích thước &amp; Tải trọng
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;">
+                            <div class="form-group">
+                                <span class="form-label">Dài (cm)</span>
+                                <input type="number" class="form-input mono" id="tf-len" placeholder="1200" min="0">
+                            </div>
+                            <div class="form-group">
+                                <span class="form-label">Rộng (cm)</span>
+                                <input type="number" class="form-input mono" id="tf-wid" placeholder="800" min="0">
+                            </div>
+                            <div class="form-group">
+                                <span class="form-label">Cao (cm)</span>
+                                <input type="number" class="form-input mono" id="tf-hgt" placeholder="150" min="0">
+                            </div>
+                            <div class="form-group">
+                                <span class="form-label">Tải trọng tối đa (kg)</span>
+                                <input type="number" class="form-input mono" id="tf-load" value="0" min="0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Thuộc tính bổ sung & Định mức tồn kho -->
+                    <div
+                        style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.02)">
+                        <div
+                            style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+                            <svg viewBox="0 0 20 20" fill="none" stroke="var(--primary)" stroke-width="2"
+                                style="width:16px;height:16px">
+                                <path d="M4 6h12M4 10h12M4 14h12" />
+                            </svg>
+                            Thuộc tính bổ sung &amp; Định mức tồn kho
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;">
+                            <div class="form-group">
+                                <span class="form-label">Màu sắc</span>
+                                <select class="form-input" id="tf-color">
+                                    <option value="">-- Chọn màu sắc --</option>
+                                    <option value="Đỏ">Đỏ</option>
+                                    <option value="Xanh dương">Xanh dương</option>
+                                    <option value="Xanh lá">Xanh lá</option>
+                                    <option value="Vàng">Vàng</option>
+                                    <option value="Cam">Cam</option>
+                                    <option value="Xám">Xám</option>
+                                    <option value="Trắng">Trắng</option>
+                                    <option value="Đen">Đen</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <span class="form-label">Chất liệu</span>
+                                <select class="form-input" id="tf-material">
+                                    <option value="">-- Chọn chất liệu --</option>
+                                    <option value="Gỗ">Gỗ</option>
+                                    <option value="Nhựa HDPE">Nhựa HDPE</option>
+                                    <option value="Sắt/Thép">Sắt/Thép</option>
+                                    <option value="Giấy Carton">Giấy Carton</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <span class="form-label">Định mức tồn tối thiểu</span>
+                                <input type="number" class="form-input mono" id="tf-min-stock" value="0" min="0"
+                                    oninput="validateStockLimits()">
+                            </div>
+                            <div class="form-group">
+                                <span class="form-label">Định mức tồn tối đa</span>
+                                <input type="number" class="form-input mono" id="tf-max-stock" value="0" min="0"
+                                    oninput="validateStockLimits()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 4: Mô tả & Ghi chú -->
+                    <div
+                        style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.02)">
+                        <div
+                            style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+                            <svg viewBox="0 0 20 20" fill="none" stroke="var(--primary)" stroke-width="2"
+                                style="width:16px;height:16px">
+                                <path d="M4 6h12M4 10h12M4 14h6" />
+                            </svg>
+                            Mô tả &amp; Ghi chú
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-input" id="tf-note" style="height:120px;resize:vertical;"
+                                placeholder="Nhập ghi chú mô tả chi tiết..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN -->
+                <div style="display:flex;flex-direction:column;gap:20px;position:sticky;top:0;">
+                    <!-- Card 1: Hình ảnh vật tư -->
+                    <div
+                        style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.02)">
+                        <div
+                            style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px;">
+                            <svg viewBox="0 0 20 20" fill="none" stroke="var(--primary)" stroke-width="2"
+                                style="width:16px;height:16px">
+                                <rect x="3" y="3" width="14" height="14" rx="2" />
+                                <circle cx="7.5" cy="7.5" r="1.5" />
+                                <path d="M17 13l-4-4L3 17" />
+                            </svg>
+                            Hình ảnh vật tư
+                        </div>
+                        <div id="image-upload-zone"
+                            style="height:200px;border:2px dashed var(--border);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--bg3);cursor:pointer;color:var(--text3);font-size:12px;transition:.15s;position:relative;overflow:hidden;"
+                            onclick="triggerFileInput()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                                style="width:36px;height:36px;margin-bottom:8px;opacity:.5;">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                <polyline points="21 15 16 10 5 21"></polyline>
+                            </svg>
+                            <span id="upload-zone-text" style="font-weight:600;color:var(--text2);">Nhấp để chọn
+                                ảnh</span>
+                            <span style="margin-top:4px;opacity:.6;">PNG, JPG, WEBP tối đa 5MB</span>
+                            <input type="file" id="tf-image-file" accept="image/*" style="display:none;"
+                                onchange="handleImageUpload(this)">
+                            <img id="tf-image-preview"
+                                style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+                            <button id="tf-image-clear-btn" type="button"
+                                style="display:none;position:absolute;top:8px;right:8px;border:none;background:rgba(0,0,0,0.65);color:#fff;width:24px;height:24px;border-radius:50%;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;"
+                                onclick="clearImageUpload(event)">✕</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- ==============================================
+         MH-03: DETAILED VIEW (TABBED READ-ONLY)
+         ============================================== -->
+    <div id="view-detail" class="view-panel">
+        <div class="page-header">
+            <div>
+                <h1 id="detail-title">Chi tiết công cụ lưu trữ</h1>
+            </div>
+            <div style="display:flex;gap:8px;">
+                <button class="btn btn-ghost" onclick="showListView()"
+                    style="height:42px;border-radius:8px;gap:6px;display:inline-flex;align-items:center;">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"
+                        style="width:15px;height:15px">
+                        <path d="M15 19l-7-7 7-7" />
+                    </svg>
+                    Quay lại
+                </button>
+            </div>
+        </div>
+
+        <!-- Tabs Navigation -->
+        <div style="margin-bottom: 8px; border-bottom: 1px solid var(--border); display: flex; gap: 8px;">
+            <button class="detail-tab active" id="tab-btn-general" onclick="switchDetailTab('tab-general')"
+                style="padding: 12px 24px; background: none; border: none; border-bottom: 3px solid var(--primary); font-family: var(--font); font-size: 14px; font-weight: 700; color: var(--primary); cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 8px; outline: none;">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"
+                    style="width:16px;height:16px">
+                    <circle cx="10" cy="10" r="8" />
+                    <path d="M10 6v4l3 3" />
+                </svg>
+                Thông tin chung
+            </button>
+            <button class="detail-tab" id="tab-btn-stock" onclick="switchDetailTab('tab-history')"
+                style="padding: 12px 24px; background: none; border: none; border-bottom: 3px solid transparent; font-family: var(--font); font-size: 14px; font-weight: 500; color: var(--text2); cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 8px; outline: none;">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"
+                    style="width:16px;height:16px">
+                    <path d="M3 5h14M3 10h14M3 15h8" />
+                </svg>
+                Tồn kho &amp; Lịch sử nhập
+            </button>
+            <button class="detail-tab" id="tab-btn-rfid" onclick="switchDetailTab('tab-rfid')"
+                style="padding: 12px 24px; background: none; border: none; border-bottom: 3px solid transparent; font-family: var(--font); font-size: 14px; font-weight: 500; color: var(--text2); cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 8px; outline: none;">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"
+                    style="width:16px;height:16px">
+                    <path d="M4 4h16v12H4zM4 8h16M8 4v16"/>
+                </svg>
+                Chi tiết
+            </button>
+        </div>
+
+        <!-- TAB 1: THÔNG TIN CHUNG (Read-only) -->
+        <div id="tab-general" class="tab-panel active">
+            <div style="display:grid;grid-template-columns:1fr 360px;gap:20px;align-items:start;">
+                <!-- LEFT: Info cards -->
+                <div style="display:flex;flex-direction:column;gap:16px;">
+                    <!-- Row 1: 4 columns - basic info on one row -->
+                    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.02)">
+                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;">
+                            <div class="detail-item">
+                                <span class="detail-label">Loại công cụ, vật tư</span>
+                                <span class="detail-value" id="td-type" style="font-weight:600;"></span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Mã vật tư</span>
+                                <span class="detail-value font-mono" id="td-code" style="color:var(--primary);font-weight:700;"></span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Tên vật tư</span>
+                                <span class="detail-value" id="td-name" style="font-weight:700;"></span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Đơn vị tính</span>
+                                <span class="detail-value" id="td-unit"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Kích thước & Tải trọng -->
+                    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.02)">
+                        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+                            <svg viewBox="0 0 20 20" fill="none" stroke="var(--primary)" stroke-width="2" style="width:16px;height:16px">
+                                <rect x="3" y="3" width="14" height="14" rx="2" />
+                                <path d="M9 3v14M3 9h14" />
+                            </svg>
+                            Kích thước &amp; Tải trọng
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;">
+                            <div class="detail-item">
+                                <span class="detail-label">Dài (cm)</span>
+                                <span class="detail-value font-mono" id="td-len"></span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Rộng (cm)</span>
+                                <span class="detail-value font-mono" id="td-wid"></span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Cao (cm)</span>
+                                <span class="detail-value font-mono" id="td-hgt"></span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Tải trọng tối đa (kg)</span>
+                                <span class="detail-value font-mono" id="td-load" style="font-weight:600;"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Thuộc tính bổ sung & Định mức tồn kho -->
+                    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.02)">
+                        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+                            <svg viewBox="0 0 20 20" fill="none" stroke="var(--primary)" stroke-width="2" style="width:16px;height:16px">
+                                <path d="M4 6h12M4 10h12M4 14h12" />
+                            </svg>
+                            Thuộc tính bổ sung &amp; Định mức tồn kho
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;">
+                            <div class="detail-item">
+                                <span class="detail-label">Màu sắc</span>
+                                <span class="detail-value" id="td-color"></span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Chất liệu</span>
+                                <span class="detail-value" id="td-material"></span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Định mức tồn tối thiểu</span>
+                                <span class="detail-value font-mono" id="td-min-stock" style="color:var(--danger);font-weight:600;"></span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Định mức tồn tối đa</span>
+                                <span class="detail-value font-mono" id="td-max-stock" style="color:var(--success);font-weight:600;"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 4: Mô tả & Ghi chú -->
+                    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.02)">
+                        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+                            <svg viewBox="0 0 20 20" fill="none" stroke="var(--primary)" stroke-width="2" style="width:16px;height:16px">
+                                <path d="M4 6h12M4 10h12M4 14h6" />
+                            </svg>
+                            Mô tả &amp; Ghi chú
+                        </div>
+                        <div id="td-note" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--text2);min-height:60px;white-space:pre-wrap;">
+                            —
+                        </div>
+                    </div>
+                </div> <!-- Closes LEFT: Info cards container -->
+
+                <!-- RIGHT: Image only -->
+                <div style="display:flex;flex-direction:column;gap:16px;position:sticky;top:0;">
+                    <!-- Image card -->
+                    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.02)">
+                        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px;">
+                            <svg viewBox="0 0 20 20" fill="none" stroke="var(--primary)" stroke-width="2" style="width:16px;height:16px">
+                                <rect x="3" y="3" width="14" height="14" rx="2" />
+                                <circle cx="7.5" cy="7.5" r="1.5" />
+                                <path d="M17 13l-4-4L3 17" />
+                            </svg>
+                            Hình ảnh vật tư
+                        </div>
+                        <div style="height:220px;border:1px solid var(--border);border-radius:10px;background:var(--bg3);overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;">
+                            <img id="td-image-preview" style="width:100%;height:100%;object-fit:cover;display:none;">
+                            <div id="td-image-empty" style="display:flex;flex-direction:column;align-items:center;color:var(--text3);font-size:11px;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:36px;height:36px;margin-bottom:8px;opacity:.4;">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                    <polyline points="21 15 16 10 5 21"></polyline>
+                                </svg>
+                                Không có hình ảnh
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /TAB 1 -->
+
+        <!-- TAB 2: TỒN KHO & LỊCH SỬ NHẬP -->
+        <div id="tab-history" class="tab-panel" style="display:none;">
+            <!-- BỘ LỌC -->
+            <div
+                style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(15,23,42,.04)">
+                <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end">
+                    <div>
+                        <label
+                            style="font-size:11px;font-weight:600;color:var(--text2);display:block;margin-bottom:5px">Plant</label>
+                        <select id="td-filter-plant" onchange="handleHistPlantChange()"
+                            style="width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:8px;font-family:var(--font);font-size:13px;outline:none;cursor:pointer">
+                            <option value="">Tất cả Plant</option>
+                            <option value="Plant 01 - Miền Bắc">Plant 01 - Miền Bắc</option>
+                            <option value="Plant 02 - Miền Trung">Plant 02 - Miền Trung</option>
+                            <option value="Plant 03 - Miền Nam">Plant 03 - Miền Nam</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label
+                            style="font-size:11px;font-weight:600;color:var(--text2);display:block;margin-bottom:5px">SLOC</label>
+                        <select id="td-filter-sloc" onchange="handleHistSlocChange()"
+                            style="width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:8px;font-family:var(--font);font-size:13px;outline:none;cursor:pointer"
+                            disabled>
+                            <option value="">Tất cả SLOC</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary" onclick="resetStockFilters()"
+                            style="width:120px;height:38px;border-radius:8px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:6px;font-size:13px;">Xóa
+                            lọc</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BẢNG TỒN KHO -->
+            <div
+                style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px;">
+                <div
+                    style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px;">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="var(--primary)" stroke-width="2"
+                        style="width:16px;height:16px">
+                        <rect x="2" y="2" width="16" height="16" rx="2" />
+                        <path d="M6 18V2M14 18V2M2 6h16M2 14h16" />
+                    </svg>
+                    Bảng tồn kho chi tiết
+                </div>
+                <div class="table-wrap"
+                    style="max-height:260px;overflow-y:auto;border:1px solid var(--border);border-radius:8px;">
+                    <table style="width:100%;border-collapse:collapse;text-align:left;">
+                        <thead>
+                            <tr
+                                style="background:var(--bg3);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:2;">
+                                <th
+                                    style="padding:10px 14px;font-weight:600;font-size:12px;color:var(--text2);width:60px;text-align:center;">
+                                    STT</th>
+                                <th style="padding:10px 14px;font-weight:600;font-size:12px;color:var(--text2);">Plant
+                                </th>
+                                <th style="padding:10px 14px;font-weight:600;font-size:12px;color:var(--text2);">SLOC
+                                </th>
+                                <th
+                                    style="padding:10px 14px;font-weight:600;font-size:12px;color:var(--text2);text-align:right;width:120px;">
+                                    Số lượng hiện có</th>
+                                <th
+                                    style="padding:10px 14px;font-weight:600;font-size:12px;color:var(--text2);text-align:right;">
+                                    Ngày cập nhật cuối</th>
+                            </tr>
+                        </thead>
+                        <tbody id="td-stock-tbody">
+                            <!-- Rendered dynamically in JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <!-- STOCK PAGINATION -->
+                <div class="pagination-bar"
+                    style="padding: 10px 0 0 0; background: transparent; border-top: 1px solid var(--border); margin-top: 8px;">
+                    <div class="pagination-info">
+                        Tổng cộng: <span id="td-stock-total" style="font-weight: 700;">0</span> bản ghi
+                    </div>
+                    <div class="pagination-controls">
+                        <button class="pag-btn" id="td-stock-prev" onclick="changeStockPage(-1)">
+                            <svg viewBox="0 0 20 20" fill="currentColor" class="icon-xs">
+                                <path fill-rule="evenodd"
+                                    d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        <div class="pag-numbers" id="td-stock-numbers">
+                            <!-- Dynamic page list -->
+                        </div>
+                        <button class="pag-btn" id="td-stock-next" onclick="changeStockPage(1)">
+                            <svg viewBox="0 0 20 20" fill="currentColor" class="icon-xs">
+                                <path fill-rule="evenodd"
+                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inline history card removed, changed to popup -->
+        </div><!-- /TAB 2 -->
+
+        <!-- TAB 3: CHI TIẾT RFID -->
+        <div id="tab-rfid" class="tab-panel" style="display:none;">
+            <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(15,23,42,.04)">
+                <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end">
+                    <div>
+                        <label style="font-size:11px;font-weight:600;color:var(--text2);display:block;margin-bottom:5px">Plant</label>
+                        <select id="td-rfid-plant" onchange="handleRfidPlantChange()"
+                            style="width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:8px;font-family:var(--font);font-size:13px;outline:none;cursor:pointer">
+                            <option value="">Tất cả Plant</option>
+                            <option value="Plant 01 - Miền Bắc">Plant 01 - Miền Bắc</option>
+                            <option value="Plant 02 - Miền Trung">Plant 02 - Miền Trung</option>
+                            <option value="Plant 03 - Miền Nam">Plant 03 - Miền Nam</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="font-size:11px;font-weight:600;color:var(--text2);display:block;margin-bottom:5px">SLOC</label>
+                        <select id="td-rfid-sloc"
+                            style="width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:8px;font-family:var(--font);font-size:13px;outline:none;cursor:pointer">
+                            <option value="">Tất cả SLOC</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary" onclick="resetRfidFilters()"
+                            style="width:120px;height:38px;border-radius:8px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:6px;font-size:13px;">Xóa lọc</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px;">
+                <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px;">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="var(--primary)" stroke-width="2" style="width:16px;height:16px">
+                        <rect x="2" y="2" width="16" height="16" rx="2" />
+                        <path d="M6 18V2M14 18V2M2 6h16M2 14h16" />
+                    </svg>
+                    Danh sách RFID
+                </div>
+                <div class="table-wrap" style="max-height:400px;overflow-y:auto;border:1px solid var(--border);border-radius:8px;">
+                    <table style="width:100%;border-collapse:collapse;text-align:left;">
+                        <thead>
+                            <tr style="background:var(--bg3);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:2;">
+                                <th style="padding:10px 14px;font-weight:600;font-size:12px;color:var(--text2);width:60px;text-align:center;">STT</th>
+                                <th style="padding:10px 14px;font-weight:600;font-size:12px;color:var(--text2);">Mã RFID</th>
+                                <th style="padding:10px 14px;font-weight:600;font-size:12px;color:var(--text2);">Plant</th>
+                                <th style="padding:10px 14px;font-weight:600;font-size:12px;color:var(--text2);">SLOC</th>
+                                <th style="padding:10px 14px;font-weight:600;font-size:12px;color:var(--text2);">Vị trí</th>
+                                <th style="padding:10px 14px;font-weight:600;font-size:12px;color:var(--text2);text-align:right;">Ngày cập nhật</th>
+                            </tr>
+                        </thead>
+                        <tbody id="td-rfid-tbody">
+                            <tr>
+                                <td colspan="6" style="padding:40px;text-align:center;color:var(--text3);">Không có dữ liệu RFID</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div><!-- /TAB 3 -->
+    </div>
+
+    <!-- ==============================================
+         POPUP MỤC 5: THÊM SỐ LƯỢNG TỒN KHO
+         ============================================== -->
+    <div id="add-stock-modal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2>Thêm số lượng CCLT</h2>
+                <button class="close-btn" onclick="closeAddStockModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="modal-tool-id">
+
+                <div class="form-field-group">
+                    <label>Tên vật tư</label>
+                    <input type="text" id="modal-tool-name" class="form-control disabled-input" readonly>
+                </div>
+
+                <div class="modal-row-grid">
+                    <div class="form-field-group">
+                        <label class="required">Plant</label>
+                        <select id="modal-plant" class="form-control" onchange="handleModalPlantChange()">
+                            <option value="">-- Chọn Plant --</option>
+                            <option value="Plant 01 - Miền Bắc">Plant 01 - Miền Bắc</option>
+                            <option value="Plant 02 - Miền Trung">Plant 02 - Miền Trung</option>
+                            <option value="Plant 03 - Miền Nam">Plant 03 - Miền Nam</option>
+                        </select>
+                    </div>
+
+                    <div class="form-field-group">
+                        <label class="required">SLoc</label>
+                        <select id="modal-sloc" class="form-control" disabled onchange="handleModalSlocChange()">
+                            <option value="">-- Chọn SLoc --</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- SWAPPED: NCC field goes BEFORE quantity fields -->
+                <div class="form-field-group">
+                    <label class="required">Nhà cung cấp</label>
+                    <input type="text" id="modal-supplier" class="form-control" placeholder="Nhập tên nhà cung cấp">
+                </div>
+
+                <div class="modal-row-grid">
+                    <div class="form-field-group">
+                        <label class="required">Số lượng cần nhập thêm</label>
+                        <input type="number" id="modal-qty" class="form-control" min="1" value="1"
+                            oninput="calcModalAmount()">
+                    </div>
+
+                    <div class="form-field-group">
+                        <label class="required">Đơn giá (VND)</label>
+                        <input type="number" id="modal-price" class="form-control" min="0" value="0"
+                            oninput="calcModalAmount()">
+                    </div>
+                </div>
+
+                <div class="modal-amount-display">
+                    <span>Thành tiền:</span>
+                    <span id="modal-amount">0 VND</span>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-ghost" onclick="closeAddStockModal()">Hủy</button>
+                <button class="btn btn-primary" onclick="submitAddStock()">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONFIRM DIALOG OVERLAY (XÁC NHẬN LẦN 2) -->
+    <div id="confirm-modal" class="modal-overlay" style="z-index: 1050;">
+        <div class="modal-box small-modal">
+            <div class="modal-header">
+                <h2>Xác nhận</h2>
+                <button class="close-btn" onclick="closeConfirmModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <p id="confirm-message" style="line-height: 1.5; font-size: 13px; color: var(--text2);"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" onclick="closeConfirmModal()">Hủy</button>
+                <button class="btn btn-primary" id="confirm-ok-btn">Đồng ý</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="history-modal" class="modal-overlay">
+        <div class="modal-box" style="width: 1120px; max-width: 95vw; border-radius: 16px;">
+            <div class="modal-header">
+                <h2>Lịch sử thay đổi nhập, xuất vật tư</h2>
+                <button class="close-btn" onclick="closeHistoryModal()">✕</button>
+            </div>
+            <div class="modal-body" style="max-height: 70vh; padding: 24px;">
+                <div
+                    style="font-size: 14px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                    <span
+                        style="display: inline-block; width: 4px; height: 16px; background: var(--primary); border-radius: 2px;"></span>
+                    Kho lưu trữ SLoc: <span id="modal-hist-wh-name"
+                        style="color: var(--primary); margin-left: 4px;"></span>
+                </div>
+                <div class="table-wrap"
+                    style="overflow-y:auto; border:1px solid var(--border); border-radius:12px; box-shadow: 0 1px 3px rgba(0,0,0,0.02);">
+                    <table style="width:100%; border-collapse:collapse; text-align:left;">
+                        <thead>
+                            <tr
+                                style="background:var(--bg3); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:2;">
+                                <th
+                                    style="padding:12px 16px; font-weight:700; font-size:11px; color:var(--text2); width:60px; text-align:center; text-transform:uppercase; letter-spacing:0.5px;">
+                                    STT</th>
+                                <th
+                                    style="padding:12px 16px; font-weight:700; font-size:11px; color:var(--text2); width:120px; text-transform:uppercase; letter-spacing:0.5px;">
+                                    Ngày thay đổi</th>
+                                <th
+                                    style="padding:12px 16px; font-weight:700; font-size:11px; color:var(--text2); text-transform:uppercase; letter-spacing:0.5px;">
+                                    Nhà cung cấp</th>
+                                <th
+                                    style="padding:12px 16px; font-weight:700; font-size:11px; color:var(--text2); text-align:center; width:80px; text-transform:uppercase; letter-spacing:0.5px;">
+                                    Đơn vị</th>
+                                <th
+                                    style="padding:12px 16px; font-weight:700; font-size:11px; color:var(--text2); text-align:right; width:100px; text-transform:uppercase; letter-spacing:0.5px;">
+                                    Số lượng</th>
+                                <th
+                                    style="padding:12px 16px; font-weight:700; font-size:11px; color:var(--text2); text-align:right; width:120px; text-transform:uppercase; letter-spacing:0.5px;">
+                                    Đơn giá</th>
+                                <th
+                                    style="padding:12px 16px; font-weight:700; font-size:11px; color:var(--text2); text-align:right; width:150px; text-transform:uppercase; letter-spacing:0.5px;">
+                                    Thành tiền</th>
+                                <th
+                                    style="padding:12px 16px; font-weight:700; font-size:11px; color:var(--text2); width:150px; text-transform:uppercase; letter-spacing:0.5px;">
+                                    Người thực hiện</th>
+                            </tr>
+                        </thead>
+                        <tbody id="td-history-tbody">
+                            <!-- Rendered dynamically in JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer" style="padding: 16px 24px;">
+                <button class="btn btn-secondary" onclick="closeHistoryModal()">Đóng</button>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script src="storage.js"></script>
+</body>
+
+</html>

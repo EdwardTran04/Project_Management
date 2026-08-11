@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cấu hình chân ký — ViettelAIWS</title>
+  <link rel="stylesheet" href="staff.css">
+  <style>
+    .dev-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(238, 0, 51, 0.08);
+      color: var(--primary);
+      border: 1px dashed var(--primary);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 12px;
+    }
+
+    .badge-red {
+      background: rgba(220, 38, 38, 0.08);
+      color: var(--danger);
+    }
+
+    .badge-green {
+      background: rgba(5, 150, 105, 0.08);
+      color: var(--success);
+    }
+
+    .badge-blue {
+      background: rgba(37, 99, 235, 0.08);
+      color: var(--info);
+    }
+
+    /* Toast and Animations */
+    @keyframes slideInRight {
+      from {
+        transform: translateX(120%);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideOutRight {
+      from {
+        transform: translateX(0);
+        opacity: 1;
+      }
+
+      to {
+        transform: translateX(120%);
+        opacity: 0;
+      }
+    }
+
+    .toast-container {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      pointer-events: none;
+    }
+
+    .toast {
+      pointer-events: auto;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app-container" id="signature-app">
+
+    <!-- ==========================================
+       VIEW: LIST PANEL (Màn danh sách chân ký)
+       ========================================== -->
+    <div class="view-panel active" id="view-list">
+
+      <!-- HEADER -->
+      <div class="page-header">
+        <div class="page-header-left">
+          <h1>Cấu hình chân ký tài liệu</h1>
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center;">
+
+          <button class="btn btn-primary" onclick="showCreateForm()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            Thêm cấu hình
+          </button>
+        </div>
+      </div>
+
+      <!-- FILTER BAR -->
+      <div class="filter-row">
+        <div class="filter-group" style="flex: 1;">
+          <label class="filter-label">Tìm kiếm cấu hình</label>
+          <div class="search-container">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            <input type="text" id="search-input" class="form-control search-input"
+              placeholder="Tìm theo mã chân ký, mã/tên tài liệu, đơn vị quản lý...">
+          </div>
+        </div>
+        <div class="filter-group" style="width: 250px;">
+          <label class="filter-label">Loại tài liệu</label>
+          <select id="filter-doc-type" class="form-control">
+            <option value="">Tất cả loại tài liệu</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <button class="btn btn-ghost" onclick="resetFilters()">Xóa lọc</button>
+        </div>
+      </div>
+
+      <!-- DATA TABLE -->
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 60px;">STT</th>
+              <th style="width: 140px;">Mã chân ký</th>
+              <th style="width: 200px;">Mã tài liệu</th>
+              <th>Tên tài liệu</th>
+              <th>Đơn vị quản lý</th>
+              <th style="width: 150px; text-align: center;">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody id="signature-tbody">
+            <!-- JS Rendered rows -->
+          </tbody>
+        </table>
+
+        <div class="table-footer">
+          <span id="table-info" style="color: var(--text3); font-size: 12px;">Hiển thị 0/0 cấu hình</span>
+          <div class="pagination" id="table-pagination">
+            <!-- JS Rendered pagination buttons -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ==========================================
+       VIEW: FORM PANEL (Phần thêm mới / chỉnh sửa cấu hình)
+       ========================================== -->
+    <div class="view-panel" id="view-form">
+
+      <!-- HEADER -->
+      <div class="page-header">
+        <div class="page-header-left">
+          <button class="back-btn" onclick="cancelForm()" title="Quay lại">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="19" y1="12" x2="5" y2="12" />
+              <polyline points="12 19 5 12 12 5" />
+            </svg>
+          </button>
+          <h1 id="form-title">Cấu hình chân ký tài liệu</h1>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="btn btn-ghost" onclick="cancelForm()">
+            Hủy bỏ
+          </button>
+          <button class="btn btn-primary" onclick="openConfirmModal()"
+            style="background: var(--success); border-color: var(--success);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              style="width:14px;height:14px;">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+              <polyline points="17 21 17 13 7 13 7 21" />
+              <polyline points="7 3 7 8 15 8" />
+            </svg>
+            Lưu cấu hình
+          </button>
+        </div>
+      </div>
+
+      <!-- FORM FIELDS -->
+      <div class="form-layout">
+
+        <!-- Section: Thông tin chung -->
+        <div class="card-section">
+          <div class="card-section-hd">Thông tin cấu hình chân ký</div>
+          <div class="card-section-body">
+            <div class="general-grid" style="grid-template-columns: repeat(3, 1fr); gap: 16px;">
+
+              <div class="form-group">
+                <label class="form-label">Mã chân ký <span style="color:var(--danger)">*</span></label>
+                <input type="text" id="input-sig-code" class="form-control" readonly
+                  style="background: var(--bg4); font-family: var(--mono); font-weight: 700; color: var(--primary); cursor: not-allowed; padding: 8px 12px; font-size:13px;">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Mã tài liệu <span style="color:var(--danger)">*</span></label>
+                <select id="input-doc-code" class="form-control"
+                  style="padding: 8px 12px; font-size:13px; font-family: var(--font);" required>
+                  <!-- Dynamically populated in signature.js -->
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Đơn vị quản lý <span style="color:var(--danger)">*</span></label>
+                <select id="input-org-unit" class="form-control"
+                  style="padding: 8px 12px; font-size:13px; font-family: var(--font);" required>
+                  <!-- Dynamically populated in signature.js -->
+                </select>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Section: Bảng luồng người ký duyệt -->
+        <div class="card-section">
+          <div class="card-section-hd">Danh sách bước ký duyệt tài liệu</div>
+          <div class="card-section-body" style="padding: 0;">
+            <div class="table-wrap" style="border: none; border-radius: 0; box-shadow: none;">
+              <table id="form-signer-table">
+                <thead>
+                  <tr>
+                    <th style="width: 60px;">STT</th>
+                    <th style="width: 180px;">Nhóm ký song song</th>
+                    <th>Người ký</th>
+                    <th>Chức danh - Đơn vị</th>
+                    <th style="width: 180px; text-align: center;">Hiển thị chữ ký (Boolean)</th>
+                    <th style="width: 80px; text-align: center;">Thao tác</th>
+                  </tr>
+                </thead>
+                <tbody id="form-signer-tbody">
+                  <!-- Dynamic signer step rows injected here -->
+                </tbody>
+              </table>
+            </div>
+
+            <div style="padding: 16px 20px; border-top: 1px solid var(--border); background: var(--bg3);">
+              <button class="btn btn-ghost" type="button" onclick="addSignerRow()"
+                style="font-weight: 600; display: inline-flex; align-items: center; gap: 6px; border: 1px dashed var(--border2); background: #fff; cursor: pointer; padding: 6px 12px; border-radius: 6px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                  style="width:14px;height:14px;">
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+                Thêm người ký
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ==========================================
+       VIEW: DETAIL PANEL (Xem chi tiết cấu hình)
+       ========================================== -->
+    <div class="view-panel" id="view-detail">
+
+      <!-- HEADER -->
+      <div class="page-header">
+        <div class="page-header-left">
+          <button class="back-btn" onclick="showListView()" title="Quay lại">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="19" y1="12" x2="5" y2="12" />
+              <polyline points="12 19 5 12 12 5" />
+            </svg>
+          </button>
+          <h1 id="detail-title">Chi tiết cấu hình</h1>
+        </div>
+        <button class="btn btn-ghost" onclick="editCurrentSignature()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path
+              d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7M18.5 2.5a2.121 2.121 0 113 3L12 15l-4 1 1-4 9.5-9.5z" />
+          </svg>
+          Sửa cấu hình
+        </button>
+      </div>
+
+      <!-- DETAIL CONTENT -->
+      <div style="display:flex; flex-direction: column; gap: 20px;">
+
+        <!-- General info card -->
+        <div class="card-section">
+          <div class="card-section-hd">Thông tin tài liệu chân ký</div>
+          <div class="card-section-body">
+            <div class="detail-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 24px;">
+              <div class="detail-item">
+                <span class="detail-label">Mã chân ký</span>
+                <span class="detail-value mono" id="det-sig-code"
+                  style="font-weight: 700; color: var(--primary);">—</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Mã tài liệu</span>
+                <span class="detail-value mono" id="det-doc-code">—</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Tên tài liệu</span>
+                <span class="detail-value" id="det-doc-name" style="font-weight: 700;">—</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Đơn vị quản lý</span>
+                <span class="detail-value" id="det-org-unit" style="font-weight: 600;">—</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Signing steps card -->
+        <div class="card-section">
+          <div class="card-section-hd">Quy trình ký duyệt áp dụng (Read-only)</div>
+          <div class="card-section-body" style="padding: 0;">
+            <div class="table-wrap" style="border: none; border-radius: 0; box-shadow: none;">
+              <table>
+                <thead>
+                  <tr>
+                    <th style="width: 60px;">STT</th>
+                    <th style="width: 180px;">Nhóm ký song song</th>
+                    <th>Người ký</th>
+                    <th>Chức danh - Đơn vị</th>
+                    <th style="width: 180px;">Hiển thị chữ ký</th>
+                  </tr>
+                </thead>
+                <tbody id="det-steps-tbody">
+                  <!-- Dynamic read-only steps injected here -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick navigation action buttons -->
+        <div style="display:flex; gap:12px; margin-top: 8px;">
+          <button class="btn btn-ghost" onclick="showListView()"
+            style="width:160px; height: 38px; justify-content: center; display: inline-flex; align-items: center; border-radius: 8px; font-weight: 600;">
+            Quay lại danh sách
+          </button>
+          <button class="btn btn-primary" onclick="editCurrentSignature()"
+            style="width:160px; height: 38px; justify-content: center; display: inline-flex; align-items: center; border-radius: 8px; font-weight: 600;">
+            Sửa cấu hình
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- CONFIRMATION MODAL -->
+  <div class="modal-overlay" id="confirm-modal" style="display: none;">
+    <div class="modal-box">
+      <div class="modal-header">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+          <line x1="12" y1="9" x2="12" y2="13" />
+          <line x1="12" y1="17" x2="12.01" y2="17" />
+        </svg>
+        <h3>Xác nhận lưu cấu hình</h3>
+      </div>
+      <div class="modal-body">
+        Bạn có chắc chắn muốn lưu các thay đổi cấu hình luồng chân ký tài liệu này không? Quy trình ký duyệt sẽ lập tức
+        áp dụng cho các chứng từ phát sinh mới.
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeConfirmModal()">Hủy bỏ</button>
+        <button class="btn btn-primary" onclick="submitSave()" style="background: var(--primary2);">Xác nhận</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFIER -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- External scripts -->
+  <script src="../mockdata.js"></script>
+  <script src="signature.js"></script>
+</body>
+
+</html>

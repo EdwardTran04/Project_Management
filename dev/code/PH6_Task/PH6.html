@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Danh sách Task – Task Pool | ViettelAIWS</title>
+  <meta name="description" content="Quản lý toàn bộ task nhập/xuất kho – Task Pool ViettelAIWS.">
+  <link rel="stylesheet" href="ph6.css">
+</head>
+<body>
+
+<div class="ph6-page" id="ph6-app">
+
+  <!-- ── TOPBAR ──────────────────────────────── -->
+  <div class="ph6-topbar">
+    <div class="ph6-topbar-left">
+      <h1 class="ph6-title" style="font-size:20px;font-weight:800;color:var(--text);margin:0;">Danh sách task xuất kho</h1>
+    </div>
+    <div class="ph6-topbar-right">
+      <button class="btn btn-primary btn-export-red" onclick="exportExcel()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Export
+      </button>
+    </div>
+  </div>
+
+  <!-- ── KPI STRIP ────────────────────────────── -->
+  <div class="ph6-kpi">
+    <div class="kpi-card kc-total">
+      <div class="kpi-label">Tổng task</div>
+      <div class="kpi-val" id="kpi-total">—</div>
+    </div>
+    <div class="kpi-card kc-overdue">
+      <div class="kpi-label">Quá hạn SLA/KPI</div>
+      <div class="kpi-val" id="kpi-overdue" style="color:var(--danger)">0</div>
+      <div style="font-size:10px;color:var(--text3);margin-top:2px;font-weight:600;">An toàn</div>
+    </div>
+    <div class="kpi-card kc-done">
+      <div class="kpi-label">Hoàn thành</div>
+      <div class="kpi-val" id="kpi-done">—</div>
+    </div>
+    <div class="kpi-card kc-pending">
+      <div class="kpi-label">Chưa bắt đầu</div>
+      <div class="kpi-val" id="kpi-pending">—</div>
+    </div>
+    <div class="kpi-card kc-doing">
+      <div class="kpi-label">Đang xử lý</div>
+      <div class="kpi-val" id="kpi-doing">—</div>
+    </div>
+    <div class="kpi-card kc-wait">
+      <div class="kpi-label">Chờ phân công</div>
+      <div class="kpi-val" id="kpi-wait">—</div>
+    </div>
+  </div>
+
+  <!-- ── FILTER SECTION ───────────────────────── -->
+  <div class="ph6-filter-wrap">
+    <div class="filter-row" style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr; gap: 12px; align-items: center;">
+      <!-- Search -->
+      <div class="search-wrap" style="max-width: none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input type="text" id="ph6-search" placeholder="Mã task / Order / người phụ trách..." autocomplete="off">
+      </div>
+
+      <!-- Loại task -->
+      <select class="filter-select" id="filter-type" style="width: 100%; min-width: 0;">
+        <option value="">Loại task</option>
+        <option value="INB">Nhập kho (INB)</option>
+        <option value="OUT">Xuất kho (OUT)</option>
+      </select>
+
+      <!-- Trạng thái -->
+      <select class="filter-select" id="filter-status" style="width: 100%; min-width: 0;">
+        <option value="">Trạng thái</option>
+        <option value="done">Hoàn thành</option>
+        <option value="doing">Đang làm</option>
+        <option value="pending">Chưa bắt đầu</option>
+        <option value="waiting_assign">Chờ phân công</option>
+      </select>
+
+      <!-- Order -->
+      <select class="filter-select" id="filter-order" style="width: 100%; min-width: 0;">
+        <option value="">Order</option>
+      </select>
+
+      <!-- Kho / Khu vực -->
+      <select class="filter-select" id="filter-location" style="width: 100%; min-width: 0;">
+        <option value="">Kho / Khu vực</option>
+        <option value="Cổng A">Cổng A</option>
+        <option value="VP Kho">VP Kho</option>
+        <option value="Khu C">Khu C</option>
+        <option value="Khu A">Khu A</option>
+        <option value="Khu B">Khu B</option>
+      </select>
+
+      <!-- SLA (tất cả) -->
+      <select class="filter-select" id="filter-sla" style="width: 100%; min-width: 0;">
+        <option value="">SLA (tất cả)</option>
+        <option value="all">SLA (tất cả)</option>
+        <option value="expired">Quá hạn</option>
+        <option value="at_risk">Cận hạn</option>
+        <option value="safe">An toàn</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- ── TABLE BODY ────────────────────────────── -->
+  <div class="ph6-body">
+    <div class="ph6-scroll">
+      <table aria-label="Danh sách task">
+        <thead>
+          <tr>
+            <th class="th-id sortable" onclick="sortBy('id')">Mã task <span class="sort-ic">↕</span></th>
+            <th class="th-order sortable" onclick="sortBy('orderId')">Order <span class="sort-ic">↕</span></th>
+            <th class="th-name">Loại (bước)</th>
+            <th class="th-assignee">Người phụ trách</th>
+            <th class="th-location">Khu/Vị trí</th>
+            <th class="th-time">Bắt đầu</th>
+            <th class="th-time">Hoàn thành</th>
+            <th class="th-sla">SLA</th>
+            <th class="th-status">Trạng thái</th>
+            <th class="th-action">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody id="ph6-tbody">
+        </tbody>
+      </table>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="ph6-footer">
+      <span id="ph6-footer-info">—</span>
+      <div class="pagination" id="ph6-pagination"></div>
+    </div>
+  </div>
+
+</div>
+
+<div id="toast-box" class="toast-box"></div>
+
+<script src="../mockdata.js"></script>
+<script src="ph6.js"></script>
+</body>
+</html>

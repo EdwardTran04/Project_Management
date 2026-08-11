@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viettel AIWS — Quản lý Kho</title>
+    <link rel="stylesheet" href="warehouse.css">
+
+</head>
+
+<body>
+    <div id="app">
+
+
+        <!-- MAIN -->
+        <main id="main">
+
+            <!-- ═══ WAREHOUSE LIST ═══ -->
+            <div id="view-warehouse-list" class="fade-in" style="display:none">
+                <div class="page-hd" style="margin-bottom:20px">
+                    <div>
+                        <div class="page-title">Quản lý kho</div>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="btn btn-primary" onclick="openAddWarehouseModal()"
+                            style="display:inline-flex;align-items:center;gap:6px;font-weight:600;height:38px;border-radius:8px;">
+                            <svg viewBox="0 0 20 20" fill="currentColor" style="width:15px;height:15px">
+                                <path fill-rule="evenodd"
+                                    d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            Thêm mới kho
+                        </button>
+                    </div>
+                </div>
+                <!-- Filters -->
+                <div
+                    style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(15,23,42,.04)">
+                    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:10px;align-items:end">
+                        <div>
+                            <label
+                                style="font-size:11px;font-weight:600;color:var(--text2);display:block;margin-bottom:5px">Mã
+                                kho / Tên nhà kho</label>
+                            <div style="position:relative">
+                                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"
+                                    style="position:absolute;left:10px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:var(--text3);pointer-events:none">
+                                    <circle cx="9" cy="9" r="6" />
+                                    <path d="m15 15 3 3" />
+                                </svg>
+                                <input id="wh-search-input" type="text"
+                                    placeholder="Nhập mã kho, tên kho, tên nhà kho..." oninput="filterWarehouseList()"
+                                    style="width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:8px 12px 8px 32px;border-radius:8px;font-family:var(--font);font-size:13px;outline:none;transition:.15s"
+                                    onfocus="this.style.borderColor='var(--primary)'"
+                                    onblur="this.style.borderColor='var(--border)'">
+                            </div>
+                        </div>
+                        <div>
+                            <label
+                                style="font-size:11px;font-weight:600;color:var(--text2);display:block;margin-bottom:5px">Plant</label>
+                            <select id="wh-filter-plant" onchange="filterWarehouseList()"
+                                style="width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:8px;font-family:var(--font);font-size:13px;outline:none;cursor:pointer">
+                                <option value="">Tất cả Plant</option>
+                                <option value="Plant 01 - Miền Bắc">Plant 01 - Miền Bắc</option>
+                                <option value="Plant 02 - Miền Trung">Plant 02 - Miền Trung</option>
+                                <option value="Plant 03 - Miền Nam">Plant 03 - Miền Nam</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label
+                                style="font-size:11px;font-weight:600;color:var(--text2);display:block;margin-bottom:5px">SLoc</label>
+                            <select id="wh-filter-sloc" onchange="filterWarehouseList()"
+                                style="width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:8px;font-family:var(--font);font-size:13px;outline:none;cursor:pointer">
+                                <option value="">Tất cả SLoc</option>
+                                <option value="Tổng kho miền Bắc">Tổng kho miền Bắc</option>
+                                <option value="Tổng kho miền Trung">Tổng kho miền Trung</option>
+                                <option value="Tổng kho miền Nam">Tổng kho miền Nam</option>
+                                <option value="Kho Hải Phòng">Kho Hải Phòng</option>
+                                <option value="Kho Bình Dương">Kho Bình Dương</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label
+                                style="font-size:11px;font-weight:600;color:var(--text2);display:block;margin-bottom:5px">Mã
+                                tỉnh</label>
+                            <select id="wh-filter-matinh" onchange="filterWarehouseList()"
+                                style="width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:8px;font-family:var(--font);font-size:13px;outline:none;cursor:pointer">
+                                <option value="">Tất cả tỉnh</option>
+                                <option value="HN">HN – Hà Nội</option>
+                                <option value="HCM">HCM – TP.HCM</option>
+                                <option value="DN">DN – Đà Nẵng</option>
+                                <option value="HP">HP – Hải Phòng</option>
+                                <option value="BD">BD – Bình Dương</option>
+                            </select>
+                        </div>
+                        <div>
+                            <button class="btn btn-primary" onclick="resetWhFilters()"
+                                style="width:100%;height:38px;border-radius:8px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:6px;font-size:13px;">Xóa
+                                bộ lọc</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width:44px;text-align:center">STT</th>
+                                <th style="min-width:130px">Mã kho</th>
+                                <th style="min-width:160px">Tên kho</th>
+                                <th style="width:110px">Loại kho</th>
+                                <th style="min-width:140px">Plant</th>
+                                <th style="min-width:160px">Sloc</th>
+                                <th style="min-width:150px">Đơn vị quản lý</th>
+                                <th style="min-width:180px">Địa chỉ</th>
+                                <th style="width:130px">Trạng thái</th>
+                                <th style="width:90px;text-align:center">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="wh-list-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ═══ WAREHOUSE ADD NEW ═══ -->
+            <div id="view-warehouse-add" class="fade-in" style="display:none">
+                <div class="page-hd">
+                    <div>
+                        <div class="page-title">Thêm mới kho</div>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="btn btn-ghost" onclick="confirmCloseAddModal()">Hủy bỏ</button>
+                        <button class="btn btn-primary" onclick="saveAddWarehouse()" style="font-weight:600">
+                            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"
+                                style="width:14px;height:14px">
+                                <path d="M5 10l3 3 7-7" />
+                            </svg>
+                            Tạo kho
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Info Grid (3 columns) -->
+                <div style="margin-bottom:20px">
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+                        <div style="width:4px;height:20px;background:var(--primary);border-radius:2px"></div>
+                        <span style="font-size:15px;font-weight:700">THÔNG TIN CHUNG KHO MỚI</span>
+                    </div>
+                    <div
+                        style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:0 8px 20px -6px rgba(15,23,42,.04)">
+                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0">
+                            <!-- Column 1: Thông tin định danh -->
+                            <div style="padding:16px 20px;border-right:1px solid var(--border)">
+                                <div style="font-size:13px;font-weight:600;color:var(--text2);margin-bottom:14px">Thông
+                                    tin định danh</div>
+                                <input type="hidden" id="awh-id">
+                                <div class="cfg-form-row">
+                                    <span class="cfg-form-label">Tên kho <span
+                                            style="color:var(--danger)">*</span></span>
+                                    <input type="text" class="cfg-form-input" id="awh-name"
+                                        placeholder="Tên đầy đủ của kho">
+                                </div>
+                                <div class="cfg-form-row">
+                                    <span class="cfg-form-label">Loại kho</span>
+                                    <select class="cfg-form-input" id="awh-type" onchange="autoGenerateWarehouseId()">
+                                        <option value="Nhà kho">Nhà kho</option>
+                                        <option value="Bãi kho">Bãi kho</option>
+                                    </select>
+                                </div>
+                                <div class="cfg-form-row">
+                                    <span class="cfg-form-label">Mã tỉnh</span>
+                                    <select class="cfg-form-input mono" id="awh-matinh"
+                                        onchange="autoGenerateWarehouseId()">
+                                        <option value="">-- Chọn tỉnh --</option>
+                                        <option value="HN">HN – Hà Nội</option>
+                                        <option value="HCM">HCM – TP.HCM</option>
+                                        <option value="DN">DN – Đà Nẵng</option>
+                                        <option value="HP">HP – Hải Phòng</option>
+                                        <option value="BD">BD – Bình Dương</option>
+                                    </select>
+                                </div>
+                                <div class="cfg-form-row">
+                                    <span class="cfg-form-label">Địa chỉ</span>
+                                    <input type="text" class="cfg-form-input" id="awh-address"
+                                        placeholder="Địa chỉ kho">
+                                </div>
+                            </div>
+
+                            <!-- Column 2: Thông số kỹ thuật -->
+                            <div style="padding:16px 20px;border-right:1px solid var(--border)">
+                                <div style="font-size:13px;font-weight:600;color:var(--text2);margin-bottom:14px">Thông
+                                    số kỹ thuật</div>
+                                <div class="cfg-form-row">
+                                    <span class="cfg-form-label">Chiều dài (m) <span
+                                            style="color:var(--danger)">*</span></span>
+                                    <input type="number" class="cfg-form-input mono" id="awh-len" min="1" step="1"
+                                        value="100" oninput="computeAddWhDimensions()">
+                                </div>
+                                <div class="cfg-form-row">
+                                    <span class="cfg-form-label">Chiều rộng (m) <span
+                                            style="color:var(--danger)">*</span></span>
+                                    <input type="number" class="cfg-form-input mono" id="awh-wid" min="1" step="1"
+                                        value="50" oninput="computeAddWhDimensions()">
+                                </div>
+                                <div class="cfg-form-row">
+                                    <span class="cfg-form-label">Chiều cao (m)</span>
+                                    <input type="number" class="cfg-form-input mono" id="awh-hgt" min="1" step="0.5"
+                                        value="10" oninput="computeAddWhDimensions()">
+                                </div>
+                                <div class="cfg-form-row">
+                                    <span class="cfg-form-label">Diện tích</span>
+                                    <span class="cfg-form-val computed" id="awh-area">5.000 m²</span>
+                                </div>
+                            </div>
+
+                            <!-- Column 3: Thông tin quản lý -->
+                            <div style="padding:16px 20px">
+                                <div style="font-size:13px;font-weight:600;color:var(--text2);margin-bottom:14px">Thông
+                                    tin quản lý</div>
+                                <div class="cfg-form-row">
+                                    <span class="cfg-form-label">Nhiệt độ (°C)</span>
+                                    <input type="number" class="cfg-form-input mono" id="awh-temp" min="-20" max="50"
+                                        step="1" value="25">
+                                </div>
+                                <div class="cfg-form-row" style="align-items:flex-start">
+                                    <span class="cfg-form-label" style="padding-top:6px">Mô tả</span>
+                                    <textarea class="cfg-form-input" id="awh-desc" rows="2"
+                                        placeholder="Mô tả ngắn về kho"></textarea>
+                                </div>
+                                <div class="cfg-form-row" style="align-items:flex-start">
+                                    <span class="cfg-form-label" style="padding-top:6px">Ghi chú</span>
+                                    <textarea class="cfg-form-input" id="awh-note" rows="2"
+                                        placeholder="Ghi chú vận hành..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sloc Table Configuration -->
+                <div style="margin-top:24px; margin-bottom:24px">
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+                        <div style="width:4px;height:20px;background:var(--primary);border-radius:2px"></div>
+                        <span style="font-size:15px;font-weight:700">DANH SÁCH SLOC</span>
+                    </div>
+                    <div class="table-wrap">
+                        <table style="width:100%;border-collapse:collapse">
+                            <thead>
+                                <tr>
+                                    <th style="width:60px;text-align:center">STT</th>
+                                    <th style="width:250px">Plant</th>
+                                    <th style="width:250px">Sloc</th>
+                                    <th>Đơn vị quản lý</th>
+                                    <th>Thủ kho</th>
+                                    <th style="width:100px;text-align:center">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="awh-sloc-tbody">
+                                <!-- Dynamic rows will go here -->
+                            </tbody>
+                        </table>
+                        <div style="padding:12px 16px;background:var(--bg3);border-top:1px solid var(--border)">
+                            <button type="button" class="btn btn-ghost" onclick="addSlocRow()" style="font-weight:600">
+                                <svg viewBox="0 0 20 20" fill="currentColor"
+                                    style="width:14px;height:14px;display:inline-block;vertical-align:middle;margin-right:4px">
+                                    <path fill-rule="evenodd"
+                                        d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                Thêm Sloc
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ WAREHOUSE DETAIL ═══ -->
+            <div id="view-warehouse-detail" class="fade-in" style="display:none">
+                <div class="page-hd">
+                    <div>
+                        <div class="page-title" id="detail-title2"></div>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="btn btn-ghost" onclick="showView('warehouse-list')">← Quay lại</button>
+                    </div>
+                </div>
+                <div class="wh-detail-grid">
+                    <!-- LEFT COLUMN (THÔNG TIN KHO CARD) -->
+                    <div class="card" style="padding: 20px; margin-bottom: 0; display: flex; flex-direction: column;">
+                        <div
+                            style="display:flex;align-items:center;gap:8px;margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:12px;">
+                            <div style="width:4px;height:16px;background:var(--primary);border-radius:2px"></div>
+                            <span
+                                style="font-size:13px;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:.5px">THÔNG
+                                TIN KHO</span>
+                        </div>
+                        <div id="detail-info-sidebar" style="display:flex;flex-direction:column;gap:4px">
+                            <!-- Populated dynamically via JS -->
+                        </div>
+                    </div>
+
+                    <!-- RIGHT COLUMN (MAP & LEGENDS) -->
+                    <div style="display: flex; flex-direction: column; gap: 20px;">
+                        <!-- Map Card -->
+                        <div class="card" style="padding: 20px; margin-bottom: 0;">
+                            <div
+                                style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+                                <div style="display:flex;align-items:center;gap:8px">
+                                    <div style="width:4px;height:16px;background:var(--primary);border-radius:2px">
+                                    </div>
+                                    <span
+                                        style="font-size:13px;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:.5px">SƠ
+                                        ĐỒ MẶT BẰNG KHO</span>
+                                    <span class="badge" id="detail-map-status" style="margin-left:4px"></span>
+                                </div>
+                                <!-- Zoom Controls -->
+                                <div
+                                    style="display:flex;align-items:center;gap:2px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:2px 4px">
+                                    <button class="btn btn-ghost btn-sm" onclick="detailZoomChange(-0.1)"
+                                        style="padding:2px 6px;font-size:12px;font-weight:700;min-width:24px">−</button>
+                                    <span id="detail-zoom-label"
+                                        style="font-size:10px;font-family:var(--mono);color:var(--text2);min-width:36px;text-align:center">100%</span>
+                                    <button class="btn btn-ghost btn-sm" onclick="detailZoomChange(0.1)"
+                                        style="padding:2px 6px;font-size:12px;font-weight:700;min-width:24px">+</button>
+                                    <button class="btn btn-ghost btn-sm" onclick="detailZoomFit()"
+                                        style="padding:2px 6px;font-size:10px">Fit</button>
+                                </div>
+                            </div>
+                            <div id="detail-map-container"
+                                style="position:relative;background:#FFFFFF;border:1px solid var(--border);border-radius:8px;overflow:hidden;width:100%;">
+                                <!-- SVG map rendered dynamically via JS -->
+                            </div>
+                        </div>
+
+                        <!-- Legends Bottom Row -->
+                        <div class="legend-grid">
+                            <!-- Zone Legend -->
+                            <div class="card" style="padding: 20px; margin-bottom: 0;">
+                                <div
+                                    style="display:flex;align-items:center;gap:8px;margin-bottom:14px;border-bottom:1px solid var(--border);padding-bottom:10px;">
+                                    <div style="width:4px;height:16px;background:var(--primary);border-radius:2px">
+                                    </div>
+                                    <span
+                                        style="font-size:13px;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:.5px">CHÚ
+                                        THÍCH PHÂN KHU</span>
+                                </div>
+                                <div style="display:flex; flex-direction:column; gap:12px; font-size:12px;">
+                                    <!-- Row 1 -->
+                                    <div style="display:grid; grid-template-columns: 1.5fr 1fr; gap:15px;">
+                                        <div style="display:flex;align-items:center;gap:8px;">
+                                            <span
+                                                style="width:16px;height:16px;border-radius:3px;background:#E8F5E9;border:1px solid #81C784;flex-shrink:0;"></span>
+                                            <span style="color:var(--text);font-weight:700;">G, I <span
+                                                    style="color:var(--text2);font-weight:normal;margin-left:4px">— Khu
+                                                    vực giá kệ hàng nặng · Khu vực giá kệ hàng nhẹ</span></span>
+                                        </div>
+                                        <div style="display:flex;align-items:center;gap:8px;">
+                                            <span
+                                                style="width:16px;height:16px;border-radius:3px;background:#FCE4EC;border:1px solid #E57373;flex-shrink:0;"></span>
+                                            <span style="color:var(--text);font-weight:700;">J <span
+                                                    style="color:var(--text2);font-weight:normal;margin-left:4px">— Khu
+                                                    vực Pallet</span></span>
+                                        </div>
+                                    </div>
+                                    <!-- Row 2 -->
+                                    <div style="display:grid; grid-template-columns: 1.5fr 1fr; gap:15px;">
+                                        <div style="display:flex;align-items:center;gap:8px;">
+                                            <span
+                                                style="width:16px;height:16px;border-radius:3px;background:#FFFDE7;border:1px solid #F9A825;flex-shrink:0;"></span>
+                                            <span style="color:var(--text);font-weight:700;">C, M, B <span
+                                                    style="color:var(--text2);font-weight:normal;margin-left:4px">— Khu
+                                                    vực hàng quá khổ · Khu vực Chờ Nhập-Xuất B(n) · Khu vực đóng
+                                                    gói</span></span>
+                                        </div>
+                                        <div style="display:flex;align-items:center;gap:8px;">
+                                            <span
+                                                style="width:16px;height:16px;border-radius:3px;background:#FF8F00;flex-shrink:0;"></span>
+                                            <span style="color:var(--text);font-weight:700;">A <span
+                                                    style="color:var(--text2);font-weight:normal;margin-left:4px">— Cửa
+                                                    kho</span></span>
+                                        </div>
+                                    </div>
+                                    <!-- Row 3 -->
+                                    <div style="display:grid; grid-template-columns: 1.5fr 1fr; gap:15px;">
+                                        <div style="display:flex;align-items:center;gap:8px;">
+                                            <span
+                                                style="width:16px;height:16px;border-radius:3px;background:repeating-linear-gradient(135deg,#F5F5F5,#F5F5F5 3px,#BDBDBD 3px,#BDBDBD 4px);border:1px solid #90A4AE;flex-shrink:0;"></span>
+                                            <span style="color:var(--text);font-weight:700;">D, F <span
+                                                    style="color:var(--text2);font-weight:normal;margin-left:4px">— Khu
+                                                    vực làm việc · Khu vực dự phòng</span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Fill Level Legend -->
+                            <div class="card" style="padding: 20px; margin-bottom: 0;">
+                                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                                    <div style="width:4px;height:16px;background:var(--primary);border-radius:2px">
+                                    </div>
+                                    <span
+                                        style="font-size:13px;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:.5px">MỨC
+                                        ĐỘ LẤP ĐẦY</span>
+                                </div>
+                                <div style="font-size:11px;color:var(--text3);margin-bottom:14px;">Từ trống tới đầy
+                                    tương ứng nhạt tới đậm</div>
+                                <div style="display:flex;flex-direction:column;gap:12px">
+                                    <div style="display:flex;align-items:center;gap:12px;">
+                                        <span style="width:64px;font-size:11px;color:var(--text2);font-weight:600">Giá
+                                            kệ:</span>
+                                        <div
+                                            style="flex:1;height:12px;border-radius:6px;background:linear-gradient(90deg,hsl(122,55%,95%),hsl(122,55%,42%));border:1px solid var(--border)">
+                                        </div>
+                                        <span
+                                            style="font-size:10px;color:var(--text3);font-family:var(--mono);width:60px;text-align:right">0%
+                                            → 100%</span>
+                                    </div>
+                                    <div style="display:flex;align-items:center;gap:12px;">
+                                        <span
+                                            style="width:64px;font-size:11px;color:var(--text2);font-weight:600">Pallet:</span>
+                                        <div
+                                            style="flex:1;height:12px;border-radius:6px;background:linear-gradient(90deg,hsl(340,60%,96%),hsl(340,60%,55%));border:1px solid var(--border)">
+                                        </div>
+                                        <span
+                                            style="font-size:10px;color:var(--text3);font-family:var(--mono);width:60px;text-align:right">0%
+                                            → 100%</span>
+                                    </div>
+                                    <div style="display:flex;align-items:center;gap:12px;">
+                                        <span style="width:64px;font-size:11px;color:var(--text2);font-weight:600">Đóng
+                                            gói:</span>
+                                        <div
+                                            style="flex:1;height:12px;border-radius:6px;background:linear-gradient(90deg,hsl(50,95%,95%),hsl(50,95%,55%));border:1px solid var(--border)">
+                                        </div>
+                                        <span
+                                            style="font-size:10px;color:var(--text3);font-family:var(--mono);width:60px;text-align:right">0%
+                                            → 100%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ WAREHOUSE CONFIG ═══ -->
+            <div id="view-warehouse-config" style="display:none">
+                <div class="config-page">
+                    <div class="cfg-info-bar">
+                        <div class="cfg-status-bar">
+                            <div style="display:flex;align-items:center;gap:10px;flex:1">
+                                <span class="cfg-wh-id" id="cfg-bar-name"></span>
+                                <span class="badge badge-blue" id="cfg-bar-type"></span>
+                            </div>
+                            <div class="flex gap-2" style="flex-wrap:wrap;justify-content:flex-end">
+                                <button class="btn btn-ghost btn-sm" onclick="showView('warehouse-list')">← Quay
+                                    lại</button>
+                                <button class="btn btn-warn btn-sm" onclick="saveDraft()">💾 Lưu nháp</button>
+                                <button class="btn btn-primary btn-sm" onclick="finishConfig()">✓ Hoàn tất cấu
+                                    hình</button>
+                            </div>
+                        </div>
+                        <div class="cfg-info-body" id="cfg-info-body"></div>
+                    </div>
+                    <div class="cfg-body">
+                        <!-- LEFT PALETTE -->
+                        <div class="cfg-left">
+                            <div class="zone-palette-wrap" id="standard-palette-wrap">
+                                <div class="palette-section">
+                                    <div class="palette-hd">Phân Khu <span class="palette-req-badge">✓ Bắt buộc</span>
+                                    </div>
+                                    <div class="zone-item" draggable="true"
+                                        ondragstart="startDrag(event,'A','Cửa Nhập – Xuất','#6D28D9')">
+                                        <div class="zone-dot"></div>Cửa Nhập – Xuất<span class="zone-code">A(n)</span>
+                                    </div>
+                                    <div class="zone-item" draggable="true"
+                                        ondragstart="startDrag(event,'B','Chờ Nhập-Xuất','#1D4ED8')">
+                                        <div class="zone-dot"></div>Chờ Nhập-Xuất<span class="zone-code">B(n) ✓</span>
+                                    </div>
+                                    <div class="zone-item" draggable="true"
+                                        ondragstart="startDrag(event,'D','Khu dự phòng','#374151')">
+                                        <div class="zone-dot"></div>Khu dự phòng<span class="zone-code">D(n) ✓</span>
+                                    </div>
+                                    <div class="zone-item" draggable="true"
+                                        ondragstart="startDrag(event,'F','Khu làm việc','#4D7C0F')">
+                                        <div class="zone-dot"></div>Khu làm việc<span class="zone-code">F(n) ✓</span>
+                                    </div>
+                                </div>
+                                <div class="palette-section">
+                                    <div class="palette-hd">Giá kệ <span class="palette-cond-badge">1 trong
+                                            3</span></div>
+                                    <div class="zone-item" draggable="true"
+                                        ondragstart="startDrag(event,'G','Giá kệ hàng nặng','#1E3A8A')">
+                                        <div class="zone-dot"></div>Giá kệ hàng nặng (KC)<span
+                                            class="zone-code">G(n)</span>
+                                    </div>
+                                    <div class="zone-item" draggable="true"
+                                        ondragstart="startDrag(event,'H','Giá kệ hàng trung','#075985')">
+                                        <div class="zone-dot"></div>Giá kệ hàng trung (KT)<span
+                                            class="zone-code">H(n)</span>
+                                    </div>
+                                    <div class="zone-item" draggable="true"
+                                        ondragstart="startDrag(event,'I','Giá kệ hàng nhẹ','#0C4A6E')">
+                                        <div class="zone-dot"></div>Giá kệ hàng nhẹ (KN)<span
+                                            class="zone-code">I(n)</span>
+                                    </div>
+                                </div>
+                                <div class="palette-section">
+                                    <div class="palette-hd">Lưu trữ <span class="palette-cond-badge">1 trong 2
+                                        </span></div>
+                                    <div class="zone-item" draggable="true"
+                                        ondragstart="startDrag(event,'J','Khu vực Pallet','#92400E')">
+                                        <div class="zone-dot"></div>Khu vực Pallet<span class="zone-code">J(n)</span>
+                                    </div>
+                                    <div class="zone-item" draggable="true"
+                                        ondragstart="startDrag(event,'K','Khu vực Thùng gỗ','#78350F')">
+                                        <div class="zone-dot"></div>Khu vực Thùng gỗ<span class="zone-code">K(n)</span>
+                                    </div>
+                                </div>
+                                <div class="palette-section">
+                                    <div class="palette-hd">Tùy chọn</div>
+                                    <div class="zone-item" draggable="true"
+                                        ondragstart="startDrag(event,'M','Hàng quá khổ','#6D28D9')">
+                                        <div class="zone-dot"></div>Hàng quá khổ<span class="zone-code">M(n)</span>
+                                    </div>
+                                    <div class="zone-item" draggable="true"
+                                        ondragstart="startDrag(event,'C','Khu đóng gói','#064E3B')">
+                                        <div class="zone-dot"></div>Khu đóng gói<span class="zone-code">C(n)</span>
+                                    </div>
+                                    <div class="zone-item" draggable="true"
+                                        ondragstart="startDrag(event,'KH','Kho hở','#064E3B')">
+                                        <div class="zone-dot"></div>Kho hở<span class="zone-code">KH(n)</span>
+                                    </div>
+                                    <div class="zone-item" draggable="true"
+                                        ondragstart="startDrag(event,'BK','Bãi kho','#1C1917')">
+                                        <div class="zone-dot"></div>Bãi kho<span class="zone-code">BK(n)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="validate-panel" id="standard-validate-panel">
+                                <div class="validate-title">Kiểm tra nghiệp vụ</div>
+                                <div id="validation-list"></div>
+                            </div>
+                            <div id="yard-config-wrap"
+                                style="display:none; padding:12px; flex:1; flex-direction:column; gap:8px; overflow-y:auto">
+                                <div style="font-size:12px;font-weight:700;margin-bottom:6px">📐 Kích thước bãi kho
+                                </div>
+
+                                <hr class="sep">
+                                <div
+                                    style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+                                    <span style="font-size:12px;font-weight:700">📦 Khu vực</span>
+                                    <button class="btn btn-primary btn-sm" onclick="addYardRackToSub()"
+                                        style="padding:2px 8px;font-size:10px">+ Thêm khu vực</button>
+                                </div>
+                                <div id="yard-rack-tree" style="margin-bottom:8px"></div>
+                                <hr class="sep">
+                                <div
+                                    style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+                                    <span style="font-size:12px;font-weight:700">🚶 Lối đi</span>
+                                    <button class="btn btn-ghost btn-sm" onclick="addYardAisleToSub()"
+                                        style="padding:2px 8px;font-size:10px">+ Thêm</button>
+                                </div>
+                                <div id="yard-aisle-tree" style="margin-bottom:8px"></div>
+                                <div style="font-size:10px;color:var(--text3);margin-top:4px">💡 Kéo đối tượng trong sơ
+                                    đồ · Click item để sửa · Delete để xóa</div>
+                                <div class="validate-panel"
+                                    style="margin-top:auto;border-top:1px solid var(--border);padding-top:8px">
+                                    <div class="validate-title">Kiểm tra nghiệp vụ</div>
+                                    <div id="yard-validation-list"></div>
+                                </div>
+                            </div>
+                            <div id="cfg-status-msg" class="cfg-msg"></div>
+                        </div>
+                        <!-- RIGHT CANVAS -->
+                        <div class="cfg-canvas-col">
+                            <div class="canvas-toolbar">
+
+                                <span style="font-size:11px;color:var(--text3)">Lưới: 20cm/ô</span>
+                                <span style="font-size:11px;color:var(--text2);font-family:var(--mono)"
+                                    id="canvas-size-label"></span>
+                                <span style="font-size:10px;color:var(--text3)">Double-click để cấu hình · Delete để
+                                    xóa</span>
+                                <div class="ml-auto flex gap-2">
+                                    <div
+                                        style="display:flex;align-items:center;gap:2px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:2px 4px">
+                                        <button class="btn btn-ghost btn-sm" onclick="mainZoomChange(-0.1)"
+                                            style="padding:2px 6px;font-size:12px;font-weight:700;min-width:24px">−</button>
+                                        <span id="main-zoom-label"
+                                            style="font-size:10px;font-family:var(--mono);color:var(--text2);min-width:36px;text-align:center">100%</span>
+                                        <button class="btn btn-ghost btn-sm" onclick="mainZoomChange(0.1)"
+                                            style="padding:2px 6px;font-size:12px;font-weight:700;min-width:24px">+</button>
+                                        <button class="btn btn-ghost btn-sm" onclick="mainZoomFit()"
+                                            style="padding:2px 6px;font-size:10px">Fit</button>
+                                    </div>
+                                    <span id="canvas-overlap-indicator" style="font-size:10px;display:none"></span>
+                                </div>
+                            </div>
+                            <div class="canvas-area" id="canvas-wrap">
+                                <div id="warehouse-canvas" ondragover="allowDrop(event)" ondrop="onDrop(event)"
+                                    onclick="onCanvasClick(event)"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Zone Config Popup -->
+    <div class="overlay" id="zone-popup" style="display:none" onclick="if(event.target===this)closePopup()">
+        <div class="popup">
+            <div class="popup-hd">
+                <div>
+                    <div class="popup-title" id="popup-title">Cấu hình phân khu</div>
+                    <div class="popup-sub" id="popup-sub"></div>
+                </div>
+                <button class="close-btn" onclick="closePopup()">✕</button>
+            </div>
+            <div id="popup-body"></div>
+            <div class="flex gap-2 mt-3">
+                <button class="btn btn-danger btn-sm" style="flex:0 0 auto" onclick="deleteZone(currentZonePopup)">🗑
+                    Xóa</button>
+                <button class="btn btn-ghost" style="flex:1" onclick="closePopup()">Hủy</button>
+                <button class="btn btn-primary" style="flex:1" onclick="saveZoneConfig()">💾 Lưu cấu hình</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sub-canvas editor -->
+    <div class="sub-canvas-overlay" id="sub-canvas-overlay" onclick="if(event.target===this)closeSubCanvas()">
+        <div class="sub-popup">
+            <div class="sub-toolbar">
+                <span class="sub-title" id="sub-title">Cấu hình chi tiết</span>
+                <span class="sub-info" id="sub-info"></span>
+                <div class="ml-auto flex gap-2">
+                    <div
+                        style="display:flex;align-items:center;gap:2px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:2px 4px">
+                        <button class="btn btn-ghost btn-sm" onclick="subZoomChange(-0.5)"
+                            style="padding:2px 6px;font-size:12px;font-weight:700;min-width:24px">−</button>
+                        <span id="sub-zoom-label"
+                            style="font-size:10px;font-family:var(--mono);color:var(--text2);min-width:40px;text-align:center">100%</span>
+                        <button class="btn btn-ghost btn-sm" onclick="subZoomChange(0.5)"
+                            style="padding:2px 6px;font-size:12px;font-weight:700;min-width:24px">+</button>
+                        <button class="btn btn-ghost btn-sm" onclick="subZoomFit()"
+                            style="padding:2px 6px;font-size:10px">Fit</button>
+                    </div>
+                    <button class="btn btn-primary btn-sm" onclick="saveSubCanvas()">💾 Lưu mặt bằng</button>
+                    <button class="close-btn" onclick="closeSubCanvas()" style="margin-left:4px">✕</button>
+                </div>
+            </div>
+            <div class="sub-body">
+                <div class="sub-left">
+                    <div style="font-size:12px;font-weight:700;margin-bottom:6px">📐 Kích thước phân khu</div>
+                    <div class="rack-add-panel" style="margin-bottom:8px">
+                        <div class="form-row">
+                            <div class="form-group"><label class="form-label">Tên phân khu</label><input
+                                    class="form-input" id="sz-name" value=""></div>
+                            <div class="form-group"><label class="form-label">Diện tích</label><input class="form-input"
+                                    id="sz-area" readonly></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label class="form-label">Dài (m)</label><input class="form-input"
+                                    id="sz-len" type="number" step="0.2" min="0.4" value="21"
+                                    onchange="onSubZoneSizeChange()"></div>
+                            <div class="form-group"><label class="form-label">Rộng (m)</label><input class="form-input"
+                                    id="sz-wid" type="number" step="0.2" min="0.4" value="11"
+                                    onchange="onSubZoneSizeChange()"></div>
+                        </div>
+                    </div>
+                    <hr class="sep">
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+                        <span style="font-size:12px;font-weight:700" id="sub-rack-title">📦 Dãy kệ/ Pallet</span>
+                        <button class="btn btn-primary btn-sm" id="sub-add-rack-btn" onclick="addRackToSub()"
+                            style="padding:2px 8px;font-size:10px">+ Thêm</button>
+                    </div>
+                    <div id="sub-rack-tree" style="margin-bottom:8px"></div>
+                    <hr class="sep">
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+                        <span style="font-size:12px;font-weight:700">🚶 Lối đi</span>
+                        <button class="btn btn-ghost btn-sm" id="sub-add-aisle-btn" onclick="addAisleToSub()"
+                            style="padding:2px 8px;font-size:10px">+ Thêm</button>
+                    </div>
+                    <div id="sub-aisle-tree" style="margin-bottom:8px"></div>
+                    <div style="font-size:10px;color:var(--text3);margin-top:4px">💡 Kéo đối tượng trong sơ đồ · Click
+                        item để sửa · Delete để xóa</div>
+                </div>
+                <div class="sub-right">
+                    <div id="sub-canvas"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ ZONE DETAIL MODAL ═══ -->
+    <div id="zone-detail-overlay"
+        style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:300;align-items:center;justify-content:center;backdrop-filter:blur(5px)"
+        onclick="if(event.target===this)closeZoneDetail()">
+        <div class="zone-detail-popup"
+            style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;width:680px;max-width:95vw;max-height:90vh;overflow:hidden;box-shadow:0 24px 60px rgba(15,23,42,.25);display:flex;flex-direction:column">
+            <!-- Header -->
+            <div style="padding:0">
+                <div id="zd-color-bar" style="height:4px;border-radius:16px 16px 0 0"></div>
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;padding:18px 20px 12px">
+                    <div>
+                        <div id="zd-title"
+                            style="font-size:16px;font-weight:800;color:var(--text);letter-spacing:-.3px"></div>
+                        <div id="zd-subtitle" style="font-size:12px;color:var(--text2);margin-top:3px"></div>
+                    </div>
+                    <button onclick="closeZoneDetail()"
+                        style="width:30px;height:30px;border-radius:7px;border:1px solid var(--border);background:var(--bg3);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text2);font-size:16px;flex-shrink:0;margin-left:12px">✕</button>
+                </div>
+            </div>
+            <!-- Body -->
+            <div style="overflow-y:auto;flex:1;padding:0 20px 20px">
+                <!-- SVG Diagram -->
+                <div style="margin-bottom:16px">
+                    <div
+                        style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;margin-bottom:8px">
+                        Sơ đồ chi tiết phân khu</div>
+                    <div id="zd-svg-container"
+                        style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;overflow:hidden">
+                    </div>
+                </div>
+                <!-- Two columns: specs + note -->
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+                    <div>
+                        <div
+                            style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;margin-bottom:8px">
+                            Thông số kỹ thuật</div>
+                        <div id="zd-specs"
+                            style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 12px">
+                        </div>
+                    </div>
+                    <div>
+                        <div
+                            style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;margin-bottom:8px">
+                            Ghi chú của phân khu</div>
+                        <div id="zd-note"
+                            style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:12px;color:var(--text2);line-height:1.6">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- CONFIG STEP 1 MODAL -->
+    <div id="cfg-step1-overlay" class="cfg-modal-overlay" style="display:none"
+        onclick="if(event.target===this)closeConfigModal()">
+        <div class="cfg-modal">
+            <div class="cfg-modal-header">
+                <h3><span class="step-badge">BƯỚC 1</span>Cấu hình thông tin chung kho</h3>
+                <button class="cfg-modal-close" onclick="closeConfigModal()">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M1 1l12 12M13 1L1 13" />
+                    </svg>
+                </button>
+            </div>
+            <div class="cfg-modal-body">
+                <div class="cfg-modal-col">
+                    <div class="cfg-modal-col-title">Thông tin định danh</div>
+                    <div class="cfg-form-row"><span class="cfg-form-label">Mã kho <span
+                                style="color:var(--danger)">*</span></span><input type="text"
+                            class="cfg-form-input mono" id="cfgm-id"></div>
+                    <div class="cfg-form-row"><span class="cfg-form-label">Tên kho <span
+                                style="color:var(--danger)">*</span></span><input type="text" class="cfg-form-input"
+                            id="cfgm-name"></div>
+                    <div class="cfg-form-row"><span class="cfg-form-label">Mã tỉnh</span>
+                        <select class="cfg-form-input mono" id="cfgm-matinh">
+                            <option value="">-- Chọn tỉnh --</option>
+                            <option value="HN">HN – Hà Nội</option>
+                            <option value="HCM">HCM – TP.HCM</option>
+                            <option value="DN">DN – Đà Nẵng</option>
+                            <option value="HP">HP – Hải Phòng</option>
+                            <option value="BD">BD – Bình Dương</option>
+                        </select>
+                    </div>
+                    <div class="cfg-form-row"><span class="cfg-form-label">Địa chỉ</span><input type="text"
+                            class="cfg-form-input" id="cfgm-address"></div>
+                </div>
+                <div class="cfg-modal-col">
+                    <div class="cfg-modal-col-title">Thông số kỹ thuật</div>
+                    <div class="cfg-form-row"><span class="cfg-form-label">Loại kho</span>
+                        <select class="cfg-form-input" id="cfgm-type">
+                            <option value="Nhà kho">Nhà kho</option>
+                            <option value="Bãi kho">Bãi kho</option>
+                        </select>
+                    </div>
+                    <div class="cfg-form-row"><span class="cfg-form-label">Chiều dài (m) <span
+                                style="color:var(--danger)">*</span></span><input type="number"
+                            class="cfg-form-input mono" id="cfgm-len" min="1" step="1"
+                            oninput="computeConfigDimensions()"></div>
+                    <div class="cfg-form-row"><span class="cfg-form-label">Chiều rộng (m) <span
+                                style="color:var(--danger)">*</span></span><input type="number"
+                            class="cfg-form-input mono" id="cfgm-wid" min="1" step="1"
+                            oninput="computeConfigDimensions()"></div>
+                    <div class="cfg-form-row"><span class="cfg-form-label">Chiều cao (m)</span><input type="number"
+                            class="cfg-form-input mono" id="cfgm-hgt" min="1" step="0.5"
+                            oninput="computeConfigDimensions()"></div>
+                    <div class="cfg-form-row"><span class="cfg-form-label">Diện tích</span><span
+                            class="cfg-form-val computed" id="cfgm-area">—</span></div>
+                </div>
+                <div class="cfg-modal-col">
+                    <div class="cfg-modal-col-title">Thông tin quản lý</div>
+                    <div class="cfg-form-row"><span class="cfg-form-label">Nhiệt độ (°C)</span><input type="number"
+                            class="cfg-form-input mono" id="cfgm-temp" min="-20" max="50" step="1"></div>
+                    <div class="cfg-form-row" style="align-items:flex-start"><span class="cfg-form-label"
+                            style="padding-top:6px">Mô tả</span><textarea class="cfg-form-input" id="cfgm-desc" rows="2"
+                            placeholder="Mô tả ngắn về kho"></textarea></div>
+                    <div class="cfg-form-row" style="align-items:flex-start"><span class="cfg-form-label"
+                            style="padding-top:6px">Ghi chú</span><textarea class="cfg-form-input" id="cfgm-note"
+                            rows="2" placeholder="Ghi chú vận hành..."></textarea></div>
+                </div>
+            </div>
+            <div class="cfg-modal-footer">
+                <span class="hint">Diện tích được tự động tính toán từ kích thước</span>
+                <div class="flex gap-2">
+                    <button class="btn btn-ghost" onclick="closeConfigModal()">Hủy bỏ</button>
+                    <button class="btn btn-primary" onclick="saveConfigStep1()">
+                        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"
+                            style="width:14px;height:14px">
+                            <path d="M5 10l3 3 7-7" />
+                        </svg>
+                        Lưu & Tiếp tục →
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONFIRM DIALOG -->
+    <div id="confirm-overlay" class="confirm-overlay" style="display:none">
+        <div class="confirm-box">
+            <div class="confirm-title" id="confirm-title">Xác nhận</div>
+            <div class="confirm-msg" id="confirm-msg"></div>
+            <div class="flex gap-2" style="justify-content:flex-end">
+                <button class="btn btn-ghost" id="confirm-cancel-btn">Hủy bỏ</button>
+                <button class="btn btn-danger" id="confirm-ok-btn">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toast-container"
+        style="position:fixed;top:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none">
+    </div>
+
+    <script src="warehouse.js"></script>
+
+</body>
+
+</html>

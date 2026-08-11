@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Danh sách Order Xuất kho – DO Pool | Viettel WMS</title>
+  <!-- Google Fonts: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- External stylesheet -->
+  <link rel="stylesheet" href="PH3.css">
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <div class="page-header">
+    <div class="header-title-wrap">
+      <div class="breadcrumb">
+        <a href="#">Kho Thông Minh</a>
+        <span class="sep">/</span>
+        <a href="#">Xuất kho</a>
+        <span class="sep">/</span>
+        <span style="color:var(--slate-800);">DO Pool</span>
+      </div>
+      <h1>Danh sách Order Xuất kho – DO Pool</h1>
+      <p>Quản lý lệnh xuất đã đồng bộ từ SAP/VERP – task tự sinh từ Order qua Task Template</p>
+    </div>
+    <div>
+      <button class="btn btn-ghost" onclick="exportExcel()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export Excel
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== STATS ROW ===== -->
+  <div class="stats-row">
+    <div class="stat-card sc-total">
+      <div class="stat-label">Tổng order</div>
+      <div class="stat-val" id="stat-total">12</div>
+      <div class="stat-note" id="stat-volume">91.0 m³ hàng hóa</div>
+    </div>
+    <div class="stat-card sc-pending">
+      <div class="stat-label">Chờ xác nhận</div>
+      <div class="stat-val" id="stat-pending">1</div>
+      <div class="stat-note">lệnh cần xử lý</div>
+    </div>
+    <div class="stat-card sc-processing">
+      <div class="stat-label">Đang xử lý</div>
+      <div class="stat-val" id="stat-processing">4</div>
+      <div class="stat-note">lệnh đang chạy</div>
+    </div>
+    <div class="stat-card sc-done">
+      <div class="stat-label">Hoàn tất</div>
+      <div class="stat-val" id="stat-done">1/12</div>
+      <div class="stat-note">của cả hệ thống / trong năm</div>
+    </div>
+  </div>
+
+  <!-- ===== TABLE CONTAINER ===== -->
+  <div class="table-container-wrap">
+    
+    <!-- TABS -->
+    <div class="tabs-bar">
+      <div class="tab-list">
+        <button class="tab-item active" onclick="switchTab('all')">
+          Tổng order <span class="tab-count" id="tab-count-all">12</span>
+        </button>
+        <button class="tab-item" onclick="switchTab('pending')">
+          Chờ xác nhận <span class="tab-count" id="tab-count-pending">1</span>
+        </button>
+        <button class="tab-item" onclick="switchTab('processing')">
+          Đang xử lý <span class="tab-count" id="tab-count-processing">4</span>
+        </button>
+        <button class="tab-item" onclick="switchTab('done')">
+          Hoàn tất <span class="tab-count" id="tab-count-done">1/12</span>
+        </button>
+      </div>
+      <div style="font-size:11.5px; color:var(--slate-400); font-weight:500;">
+        Bộ lọc thời gian: 24 giờ qua
+      </div>
+    </div>
+
+    <!-- TOOLBAR -->
+    <div class="toolbar">
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="search-input" placeholder="Tìm mã lệnh, đơn vị nhận..." onkeyup="handleSearch(this.value)">
+      </div>
+      <div>
+        <button class="btn btn-ghost" style="padding: 6px 12px; font-size:12px;" onclick="alert('Mở bộ lọc nâng cao')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:13px; height:13px;"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+          Filter
+        </button>
+      </div>
+    </div>
+
+    <!-- TABLE BODY -->
+    <div class="table-scroll">
+      <table class="wms-table">
+        <thead>
+          <tr>
+
+            <th>Mã Order</th>
+            <th>Loại</th>
+            <th>Đơn vị nhận</th>
+            <th>Kho</th>
+            <th>Task cần xử lý</th>
+            <th>Trạng thái</th>
+            <th>SLA</th>
+            <th>Ngày xuất</th>
+            <th>Phụ trách</th>
+            <th style="width:140px; text-align:center;">Action</th>
+          </tr>
+        </thead>
+        <tbody id="outbound-tbody">
+          <!-- Dynamic contents -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- FOOTER BAR -->
+    <div class="footer-bar">
+      <div style="color:var(--slate-50); font-size:11.5px;" id="table-results-label">
+        Hiển thị 1-10 / 12 lệnh
+      </div>
+      <div class="pagination" id="pagination-container">
+        <!-- Buttons -->
+      </div>
+    </div>
+
+  </div>
+
+  <!-- External mock data and logic scripts -->
+  <script src="../mockdata.js"></script>
+  <script src="PH3.js" defer></script>
+</body>
+</html>

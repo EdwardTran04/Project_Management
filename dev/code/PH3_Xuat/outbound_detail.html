@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chi tiết lệnh xuất kho — Viettel WMS</title>
+  <!-- Google Fonts: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- External stylesheet -->
+  <link rel="stylesheet" href="outbound_detail.css">
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <div class="page-header" style="justify-content: flex-start; gap: 16px; align-items: center; padding: 16px 24px 8px 24px;">
+    <button class="btn btn-secondary btn-icon-only" onclick="goBack()" title="Quay lại danh sách" style="border: 1px solid var(--slate-200); background: var(--slate-100); border-radius: var(--radius-sm); width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--slate-700);">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 16px; height: 16px;"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    </button>
+    <h1 style="margin: 0; font-size: 24px; font-family: 'Outfit', sans-serif; font-weight: 700; color: var(--slate-900);">
+      <span id="header-order-id">OUT-2026-00451</span>
+    </h1>
+  </div>
+
+  <!-- GENERAL INFO CARD (đẩy lên trước tab) -->
+  <div style="padding: 0 24px; margin-bottom: 16px;">
+    <div class="card" style="margin-bottom: 0;">
+      <div class="card-header">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
+          Thông tin chung
+        </div>
+        <span class="badge badge-info" style="font-size:10px; padding:2px 8px;">Đồng bộ từ SAP</span>
+      </div>
+      <div class="card-body">
+        <div class="info-grid">
+          <div class="info-group">
+            <span class="info-label">Người nhận hàng</span>
+            <span class="info-val" id="inf-receiver">Chi nhánh Viettel HP</span>
+          </div>
+          <div class="info-group">
+            <span class="info-label">Đơn vị</span>
+            <span class="info-val" id="inf-company">Chi nhánh Viettel HP</span>
+          </div>
+          <div class="info-group">
+            <span class="info-label">Số QĐ/KH/TT</span>
+            <span class="info-val mono" id="inf-decision-no">QĐ-2026-1188</span>
+          </div>
+          <div class="info-group">
+            <span class="info-label">Mã hợp đồng</span>
+            <span class="info-val mono" id="inf-contract-no">HĐ-2026-1188</span>
+          </div>
+          <div class="info-group">
+            <span class="info-label">Mã / Tên kho xuất</span>
+            <span class="info-val" id="inf-wh-name">HN01 - Kho Hà Nội 01</span>
+          </div>
+          <div class="info-group" style="grid-column: span 2;">
+            <span class="info-label">Lý do xuất</span>
+            <span class="info-val" id="inf-reason">Xuất vận chuyển đến đơn vị / chi nhánh</span>
+          </div>
+          <div class="info-group">
+            <span class="info-label">Diễn giải</span>
+            <span class="info-val" style="font-weight:500;" id="inf-desc">Xuất vận chuyển · 8 dòng · 240 đơn vị · Phụ trách: Đỗ Minh Khôi</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TABS CONTAINER ===== -->
+  <div class="tabs-container">
+    <div class="tab-list">
+      <button class="tab-btn active" onclick="switchTab('goods')">Thông tin hàng hóa</button>
+      <button class="tab-btn" onclick="switchTab('task')">Task</button>
+      <button class="tab-btn" onclick="switchTab('transport')">Vận chuyển</button>
+      <button class="tab-btn" onclick="switchTab('docs')">Chứng từ</button>
+      <button class="tab-btn" onclick="switchTab('history')">Lịch sử</button>
+    </div>
+  </div>
+
+  <!-- ===== MAIN CONTENT PANES ===== -->
+  <div class="main-content">
+    
+    <!-- TAB 1: THÔNG TIN HÀNG HÓA -->
+    <div class="tab-pane active" id="pane-goods">
+
+      <div class="card">
+        <div class="card-header" style="font-size:13px; font-weight:700;">Danh sách hàng hóa</div>
+        <div class="table-container">
+          <table class="wms-table">
+            <thead>
+              <tr>
+                <th>Mã hàng</th>
+                <th>Tên</th>
+                <th style="width:100px;">ĐVT</th>
+                <th style="text-align:right; width:120px;">Chứng từ</th>
+                <th style="text-align:right; width:120px;">Đã pick</th>
+                <th style="text-align:right; width:120px;">Chênh lệch</th>
+                <th>Vị trí lấy</th>
+                <th>HU</th>
+              </tr>
+            </thead>
+            <tbody id="goods-tbody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: TASK -->
+    <div class="tab-pane" id="pane-task">
+      <div class="card">
+        <div class="card-header" style="font-size:13px; font-weight:700;">Danh sách các Task của Order</div>
+        <div class="table-container">
+          <table class="wms-table">
+            <thead>
+              <tr>
+                <th>Task</th>
+                <th>Loại</th>
+                <th>Phụ trách</th>
+                <th>Thời gian bắt đầu</th>
+                <th>Thời gian kết thúc</th>
+                <th>SLA</th>
+                <th>Trạng thái</th>
+                <th style="text-align:center;">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="task-tbody">
+              <!-- Dynamic content -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: VẬN CHUYỂN -->
+    <div class="tab-pane" id="pane-transport">
+      <!-- Warning Alert -->
+      <div class="alert-banner alert-banner-warning">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        Bắt buộc có ít nhất 1 xe vào dock trước khi tải hàng lên xe.
+      </div>
+
+      <!-- Vehicle List Card -->
+      <div class="card">
+        <div class="card-header" style="font-size:13px; font-weight:700; display:flex; justify-content:space-between; align-items:center;">
+          <span>Danh sách chuyến xe (1)</span>
+          <span style="font-size:11px; font-weight:500; color:var(--slate-400);">Cập nhật từ app Bảo vệ cổng – không thao tác trực tiếp tại đây.</span>
+        </div>
+        <div class="table-container">
+          <table class="wms-table">
+            <thead>
+              <tr>
+                <th>Mã chuyến</th>
+                <th>Nhà vận chuyển</th>
+                <th>Biển số DK</th>
+                <th>Biển số TT</th>
+                <th>Tài xế / SĐT</th>
+                <th>ETA</th>
+                <th>Dock</th>
+                <th>Vào cổng</th>
+                <th>Vào dock</th>
+                <th>Ra dock</th>
+                <th>Ra cổng</th>
+                <th>Trạng thái</th>
+                <th style="text-align:center;">PS</th>
+              </tr>
+            </thead>
+            <tbody id="transport-tbody">
+              <!-- Dynamic content -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Vehicle Detail Sub-Section -->
+      <div class="trip-detail-subwrap">
+        <div class="card">
+          <div class="card-header" style="font-size:12.5px; font-weight:700; color:var(--slate-800);">
+            Chi tiết chuyến VT-3019
+          </div>
+          <div class="card-body" style="display:flex; flex-direction:column; gap:16px;">
+            <!-- Mốc thời gian xe -->
+            <div>
+              <div style="font-size:11px; font-weight:700; color:var(--slate-500); margin-bottom:8px; display:flex; align-items:center; gap:4px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:12px; height:12px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                Mốc thời gian xe
+              </div>
+              <div class="timestamp-grid">
+                <div class="timestamp-box">
+                  <span class="timestamp-title">VÀO CỔNG</span>
+                  <span class="timestamp-val empty">—</span>
+                </div>
+                <div class="timestamp-box">
+                  <span class="timestamp-title">VÀO DOCK</span>
+                  <span class="timestamp-val empty">—</span>
+                </div>
+                <div class="timestamp-box">
+                  <span class="timestamp-title">RA DOCK</span>
+                  <span class="timestamp-val empty">—</span>
+                </div>
+                <div class="timestamp-box">
+                  <span class="timestamp-title">RA CỔNG</span>
+                  <span class="timestamp-val empty">—</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Phát sinh banner -->
+            <div class="alert-banner alert-banner-danger" style="margin-bottom: 0;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              <span>Phát sinh: Quá ETA - 13:30 - Vũ Anh Tuấn - Chưa đến &mdash; chậm 20 phút</span>
+            </div>
+
+            <!-- Ảnh gallery -->
+            <div>
+              <div style="font-size:11px; font-weight:700; color:var(--slate-500); margin-bottom:4px; display:flex; align-items:center; gap:4px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:12px; height:12px;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                Ảnh xe / biển số (0)
+              </div>
+              <div class="image-gallery-placeholder">
+                Chưa có ảnh.
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TAB 4: CHỨNG TỪ -->
+    <div class="tab-pane" id="pane-docs">
+      <div class="card">
+        <div class="card-header" style="font-size:13px; font-weight:700;">Hồ sơ Chứng từ &amp; Trình ký</div>
+        <div class="table-container">
+          <table class="wms-table">
+            <thead>
+              <tr>
+                <th>Loại chứng từ</th>
+                <th>Mã / Thông tin</th>
+                <th>Trạng thái</th>
+                <th>Thời gian cập nhật</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody id="docs-tbody">
+              <!-- Dynamic content -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 5: LỊCH SỬ -->
+    <div class="tab-pane" id="pane-history">
+      <div class="card">
+        <div class="card-header" style="font-size:13px; font-weight:700;">Lịch sử thao tác &amp; Hệ thống</div>
+        <div class="table-container">
+          <table class="wms-table">
+            <thead>
+              <tr>
+                <th>Thời gian</th>
+                <th>Người/Hệ thống</th>
+                <th>Hành động</th>
+                <th>Dữ liệu thay đổi</th>
+              </tr>
+            </thead>
+            <tbody id="history-tbody">
+              <!-- Dynamic content -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- External mock data and logic scripts -->
+  <script src="../mockdata.js"></script>
+  <script src="outbound_detail.js" defer></script>
+</body>
+</html>

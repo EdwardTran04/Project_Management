@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cấu hình Đơn vị quản lý — ViettelAIWS</title>
+  <link rel="stylesheet" href="staff.css">
+  <style>
+    .leadtime-edit-container {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .leadtime-input {
+      width: 180px;
+      height: 32px;
+      padding: 4px 8px;
+      border: 1px solid var(--primary);
+      border-radius: 6px;
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 500;
+      outline: none;
+      background: #FFF5F5;
+      transition: all 0.15s;
+    }
+    .leadtime-input:focus {
+      box-shadow: 0 0 0 2px rgba(238, 0, 51, 0.2);
+      background: #FFFFFF;
+    }
+    .edit-active {
+      background: rgba(238, 0, 51, 0.02);
+    }
+    /* Modal styles matching kpi.css */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(2px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    .modal-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+    .modal-box {
+      background: #FFFFFF;
+      border-radius: 12px;
+      width: 440px;
+      max-width: 90%;
+      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transform: scale(0.95);
+      transition: transform 0.2s ease;
+    }
+    .modal-overlay.active .modal-box {
+      transform: scale(1);
+    }
+    .modal-header {
+      background: #FFFFFF;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .modal-header h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .modal-header svg {
+      width: 20px;
+      height: 20px;
+      color: var(--warn);
+    }
+    .modal-body {
+      padding: 20px;
+      font-size: 13.5px;
+      color: var(--text2);
+      line-height: 1.5;
+    }
+    .modal-footer {
+      padding: 12px 20px;
+      background: #FFFFFF;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app-container" id="orgunit-app">
+    <div class="view-panel active">
+
+      <!-- HEADER -->
+      <div class="page-header">
+        <div>
+          <h1>Cấu hình Đơn vị quản lý</h1>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <!-- Normal Mode Buttons -->
+          <button class="btn btn-ghost" id="btn-template" onclick="downloadTemplate()" style="height: 36px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
+            </svg>
+            Tải file mẫu
+          </button>
+          <button class="btn btn-ghost" id="btn-import" onclick="triggerImport()" style="height: 36px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12" />
+            </svg>
+            Import danh sách
+          </button>
+          <input type="file" id="import-file-input" style="display: none;" accept=".csv,.xlsx,.xls" onchange="handleImport(this)">
+
+          <button class="btn btn-primary" id="btn-edit" onclick="enterEditMode()" style="height: 36px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:14px;height:14px;">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+              <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+            </svg>
+            Sửa cấu hình
+          </button>
+
+          <!-- Edit Mode Buttons (Hidden by default) -->
+          <button class="btn btn-ghost" id="btn-cancel" onclick="exitEditMode(false)" style="display: none; height: 36px;">
+            Hủy bỏ
+          </button>
+          <button class="btn btn-primary" id="btn-save" onclick="openConfirmModal()"
+            style="display: none; background: var(--success); border-color: var(--success); height: 36px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:14px;height:14px;">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+              <polyline points="17 21 17 13 7 13 7 21" />
+              <polyline points="7 3 7 8 15 8" />
+            </svg>
+            Lưu cấu hình
+          </button>
+        </div>
+      </div>
+
+      <!-- FILTER BAR -->
+      <div class="filter-row">
+        <div class="filter-group" style="flex: 1;">
+          <label class="filter-label">Tìm kiếm Đơn vị</label>
+          <div class="search-container">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            <input type="text" id="search-input" class="form-control search-input" placeholder="Tìm theo tên đơn vị quản lý, Plant hoặc Sloc..." oninput="handleSearch()">
+          </div>
+        </div>
+        <div class="filter-group" style="width: 240px;">
+          <label class="filter-label">Plant (Kho)</label>
+          <select id="filter-plant" class="form-control" onchange="handleSearch()">
+            <option value="">Tất cả Plant</option>
+            <option value="HN01">Kho Hà Nội 01 (HN01)</option>
+            <option value="HCM01">Kho Hồ Chí Minh 01 (HCM01)</option>
+            <option value="DN01">Kho Đà Nẵng 01 (DN01)</option>
+          </select>
+        </div>
+        <div class="filter-group" style="justify-content: flex-end;">
+          <button class="btn btn-ghost" style="height:36px;" onclick="resetFilters()">
+            Xóa bộ lọc
+          </button>
+        </div>
+      </div>
+
+      <!-- TABLE -->
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 60px;">STT</th>
+              <th>Đơn vị quản lý</th>
+              <th style="width: 140px;">Plant</th>
+              <th style="width: 200px;">Sloc</th>
+              <th style="width: 260px;">Thủ kho</th>
+              <th style="width: 120px; text-align: center;">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody id="orgunit-tbody">
+            <!-- Dynamic rows will be inserted here -->
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CONFIRMATION MODAL -->
+  <div class="modal-overlay" id="confirm-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+          <line x1="12" y1="9" x2="12" y2="13" />
+          <line x1="12" y1="17" x2="12.01" y2="17" />
+        </svg>
+        <h3>Xác nhận lưu cấu hình</h3>
+      </div>
+      <div class="modal-body">
+        Bạn có chắc chắn muốn lưu toàn bộ các thay đổi về Thủ kho phụ trách của các Đơn vị quản lý không?
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeConfirmModal()">Hủy bỏ</button>
+        <button class="btn btn-primary" onclick="submitSave()" style="background: var(--primary2);">Xác nhận lưu</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFIER -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="../mockdata.js"></script>
+  <script src="orgunit.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viettel Smart WMS — OVERVIEW</title>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <div class="app">
+        <main class="main">
+            <section id="overview" class="section active">
+                <div class="filter-wrap" id="ovFilterWrap">
+                    <!-- Top meta row -->
+                    <div class="fw-meta">
+                        <div class="fw-meta-left">
+                            <span class="fw-page-badge">
+                                <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"/><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"/></svg>
+                                Dashboard &rsaquo; Tổng quan
+                            </span>
+                        </div>
+                        <div class="fw-meta-right">
+                            <span class="fw-sync-dot"></span>
+                            <span class="fw-sync-label">Đồng bộ lúc 15:30 &nbsp;·&nbsp; 17/06/2026</span>
+                            <button class="fw-refresh-btn" title="Làm mới dữ liệu" onclick="this.classList.add('spin');setTimeout(()=>this.classList.remove('spin'),900)">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Filter row -->
+                    <div class="fw-body">
+                        <div class="fw-fields">
+                            <div class="fw-field">
+                                <label class="fw-label">
+                                    <svg viewBox="0 0 20 20" fill="currentColor" width="11" height="11"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm3 1h6v4H7V5zm8 8v2h1v1H4v-1h1v-2a1 1 0 011-1h8a1 1 0 011 1z" clip-rule="evenodd"/></svg>
+                                    Đơn vị
+                                </label>
+                                <select class="fw-select" id="ovFilterUnit">
+                                    <option>Tập đoàn</option>
+                                    <option>Miền Bắc</option>
+                                    <option>Miền Trung</option>
+                                    <option>Miền Nam</option>
+                                </select>
+                            </div>
+                            <div class="fw-field">
+                                <label class="fw-label">
+                                    <svg viewBox="0 0 20 20" fill="currentColor" width="11" height="11"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
+                                    Plant
+                                </label>
+                                <select class="fw-select" id="ovFilterPlant">
+                                    <option>Tất cả Plant</option>
+                                    <option>PLANT-VN01</option>
+                                    <option>PLANT-VN02</option>
+                                    <option>PLANT-VN03</option>
+                                </select>
+                            </div>
+                            <div class="fw-field">
+                                <label class="fw-label">
+                                    <svg viewBox="0 0 20 20" fill="currentColor" width="11" height="11"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
+                                    Sloc
+                                </label>
+                                <select class="fw-select" id="ovFilterSloc">
+                                    <option>Tất cả Sloc</option>
+                                    <option>V011-V101</option>
+                                    <option>V101-HCM</option>
+                                    <option>V201-DNG</option>
+                                </select>
+                            </div>
+                            <div class="fw-field">
+                                <label class="fw-label">
+                                    <svg viewBox="0 0 20 20" fill="currentColor" width="11" height="11"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>
+                                    Thời gian
+                                </label>
+                                <select class="fw-select" id="ovFilterTime">
+                                    <option value="today">Hôm nay</option>
+                                    <option value="week">Tuần</option>
+                                    <option value="month" selected>Tháng</option>
+                                    <option value="quarter">Quý</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="fw-actions">
+                            <button class="fw-btn-reset" onclick="resetOvFilter()" title="Đặt lại">
+                                <svg viewBox="0 0 20 20" fill="currentColor" width="12" height="12"><path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/></svg>
+                                Đặt lại
+                            </button>
+                            <button class="fw-btn-apply" onclick="applyOvFilter()">
+                                <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13"><path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-4 4A1 1 0 016 19v-7.586L3.293 8.707A1 1 0 013 8V3z" clip-rule="evenodd"/></svg>
+                                Áp dụng
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <style>
+                /* ── FILTER WRAP REDESIGN ──────────────────── */
+                .filter-wrap {
+                    background: var(--card);
+                    border: 1px solid var(--line);
+                    border-radius: 12px;
+                    padding: 0;
+                    margin-bottom: 18px;
+                    box-shadow: 0 1px 4px rgba(0,0,0,.05);
+                    overflow: hidden;
+                }
+                .fw-meta {
+                    display: flex; align-items: center; justify-content: space-between;
+                    padding: 9px 18px;
+                    background: var(--bg);
+                    border-bottom: 1px solid var(--line);
+                }
+                .fw-meta-left { display: flex; align-items: center; gap: 10px; }
+                .fw-meta-right { display: flex; align-items: center; gap: 8px; }
+                .fw-page-badge {
+                    display: inline-flex; align-items: center; gap: 5px;
+                    font-size: 10.5px; font-weight: 700;
+                    color: var(--muted); letter-spacing: .3px;
+                }
+                .fw-page-badge svg { color: var(--primary); }
+                .fw-sync-dot {
+                    width: 6px; height: 6px; border-radius: 50%;
+                    background: var(--green);
+                    box-shadow: 0 0 0 3px rgba(16,185,129,.2);
+                    animation: fw-pulse 2s infinite;
+                }
+                @keyframes fw-pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+                .fw-sync-label { font-size: 10px; font-weight: 600; color: var(--muted); }
+                .fw-refresh-btn {
+                    width: 24px; height: 24px; border-radius: 6px;
+                    border: 1px solid var(--line); background: var(--card);
+                    display: flex; align-items: center; justify-content: center;
+                    cursor: pointer; color: var(--muted); transition: .15s;
+                }
+                .fw-refresh-btn:hover { background: var(--bg); color: var(--text-dark); }
+                .fw-refresh-btn.spin svg { animation: fw-spin .8s linear; }
+                @keyframes fw-spin { from{transform:rotate(0)} to{transform:rotate(360deg)} }
+
+                .fw-body {
+                    display: flex; align-items: flex-end; gap: 16px;
+                    padding: 14px 18px 14px;
+                    flex-wrap: wrap;
+                }
+                .fw-fields { display: flex; align-items: flex-end; gap: 12px; flex-wrap: wrap; flex: 1; }
+                .fw-field { display: flex; flex-direction: column; gap: 5px; }
+                .fw-field-time { min-width: 260px; }
+                .fw-label {
+                    display: flex; align-items: center; gap: 4px;
+                    font-size: 10px; font-weight: 700; color: var(--muted);
+                    text-transform: uppercase; letter-spacing: .5px;
+                }
+                .fw-select {
+                    height: 34px; min-width: 140px;
+                    border: 1px solid var(--line); border-radius: 8px;
+                    background: var(--card); padding: 0 10px;
+                    font-size: 12px; color: var(--text);
+                    outline: none; cursor: pointer; transition: .15s;
+                    font-family: inherit;
+                }
+                .fw-select:focus { border-color: var(--primary); background: var(--card); box-shadow: 0 0 0 2px rgba(238,0,51,.08); }
+
+                .fw-time-chips { display: flex; gap: 5px; flex-wrap: wrap; }
+                .fw-chip {
+                    padding: 5px 12px; border-radius: 20px;
+                    border: 1px solid var(--line); background: var(--card);
+                    font-size: 11px; font-weight: 600; color: var(--muted);
+                    cursor: pointer; transition: .15s;
+                    font-family: inherit;
+                }
+                .fw-chip:hover { background: var(--bg); color: var(--text-dark); border-color: var(--line); }
+                .fw-chip-active {
+                    background: var(--primary) !important; color: #fff !important;
+                    border-color: var(--primary) !important;
+                    box-shadow: 0 2px 8px rgba(238,0,51,.3);
+                }
+
+                .fw-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+                .fw-btn-reset {
+                    display: inline-flex; align-items: center; gap: 5px;
+                    padding: 7px 12px; border-radius: 8px;
+                    border: 1px solid var(--line); background: transparent;
+                    font-size: 11.5px; font-weight: 600; color: var(--muted);
+                    cursor: pointer; transition: .15s; font-family: inherit;
+                }
+                .fw-btn-reset:hover { background: var(--bg); color: var(--text-dark); }
+                .fw-btn-apply {
+                    display: inline-flex; align-items: center; gap: 6px;
+                    padding: 7px 16px; border-radius: 8px;
+                    border: none; background: var(--primary);
+                    font-size: 12px; font-weight: 700; color: #fff;
+                    cursor: pointer; transition: .15s; font-family: inherit;
+                    box-shadow: 0 2px 8px rgba(238,0,51,.25);
+                }
+                .fw-btn-apply:hover { background: var(--primary-hover); box-shadow: 0 4px 14px rgba(238,0,51,.35); transform: translateY(-1px); }
+                .fw-btn-apply:active { transform: none; }
+                </style>
+                <script>
+                function resetOvFilter() {
+                    document.getElementById('ovFilterUnit').selectedIndex = 0;
+                    document.getElementById('ovFilterPlant').selectedIndex = 0;
+                    document.getElementById('ovFilterSloc').selectedIndex = 0;
+                    document.getElementById('ovFilterTime').value = 'month';
+                }
+                function applyOvFilter() {
+                    const btn = document.querySelector('#ovFilterWrap .fw-btn-apply');
+                    btn.textContent = '✓ Đã áp dụng';
+                    btn.style.background = '#059669';
+                    setTimeout(() => { btn.innerHTML = '<svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13"><path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-4 4A1 1 0 016 19v-7.586L3.293 8.707A1 1 0 013 8V3z" clip-rule="evenodd"/></svg>Áp dụng'; btn.style.background = ''; }, 1800);
+                }
+                </script>
+
+
+                <div class="cards-overview">
+                    <div class="metric accent-primary"
+                        onclick="drill('Tổng tồn kho hiện tại','Giá trị tồn toàn hệ thống: 12.450 tỷ. Số lượng: 482.360 đơn vị. Bao gồm 1.245.000 m³ quy đổi và 368.500 tấn hàng.')">
+                        <div class="label">Tổng tồn kho (hiện tại)</div>
+                        <div class="value">12.450 tỷ</div>
+                        <div class="sub">482.360 đv • 1.24M m³ • 368K t <span class="text-green" style="font-weight:700;margin-left:4px">▲ 4,6%</span></div>
+                    </div>
+                    <div class="metric accent-orange"
+                        onclick="drill('Tồn kho quá hạn','Giá trị quá hạn: 1.180 tỷ / 12.450 tỷ tổng tồn = 9,5%. Số lượng quá hạn: 28.410 đơn vị.')">
+                        <div class="label">Tồn kho quá hạn</div>
+                        <div class="value">1.180 tỷ</div>
+                        <div class="sub">Tỉ lệ: 9,5% • 28.410 đv <span class="text-red" style="font-weight:700;margin-left:4px">▼ 0,8%</span></div>
+                    </div>
+                    <div class="metric accent-primary"
+                        onclick="drill('Nhập thu hồi trong kỳ','Giá trị nhập thu hồi từ 01/01/2026 đến 08/06/2026: 3.240 tỷ, số lượng 126.500 đơn vị, 208.000 m³, 74.200 tấn.')">
+                        <div class="label">Nhập thu hồi trong kỳ</div>
+                        <div class="value">3.240 tỷ</div>
+                        <div class="sub">126.500 đv • 208K m³ • 74K t <span class="text-green" style="font-weight:700;margin-left:4px">▲ 8,2%</span></div>
+                    </div>
+                    <div class="metric accent-primary"
+                        onclick="drill('Nhập mới trong kỳ','Giá trị nhập mới từ 01/01/2026 đến 08/06/2026: 5.860 tỷ, số lượng 192.800 đơn vị, 322.000 m³, 106.500 tấn.')">
+                        <div class="label">Nhập mới trong kỳ</div>
+                        <div class="value">5.860 tỷ</div>
+                        <div class="sub">192.800 đv • 322K m³ • 106K t <span class="text-green" style="font-weight:700;margin-left:4px">▲ 14,8%</span></div>
+                    </div>
+                    <div class="metric accent-primary"
+                        onclick="drill('Tổng xuất trong kỳ','Giá trị xuất từ 01/01/2026 đến 08/06/2026: 4.980 tỷ, số lượng 168.900 đơn vị, 286.000 m³, 98.100 tấn.')">
+                        <div class="label">Tổng xuất trong kỳ</div>
+                        <div class="value">4.980 tỷ</div>
+                        <div class="sub">168.900 đv • 286K m³ • 98K t <span class="text-red" style="font-weight:700;margin-left:4px">▼ 3,1%</span></div>
+                    </div>
+                    <div class="metric accent-primary"
+                        onclick="drill('Tổng giao dịch','Phiếu nhập có vận chuyển: 3.820. Phiếu nhập không vận chuyển: 2.940. Phiếu nhập kho từ nhà cung cấp: 4.385. Phiếu xuất không dùng vận chuyển: 3.260. Phiếu xuất sử dụng vận chuyển: 3.840. Tổng quy đổi: 87.700 m³ và 32.600 tấn.')">
+                        <div class="label">Tổng giao dịch</div>
+                        <div class="value">18.245 CT</div>
+                        <div class="sub">87.700 m³ • 32.600 t <span class="text-green" style="font-weight:700;margin-left:4px">▲ 5,4%</span></div>
+                    </div>
+                    <div class="metric accent-primary"
+                        onclick="drill('Tổng diện tích kho & dung lượng lưu trữ','Tổng diện tích kho: 842.000 m². Dung lượng lưu trữ: 1.580.000 m³ trên toàn hệ thống.')">
+                        <div class="label">Tổng diện tích kho</div>
+                        <div class="value">842.000 m²</div>
+                        <div class="sub">Dung lượng: 1.58M m³ • 298 kho <span class="text-green" style="font-weight:700;margin-left:4px">▲ 2,0%</span></div>
+                    </div>
+                    <div class="metric accent-primary"
+                        onclick="drill('Nhân sự & số mã kho','Toàn hệ thống có 1.248 nhân sự và 256 mã kho (Sloc).')">
+                        <div class="label">Nhân sự</div>
+                        <div class="value">1.248 NV</div>
+                        <div class="sub">Tổng: 256 Sloc <span class="text-red" style="font-weight:700;margin-left:4px">▼ 1,5%</span></div>
+                    </div>
+                </div>
+
+
+                <!-- HIỆU SUẤT VẬN HÀNH (Performance Row with monthly sparklines) -->
+                <div class="panel-title" style="margin-top: 10px; margin-bottom: 12px;">
+                    <h3>Hiệu suất vận hành hệ thống WMS</h3>
+                </div>
+                <div class="layout-5" style="margin-bottom: 24px;">
+                    <div class="perf-card good">
+                        <div class="perf-label">Vòng quay tồn kho</div>
+                        <div class="perf-value" style="display:flex; justify-content:space-between; align-items:baseline;">
+                            <span>4.6 <small style="font-size:10px;font-weight:600;color:var(--muted)">vòng/năm</small></span>
+                            <span class="text-green" style="font-size:11.5px;font-weight:800;">+14,6%</span>
+                        </div>
+                        <div id="turnoverSpark" class="sparkline-container"></div>
+                        <div class="perf-desc">Mục tiêu: 5.0 vòng • Theo tháng (T1-T6)</div>
+                    </div>
+                    <div class="perf-card good">
+                        <div class="perf-label">Tỷ lệ giao đúng hạn (OTIF)</div>
+                        <div class="perf-value" style="display:flex; justify-content:space-between; align-items:baseline;">
+                            <span>98.2%</span>
+                            <span class="text-green" style="font-size:11.5px;font-weight:800;">+1,0%</span>
+                        </div>
+                        <div id="otifSpark" class="sparkline-container"></div>
+                        <div class="perf-desc">Cam kết SLA: 98.0% • Theo tháng (T1-T6)</div>
+                    </div>
+                    <div class="perf-card good">
+                        <div class="perf-label">Tỷ lệ lấp đầy tối ưu</div>
+                        <div class="perf-value" style="display:flex; justify-content:space-between; align-items:baseline;">
+                            <span>82.4%</span>
+                            <span class="text-green" style="font-size:11.5px;font-weight:800;">+5,3%</span>
+                        </div>
+                        <div id="utilizationSpark" class="sparkline-container"></div>
+                        <div class="perf-desc">Tối đa an toàn: 85% • Theo tháng (T1-T6)</div>
+                    </div>
+                    <div class="perf-card bad">
+                        <div class="perf-label">Thời gian xử lý đơn</div>
+                        <div class="perf-value" style="display:flex; justify-content:space-between; align-items:baseline;">
+                            <span>1.8 <small style="font-size:10px;font-weight:600;color:var(--muted)">giờ</small></span>
+                            <span class="text-red" style="font-size:11.5px;font-weight:800;">+20,0%</span>
+                        </div>
+                        <div id="cycleTimeSpark" class="sparkline-container"></div>
+                        <div class="perf-desc">Mục tiêu: &lt; 2.0 giờ • Theo tháng (T1-T6)</div>
+                    </div>
+                    <div class="perf-card good">
+                        <div class="perf-label">Thời gian TB từng task</div>
+                        <div class="perf-value" style="display:flex; justify-content:space-between; align-items:baseline;">
+                            <span>12.5 <small style="font-size:10px;font-weight:600;color:var(--muted)">phút</small></span>
+                            <span class="text-green" style="font-size:11.5px;font-weight:800;">-8.2%</span>
+                        </div>
+                        <div id="taskTimeSpark" class="sparkline-container"></div>
+                        <div class="perf-desc">Mục tiêu: &lt; 15.0 phút • Theo tháng (T1-T6)</div>
+                    </div>
+                </div>
+
+                <!-- CHART LAYOUT SPLIT GRID -->
+                <div class="overview-split-grid" style="margin-bottom: 20px;">
+                    <!-- LEFT COLUMN (Bars & Lists) -->
+                    <div style="display: flex; flex-direction: column; gap: 20px;">
+                        <!-- HORIZONTAL BAR CHART: PHÂN BỔ TỒN THEO ĐƠN VỊ -->
+                        <div class="card" style="margin-bottom: 0;">
+                            <div class="panel-title">
+                                <h3>Phân bổ tồn theo đơn vị</h3>
+                                <small>Đơn vị tính: tỷ VNĐ</small>
+                            </div>
+                            <div style="display: flex; gap: 16px; margin-bottom: 16px; font-size: 11.5px; font-weight: 600;">
+                                <div class="legend-item"><span class="dot" style="background:var(--green)"></span>Tồn trong hạn</div>
+                                <div class="legend-item"><span class="dot" style="background:var(--orange)"></span>Tồn quá hạn</div>
+                            </div>
+                            <div style="display: grid; gap: 18px;">
+                                <!-- VTNET -->
+                                <div style="display: grid; grid-template-columns: 80px 1fr 100px; align-items: center; gap: 16px; font-size: 12.5px;">
+                                    <span style="font-weight: 700; color: var(--text-dark);">VTNET</span>
+                                    <div class="stacked-bar-container">
+                                        <div class="bar-segment-in" style="width: 90.8%;" title="Tồn trong hạn: 4.920 tỷ (90.8%)">4.920 tỷ</div>
+                                        <div class="bar-segment-out" style="width: 9.2%;" title="Tồn quá hạn: 500 tỷ (9.2%)">500 tỷ</div>
+                                    </div>
+                                    <div style="text-align: right; font-weight: 700; color: var(--text-dark); font-size: 12.5px;">
+                                        5.420 tỷ
+                                    </div>
+                                </div>
+                                <!-- VCM -->
+                                <div style="display: grid; grid-template-columns: 80px 1fr 100px; align-items: center; gap: 16px; font-size: 12.5px;">
+                                    <span style="font-weight: 700; color: var(--text-dark);">VCM</span>
+                                    <div class="stacked-bar-container">
+                                        <div class="bar-segment-in" style="width: 90.9%;" title="Tồn trong hạn: 3.800 tỷ (90.9%)">3.800 tỷ</div>
+                                        <div class="bar-segment-out" style="width: 9.1%;" title="Tồn quá hạn: 380 tỷ (9.1%)">380 tỷ</div>
+                                    </div>
+                                    <div style="text-align: right; font-weight: 700; color: var(--text-dark); font-size: 12.5px;">
+                                        4.180 tỷ
+                                    </div>
+                                </div>
+                                <!-- HNI -->
+                                <div style="display: grid; grid-template-columns: 80px 1fr 100px; align-items: center; gap: 16px; font-size: 12.5px;">
+                                    <span style="font-weight: 700; color: var(--text-dark);">HNI</span>
+                                    <div class="stacked-bar-container">
+                                        <div class="bar-segment-in" style="width: 89.5%;" title="Tồn trong hạn: 2.550 tỷ (89.5%)">2.550 tỷ</div>
+                                        <div class="bar-segment-out" style="width: 10.5%;" title="Tồn quá hạn: 300 tỷ (10.5%)">300 tỷ</div>
+                                    </div>
+                                    <div style="text-align: right; font-weight: 700; color: var(--text-dark); font-size: 12.5px;">
+                                        2.850 tỷ
+                                    </div>
+                                </div>
+                                <!-- HCM -->
+                                <div style="display: grid; grid-template-columns: 80px 1fr 100px; align-items: center; gap: 16px; font-size: 12.5px;">
+                                    <span style="font-weight: 700; color: var(--text-dark);">HCM</span>
+                                    <div class="stacked-bar-container">
+                                        <div class="bar-segment-in" style="width: 89.0%;" title="Tồn trong hạn: 1.620 tỷ (89.0%)">1.620 tỷ</div>
+                                        <div class="bar-segment-out" style="width: 11.0%;" title="Tồn quá hạn: 200 tỷ (11.0%)">200 tỷ</div>
+                                    </div>
+                                    <div style="text-align: right; font-weight: 700; color: var(--text-dark); font-size: 12.5px;">
+                                        1.820 tỷ
+                                    </div>
+                                </div>
+                                <!-- VCC -->
+                                <div style="display: grid; grid-template-columns: 80px 1fr 100px; align-items: center; gap: 16px; font-size: 12.5px;">
+                                    <span style="font-weight: 700; color: var(--text-dark);">VCC</span>
+                                    <div class="stacked-bar-container">
+                                        <div class="bar-segment-in" style="width: 89.7%;" title="Tồn trong hạn: 1.300 tỷ (89.7%)">1.300 tỷ</div>
+                                        <div class="bar-segment-out" style="width: 10.3%;" title="Tồn quá hạn: 150 tỷ (10.3%)">150 tỷ</div>
+                                    </div>
+                                    <div style="text-align: right; font-weight: 700; color: var(--text-dark); font-size: 12.5px;">
+                                        1.450 tỷ
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TOP KHO NHẬP / XUẤT -->
+                        <div class="layout-2b" style="margin-bottom: 0;">
+                            <div class="card" style="margin-bottom: 0;">
+                                <div class="panel-title">
+                                    <h3>Top kho nhập nhiều <button class="sort-icon" title="Sắp xếp">⇅</button></h3><small>Giá trị nhập YTD</small>
+                                </div>
+                                <div class="bar-list">
+                                    <div class="bar-row"><span>Kho HN01</span>
+                                        <div class="track">
+                                            <div class="bar" style="width:100%"></div>
+                                        </div><b>820 tỷ</b>
+                                    </div>
+                                    <div class="bar-row"><span>Kho HCM01</span>
+                                        <div class="track">
+                                            <div class="bar" style="width:89%"></div>
+                                        </div><b>730 tỷ</b>
+                                    </div>
+                                    <div class="bar-row"><span>Kho BDG01</span>
+                                        <div class="track">
+                                            <div class="bar" style="width:76%"></div>
+                                        </div><b>620 tỷ</b>
+                                    </div>
+                                    <div class="bar-row"><span>Kho DNA01</span>
+                                        <div class="track">
+                                            <div class="bar" style="width:66%"></div>
+                                        </div><b>540 tỷ</b>
+                                    </div>
+                                    <div class="bar-row"><span>Kho HPG01</span>
+                                        <div class="track">
+                                            <div class="bar" style="width:57%"></div>
+                                        </div><b>470 tỷ</b>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card" style="margin-bottom: 0;">
+                                <div class="panel-title">
+                                    <h3>Top kho xuất nhiều <button class="sort-icon" title="Sắp xếp">⇅</button></h3><small>Giá trị xuất YTD</small>
+                                </div>
+                                <div class="bar-list">
+                                    <div class="bar-row"><span>Kho HCM01</span>
+                                        <div class="track">
+                                            <div class="bar" style="width:100%"></div>
+                                        </div><b>790 tỷ</b>
+                                    </div>
+                                    <div class="bar-row"><span>Kho HN01</span>
+                                        <div class="track">
+                                            <div class="bar" style="width:92%"></div>
+                                        </div><b>725 tỷ</b>
+                                    </div>
+                                    <div class="bar-row"><span>Kho CTO01</span>
+                                        <div class="track">
+                                            <div class="bar" style="width:74%"></div>
+                                        </div><b>585 tỷ</b>
+                                    </div>
+                                    <div class="bar-row"><span>Kho DNA01</span>
+                                        <div class="track">
+                                            <div class="bar" style="width:63%"></div>
+                                        </div><b>500 tỷ</b>
+                                    </div>
+                                    <div class="bar-row"><span>Kho HUE01</span>
+                                        <div class="track">
+                                            <div class="bar" style="width:54%"></div>
+                                        </div><b>430 tỷ</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT COLUMN (Pies) -->
+                    <div style="display: flex; flex-direction: column; gap: 20px;">
+                        <div class="card" style="margin-bottom: 0;">
+                            <div class="panel-title">
+                                <h3>Phân bổ giá trị theo đơn vị</h3>
+                            </div>
+                            <div class="pie-wrap">
+                                <div id="unitPie"></div>
+                                <div id="unitLegend" class="legend"></div>
+                            </div>
+                        </div>
+                        <div class="card" style="margin-bottom: 0;">
+                            <div class="panel-title">
+                                <h3>Cơ cấu giao dịch theo chứng từ</h3>
+                            </div>
+                            <div class="pie-wrap">
+                                <div id="docPie"></div>
+                                <div id="docLegend" class="legend"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- REPORT DOWNLOAD FILTER MODAL -->
+            <div id="reportModalOverlay" class="report-modal-overlay" onclick="if(event.target===this) closeReportModal()">
+                <div class="report-modal">
+                    <h3 id="reportModalTitle">Tải xuống báo cáo</h3>
+                    <div class="modal-desc" id="reportModalDesc">Chọn bộ lọc thời gian và phân loại trước khi tải xuống file Excel (.xlsx)</div>
+                    <div class="modal-fields">
+                        <div class="modal-row">
+                            <div class="fgroup"><label>Từ ngày</label><input type="date" id="reportFromDate" value="2026-01-01"></div>
+                            <div class="fgroup"><label>Đến ngày</label><input type="date" id="reportToDate" value="2026-06-11"></div>
+                        </div>
+                        <div class="fgroup" id="reportTypeGroup">
+                            <label id="reportTypeLabel">Loại</label>
+                            <select id="reportTypeSelect">
+                                <option value="all">Tất cả</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-actions">
+                        <button class="btn-cancel" onclick="closeReportModal()">Đóng</button>
+                        <button class="btn-download" onclick="downloadExcel()">📥 Tải xuống Excel</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DRILLDOWN DETAIL MODAL -->
+            <div id="drilldownModalOverlay" class="drilldown-modal-overlay" onclick="if(event.target===this) closeDrilldownModal()">
+                <div class="drilldown-modal">
+                    <div class="drilldown-modal-header">
+                        <h3 id="drilldownModalTitle">Chi tiết dữ liệu</h3>
+                        <button onclick="closeDrilldownModal()" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted);font-weight:700;">&times;</button>
+                    </div>
+                    <div class="drilldown-modal-filters" id="drilldownModalFilters">
+                        <!-- Dynamic filters will be inserted here -->
+                    </div>
+                    <div class="drilldown-modal-body" id="drilldownModalBody">
+                        <!-- Dynamic table will be inserted here -->
+                    </div>
+                    <div class="drilldown-modal-footer">
+                        <span class="total-summary" id="drilldownModalSummary">Hiển thị dữ liệu chi tiết</span>
+                        <div class="pagination" id="drilldownModalPagination"></div>
+                        <button class="btn btn-red" onclick="closeDrilldownModal()" style="margin: 0; padding: 6px 16px;">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- TOOLTIP -->
+    <div id="tooltip" class="tooltip"></div>
+
+    <!-- OVERLAY & DRAWER -->
+    <div id="overlay" class="overlay" onclick="closeDrawer()"></div>
+    <aside id="drawer" class="drawer">
+        <button class="close" onclick="closeDrawer()">Đóng</button>
+        <h3 id="drawerTitle" style="color:var(--text-dark);font-weight:900;margin:0 0 16px 0;">Chi tiết</h3>
+        <p id="drawerDesc" class="note" style="font-size:13px;line-height:1.55;color:var(--text);margin-bottom:20px;">
+        </p>
+        <hr style="border:0;border-top:1px solid var(--line);margin-bottom:20px;">
+        <p class="note">Đây là vùng drill down / drill-through. Khi triển khai thực tế, khu vực này sẽ hiển thị danh
+            sách chi tiết theo đơn vị, Plant, Sloc, kho, nhóm sản phẩm hoặc danh sách giao dịch liên quan.</p>
+        <button class="btn btn-red" style="width:100%;margin-top:20px;justify-content:center;">Mở màn chi tiết hệ
+            thống</button>
+    </aside>
+
+    <script>
+        // Menu Routing Metadata
+        const meta = {
+            overview: [
+                'Tổng quan',
+                'Màn hình dành cho Tổng Giám đốc theo dõi tổng thể giá trị tồn kho, quy mô kho, biến động nhập - xuất và các nhóm kho/đơn vị nổi bật trên toàn hệ thống.'
+            ],
+            dayops: [
+                'Điều hành trong ngày',
+                'Dành cho Thủ kho theo dõi ca làm việc, tiến độ xuất nhập, lỗi nghiệp vụ và xe chờ dỡ hàng.'
+            ],
+            reports: [
+                'Báo cáo',
+                'Xuất các báo cáo vận hành, quản trị tài sản tồn kho và báo cáo vi phạm KPI.'
+            ]
+        };
+
+        // Start System Clock in Header
+        function startClock() {
+            const pad = n => String(n).padStart(2, '0');
+            const update = () => {
+                const d = new Date();
+                const el = document.getElementById('headerClock');
+                if (el) {
+                    el.innerHTML = `📅 ${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+                }
+            };
+            update();
+            setInterval(update, 1000);
+        }
+        startClock();
+
+        // Tab Switch Routing Function
+        function showPage(id) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.nav button').forEach(b => b.classList.toggle('active', b.dataset.page === id));
+            document.getElementById('pageTitle').textContent = meta[id][0];
+            document.getElementById('pageDesc').textContent = meta[id][1];
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        document.querySelectorAll('.nav button').forEach(b => b.onclick = () => showPage(b.dataset.page));
+
+        // Drill Down functions
+        let currentModalData = [];
+        let filteredModalData = [];
+        let currentHeaders = [];
+        let currentTitle = "";
+        let currentPage = 1;
+        const modalPageSize = 12;
+
+        function drill(title, desc) {
+            currentTitle = title;
+            currentPage = 1;
+            
+            // Define data generator based on title
+            if (title.includes('nhập kho ca sáng')) {
+                currentHeaders = ['Mã phiếu', 'Thời gian', 'Nhân sự thực hiện', 'Plant/Sloc', 'Trạng thái'];
+                currentModalData = [];
+                const staff = ['Nguyễn Văn A', 'Trần Thị B', 'Lê Văn C', 'Phạm Văn D', 'Hoàng Thị E', 'Nguyễn Thị F', 'Trần Văn G', 'Lê Thị H', 'Phạm Văn I', 'Đỗ Văn K', 'Hoàng Văn L', 'Bùi Thị M', 'Vũ Văn N', 'Đặng Văn P', 'Ngô Thị Q'];
+                const slocs = ['VN01 / HN01', 'VN02 / HCM01', 'VN03 / DN01', 'VN01 / HP01'];
+                const statuses = [
+                    '<span class="badge b-green">Đã nhập kho</span>',
+                    '<span class="badge b-blue">Đang kiểm hàng</span>',
+                    '<span class="badge b-orange">Đang dỡ hàng</span>',
+                    '<span class="badge b-slate">Chờ kiểm định</span>'
+                ];
+                for (let i = 1; i <= 25; i++) {
+                    const num = String(i).padStart(4, '0');
+                    const time = `0${8 + Math.floor(i/4)}:${String((i*15)%60).padStart(2, '0')}`;
+                    currentModalData.push([
+                        `<b>NK-2026-${num}</b>`,
+                        time,
+                        staff[i % staff.length],
+                        slocs[i % slocs.length],
+                        statuses[i % statuses.length]
+                    ]);
+                }
+            } else if (title.includes('xuất kho ca sáng')) {
+                currentHeaders = ['Mã phiếu', 'Hạn hoàn thành', 'Nhân sự phụ trách', 'Khách hàng / Điểm đến', 'Trạng thái'];
+                currentModalData = [];
+                const staff = ['Vũ Văn F', 'Đỗ Thị G', 'Ngô Văn H', 'Bùi Thị I', 'Dương Văn J', 'Trần Văn K', 'Lê Thị L', 'Phạm Văn M', 'Hoàng Thị N', 'Nguyễn Văn P'];
+                const destinations = ['Chi nhánh HCM', 'Viettel Store HN', 'Kho Tổng VN01', 'Chi nhánh Đà Nẵng', 'Đối tác Viettel', 'Kho Hải Phòng'];
+                const statuses = [
+                    '<span class="badge b-green">Đã hoàn thành</span>',
+                    '<span class="badge b-orange">Đóng gói</span>',
+                    '<span class="badge b-blue">Đang soạn hàng</span>',
+                    '<span class="badge b-slate">Chờ gom hàng</span>'
+                ];
+                for (let i = 1; i <= 27; i++) {
+                    const num = String(i).padStart(4, '0');
+                    const time = `${10 + Math.floor(i/5)}:${String((i*12)%60).padStart(2, '0')}`;
+                    currentModalData.push([
+                        `<b>XK-2026-${num}</b>`,
+                        time,
+                        staff[i % staff.length],
+                        destinations[i % destinations.length],
+                        statuses[i % statuses.length]
+                    ]);
+                }
+            } else if (title.includes('Nhân sự ca trực tiếp')) {
+                currentHeaders = ['Họ và tên', 'Bộ phận', 'Nhiệm vụ hiện tại', 'Thời gian ca', 'Trạng thái'];
+                currentModalData = [];
+                const roles = ['Kiểm hàng', 'Bốc xếp', 'Đóng gói', 'Điều phối', 'Lưu trữ'];
+                const tasks = ['Kiểm phiếu NK-2026-0031', 'Dỡ hàng xe 29C-1234', 'Hỗ trợ soạn hàng XK-2026-0114', 'Phân cổng xe chở dỡ', 'Sắp xếp kệ Zone A1', 'Kiểm kê Zone B2', 'Đóng gói XK-2026-0112'];
+                const statuses = [
+                    '<span class="badge b-blue">Bận</span>',
+                    '<span class="badge b-green">Rảnh</span>',
+                    '<span class="badge b-orange">Sắp rảnh</span>'
+                ];
+                const names = ['Nguyễn Văn Mạnh', 'Trần Minh Hùng', 'Lê Thanh Tùng', 'Phạm Minh Đức', 'Hoàng Văn Hậu', 'Trần Văn Cường', 'Lê Thị Mai', 'Phạm Thị Lan', 'Nguyễn Tiến Dũng', 'Đỗ Tuấn Anh', 'Vũ Quốc Khánh', 'Hoàng Kim Chi', 'Bùi Văn Tuấn', 'Vũ Văn Hùng', 'Nguyễn Thị Oanh', 'Trần Thị Hà', 'Lê Văn Nam', 'Đỗ Thị Cúc', 'Phạm Văn Hòa', 'Nguyễn Thị Hải', 'Vũ Văn Hải', 'Trần Minh Tân', 'Lê Văn Bắc'];
+                for (let i = 0; i < names.length; i++) {
+                    currentModalData.push([
+                        `<b>${names[i]}</b>`,
+                        roles[i % roles.length],
+                        tasks[i % tasks.length],
+                        '08:00 - 16:00',
+                        statuses[i % statuses.length]
+                    ]);
+                }
+            } else if (title.includes('Cảnh báo & hiệu quả tải')) {
+                currentHeaders = ['Khu vực cảnh báo', 'Loại cảnh báo', 'Nội dung chi tiết', 'Mức độ', 'Hành động đề xuất'];
+                currentModalData = [];
+                const zones = ['Khu chờ nhập', 'Hệ thống SAP', 'Cổng dỡ số 2', 'Nhân sự ca sáng', 'Khu đóng gói', 'Zone kệ A1', 'Thiết bị RF', 'Băng tải chính', 'Cổng xuất số 1', 'Khu phân loại'];
+                const alerts = ['Quá tải diện tích', 'Độ trễ API', 'Xe chờ lâu', 'Thiếu giờ công', 'Nghẽn cổ chai', 'Sai vị trí kệ', 'Mất kết nối', 'Kẹt cơ học', 'Xe trễ giờ', 'Sai quy trình'];
+                const details = [
+                    'Dung lượng lấp đầy đạt 92%',
+                    'Độ trễ truyền nhận 1.4%',
+                    '2 xe tải chờ quá 45 phút',
+                    'Thiếu hụt 3.5 công (28 giờ)',
+                    'Công suất soạn hàng quá tải',
+                    '12 mã hàng đặt sai hàng kệ',
+                    '3 máy quét cầm tay ngoại tuyến',
+                    'Motor băng tải quá nhiệt',
+                    'Xe container trễ 30 phút',
+                    'Tỷ lệ quét barcode sai 0.8%'
+                ];
+                const severities = [
+                    '<span class="badge b-red">Cao</span>',
+                    '<span class="badge b-orange">Trung bình</span>',
+                    '<span class="badge b-red">Cao</span>',
+                    '<span class="badge b-red">Cao</span>',
+                    '<span class="badge b-orange">Trung bình</span>',
+                    '<span class="badge b-blue">Thấp</span>',
+                    '<span class="badge b-orange">Trung bình</span>',
+                    '<span class="badge b-red">Cao</span>',
+                    '<span class="badge b-blue">Thấp</span>',
+                    '<span class="badge b-blue">Thấp</span>'
+                ];
+                const solutions = [
+                    'Điều phối nhân lực bốc dỡ nhanh',
+                    'Kiểm tra kết nối switch tổng',
+                    'Điều phối tạm sang cổng số 3',
+                    'Yêu cầu ca phụ hỗ trợ thêm',
+                    'Tăng cường 2 nhân sự hỗ trợ',
+                    'Yêu cầu xe nâng sắp xếp lại',
+                    'Khởi động lại AP sóng wifi',
+                    'Tạm dừng để kiểm tra bảo dưỡng',
+                    'Liên hệ hãng vận tải điều xe',
+                    'Vệ sinh đầu đọc laser máy quét'
+                ];
+                for (let i = 0; i < zones.length; i++) {
+                    currentModalData.push([
+                        `<b>${zones[i]}</b>`,
+                        alerts[i],
+                        details[i],
+                        severities[i],
+                        solutions[i]
+                    ]);
+                }
+            } else if (title.includes('Tổng tồn kho hiện tại') || title.includes('tồn kho hiện tại')) {
+                currentHeaders = ['Nhóm sản phẩm', 'Số lượng', 'Thể tích (m³)', 'Trọng lượng (Tấn)', 'Trị giá tồn kho'];
+                currentModalData = [];
+                const groups = ['Thiết bị mạng', 'Cáp quang', 'Linh kiện nguồn', 'Phụ kiện vật tư', 'Ắc quy chuyên dụng', 'Module nguồn', 'Tủ rack cabinet', 'Đầu nối nhảy quang', 'Thiết bị kích sóng', 'Module quang SFP', 'Thiết bị GPON', 'Dây hàn quang pigtail', 'Măng xông cáp quang', 'Ống nhựa bảo vệ'];
+                const values = [5600, 3360, 2240, 1250, 950, 780, 620, 480, 390, 310, 260, 190, 140, 110];
+                for (let i = 0; i < groups.length; i++) {
+                    const qty = `${(values[i]*32).toLocaleString('vi-VN')} đv`;
+                    const vol = `${(values[i]*75).toLocaleString('vi-VN')} m³`;
+                    const wgt = `${(values[i]*20).toLocaleString('vi-VN')} tấn`;
+                    const valText = i === 0 ? `<b style="color:var(--primary);">${values[i]} tỷ (45.0%)</b>` : `<b>${values[i]} tỷ</b>`;
+                    currentModalData.push([`<b>${groups[i]}</b>`, qty, vol, wgt, valText]);
+                }
+            } else if (title.includes('Tồn kho quá hạn') || title.includes('quá hạn')) {
+                currentHeaders = ['Loại vật tư quá hạn', 'Số lượng quá hạn', 'Thời gian quá hạn trung bình', 'Trị giá quá hạn', 'Tỷ lệ quá hạn / Nhóm'];
+                currentModalData = [];
+                const materials = ['Thiết bị mạng cũ', 'Cáp quang thừa', 'Linh kiện nguồn cũ', 'Phụ kiện lẻ', 'Ắc quy tồn kho', 'Tủ rack cũ', 'Đầu nối cáp lỗi', 'Module quang tồn', 'Thiết bị GPON cũ', 'Dây nhảy quang hỏng', 'Măng xông cũ', 'Kích sóng tồn'];
+                const vals = [620, 280, 190, 90, 75, 60, 45, 30, 25, 20, 15, 12];
+                for (let i = 0; i < materials.length; i++) {
+                    currentModalData.push([
+                        `<b>${materials[i]}</b>`,
+                        `${(vals[i]*25).toLocaleString('vi-VN')} đv`,
+                        `> ${90 + i*10} ngày`,
+                        i === 0 ? `<b style="color:var(--primary);">${vals[i]} tỷ</b>` : `<b>${vals[i]} tỷ</b>`,
+                        `${(8 + i*0.5).toFixed(1)}%`
+                    ]);
+                }
+            } else if (title.includes('Nhập thu hồi')) {
+                currentHeaders = ['Mã lô thu hồi', 'Đơn vị gửi trả', 'Số lượng vật tư', 'Thể tích quy đổi', 'Trị giá'];
+                currentModalData = [];
+                const provinces = ['Quảng Ninh', 'Thanh Hóa', 'Đồng Nai', 'Khánh Hòa', 'Hải Phòng', 'Cần Thơ', 'Nghệ An', 'Thái Nguyên', 'Quảng Nam', 'Gia Lai', 'Bình Dương', 'Long An', 'Bắc Ninh', 'Vĩnh Phúc', 'Lâm Đồng'];
+                const vals = [420, 380, 320, 260, 210, 180, 150, 130, 110, 90, 80, 70, 60, 50, 40];
+                for (let i = 0; i < provinces.length; i++) {
+                    const num = String(i + 91).padStart(3, '0');
+                    currentModalData.push([
+                        `<b>TH-2026-${num}</b>`,
+                        `Viettel ${provinces[i]}`,
+                        `${(vals[i]*40).toLocaleString('vi-VN')} đv`,
+                        `${(vals[i]*70).toLocaleString('vi-VN')} m³`,
+                        `<b>${vals[i]} tỷ</b>`
+                    ]);
+                }
+            } else if (title.includes('Nhập mới')) {
+                currentHeaders = ['Mã lô nhập mới', 'Nhà cung cấp', 'Quy mô hàng hóa', 'Ngày thông quan', 'Trị giá hóa đơn'];
+                currentModalData = [];
+                const sups = ['Huawei Technologies', 'Cisco Systems VN', 'Ericsson Telecom', 'Nokia Networks VN', 'ZTE Corporation', 'Samsung Electronics', 'HP Enterprise', 'Dell Technologies', 'Oracle Vietnam', 'Fujitsu Vietnam', 'NEC Corporation', 'Juniper Networks', 'Intel Vietnam', 'Lenovo Vietnam', 'Microsoft VN'];
+                const vals = [850, 720, 610, 520, 450, 380, 310, 260, 210, 180, 150, 120, 90, 80, 70];
+                for (let i = 0; i < sups.length; i++) {
+                    const num = String(i + 41).padStart(3, '0');
+                    currentModalData.push([
+                        `<b>NM-2026-${num}</b>`,
+                        sups[i],
+                        `${(vals[i]*35).toLocaleString('vi-VN')} đv`,
+                        `0${(i%9)+1}/06/2026`,
+                        `<b>${vals[i]} tỷ</b>`
+                    ]);
+                }
+            } else if (title.includes('Tổng xuất')) {
+                currentHeaders = ['Mã đợt xuất kho', 'Điểm đến nhận hàng', 'Số lượng điều động', 'Số chuyến xe', 'Trị giá xuất'];
+                currentModalData = [];
+                const dests = ['Trung tâm hạ tầng HN', 'Trung tâm hạ tầng HCM', 'Trung tâm hạ tầng Đà Nẵng', 'Kho dự phòng miền Tây', 'Chi nhánh Hải Phòng', 'Chi nhánh Cần Thơ', 'Chi nhánh Nghệ An', 'Chi nhánh Thái Nguyên', 'Kho Viettel Post', 'Kho tổng miền Trung', 'Đối tác xây lắp Viettel', 'Chi nhánh Khánh Hòa', 'Chi nhánh Đồng Nai', 'Chi nhánh Quảng Ninh', 'Chi nhánh Gia Lai'];
+                const vals = [750, 680, 520, 410, 360, 310, 260, 210, 180, 150, 120, 90, 80, 70, 60];
+                for (let i = 0; i < dests.length; i++) {
+                    const num = String(i + 801).padStart(3, '0');
+                    currentModalData.push([
+                        `<b>XK-2026-${num}</b>`,
+                        dests[i],
+                        `${(vals[i]*30).toLocaleString('vi-VN')} đv`,
+                        `${Math.floor(vals[i]/30) + 2} xe cont`,
+                        `<b>${vals[i]} tỷ</b>`
+                    ]);
+                }
+            } else if (title.includes('Tổng giao dịch')) {
+                currentHeaders = ['Loại giao dịch', 'Số lượng chứng từ', 'Tổng thể tích', 'Tổng trọng lượng', 'Mức độ hoàn thành SAP'];
+                currentModalData = [];
+                const types = [
+                    'Phiếu nhập kho có sử dụng vận chuyển',
+                    'Phiếu nhập kho không sử dụng vận chuyển',
+                    'Phiếu nhập kho từ nhà cung cấp',
+                    'Phiếu xuất kho không sử dụng vận chuyển',
+                    'Phiếu xuất kho có sử dụng vận chuyển',
+                    'Phiếu chuyển kho nội bộ liên Plant',
+                    'Phiếu xuất kho hủy/thanh lý tài sản',
+                    'Phiếu nhập kho trả hàng bảo hành',
+                    'Phiếu xuất kho cho mượn kiểm thử',
+                    'Phiếu điều chuyển vật tư dự phòng',
+                    'Phiếu xuất kho phục vụ cứu hộ bão lũ',
+                    'Phiếu nhập hàng ký gửi nhà cung cấp',
+                    'Phiếu xuất kho bán lẻ nội bộ',
+                    'Phiếu kiểm kê điều chỉnh số dư'
+                ];
+                const qtys = [3820, 2940, 4385, 3260, 3840, 1820, 850, 620, 410, 350, 280, 220, 150, 95];
+                for (let i = 0; i < types.length; i++) {
+                    currentModalData.push([
+                        `<b>${types[i]}</b>`,
+                        `${qtys[i].toLocaleString('vi-VN')} phiếu`,
+                        `${(qtys[i]*6.2).toFixed(0)} m³`,
+                        `${(qtys[i]*2.1).toFixed(0)} tấn`,
+                        '<span class="badge b-green">100% Khớp</span>'
+                    ]);
+                }
+            } else if (title.includes('diện tích kho') || title.includes('diện tích') || title.includes('Dung lượng')) {
+                currentHeaders = ['Mã Sloc', 'Tên Chi nhánh/Kho hàng', 'Diện tích nền (m²)', 'Sức chứa (m³)', 'Tỷ lệ lấp đầy'];
+                currentModalData = [];
+                const places = ['Tổng kho Miền Bắc (HN)', 'Tổng kho Miền Nam (HCM)', 'Kho Trung chuyển Đà Nẵng', 'Kho Ngoại quan Hải Phòng', 'Kho Chi nhánh Cần Thơ', 'Kho Chi nhánh Nghệ An', 'Kho Chi nhánh Thái Nguyên', 'Kho Chi nhánh Quảng Ninh', 'Kho Chi nhánh Khánh Hòa', 'Kho Chi nhánh Gia Lai', 'Kho Chi nhánh Bình Dương', 'Kho Chi nhánh Long An', 'Kho Chi nhánh Bắc Ninh', 'Kho Chi nhánh Đồng Nai', 'Kho Chi nhánh Vĩnh Phúc'];
+                const codes = ['HN01', 'HCM01', 'DN01', 'HP01', 'CT01', 'NA01', 'TN01', 'QN01', 'KH01', 'GL01', 'BD01', 'LA01', 'BN01', 'DN02', 'VP01'];
+                const areas = [320000, 280000, 160000, 82000, 45000, 38000, 28000, 24000, 20000, 18000, 16000, 15000, 14000, 12000, 10000];
+                for (let i = 0; i < codes.length; i++) {
+                    currentModalData.push([
+                        `<b>${codes[i]}</b>`,
+                        places[i],
+                        `${areas[i].toLocaleString('vi-VN')} m²`,
+                        `${(areas[i]*1.8).toLocaleString('vi-VN')} m³`,
+                        `${88 - i*2}%`
+                    ]);
+                }
+            } else if (title.includes('Nhân sự & số mã kho') || title.includes('Nhân sự / Mã kho')) {
+                currentHeaders = ['Phân vùng / Chi nhánh', 'Mã kho quản lý (Sloc)', 'Số lượng thủ kho', 'Nhân viên trực tiếp', 'Bình quan nhân sự/Sloc'];
+                currentModalData = [];
+                const regions = ['Miền Bắc (HN)', 'Miền Nam (HCM)', 'Miền Trung (DN)', 'Đồng bằng sông Cửu Long', 'Bắc Trung Bộ (Vinh)', 'Đông Bắc Bộ (Thái Nguyên)', 'Quảng Ninh', 'Nam Trung Bộ (Nha Trang)', 'Tây Nguyên (Gia Lai)', 'Đông Nam Bộ (Bình Dương)', 'Long An', 'Bắc Ninh', 'Đồng Nai', 'Vĩnh Phúc', 'Lâm Đồng'];
+                const slocs = [110, 96, 50, 40, 32, 28, 24, 20, 18, 16, 15, 14, 12, 10, 8];
+                for (let i = 0; i < regions.length; i++) {
+                    const supervisor = Math.floor(slocs[i]*1.1) + 2;
+                    const workers = slocs[i]*4 + 10;
+                    currentModalData.push([
+                        `<b>${regions[i]}</b>`,
+                        `${slocs[i]} Sloc`,
+                        `${supervisor} NV`,
+                        `${workers} NV`,
+                        `${((supervisor + workers)/slocs[i]).toFixed(1)} NV`
+                    ]);
+                }
+            } else {
+                currentHeaders = ['Thông tin', 'Mô tả chi tiết'];
+                currentModalData = [
+                    ['<b>Tiêu đề</b>', title],
+                    ['<b>Chi tiết nội dung</b>', desc],
+                    ['<b>Lưu ý hệ thống</b>', 'Dữ liệu được cập nhật từ cổng SAP ERP định kỳ mỗi 5 phút.']
+                ];
+            }
+            
+            document.getElementById('drilldownModalOverlay').classList.add('open');
+            generateModalFilters();
+            applyModalFilters();
+        }
+
+        function generateModalFilters() {
+            const filterDiv = document.getElementById('drilldownModalFilters');
+            let html = '';
+            
+            if (currentTitle.includes('nhập kho ca sáng')) {
+                html = `
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <label>Mã phiếu:</label>
+                        <input type="text" id="filterInputCode" placeholder="Tìm mã phiếu (NK-...)" oninput="applyModalFilters()">
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <label>Trạng thái:</label>
+                        <select id="filterSelectStatus" onchange="applyModalFilters()">
+                            <option value="">Tất cả trạng thái</option>
+                            <option value="Đã nhập kho">Đã nhập kho</option>
+                            <option value="Đang kiểm hàng">Đang kiểm hàng</option>
+                            <option value="Đang dỡ hàng">Đang dỡ hàng</option>
+                            <option value="Chờ kiểm định">Chờ kiểm định</option>
+                        </select>
+                    </div>
+                `;
+            } else if (currentTitle.includes('xuất kho ca sáng')) {
+                html = `
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <label>Mã phiếu:</label>
+                        <input type="text" id="filterInputCode" placeholder="Tìm mã phiếu (XK-...)" oninput="applyModalFilters()">
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <label>Trạng thái:</label>
+                        <select id="filterSelectStatus" onchange="applyModalFilters()">
+                            <option value="">Tất cả trạng thái</option>
+                            <option value="Đã hoàn thành">Đã hoàn thành</option>
+                            <option value="Đóng gói">Đóng gói</option>
+                            <option value="Đang soạn hàng">Đang soạn hàng</option>
+                            <option value="Chờ gom hàng">Chờ gom hàng</option>
+                        </select>
+                    </div>
+                `;
+            } else if (currentTitle.includes('Nhân sự ca trực tiếp')) {
+                html = `
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <label>Họ và tên nhân sự:</label>
+                        <input type="text" id="filterInputName" placeholder="Tìm họ tên nhân viên..." oninput="applyModalFilters()">
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <label>Bộ phận:</label>
+                        <select id="filterSelectDept" onchange="applyModalFilters()">
+                            <option value="">Tất cả bộ phận</option>
+                            <option value="Kiểm hàng">Kiểm hàng</option>
+                            <option value="Bốc xếp">Bốc xếp</option>
+                            <option value="Đóng gói">Đóng gói</option>
+                            <option value="Điều phối">Điều phối</option>
+                            <option value="Lưu trữ">Lưu trữ</option>
+                        </select>
+                    </div>
+                `;
+            } else if (currentTitle.includes('Cảnh báo & hiệu quả tải')) {
+                html = `
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <label>Khu vực cảnh báo:</label>
+                        <input type="text" id="filterInputZone" placeholder="Tìm tên khu vực..." oninput="applyModalFilters()">
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <label>Mức độ:</label>
+                        <select id="filterSelectSeverity" onchange="applyModalFilters()">
+                            <option value="">Tất cả mức độ</option>
+                            <option value="Cao">Cao</option>
+                            <option value="Trung bình">Trung bình</option>
+                            <option value="Thấp">Thấp</option>
+                        </select>
+                    </div>
+                `;
+            } else {
+                html = `
+                    <div style="display:flex;align-items:center;gap:8px;width:100%;">
+                        <label>Tìm kiếm nhanh:</label>
+                        <input type="text" id="filterInputSearch" placeholder="Tìm kiếm nhanh mọi thông tin..." style="min-width:360px;" oninput="applyModalFilters()">
+                    </div>
+                `;
+            }
+            filterDiv.innerHTML = html;
+        }
+
+        function applyModalFilters() {
+            let filtered = [...currentModalData];
+            
+            const inputCode = document.getElementById('filterInputCode');
+            const selectStatus = document.getElementById('filterSelectStatus');
+            const inputName = document.getElementById('filterInputName');
+            const selectDept = document.getElementById('filterSelectDept');
+            const inputZone = document.getElementById('filterInputZone');
+            const selectSeverity = document.getElementById('filterSelectSeverity');
+            const inputSearch = document.getElementById('filterInputSearch');
+            
+            // Apply code filter
+            if (inputCode && inputCode.value.trim() !== '') {
+                const q = inputCode.value.toLowerCase().trim();
+                filtered = filtered.filter(row => row[0].toLowerCase().includes(q));
+            }
+            
+            // Apply status filter
+            if (selectStatus && selectStatus.value !== '') {
+                const val = selectStatus.value;
+                filtered = filtered.filter(row => row[4].includes(val));
+            }
+            
+            // Apply name filter
+            if (inputName && inputName.value.trim() !== '') {
+                const q = inputName.value.toLowerCase().trim();
+                filtered = filtered.filter(row => row[0].toLowerCase().includes(q));
+            }
+            
+            // Apply department filter
+            if (selectDept && selectDept.value !== '') {
+                const val = selectDept.value;
+                filtered = filtered.filter(row => row[1].includes(val));
+            }
+            
+            // Apply zone filter
+            if (inputZone && inputZone.value.trim() !== '') {
+                const q = inputZone.value.toLowerCase().trim();
+                filtered = filtered.filter(row => row[0].toLowerCase().includes(q));
+            }
+            
+            // Apply severity filter
+            if (selectSeverity && selectSeverity.value !== '') {
+                const val = selectSeverity.value;
+                filtered = filtered.filter(row => row[3].includes(val));
+            }
+            
+            // Apply generic search filter
+            if (inputSearch && inputSearch.value.trim() !== '') {
+                const q = inputSearch.value.toLowerCase().trim();
+                filtered = filtered.filter(row => {
+                    return row.some(cell => cell.toString().toLowerCase().includes(q));
+                });
+            }
+            
+            filteredModalData = filtered;
+            renderModalPage(1);
+        }
+
+        function renderModalPage(page) {
+            currentPage = page;
+            const modalBody = document.getElementById('drilldownModalBody');
+            const modalSummary = document.getElementById('drilldownModalSummary');
+            const modalPagination = document.getElementById('drilldownModalPagination');
+            
+            const totalItems = filteredModalData.length;
+            const totalPages = Math.ceil(totalItems / modalPageSize);
+            
+            // Slice the data
+            const startIdx = (page - 1) * modalPageSize;
+            const endIdx = Math.min(startIdx + modalPageSize, totalItems);
+            const pageData = filteredModalData.slice(startIdx, endIdx);
+            
+            // Build Table HTML
+            let html = '<table><thead><tr>';
+            currentHeaders.forEach(h => {
+                html += `<th>${h}</th>`;
+            });
+            html += '</tr></thead><tbody>';
+            
+            if (pageData.length === 0) {
+                html += `<tr><td colspan="${currentHeaders.length}" style="text-align:center;padding:24px;color:var(--muted);">Không có dữ liệu hiển thị</td></tr>`;
+            } else {
+                pageData.forEach(row => {
+                    html += '<tr>';
+                    row.forEach((cell, idx) => {
+                        let style = '';
+                        if (cell.toString().includes('tỷ') || cell.toString().includes('đơn vị') || cell.toString().includes('m³') || cell.toString().includes('tấn')) {
+                            style = ' style="font-family:\'Arial\',monospace;text-align:left;"';
+                        }
+                        html += `<td${style}>${cell}</td>`;
+                    });
+                    html += '</tr>';
+                });
+            }
+            html += '</tbody></table>';
+            
+            modalBody.innerHTML = html;
+            modalSummary.textContent = `Hiển thị ${startIdx + 1} - ${endIdx} trong tổng số ${totalItems} dòng dữ liệu`;
+            
+            // Render Pagination Buttons
+            let pagHtml = '';
+            if (totalPages > 1) {
+                pagHtml += `<button class="pag-btn" onclick="renderModalPage(${Math.max(1, page - 1)})" ${page === 1 ? 'disabled style="opacity:0.5;cursor:default;"' : ''}>&laquo;</button>`;
+                for (let p = 1; p <= totalPages; p++) {
+                    pagHtml += `<button class="pag-btn ${p === page ? 'active' : ''}" onclick="renderModalPage(${p})">${p}</button>`;
+                }
+                pagHtml += `<button class="pag-btn" onclick="renderModalPage(${Math.min(totalPages, page + 1)})" ${page === totalPages ? 'disabled style="opacity:0.5;cursor:default;"' : ''}>&raquo;</button>`;
+            }
+            modalPagination.innerHTML = pagHtml;
+        }
+
+        function closeDrilldownModal() {
+            document.getElementById('drilldownModalOverlay').classList.remove('open');
+        }
+        function closeDrawer() {
+            document.getElementById('drawer').classList.remove('open');
+            document.getElementById('overlay').classList.remove('open');
+        }
+        function exportReport() {
+            drill('Xuất báo cáo', 'Hệ thống hỗ trợ xuất xuất dữ liệu Excel động theo bộ lọc được lựa chọn.');
+        }
+
+        // Report filter modal logic
+        const reportTypeOptions = {
+            tonkho: { label: 'Loại kho', options: ['Tất cả', 'Kho chính', 'Kho trung chuyển', 'Kho ngoại quan'] },
+            nhapxuat: { label: 'Loại giao dịch', options: ['Tất cả', 'Nhập mới', 'Nhập thu hồi', 'Xuất vận chuyển', 'Xuất không vận chuyển'] },
+            quahan: { label: 'Loại vật tư', options: ['Tất cả', 'Thiết bị mạng', 'Cáp quang', 'Linh kiện nguồn', 'Phụ kiện vật tư', 'Ắc quy', 'Module nguồn'] },
+            nhansu: { label: 'Bộ phận', options: ['Tất cả', 'Kiểm hàng', 'Bốc xếp', 'Đóng gói', 'Lưu trữ', 'Điều phối'] },
+            giaodich: { label: 'Loại chứng từ', options: ['Tất cả', 'Phiếu nhập có VC', 'Phiếu nhập không VC', 'Phiếu nhập NCC', 'Phiếu xuất có VC', 'Phiếu xuất không VC'] }
+        };
+        let currentReportType = '';
+
+        function openReportModal(title, type) {
+            currentReportType = type;
+            document.getElementById('reportModalTitle').textContent = 'Tải xuống: ' + title;
+            document.getElementById('reportModalDesc').textContent = 'Chọn bộ lọc thời gian và phân loại trước khi tải xuống file Excel (.xlsx)';
+            const cfg = reportTypeOptions[type] || { label: 'Loại', options: ['Tất cả'] };
+            document.getElementById('reportTypeLabel').textContent = cfg.label;
+            const sel = document.getElementById('reportTypeSelect');
+            sel.innerHTML = cfg.options.map(o => `<option value="${o}">${o}</option>`).join('');
+            document.getElementById('reportModalOverlay').classList.add('open');
+        }
+        function closeReportModal() {
+            document.getElementById('reportModalOverlay').classList.remove('open');
+        }
+        function downloadExcel() {
+            const from = document.getElementById('reportFromDate').value;
+            const to = document.getElementById('reportToDate').value;
+            const type = document.getElementById('reportTypeSelect').value;
+            const title = document.getElementById('reportModalTitle').textContent;
+            alert(`Đang tải xuống Excel:\n${title}\nTừ: ${from} → Đến: ${to}\nLọc: ${type}\n\n(Tính năng sẽ kết nối API thực tế khi triển khai)`);
+            closeReportModal();
+        }
+
+        // Redesigned Mock Data with Viettel Color theme
+        const unitData = [
+            { name: 'VTNET', value: 5420, color: '#EE0033', detail: '43.5% tổng giá trị tồn', qty: '210.400 đơn vị', m3: '542.000 m³', ton: '162.400 tấn' },
+            { name: 'VCM', value: 4180, color: '#374151', detail: '33.6% tổng giá trị tồn', qty: '162.300 đơn vị', m3: '418.000 m³', ton: '124.500 tấn' },
+            { name: 'HNI', value: 2850, color: '#5A6578', detail: '22.9% tổng giá trị tồn', qty: '110.500 đơn vị', m3: '285.000 m³', ton: '82.200 tấn' }
+        ];
+
+        const docData = [
+            { name: 'Phiếu nhập có sử dụng vận chuyển', value: 3820, color: '#EE0033', detail: '20,9% tổng chứng từ', qty: '3.820 phiếu', m3: '21.600 m³', ton: '7.980 tấn' },
+            { name: 'Phiếu nhập không sử dụng vận chuyển', value: 2940, color: '#374151', detail: '16,1% tổng chứng từ', qty: '2.940 phiếu', m3: '15.200 m³', ton: '5.740 tấn' },
+            { name: 'Phiếu nhập kho từ nhà cung cấp', value: 4385, color: '#5A6578', detail: '24,0% tổng chứng từ', qty: '4.385 phiếu', m3: '22.900 m³', ton: '8.540 tấn' },
+            { name: 'Phiếu xuất không sử dụng vận chuyển', value: 3260, color: '#8A97A8', detail: '17,9% tổng chứng từ', qty: '3.260 phiếu', m3: '13.800 m³', ton: '4.960 tấn' },
+            { name: 'Phiếu xuất có sử dụng vận chuyển', value: 3840, color: '#C0CAD6', detail: '21,1% tổng chứng từ', qty: '3.840 phiếu', m3: '14.200 m³', ton: '5.380 tấn' }
+        ];
+
+        const perfData = {
+            months: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6'],
+            turnover: [4.1, 4.3, 4.5, 4.2, 4.6, 4.7],
+            otif: [97.5, 98.0, 98.2, 97.8, 98.1, 98.5],
+            utilization: [78.2, 80.5, 82.4, 83.1, 82.0, 82.4],
+            cycleTime: [1.5, 1.6, 1.8, 1.7, 1.7, 1.8],
+            taskTime: [14.8, 14.2, 13.9, 13.5, 13.0, 12.5]
+        };
+
+        // Math helpers for SVG arcs
+        function polarToCartesian(cx, cy, r, angle) {
+            const a = (angle - 90) * Math.PI / 180;
+            return { x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) };
+        }
+        function piePath(cx, cy, r, start, end) {
+            const s = polarToCartesian(cx, cy, r, end), e = polarToCartesian(cx, cy, r, start);
+            const large = end - start <= 180 ? 0 : 1;
+            return `M ${cx} ${cy} L ${s.x} ${s.y} A ${r} ${r} 0 ${large} 0 ${e.x} ${e.y} Z`;
+        }
+
+        // SVG Pie/Donut Chart Renderer
+        function renderPie(data, mountId, legendId, centerValue = '18.245', centerUnit = 'CT') {
+            const mount = document.getElementById(mountId);
+            const legend = document.getElementById(legendId);
+            if (!mount || !legend) return;
+            const total = data.reduce((a, b) => a + b.value, 0);
+            let angle = 0;
+            let svg = `<svg viewBox="0 0 220 220" width="200" height="200">`;
+            data.forEach((d, i) => {
+                const slice = 360 * d.value / total;
+                const valSuffix = centerUnit === 'tỷ' ? ' tỷ VNĐ' : ' phiếu';
+                svg += `<path d="${piePath(110, 110, 95, angle, angle + slice)}" fill="${d.color}" stroke="#fff" stroke-width="2.5" stroke-linejoin="round" data-type="slice" data-group="${mountId}" data-index="${i}" data-tip="<b>${d.name}</b><br/>Giá trị/SL: ${d.value.toLocaleString('vi-VN')}${valSuffix}<br/>Quy đổi: ${d.qty} • ${d.m3} • ${d.ton}<br/>Chi tiết: ${d.detail}"></path>`;
+                angle += slice;
+            });
+            svg += `<circle cx="110" cy="110" r="70" fill="#fff" stroke="var(--line)" stroke-width="1"></circle>
+          <text x="110" y="98" text-anchor="middle" class="chart-hole">
+            <tspan x="110" dy="0" fill="var(--muted)" font-size="10.5" font-weight="700" style="letter-spacing: 0.05em; text-transform: uppercase;">Tổng cộng</tspan>
+            <tspan x="110" dy="22" style="font-size:20px;font-weight:900;fill:var(--text-dark);font-family:'Arial', sans-serif;">${centerValue}</tspan>
+            <tspan x="110" dy="18" fill="var(--muted)" font-size="11" font-weight="600">${centerUnit}</tspan>
+          </text>
+         </svg>`;
+            mount.innerHTML = svg;
+            legend.innerHTML = data.map((d) => `
+    <div>
+      <span class="lg-left"><span class="dot" style="background:${d.color}"></span>${d.name}</span>
+      <b style="font-family:'Arial', sans-serif;">${(d.value / total * 100).toFixed(1)}%</b>
+    </div>`).join('');
+        }
+
+        // Tooltip positioning and hover logic
+        function bindInteractivity() {
+            const tooltip = document.getElementById('tooltip');
+            document.querySelectorAll('[data-tip]').forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    tooltip.style.display = 'block';
+                    tooltip.innerHTML = el.dataset.tip;
+                });
+                el.addEventListener('mousemove', e => {
+                    tooltip.style.left = (e.clientX + 14) + 'px';
+                    tooltip.style.top = (e.clientY + 14) + 'px';
+                });
+                el.addEventListener('mouseleave', () => {
+                    tooltip.style.display = 'none';
+                });
+            });
+        }
+
+        // SVG Sparkline Chart Renderer
+        function renderSparkline(vals, mountId, color) {
+            const mount = document.getElementById(mountId);
+            if (!mount) return;
+            const w = 200;
+            const h = 40;
+            const max = Math.max(...vals);
+            const min = Math.min(...vals) * 0.98 - 0.01;
+            const step = w / (vals.length - 1);
+            
+            const points = vals.map((v, i) => `${i * step},${h - ((v - min) / (max - min)) * (h - 8) - 4}`).join(' ');
+            const area = `M 0 ${h} L ${points} L ${w} ${h} Z`;
+            
+            const gradId = `grad-${mountId}`;
+            const svg = `<svg width="100%" height="100%" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+                <defs>
+                    <linearGradient id="${gradId}" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="${color}" stop-opacity="0.25"/>
+                        <stop offset="100%" stop-color="${color}" stop-opacity="0.0"/>
+                    </linearGradient>
+                </defs>
+                <path d="${area}" fill="url(#${gradId})"></path>
+                <polyline points="${points}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+            </svg>`;
+            mount.innerHTML = svg;
+        }
+
+        // Initial renders
+        function initCharts() {
+            renderPie(unitData, 'unitPie', 'unitLegend', '12.450', 'tỷ');
+            renderPie(docData, 'docPie', 'docLegend', '18.245', 'phiếu');
+            
+            // Render performance sparklines
+            renderSparkline(perfData.turnover, 'turnoverSpark', '#10B981');
+            renderSparkline(perfData.otif, 'otifSpark', '#10B981');
+            renderSparkline(perfData.utilization, 'utilizationSpark', '#10B981');
+            renderSparkline(perfData.cycleTime, 'cycleTimeSpark', '#EE0033');
+            renderSparkline(perfData.taskTime, 'taskTimeSpark', '#10B981');
+
+            bindInteractivity();
+        }
+        initCharts();
+    </script>
+</body>
+</html>

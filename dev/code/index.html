@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viettel AIWS — Hệ thống Quản lý Kho thông minh</title>
+    <style>
+        :root {
+            --bg: #FFFFFF;
+            --bg2: #FFFFFF;
+            --bg3: #FFFFFF;
+            --bg4: #F2F2F2;
+            --border: #F2F2F2;
+            --border2: #B5B5B5;
+            --primary: #EE0033;
+            --primary2: #CC0029;
+            --success: #059669;
+            --danger: #DC2626;
+            --warn: #D97706;
+            --purple: #9333EA;
+            --text: #000000;
+            --text2: #44494D;
+            --text3: #B5B5B5;
+            --sidebar-w: 220px;
+            --header-h: 56px;
+            --font: 'Arial', sans-serif;
+            --mono: 'Arial', sans-serif;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 14px;
+            line-height: 1.5
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg2)
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px
+        }
+
+        /* LAYOUT */
+        #app {
+            display: grid;
+            grid-template-rows: var(--header-h) 1fr;
+            grid-template-columns: auto 1fr;
+            height: 100vh
+        }
+
+        header {
+            grid-column: 1/-1;
+            grid-row: 1;
+            background: var(--bg2);
+            border-bottom: 1px solid var(--border);
+            border-top: 3px solid #EE0033;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            gap: 16px;
+            z-index: 100;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, .04)
+        }
+
+        #sidebar {
+            grid-column: 1;
+            grid-row: 2;
+            background: var(--bg2);
+            border-right: 1px solid var(--border);
+            padding: 12px 0 0;
+            width: var(--sidebar-w);
+            transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-x: hidden;
+            white-space: nowrap;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Collapsed Main Sidebar */
+        #app.main-sidebar-collapsed {
+            --sidebar-w: 60px;
+        }
+
+        #app.main-sidebar-collapsed #sidebar .nav-label,
+        #app.main-sidebar-collapsed #sidebar .nav-arrow {
+            display: none;
+        }
+
+        #app.main-sidebar-collapsed #sidebar #warehouse-subnav,
+        #app.main-sidebar-collapsed #sidebar #inbound-subnav,
+        #app.main-sidebar-collapsed #sidebar #outbound-subnav,
+        #app.main-sidebar-collapsed #sidebar #tasks-subnav,
+        #app.main-sidebar-collapsed #sidebar #config-subnav,
+        #app.main-sidebar-collapsed #sidebar #dashboard-subnav {
+            display: none !important;
+        }
+
+        #app.main-sidebar-collapsed #sidebar .nav-item {
+            justify-content: center;
+            padding: 10px 0;
+        }
+
+        #app.main-sidebar-collapsed #sidebar .nav-item span {
+            display: none;
+        }
+
+        /* Sidebar Footer and Collapse Toggle */
+        .sidebar-footer {
+            padding: 8px 12px;
+            border-top: 1px solid var(--border);
+            background: var(--bg2);
+            transition: padding 0.2s ease;
+        }
+
+        .sidebar-footer button {
+            transition: all 0.2s ease;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 10px;
+            border-radius: 6px;
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            font-size: 11px;
+            gap: 6px;
+            color: var(--text2);
+            font-weight: 500;
+        }
+
+        .sidebar-footer button:hover {
+            background: var(--bg4);
+            color: var(--text);
+        }
+
+        #app.main-sidebar-collapsed #sidebar .sidebar-footer {
+            padding: 8px 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        #app.main-sidebar-collapsed #sidebar .sidebar-footer button {
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        #app.main-sidebar-collapsed #sidebar .sidebar-footer button span {
+            display: none;
+        }
+
+        #app.main-sidebar-collapsed #sidebar .sidebar-footer svg {
+            transform: rotate(180deg);
+        }
+
+        #main {
+            grid-column: 2;
+            grid-row: 2;
+            overflow-y: auto;
+            padding: 24px;
+            background: var(--bg)
+        }
+
+        /* HEADER */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .logo-icon svg {
+            width: 18px;
+            height: 18px;
+            fill: #fff
+        }
+
+        .logo-text {
+            font-weight: 800;
+            font-size: 16px;
+            letter-spacing: -.3px
+        }
+
+        .logo-text span {
+            color: var(--primary)
+        }
+
+        .header-org {
+            font-size: 12px;
+            color: var(--text2);
+            background: var(--bg3);
+            padding: 3px 10px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            flex-shrink: 0
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: auto
+        }
+
+        .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            padding: 5px 12px 5px 6px;
+            border-radius: 8px;
+            cursor: pointer
+        }
+
+        .avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            background: linear-gradient(135deg, #EE0033, #CC0029);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: #fff
+        }
+
+        .user-name {
+            font-size: 12px;
+            font-weight: 600
+        }
+
+        .user-role {
+            font-size: 10px;
+            color: var(--text2)
+        }
+
+        /* SIDEBAR */
+        .nav-label {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 12px 16px 4px
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 16px;
+            cursor: pointer;
+            color: var(--text2);
+            font-size: 13px;
+            font-weight: 500;
+            border-left: 2px solid transparent;
+            transition: .15s;
+            user-select: none
+        }
+
+        .nav-item:hover {
+            background: var(--bg3);
+            color: var(--text)
+        }
+
+        .nav-item.active {
+            background: rgba(238, 0, 51, .08);
+            color: var(--primary);
+            border-left-color: var(--primary)
+        }
+
+        .nav-item svg {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0
+        }
+
+        .nav-sub {
+            padding-left: 42px;
+            font-size: 12px;
+            padding-top: 6px;
+            padding-bottom: 6px;
+            color: var(--text3);
+            cursor: pointer;
+            border-left: 2px solid transparent;
+            display: block;
+            transition: color 0.15s;
+        }
+
+        .nav-sub:hover {
+            color: var(--text2)
+        }
+
+        .nav-sub.active {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* COMMON VIEWS */
+        .page-hd {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px
+        }
+
+        .page-title {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -.3px
+        }
+
+        .breadcrumb {
+            font-size: 12px;
+            color: var(--text3);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 4px
+        }
+
+        .breadcrumb span {
+            color: var(--text2)
+        }
+
+        .content-body {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            min-height: calc(100vh - var(--header-h) - 100px);
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(15, 23, 42, .04)
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <!-- HEADER -->
+        <header>
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 20 20">
+                        <path d="M10 2L1 8h2v10h14V8h2L10 2zm0 2.5L17 9v8H3V9l7-4.5z" />
+                    </svg>
+                </div>
+                <div class="logo-text">Viettel<span>AIWS</span></div>
+            </div>
+            <div class="header-org">Tập đoàn / Chi nhánh Hà Nội</div>
+            <div class="header-actions">
+                <div class="user-badge">
+                    <div class="avatar">NA</div>
+                    <div style="line-height:1.2">
+                        <div class="user-name">Nguyễn Admin</div>
+                        <div class="user-role">Administrator</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- SIDEBAR -->
+        <nav id="sidebar">
+            <div style="flex: 1; overflow-y: auto; padding-bottom: 12px;">
+
+                <!-- QUẢN LÝ KHO -->
+            
+                <div class="nav-item active" id="nav-warehouse" onclick="toggleSubnav('warehouse')">
+                    <svg viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M10 2L1 8h2v10h14V8h2L10 2zm0 2.5L17 9v8H3V9l7-4.5z" />
+                    </svg>
+                    <span>Quản lý kho</span>
+                    <span class="nav-arrow" id="nav-arrow-warehouse"
+                        style="margin-left: auto; font-size: 8px; transition: transform 0.2s; color: var(--text3);">▼</span>
+                </div>
+                <div id="warehouse-subnav">
+                    <span class="nav-sub active" id="subnav-warehouse-list"
+                        onclick="showView('warehouse-list', 'Danh sách kho', 'Quản lý kho')">Danh sách kho</span>
+                </div>
+
+                <!-- NHẬP KHO -->
+              
+                <div class="nav-item" id="nav-inbound" onclick="toggleSubnav('inbound')">
+                    <svg viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-9.707a1 1 0 011.414 0L9 8.586V3a1 1 0 112 0v5.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    <span>Nhập kho</span>
+                    <span class="nav-arrow" id="nav-arrow-inbound"
+                        style="margin-left: auto; font-size: 8px; transition: transform 0.2s; color: var(--text3); transform: rotate(-90deg);">▼</span>
+                </div>
+                <div id="inbound-subnav" style="display: none;">
+                    <span class="nav-sub" id="subnav-inbound-receipt"
+                        onclick="showView('inbound-receipt', 'Nhập kho', 'Nhập kho')">Nhập kho</span>
+                </div>
+
+                <!-- XUẤT KHO -->
+            
+                <div class="nav-item" id="nav-outbound" onclick="toggleSubnav('outbound')">
+                    <svg viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM9 11.414V3a1 1 0 112 0v8.414l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 111.414-1.414L9 11.414z"
+                            clip-rule="evenodd" style="transform: rotate(180deg); transform-origin: 10px 10px;" />
+                    </svg>
+                    <span>Xuất kho</span>
+                    <span class="nav-arrow" id="nav-arrow-outbound"
+                        style="margin-left: auto; font-size: 8px; transition: transform 0.2s; color: var(--text3); transform: rotate(-90deg);">▼</span>
+                </div>
+                <div id="outbound-subnav" style="display: none;">
+                    <span class="nav-sub" id="subnav-outbound-issue"
+                        onclick="showView('outbound-issue', 'Lệnh xuất kho', 'Xuất kho')">Lệnh xuất kho</span>
+                </div>
+
+                <!-- DANH SÁCH TASK -->
+         
+                <div class="nav-item" id="nav-tasks" onclick="toggleSubnav('tasks')">
+                    <svg viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+                        <path fill-rule="evenodd"
+                            d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    <span>Danh sách Task</span>
+                    <span class="nav-arrow" id="nav-arrow-tasks"
+                        style="margin-left: auto; font-size: 8px; transition: transform 0.2s; color: var(--text3); transform: rotate(-90deg);">▼</span>
+                </div>
+                <div id="tasks-subnav" style="display: none;">
+                    <span class="nav-sub" id="subnav-tasks-list"
+                        onclick="showView('tasks-list', 'Danh sách Task', 'Danh sách Task')">Danh sách Task</span>
+                </div>
+
+                <!-- CẤU HÌNH -->
+               
+                <div class="nav-item" id="nav-config" onclick="toggleSubnav('config')">
+                    <svg viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.533 1.533 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.533 1.533 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    <span>Cấu hình</span>
+                    <span class="nav-arrow" id="nav-arrow-config"
+                        style="margin-left: auto; font-size: 8px; transition: transform 0.2s; color: var(--text3); transform: rotate(-90deg);">▼</span>
+                </div>
+                <div id="config-subnav" style="display: none;">
+                    <span class="nav-sub" id="subnav-config-staff"
+                        onclick="showView('config-staff', 'Quản lý nhân sự', 'Cấu hình')">Quản lý nhân sự</span>
+                    <span class="nav-sub" id="subnav-config-storage"
+                        onclick="showView('config-storage', 'Quản lý CCLT', 'Cấu hình')">Quản lý CCLT</span>
+                    <span class="nav-sub" id="subnav-config-sanpham"
+                        onclick="showView('config-sanpham', 'Quản lý Sản phẩm', 'Cấu hình')">Quản lý Sản phẩm</span>
+                    <span class="nav-sub" id="subnav-config-doitac"
+                        onclick="showView('config-doitac', 'Quản lý Đối tác', 'Cấu hình')">Quản lý Đối tác</span>
+                    <span class="nav-sub" id="subnav-config-route"
+                        onclick="showView('config-route', 'Quản lý tuyến đường', 'Cấu hình')">Quản lý tuyến đường</span>
+                    <span class="nav-sub" id="subnav-config-xe"
+                        onclick="showView('config-xe', 'Quản lý Phương tiện vận chuyển', 'Cấu hình')">Quản lý Phương tiện vận chuyển</span>
+                    <span class="nav-sub" id="subnav-config-kpi"
+                        onclick="showView('config-kpi', 'Quản lý KPI', 'Cấu hình')">Quản lý KPI</span>
+                    <span class="nav-sub" id="subnav-config-signature"
+                        onclick="showView('config-signature', 'Quản lý chân ký', 'Cấu hình')">Quản lý chân ký</span>
+                </div>
+
+                <!-- DASHBOARD -->
+             
+                <div class="nav-item" id="nav-dashboard" onclick="toggleSubnav('dashboard')">
+                    <svg viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z" />
+                        <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z" />
+                    </svg>
+                    <span>Dashboard</span>
+                    <span class="nav-arrow" id="nav-arrow-dashboard"
+                        style="margin-left: auto; font-size: 8px; transition: transform 0.2s; color: var(--text3); transform: rotate(-90deg);">▼</span>
+                </div>
+                <div id="dashboard-subnav" style="display: none;">
+                    <span class="nav-sub" id="subnav-dashboard-overview"
+                        onclick="showView('dashboard-overview', 'Tổng quan', 'Dashboard')">Tổng quan</span>
+                    <span class="nav-sub" id="subnav-dashboard-dayops"
+                        onclick="showView('dashboard-dayops', 'Điều hành trong ngày', 'Dashboard')">Điều hành trong ngày</span>
+                    <span class="nav-sub" id="subnav-dashboard-reports"
+                        onclick="showView('dashboard-reports', 'Báo cáo', 'Dashboard')">Báo cáo</span>
+                </div>
+            </div>
+
+            <!-- COLLAPSE FOOTER BUTTON -->
+            <div class="sidebar-footer">
+                <button onclick="toggleMainSidebar()" title="Thu nhỏ / Mở rộng menu">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        style="width:12px;height:12px;transition: transform 0.2s;">
+                        <path d="M15 19l-7-7 7-7" />
+                    </svg>
+                    <span>Thu nhỏ menu</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- MAIN -->
+        <main id="main" style="display: flex; flex-direction: column; height: 100%; padding: 0; overflow: hidden; background: var(--bg);">
+            <!-- Page Header (Only for blank views) -->
+            <div id="blank-header" class="page-hd" style="padding: 24px 24px 0 24px; margin-bottom: 20px; display: none;">
+                <div>
+                    <div class="page-title" id="page-title-text">Danh sách kho</div>
+                </div>
+            </div>
+
+            <!-- Content body (Only for blank views) -->
+            <div id="blank-body" class="content-body" style="margin: 0 24px 24px 24px; flex: 1; display: none;">
+                <!-- Body để trắng -->
+            </div>
+
+            <!-- Embedded Content Frame (For PH1 & PH5) -->
+            <iframe id="main-frame" src="PH1_QuanlyKho/warehouse_with_dimensions V1.6.html" style="width: 100%; height: 100%; border: none; background: transparent; display: block; flex: 1;"></iframe>
+        </main>
+    </div>
+
+    <script>
+        // Collapsible sub-navigation behavior
+        function toggleSubnav(menuId) {
+            const subnavs = ['warehouse', 'inbound', 'outbound', 'tasks', 'config', 'dashboard'];
+
+            subnavs.forEach(id => {
+                const sub = document.getElementById(id + '-subnav');
+                const arr = document.getElementById('nav-arrow-' + id);
+                const item = document.getElementById('nav-' + id);
+
+                if (id === menuId) {
+                    const isHidden = !sub.style.display || sub.style.display === 'none';
+                    if (isHidden) {
+                        sub.style.display = 'block';
+                        arr.style.transform = 'rotate(0deg)';
+                        item.classList.add('active');
+                    } else {
+                        sub.style.display = 'none';
+                        arr.style.transform = 'rotate(-90deg)';
+                        item.classList.remove('active');
+                    }
+                } else {
+                    sub.style.display = 'none';
+                    arr.style.transform = 'rotate(-90deg)';
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        // Routing / view switcher function
+        function showView(viewId, title, category) {
+            // Remove active indicator from all sub-menu items
+            document.querySelectorAll('.nav-sub').forEach(el => el.classList.remove('active'));
+
+            // Find current clicked item and highlight it
+            let targetSub = null;
+            let iframeUrl = '';
+
+            if (viewId === 'warehouse-list') {
+                targetSub = document.getElementById('subnav-warehouse-list');
+                iframeUrl = 'PH1_QuanlyKho/warehouse_with_dimensions V1.6.html';
+            } else if (viewId === 'inbound-receipt') {
+                targetSub = document.getElementById('subnav-inbound-receipt');
+                iframeUrl = 'PH2_Nhap/PH2.html';
+            } else if (viewId === 'outbound-issue') {
+                targetSub = document.getElementById('subnav-outbound-issue');
+                iframeUrl = 'PH3_Xuat/PH3.html';
+            } else if (viewId === 'tasks-list') {
+                targetSub = document.getElementById('subnav-tasks-list');
+                iframeUrl = 'PH6_Task/PH6.html';
+            } else if (viewId === 'config-storage') {
+                targetSub = document.getElementById('subnav-config-storage');
+                iframeUrl = 'PH4_CauHinh/storage.html';
+            } else if (viewId === 'config-staff') {
+                targetSub = document.getElementById('subnav-config-staff');
+                iframeUrl = 'PH4_CauHinh/staff.html';
+            } else if (viewId === 'config-kpi') {
+                targetSub = document.getElementById('subnav-config-kpi');
+                iframeUrl = 'PH4_CauHinh/kpi.html';
+            } else if (viewId === 'config-signature') {
+                targetSub = document.getElementById('subnav-config-signature');
+                iframeUrl = 'PH4_CauHinh/signature.html';
+            } else if (viewId === 'config-route') {
+                targetSub = document.getElementById('subnav-config-route');
+            } else if (viewId === 'config-doitac') {
+                targetSub = document.getElementById('subnav-config-doitac');
+            } else if (viewId === 'config-xe') {
+                targetSub = document.getElementById('subnav-config-xe');
+                iframeUrl = 'PH4_CauHinh/vehicle.html';
+            } else if (viewId === 'config-sanpham') {
+                targetSub = document.getElementById('subnav-config-sanpham');
+            } else if (viewId === 'dashboard-overview') {
+                targetSub = document.getElementById('subnav-dashboard-overview');
+                iframeUrl = 'PH5_Dashboard/overview.html';
+            } else if (viewId === 'dashboard-dayops') {
+                targetSub = document.getElementById('subnav-dashboard-dayops');
+                iframeUrl = 'PH5_Dashboard/dayops.html';
+            } else if (viewId === 'dashboard-reports') {
+                targetSub = document.getElementById('subnav-dashboard-reports');
+                iframeUrl = 'PH5_Dashboard/reports.html';
+            } else if (viewId === 'task-pool') {
+                iframeUrl = 'PH6_Task/PH6.html';
+                // PH6 has no subnav — highlight nav item directly
+                document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+                document.getElementById('nav-taskpool').classList.add('active');
+            }
+
+            if (targetSub) targetSub.classList.add('active');
+
+            const blankHeader = document.getElementById('blank-header');
+            const blankBody = document.getElementById('blank-body');
+            const mainFrame = document.getElementById('main-frame');
+
+            if (iframeUrl) {
+                // Show iframe view
+                blankHeader.style.display = 'none';
+                blankBody.style.display = 'none';
+                mainFrame.style.display = 'block';
+                if (!mainFrame.src.includes(iframeUrl)) {
+                    mainFrame.src = iframeUrl;
+                }
+            } else {
+                // Show blank page view
+                blankHeader.style.display = 'flex';
+                blankBody.style.display = 'block';
+                mainFrame.style.display = 'none';
+                
+                // Dynamically update page title
+                document.getElementById('page-title-text').textContent = title;
+            }
+        }
+
+        // Toggle overall main sidebar collapse width
+        function toggleMainSidebar() {
+            const app = document.getElementById('app');
+            if (app) {
+                app.classList.toggle('main-sidebar-collapsed');
+            }
+        }
+
+        // Listen for navigation messages from iframes (e.g., detail pages going back)
+        window.addEventListener('message', (e) => {
+            if (!e.data) return;
+
+            // Detail page sends "navigate" to go back to a list view
+            if (e.data.action === 'navigate') {
+                showView(e.data.view, e.data.title || '', e.data.category || '');
+            }
+
+            // List pages send "loadDetail" to open a full-page detail
+            if (e.data.action === 'loadDetail' && e.data.url) {
+                const frame = document.getElementById('main-frame');
+                if (frame) {
+                    frame.src = e.data.url;
+                }
+            }
+
+            // After detail page loads and signals ready, list page asks parent to relay order ID
+            if (e.data.action === 'forwardToDetail' && e.data.id) {
+                const frame = document.getElementById('main-frame');
+                if (frame && frame.contentWindow) {
+                    frame.contentWindow.postMessage({ action: 'loadOrder', id: e.data.id }, '*');
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
