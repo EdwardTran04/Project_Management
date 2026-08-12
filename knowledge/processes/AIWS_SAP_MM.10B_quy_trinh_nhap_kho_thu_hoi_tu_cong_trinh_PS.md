@@ -42,7 +42,7 @@ Quy trình nhập kho thu hồi từ công trình xây dựng/dự án (PS - Pro
 | **13** | **Sinh Inspection Lot QM.04 & Trình V-Office Lần 2** | SAP & V-Office | SAP & Thủ kho | • SAP tự động sinh **Lô kiểm tra chất lượng QM.04**.<br>• Thủ kho dùng App AI-WS trình Phiếu nhập kho (Material Doc) lên V-Office Lần 2 (Thủ trưởng + Kế toán ký chốt). |
 | **14** | **Thực nhập kho (`T-AGR`) & Gửi KCS** | AI-WS ➔ SAP | Interface (`T-API5`) | • Khi V-Office phê duyệt Lần 2, Thủ kho bấm nút **Thực nhập kho (`T-AGR`)** trên App AI-WS.<br>• SAP gọi **`T-API5`** trao đổi thông tin KCS với AI-WS. |
 | **15** | **Nhận kết quả KCS & Cập nhật tồn kho** | SAP S/4HANA | Hệ thống (Auto) | Cập nhật trạng thái tồn kho dựa trên UD của KCS:<br>• *SP Đạt:* Chuyển trạng thái ➔ **`UU` (Unrestricted-Use)**.<br>• *SP Không đạt:* Chuyển trạng thái ➔ **`Blocked Stock`**. |
-| **18** | **Đóng gói & Đưa vào vị trí Bin** | AI-WS | Công nhân kho | AI-WS định vị vị trí ô/kệ lưu trữ chuẩn. Công nhân đóng gói và cất hàng vào đúng vị trí. |
+| **18** | **Đóng gói & Đưa vào vị trí Bin** | AI-WS | Nhân viên kho | AI-WS định vị vị trí ô/kệ lưu trữ chuẩn. Nhân viên kho thực hiện đóng gói và cất hàng vào đúng vị trí. |
 | **19** | **Lưu trữ & Hoàn tất** | AI-WS & SAP | Hệ thống (Auto) | Hoàn thành toàn bộ quy trình nhập kho thu hồi công trình. Đóng Task trên hệ thống. |
 
 ---

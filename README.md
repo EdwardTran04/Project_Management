@@ -44,6 +44,8 @@ ai-agent-wms/
 │   ├── mom/
 │   └── reports/
 │
+├── 📋 pm/                  Sản phẩm Project Manager (charter, scope, WBS, milestone, budget, risk, issue, resource, decision, quality, reports)
+│
 ├── 💻 dev/                 Sản phẩm Dev (TKCT, API specs, Code review)
 ├── 🧪 test/                Sản phẩm Tester (Test plan, TC, Results, Bugs)
 └── 🔧 tools/               Scripts tiện ích (pdf→md, docx→md, plantuml)

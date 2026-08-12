@@ -160,7 +160,7 @@ Hệ thống AI-WS hỗ trợ **nhiều loại quy trình Nhập và Xuất kho*
 | Task 3 | Đưa hàng vào Khu chờ nhập (`C02-Wait`) | NV Kho / Vận chuyển |
 | Task 4 | Thực nhập kho (Nhận KCS SAP & Mã Con `T-API5`) | Thủ kho / KCS |
 | Task 5 | Đưa sang khu đóng gói | NV Kho / Vận chuyển |
-| Task 6 | Đóng gói hàng & In tem SKU con (Zebra ZT411) | Công nhân đóng gói |
+| Task 6 | Đóng gói hàng & In tem SKU con (Zebra ZT411) | Nhân viên kho |
 | Task 7 | Đưa vào lưu trữ (Bin Putaway `G01_KNx.x.x`) | Lái xe nâng |
 
 ---
@@ -173,8 +173,8 @@ Hệ thống AI-WS hỗ trợ **nhiều loại quy trình Nhập và Xuất kho*
 |---|---|---|---|
 | **Quản lý** | `ROLE_WAREHOUSE_DIRECTOR` | Giám đốc kho | Phê duyệt, giám sát tổng thể, xem báo cáo KPI. |
 | **Quản lý** | `ROLE_WAREHOUSE_MASTER` | Thủ kho | Check lệnh, xác nhận lệnh (Trigger sinh Task), quản lý kho, trình ký V-Office. |
-| **Vận hành** | `ROLE_WAREHOUSE_WORKER` | Nhân viên kho | Dỡ hàng, kiểm đếm, di chuyển hàng giữa các khu vực kho. |
-| **Vận hành** | `ROLE_PACKER` | Công nhân đóng gói | Đóng kiện Carton/Pallet, gán RFID, in tem nhãn SKU. |
+| **Quản lý** | `ROLE_UNIT_MANAGER` | Quản lý Đơn vị | Quản lý cấp trung, giám sát và xem báo cáo/thông tin vận hành của toàn bộ các kho (Plant/SLoc) thuộc đơn vị mình phụ trách. |
+| **Vận hành** | `ROLE_WAREHOUSE_WORKER` | Nhân viên kho | Dỡ hàng, kiểm đếm, đóng gói (Carton/Pallet), gán RFID, in tem nhãn SKU và di chuyển hàng hóa giữa các khu vực kho. |
 | **Vận hành** | `ROLE_FORKLIFT_DRIVER` | Lái xe nâng | Cất hàng vào vị trí Bin Putaway ô kệ. |
 | **An ninh** | `ROLE_SECURITY` | Bảo vệ cổng kho | Đối soát biển số xe & CCCD tài xế, chốt giờ xe ra/vào. |
 | **Hệ thống** | `ROLE_ADMIN` | Quản trị hệ thống | Cấu hình quy trình, quản lý người dùng, Role, Catalog Task. |
@@ -241,6 +241,9 @@ Ngoài chuỗi Task vận hành kho thực thi chính, hệ thống còn có 4 M
 | **Blocked Stock** | Blocked | Tồn kho bị khóa do không đạt KCS. |
 | **Bin Code** | Bin Putaway | Mã vị trí ô kệ trong kho (VD: `G01_KN1.1.1`). |
 | **Auto-Match** | Grab Matching | Cơ chế tự động ghép nhân viên rảnh rỗi với Task khả dụng đúng Role. |
+| **Plant** | Plant | Đơn vị/Chi nhánh cấp cao nhất trên SAP S/4HANA (VD: `VN01`), dùng để quản lý tồn kho và hoạt động theo từng vùng địa lý. |
+| **Storage Location** | SLoc | Kho logic trên SAP S/4HANA (VD: `HN01`) trực thuộc một Plant, dùng để phân vùng hạch toán số lượng tồn kho theo mục đích quản lý. |
+| **Kho vật lý** | Physical WH | Công trình kho bãi thực tế trong đời thực (VD: Kho Hòa Lạc). Một kho vật lý có thể chứa các phân khu, dãy kệ (Bin) cụ thể và có thể tương ứng với một hoặc nhiều SLoc logic trên SAP. |
 
 ---
 
@@ -250,3 +253,5 @@ Ngoài chuỗi Task vận hành kho thực thi chính, hệ thống còn có 4 M
 |---|---|---|
 | v1.0 | 06/08/2026 | Khởi tạo tài liệu với kiến trúc 3 hệ thống, quy trình MM.10A, Glossary. |
 | v2.0 | 06/08/2026 | Viết lại toàn diện: Bổ sung bối cảnh SAP Gap, mô hình Grab-style Task Matching, đa quy trình Nhập/Xuất, Catalog Task & Quy trình, Multi-warehouse, Multi-platform, Role System chi tiết, Đối tác truy cập trực tiếp hệ thống. |
+| v2.1 | 12/08/2026 | Bổ sung định nghĩa các khái niệm chung: Plant, SLoc, Kho vật lý vào mục Glossary. |
+| v2.2 | 12/08/2026 | Bổ sung vai trò Quản lý Đơn vị (quản lý cấp trung) vào mục 5.1 Danh sách Role. |

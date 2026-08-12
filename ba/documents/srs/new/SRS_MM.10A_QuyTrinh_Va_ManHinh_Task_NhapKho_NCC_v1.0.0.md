@@ -627,39 +627,48 @@ ightarrow$ Click `[Nhận việc]`. |
      - Modal `Gắn thẻ RFID` (`mdl_rfid_tag`): Mở giao diện đọc/ghi chip RFID cho xe hoặc pallet.
      - Modal `Xác nhận Hoàn thành` (`mdl_confirm_unload`): Dialog xác nhận số lượng dỡ trước khi lưu `T-Unl` và mở khóa Task 2.
 
-#### ③ Bảng Ma Trận Control Chi Tiết (Control Matrix)
+#### ③ Bảng Ma Trận Control Chi Tiết & Ánh Xạ API / CSDL (Control Matrix & API Mapping)
 
-| STT | Tên Control | Kiểu Control / Kiểu Dữ Liệu | Input / Output | Data Khởi Tạo / Default | Mô Tả Chi Tiết, Validation & API Mapping |
-|---|---|---|---|---|---|
-| **I** | **HEADER & TOPBAR ACTION CONTROLS** | | | | |
-| 1 | `lbl_task_title` | Bold Text / String | Output | `Task 1: Dỡ hàng khỏi xe - TSK-9921` | Tiêu đề Task và mã Task duy nhất. Sub-label hiển thị Mã Lệnh `INB-2026-xxxxx`. |
-| 2 | `badge_status` | Status Badge / String | Output | `UNASSIGNED` / `IN_PROGRESS` | Badge hiển thị trạng thái hiện tại của Task 1 (`tasks.status`). |
-| 3 | `val_sla_countdown` | Countdown Badge / String | Output | SLA đếm ngược | Thời gian SLA còn lại tính từ `unlocked_at`. Tự động đổi màu Xanh/Vàng/Đỏ. |
-| 4 | `val_order_code` | Red Bold Text / String | Output | `INB-2026-xxxxx` | Mã Lệnh nhập kho mua hàng. Click mở popover thông tin đơn. |
-| 5 | `val_assignee_name` | Text Label / String | Output | Tên NV | Tên NV kho đang phụ trách dỡ hàng. Nếu chưa ai nhận thì hiển thị `Chưa phân công`. |
-| 6 | `btn_claim_task` | Solid Red Button | Input/Trigger | Enabled | Label: `Nhận việc`. Chỉ hiển thị khi Task `UNASSIGNED` và NV chưa có Task dở dang. Click gọi API `POST /api/v1/inbound/tasks/{id}/claim`. |
-| 7 | `btn_assign_rf` | Outline Button | Input/Trigger | Active | Label: `Gắn thẻ (RF)`. Click mở Modal `mdl_rfid_tag` để gán thẻ RFID nhận dạng cho Pallet/Xe. |
-| 8 | `btn_scan_package` | Outline Button | Input/Trigger | Active | Label: `Scan mã kiện`. Click mở Modal/Camera `mdl_scan_package` để quét Barcode/RFID kiện dỡ. |
-| 9 | `btn_complete_unload` | Solid Red Primary Button | Input/Trigger | Disabled nếu chưa Nhận việc | Label: `Hoàn thành dỡ hàng`. Click mở Confirm Dialog `mdl_confirm_unload`. Gọi API `POST /api/v1/inbound/tasks/{id}/complete-unload`. |
-| **II** | **VEHICLE & STAGING INFORMATION CONTROLS** | | | | |
-| 10 | `lbl_license_plate` | Bold Text / String | Output | Biển số xe | Biển số xe vận chuyển NCC (VD: `29C-123.45`). Lấy từ thông tin an ninh cổng `T-Scr`. |
-| 11 | `lbl_driver_info` | Text Label / String | Output | Họ tên & SĐT | Họ tên tài xế + Số điện thoại liên hệ (VD: `Nguyễn Văn A - 0987.654.321`). |
-| 12 | `lbl_supplier_name` | Text Label / String | Output | Tên NCC | Tên Nhà cung cấp vật tư. |
-| 13 | `lbl_dock_number` | Tag Badge / String | Output | `Dock 02` | Cửa hạ hàng chỉ định cho xe. |
-| 14 | `lbl_staging_zone` | Highlight Badge / String | Output | `C02-Wait` | Mã vị trí bãi hạ hàng Staging tạm thời. |
-| 15 | `lbl_t_scr_time` | Text Label / Datetime | Output | Datetime `T-Scr` | Thời điểm xe vào cổng kho do Bảo vệ ghi nhận (`T-Scr`). |
-| **III** | **UNLOADING ITEMS GRID CONTROLS** | | | | |
-| 16 | `tbl_unload_items` | Data Grid / Object Array | Output | List vật tư | Bảng danh sách vật tư cần dỡ từ xe xuống bãi Staging. API `GET /api/v1/inbound/tasks/{id}/items`. |
-| 17 | `col_item_sku` | Code Label / String | Output | SKU Code | Mã vật tư/hàng hóa SAP SKU. |
-| 18 | `col_item_name` | Text Label / String | Output | Material Name | Tên mô tả chi tiết vật tư hàng hóa. |
-| 19 | `col_plan_qty` | Number Label / Decimal | Output | Số lượng PO | Số lượng chứng từ yêu cầu giao từ SAP. |
-| 20 | `txt_unloaded_qty` | Number Input / Decimal | Input | Plan Qty | Số lượng dỡ sơ bộ thực tế xuống bãi Staging. NV có thể chỉnh sửa nếu phát hiện dỡ thiếu/thừa sơ bộ. Validation: $> 0$. |
-| 21 | `col_unit` | Text Label / String | Output | ĐVT | Đơn vị tính vật tư (Bộ, Cuộn, Cái, Thùng...). |
-| 22 | `col_scanned_status` | Status Badge / String | Output | `Chưa scan` / `Đã scan` | Trạng thái scan mã kiện/RFID đại diện. |
-| **IV** | **MODAL DIALOG CONTROLS** | | | | |
-| 23 | `mdl_scan_package` | Modal Dialog | Input/Output | Hidden | Popup quét Barcode/RFID kiện hàng. Tự động đếm tăng `unloaded_qty` mỗi lần scan thành công. |
-| 24 | `mdl_rfid_tag` | Modal Dialog | Input/Output | Hidden | Popup ghi mã RFID Chip. Ghi nhận `rfid_epc` gắn với Pallet/Kiện. |
-| 25 | `mdl_confirm_unload` | Modal Dialog | Input/Output | Hidden | Popup xác nhận hoàn thành dỡ hàng. Hiển thị tổng số kiện/vật tư đã dỡ + Nút `Đồng ý hoàn thành` & `Quay lại`. |
+| STT | Tên Control / Trường UI | Kiểu Control | Input / Output | API Phương Thức & Endpoint | Ánh Xạ CSDL (`bảng.cột`) | Mô Tả Chi Tiết, Validation & Ghi Chú Mapping |
+|:---|:---|:---|:---|:---|:---|:---|
+| **I** | **HEADER & THÔNG TIN TASK** | | | | | |
+| 1 | `lbl_task_title` | Bold Text | Output | `GET /api/registration/tasks/{taskId}/header` | `task.task_code`, `task.task_name` | Tiêu đề Task (VD: `Task 1: Dỡ hàng khỏi xe - TSK-9921`). |
+| 2 | `badge_status` | Status Badge | Output | `GET /api/registration/tasks/{taskId}/header` | `task.status` | Trạng thái Task (`0`: UNASSIGNED, `1`: IN_PROGRESS, `2`: COMPLETED). |
+| 3 | `val_sla_countdown` | Countdown Badge | Output | `GET /api/registration/tasks/{taskId}/header` | `task.start_time`, `task.sla_status` | Đếm ngược SLA dỡ hàng dựa trên thời gian nhận task & thời lượng định mức. |
+| 4 | `val_order_code` | Red Bold Text | Output | `GET /api/registration/tasks/{taskId}/header` | `task.id_order` ➔ `"order".order_code` | Mã Lệnh nhập kho (`INB-2026-xxxxx`). Click mở popover chi tiết đơn. |
+| 5 | `val_assignee_name` | Text Label | Output | `GET /api/registration/tasks/{taskId}/header` | `task.assignee_id` ➔ `sys_user.full_name` | Họ tên NV kho phụ trách. Hiển thị `Chưa phân công` nếu status = 0. |
+| 6 | `btn_claim_task` | Solid Red Button | Input/Trigger | `POST /api/registration/tasks/{taskId}/receive` | UPDATE `task.assignee_id` = current_user, `task.status` = 1, `task.start_time` = NOW() | Nút `Nhận việc`. Chỉ active khi Task = UNASSIGNED và NV không vướng task dở dang. |
+| 7 | `btn_assign_rf` | Outline Button | Input/Trigger | `POST /api/registration/inbound-orders/{orderId}/rfid/generate` | `handling_unit.rfid_code` | Nút `Gắn thẻ (RF)`. Mở Modal gán/phát sinh mã RFID cho Pallet/Xe. |
+| 8 | `btn_scan_package` | Outline Button | Input/Trigger | `POST /api/registration/handling-units/serial/scan` | `product.sku`, `handling_unit_item` | Nút `Scan mã kiện`. Mở camera/đầu đọc Barcode/RFID quét tem kiện. |
+| 9 | `btn_complete_unload` | Solid Red Button | Input/Trigger | `POST /api/registration/tasks/{taskId}/unloading/complete` | UPDATE `task.status` = 2, `task.end_time` = NOW(), INSERT `attachment` | Nút `Hoàn thành dỡ hàng`. Mở confirm dialog, upload ảnh minh chứng & hoàn tất Task 1. |
+| **II** | **THÔNG TIN XE & BÃI DỠ HÀNG** | | | | | |
+| 10 | `lbl_license_plate` | Bold Text | Output | `GET /api/registration/tasks/{taskId}/trips` | `info_shipping.license_plate` | Biển số xe vận chuyển NCC từ thông tin an ninh cổng (VD: `29C-123.45`). |
+| 11 | `lbl_driver_info` | Text Label | Output | `GET /api/registration/tasks/{taskId}/trips` | `info_shipping.driver_name`, `info_shipping.driver_phone` | Họ tên + SĐT tài xế (VD: `Nguyễn Văn A - 0987.654.321`). |
+| 12 | `lbl_supplier_name` | Text Label | Output | `GET /api/registration/inbound-orders/detail/{orderId}` | `"order".supplier_name` | Tên Nhà cung cấp vật tư. |
+| 13 | `lbl_dock_number` | Tag Badge | Output | `GET /api/registration/tasks/{taskId}/staging-area-entry` | `task.zone_code` (hoặc `dock_code`) | Cửa hạ hàng chỉ định cho xe (VD: `Dock 02`). |
+| 14 | `lbl_staging_zone` | Highlight Badge | Output | `GET /api/registration/tasks/{taskId}/staging-area-entry` | `task.zone_code` | Mã bãi hạ hàng Staging lưu tạm (VD: `C02-Wait`). |
+| 15 | `lbl_t_scr_time` | Text Label | Output | `GET /api/registration/tasks/{taskId}/trips` | `info_shipping.check_in_time` | Thời điểm xe vào cổng kho do Bảo vệ ghi nhận (`T-Scr`). |
+| **III** | **DANH SÁCH VẬT TƯ DỠ HÀNG (UNLOADING GRID)** | | | | | |
+| 16 | `tbl_unload_items` | Data Grid | Output | `GET /api/registration/tasks/{taskId}/staging-area-entry/products` | Bảng `order_product` JOIN `product` | Bảng danh sách sản phẩm/vật tư cần dỡ khỏi xe. |
+| 17 | `col_item_sku` | Code Label | Output | `GET /api/registration/tasks/{taskId}/staging-area-entry/products` | `product.sku` | Mã vật tư/hàng hóa SAP SKU. |
+| 18 | `col_item_name` | Text Label | Output | `GET /api/registration/tasks/{taskId}/staging-area-entry/products` | `product.name` | Tên mô tả chi tiết vật tư. |
+| 19 | `col_plan_qty` | Number Label | Output | `GET /api/registration/tasks/{taskId}/staging-area-entry/products` | `order_product.quantity` | Số lượng PO theo chứng từ SAP. |
+| 20 | `txt_unloaded_qty` | Number Input | Input/Output | Payload `POST /api/registration/tasks/{taskId}/unloading/complete` | `order_product.unloaded_quantity` | Số lượng dỡ sơ bộ thực tế. NV có thể nhập/sửa nếu dỡ thiếu/thừa sơ bộ. |
+| 21 | `col_unit` | Text Label | Output | `GET /api/registration/tasks/{taskId}/staging-area-entry/products` | `product.unit` | Đơn vị tính (Bộ, Cuộn, Cái, Thùng...). |
+| 22 | `col_scanned_status` | Status Badge | Output | Frontend State | Calculated local state | Trạng thái scan đại diện (`Đã scan` / `Chưa scan`). |
+| **IV** | **CÁC THAO TÁC NGOẠI LỆ & DIALOG** | | | | | |
+| 23 | `btn_report_issue` | Warning Button | Input/Trigger | `POST /api/registration/tasks/{taskId}/unloading/issue` | INSERT `info_shipping_issue` | Báo cáo lỗi/sự cố dỡ hàng (hàng đổ vỡ, thiếu hụt nghiêm trọng trên xe). Content-Type: `multipart/form-data`. |
+| 24 | `mdl_confirm_unload` | Modal Dialog | Input/Trigger | `POST /api/registration/tasks/{taskId}/unloading/complete` | UPDATE `task.status` = 2, INSERT `attachment` | Dialog xác nhận hoàn thành dỡ hàng. Gửi kèm file ảnh minh chứng `files[]`. |
+
+#### 3.5.4. Đánh giá & Rà soát độ phủ Dữ liệu API (API Gap Analysis)
+
+Qua rà soát đối chiếu giữa Thiết kế Màn hình Task 1 (`SCR-WH-UNLOAD-01`) và Tài liệu đặc tả [API Contract Inbound](file:///c:/Users/quantm18/Desktop/New%20folder/Project_Management/dev/api-specs/api-contract_inbound.md), hệ thống ghi nhận các điểm tương thích và **3 trường dữ liệu chưa/cần bổ sung trong DTO trả về của API Backend**:
+
+> [!WARNING]
+> **Các trường dữ liệu cần bổ sung trong API DTO:**
+> 1. **Số lượng dỡ sơ bộ thực tế (`unloaded_quantity`):** API `GET /api/registration/tasks/{taskId}/staging-area-entry/products` hiện tại chủ yếu trả về `quantity` (Số lượng PO). Backend DTO cần bổ sung thêm trường `unloadedQuantity` trong danh sách sản phẩm để lưu vết số lượng dỡ sơ bộ thực tế.
+> 2. **Tách biệt Mã Dock & Mã Bãi Staging (`dockCode` vs `stagingZoneCode`):** API `GET /api/registration/tasks/{taskId}/staging-area-entry` chỉ trả về duy nhất 1 trường `zone_code`. Giao diện Task 1 yêu cầu hiển thị đồng thời cả Cửa hạ hàng (`Dock 02`) and Bãi lưu tạm (`C02-Wait`). Backend DTO cần trả ra 2 trường riêng biệt: `dockCode` và `stagingZoneCode`.
+> 3. **Tích hợp Thông tin Chuyến xe trong Header Task:** API `GET /api/registration/tasks/{taskId}/header` hiện chưa kèm thông tin Biển số xe & Tài xế (`license_plate`, `driver_name`, `driver_phone`). Trên App Mobile, để giảm số lượng request HTTP (tránh phải gọi thêm API `GET /api/registration/tasks/{taskId}/trips`), đề xuất bổ sung khối `shippingInfo` trực tiếp vào DTO của API Header Task.
 
 #### ④ Luồng xử lý nghiệp vụ
 

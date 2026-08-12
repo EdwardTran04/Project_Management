@@ -43,7 +43,7 @@ Quy trình nhập kho thu hồi tài sản không thuộc nhóm viễn thông (v
 | **12** | **Sinh Phiếu nhập (Material Doc)** | SAP S/4HANA | Hệ thống (Auto) | SAP tự động khởi tạo **Material Document** nhập kho tài sản. |
 | **13** | **Trình ký V-Office Lần 2** | Z-program ➔ V-Office | Thủ kho | Thủ kho dùng App AI-WS trình Phiếu nhập kho (Material Doc) lên V-Office Lần 2 (Thủ trưởng + Kế toán tài sản + Thủ kho ký chốt). *(KHÔNG qua KCS)*. |
 | **14** | **Thực nhập kho (`T-AGR`) & Ghi giảm FI-AA** | AI-WS ➔ SAP | Interface (`T-AGR`) | • Khi V-Office phê duyệt Lần 2, Thủ kho bấm **Thực nhập kho (`T-AGR`)** trên App AI-WS.<br>• Ban Tài chính thực hiện hạch toán ghi giảm Tài sản cố định (Asset Write-off) trên phân hệ **FI-AA**. |
-| **18** | **Đóng gói & Đưa vào vị trí Bin** | AI-WS | Công nhân kho | AI-WS định vị ô/kệ lưu trữ. Công nhân đóng gói và cất tài sản vào đúng vị trí quy định. |
+| **18** | **Đóng gói & Đưa vào vị trí Bin** | AI-WS | Nhân viên kho | AI-WS định vị ô/kệ lưu trữ. Nhân viên kho thực hiện đóng gói và cất tài sản vào đúng vị trí quy định. |
 | **19** | **Lưu trữ & Hoàn tất** | AI-WS & SAP | Hệ thống (Auto) | Hoàn thành toàn bộ quy trình nhập kho thu hồi tài sản Non-Telco. Đóng Task. |
 
 ---
