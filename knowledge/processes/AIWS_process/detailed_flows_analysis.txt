@@ -1,0 +1,547 @@
+
+=======================================================
+DIAGRAM: MM.10A - Nhập kho mua hàng NCC
+=======================================================
+
+=======================================================
+DIAGRAM: MM.10B - Thu hồi từ công trình PS
+=======================================================
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-1] MM.10B — Quy trình nhập kho thu hồi từ công trình (PS) — Tích hợp SAP S/4HANA & AI-WMS (Blueprint S406)
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-2] SAP S/4HANA (Quản trị & Kế toán)
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-3] (From: [] -> To: [Tham chiếu PS.05.01 Quy trình thực hiện dự án (Kỹ thuật hạ tầng Tỉnh)])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-5] (From: [Tham chiếu PS.05.01 Quy trình thực hiện dự án (Kỹ thuật hạ tầng Tỉnh)] -> To: [1. Tự đọngTạo Yêu cầu thu hồi dư thừa từ công trình (Return Request) [Z-program]])
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-6] Tham chiếu PS.05.01 Quy trình thực hiện dự án (Kỹ thuật hạ tầng Tỉnh)
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-7] (From: [1. Tự đọngTạo Yêu cầu thu hồi dư thừa từ công trình (Return Request) [Z-program]] -> To: [2. Trình Yêu cầu thu hồi lên V-Office [Z-program/TBU] *Đính kèm Phiếu yêu cầu kiêm lệnh nhập kho])
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-8] 1. Tự đọngTạo Yêu cầu thu hồi dư thừa từ công trình (Return Request) [Z-program]
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-9] 2. Trình Yêu cầu thu hồi lên V-Office [Z-program/TBU] *Đính kèm Phiếu yêu cầu kiêm lệnh nhập kho
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-10] (From: [3.1. V-Office Phê duyệt -> SAP cập nhật Status Approved] -> To: [4. SAP đẩy Lệnh thu hồi sang AIWS tự động qua API (T-API1)])
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-11] 3.1. V-Office Phê duyệt -> SAP cập nhật Status Approved
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-12] 4. SAP đẩy Lệnh thu hồi sang AIWS tự động qua API (T-API1)
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-13] (From: [6.1. AI-WS gọi T-API2 -> SAP đóng/hủy Lệnh thu hồi] -> To: [])
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-14] 6.1. AI-WS gọi T-API2 -> SAP đóng/hủy Lệnh thu hồi
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-15] 'c' (From: [11. AI-WS gọi T-API3 -> SAP cập nhật Rejected by Whs] -> To: [])
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-16] 11. AI-WS gọi T-API3 -> SAP cập nhật Rejected by Whs
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-17] (From: [12. SAP sinh Phiếu nhập kho (Material Document) [Z-program/MIGO]] -> To: [13. Đồng bộ Mã phiếu nhập sang AIWS])
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-18] 12. SAP sinh Phiếu nhập kho (Material Document) [Z-program/MIGO]
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-19] (From: [18. Nhận thông tin SAP cập nhật tồn kho Status UU] -> To: [19. Quy trình KCS])
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-20] 18. Nhận thông tin SAP cập nhật tồn kho Status UU
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-21] 21. SAP Gửi kết quả KCS sang AI-WMS
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-23] (From: [20. SAP cập nhật tồn kho KCS: Đạt: UU -> QI | Không đạt: UU -> Block] -> To: [21. SAP Gửi kết quả KCS sang AI-WMS])
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-24] 20. SAP cập nhật tồn kho KCS: Đạt: UU -> QI | Không đạt: UU -> Block
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-27] (From: [] -> To: [Tham chiếu PS.05.01 Quy trình thực hiện dự án (Kỹ thuật hạ tầng Tỉnh)])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-28] (From: [Tham chiếu PS.05.01 Quy trình thực hiện dự án (Kỹ thuật hạ tầng Tỉnh)] -> To: [1. Tự đọngTạo Yêu cầu thu hồi dư thừa từ công trình (Return Request) [Z-program]])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-29] (From: [1. Tự đọngTạo Yêu cầu thu hồi dư thừa từ công trình (Return Request) [Z-program]] -> To: [2. Trình Yêu cầu thu hồi lên V-Office [Z-program/TBU] *Đính kèm Phiếu yêu cầu kiêm lệnh nhập kho])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-30] (From: [3.1. V-Office Phê duyệt -> SAP cập nhật Status Approved] -> To: [4. SAP đẩy Lệnh thu hồi sang AIWS tự động qua API (T-API1)])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-31] (From: [18. Nhận thông tin SAP cập nhật tồn kho Status UU] -> To: [21. SAP Gửi kết quả KCS sang AI-WMS])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-32] (From: [21. SAP Gửi kết quả KCS sang AI-WMS] -> To: [20. SAP cập nhật tồn kho KCS: Đạt: UU -> QI | Không đạt: UU -> Block])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-33] (From: [20. SAP cập nhật tồn kho KCS: Đạt: UU -> QI | Không đạt: UU -> Block] -> To: [None])
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-36] 13. Đồng bộ Mã phiếu nhập sang AIWS
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-37] (From: [19. Quy trình KCS] -> To: [20. SAP cập nhật tồn kho KCS: Đạt: UU -> QI | Không đạt: UU -> Block])
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-38] 19. Quy trình KCS
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-39] V-Office
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-40] 3. Phê duyệt Yêu cầu thu hồi?
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-41] 16. Phê duyệt Phiếu nhập kho?
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-42] (From: [2. Trình Yêu cầu thu hồi lên V-Office [Z-program/TBU] *Đính kèm Phiếu yêu cầu kiêm lệnh nhập kho] -> To: [3. Phê duyệt Yêu cầu thu hồi?])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-43] 'Phê duyệt' (From: [3. Phê duyệt Yêu cầu thu hồi?] -> To: [3.1. V-Office Phê duyệt -> SAP cập nhật Status Approved])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-44] 'Từ chối (Sửa đổi)' (From: [3. Phê duyệt Yêu cầu thu hồi?] -> To: [1. Tự đọngTạo Yêu cầu thu hồi dư thừa từ công trình (Return Request) [Z-program]])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-45] (From: [None] -> To: [16. Phê duyệt Phiếu nhập kho?])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-46] 'Phê duyệt' (From: [16. Phê duyệt Phiếu nhập kho?] -> To: [18. Nhận thông tin SAP cập nhật tồn kho Status UU])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-47] 'T-API1 (Đẩy Lệnh thu hồi)' (From: [4. SAP đẩy Lệnh thu hồi sang AIWS tự động qua API (T-API1)] -> To: [5. AI-WS tiếp nhận Lệnh thu hồi (T-API1) & Sinh nhiệm vụ kho])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-48] 'Từ chối (T-API2)' (From: [6. Thủ kho quyết định?] -> To: [6.1. AI-WS gọi T-API2 -> SAP đóng/hủy Lệnh thu hồi])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-49] 'T-API3 (Báo Sai lệch/Từ chối)' (From: [10.1 Từ chối nhận hàng (Gửi T-API3 về SAP)] -> To: [11. AI-WS gọi T-API3 -> SAP cập nhật Rejected by Whs])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-50] 'Sinh Material Doc' (From: [14. Nhận dữ liệu Phiếu nhập] -> To: [12. SAP sinh Phiếu nhập kho (Material Document) [Z-program/MIGO]])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-51] 'Kết quả Phê duyệt' (From: [16. Phê duyệt Phiếu nhập kho?] -> To: [15. Xác nhận và trình ký])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-52] 'T-API5 (Trả Kết quả KCS)' (From: [21. SAP Gửi kết quả KCS sang AI-WMS] -> To: [22. Thủ kho bấm nhập kho (T-AGR trên app AIWS)])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-53] (From: [3. Phê duyệt Yêu cầu thu hồi?] -> To: [1. Tự đọngTạo Yêu cầu thu hồi dư thừa từ công trình (Return Request) [Z-program]])
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-54] Từ chối
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-55] (From: [3. Phê duyệt Yêu cầu thu hồi?] -> To: [3.1. V-Office Phê duyệt -> SAP cập nhật Status Approved])
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-56] Chấp nhận
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-57] (From: [4. SAP đẩy Lệnh thu hồi sang AIWS tự động qua API (T-API1)] -> To: [5. AI-WS tiếp nhận Lệnh thu hồi (T-API1) & Sinh nhiệm vụ kho])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-58] (From: [6. Thủ kho quyết định?] -> To: [6.1. AI-WS gọi T-API2 -> SAP đóng/hủy Lệnh thu hồi])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-59] (From: [10.1 Từ chối nhận hàng (Gửi T-API3 về SAP)] -> To: [11. AI-WS gọi T-API3 -> SAP cập nhật Rejected by Whs])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-60] (From: [10.2. Ký BBBG điện tử Chuyển vào khu chờ nhập] -> To: [12. SAP sinh Phiếu nhập kho (Material Document) [Z-program/MIGO]])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-61] (From: [12. SAP sinh Phiếu nhập kho (Material Document) [Z-program/MIGO]] -> To: [None])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-62] (From: [13. Đồng bộ Mã phiếu nhập sang AIWS] -> To: [14. Nhận dữ liệu Phiếu nhập])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-63] (From: [15. Xác nhận và trình ký] -> To: [16. Phê duyệt Phiếu nhập kho?])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-64] (From: [16. Phê duyệt Phiếu nhập kho?] -> To: [16.1. Cập nhật trạng thái])
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-65] Đồng ý
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-66] (From: [16. Phê duyệt Phiếu nhập kho?] -> To: [15. Xác nhận và trình ký])
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-67] Từ chối
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-68] (From: [17. Đồng bộ trạng thái] -> To: [18. Nhận thông tin SAP cập nhật tồn kho Status UU])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-69] (From: [2. Trình Yêu cầu thu hồi lên V-Office [Z-program/TBU] *Đính kèm Phiếu yêu cầu kiêm lệnh nhập kho] -> To: [3. Phê duyệt Yêu cầu thu hồi?])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-70] (From: [21. SAP Gửi kết quả KCS sang AI-WMS] -> To: [22. Thủ kho bấm nhập kho (T-AGR trên app AIWS)])
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-71] AI-WMS (Kho thông minh & Vận hành vật lý)
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-72] (From: [5. AI-WS tiếp nhận Lệnh thu hồi (T-API1) & Sinh nhiệm vụ kho] -> To: [6. Thủ kho quyết định?])
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-73] 5. AI-WS tiếp nhận Lệnh thu hồi (T-API1) & Sinh nhiệm vụ kho
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-74] (From: [6. Thủ kho quyết định?] -> To: [6.2. Xác nhận giờ nhận hàng])
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-75] 6. Thủ kho quyết định?
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-76] (From: [6.2. Xác nhận giờ nhận hàng] -> To: [7. Sinh lịch giao việc nhân sự kho])
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-77] 6.2. Xác nhận giờ nhận hàng
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-78] (From: [7. Sinh lịch giao việc nhân sự kho] -> To: [8. Bảo vệ cập nhật giờ xe vào cổng (T-Scr)])
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-79] 7. Sinh lịch giao việc nhân sự kho
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-80] (From: [8. Bảo vệ cập nhật giờ xe vào cổng (T-Scr)] -> To: [9. Dỡ hàng & Kiểm đếm vật lý thực tế (T-Unl)])
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-81] 8. Bảo vệ cập nhật giờ xe vào cổng (T-Scr)
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-82] (From: [9. Dỡ hàng & Kiểm đếm vật lý thực tế (T-Unl)] -> To: [10. Kết quả kiểm đếm?])
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-83] 9. Dỡ hàng & Kiểm đếm vật lý thực tế (T-Unl)
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-84] (From: [10. Kết quả kiểm đếm?] -> To: [10.1 Từ chối nhận hàng (Gửi T-API3 về SAP)])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-85] (From: [10. Kết quả kiểm đếm?] -> To: [10.2. Ký BBBG điện tử Chuyển vào khu chờ nhập])
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-86] 10. Kết quả kiểm đếm?
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-87] 10.1 Từ chối nhận hàng (Gửi T-API3 về SAP)
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-88] 10.2. Ký BBBG điện tử Chuyển vào khu chờ nhập
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-89] (From: [14. Nhận dữ liệu Phiếu nhập] -> To: [15. Xác nhận và trình ký])
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-90] 14. Nhận dữ liệu Phiếu nhập
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-91] 15. Xác nhận và trình ký
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-92] (From: [22. Thủ kho bấm nhập kho (T-AGR trên app AIWS)] -> To: [23. Đóng gói])
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-93] 22. Thủ kho bấm nhập kho (T-AGR trên app AIWS)
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-94] (From: [23. Đóng gói] -> To: [24. Lưu trữ (Putaway to Bin layout)])
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-95] 23. Đóng gói
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-96] (From: [24. Lưu trữ (Putaway to Bin layout)] -> To: [])
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-97] 24. Lưu trữ (Putaway to Bin layout)
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-98] (From: [5. AI-WS tiếp nhận Lệnh thu hồi (T-API1) & Sinh nhiệm vụ kho] -> To: [6. Thủ kho quyết định?])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-99] 'Đồng ý' (From: [6. Thủ kho quyết định?] -> To: [6.2. Xác nhận giờ nhận hàng])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-100] (From: [6.2. Xác nhận giờ nhận hàng] -> To: [7. Sinh lịch giao việc nhân sự kho])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-101] (From: [7. Sinh lịch giao việc nhân sự kho] -> To: [8. Bảo vệ cập nhật giờ xe vào cổng (T-Scr)])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-102] (From: [8. Bảo vệ cập nhật giờ xe vào cổng (T-Scr)] -> To: [9. Dỡ hàng & Kiểm đếm vật lý thực tế (T-Unl)])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-103] (From: [9. Dỡ hàng & Kiểm đếm vật lý thực tế (T-Unl)] -> To: [10. Kết quả kiểm đếm?])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-104] 'Đúng đủ' (From: [10. Kết quả kiểm đếm?] -> To: [10.2. Ký BBBG điện tử Chuyển vào khu chờ nhập])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-105] 'Sai lệch' (From: [10. Kết quả kiểm đếm?] -> To: [10.1 Từ chối nhận hàng (Gửi T-API3 về SAP)])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-106] (From: [10.2. Ký BBBG điện tử Chuyển vào khu chờ nhập] -> To: [14. Nhận dữ liệu Phiếu nhập])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-107] (From: [22. Thủ kho bấm nhập kho (T-AGR trên app AIWS)] -> To: [23. Đóng gói])
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-108] (From: [23. Đóng gói] -> To: [24. Lưu trữ (Putaway to Bin layout)])
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-109] 16.1. Cập nhật trạng thái
+  [NODE 5KrCQ0QtK6sfFLBfaJRj-110] 17. Đồng bộ trạng thái
+  [EDGE 5KrCQ0QtK6sfFLBfaJRj-111] (From: [16.1. Cập nhật trạng thái] -> To: [17. Đồng bộ trạng thái])
+
+=======================================================
+DIAGRAM: MM.10C - Thu hồi từ trạm PM
+=======================================================
+  [NODE fZsU93FtKC24aE2BTC7X-2] MM.10C — Quy trình nhập kho thu hồi từ trạm (PM) — Tích hợp SAP S/4HANA & AI-WMS (Blueprint S406)
+  [NODE fZsU93FtKC24aE2BTC7X-3] SAP S/4HANA (Quản trị & Kế toán)
+  [EDGE fZsU93FtKC24aE2BTC7X-4] (From: [] -> To: [Tham chiếu 3 trường hợp PM: 1) PM.02: Thiết bị dư thừa ứng cứu thông tin (Nguyên giá) 2) PM.05.01: Hủy trạm (Quản lý số lượng, không quản lý giá) 3) PM.03.02: Thu hồi sửa chữa (Quản lý số lượng, không quản lý giá)])
+  [EDGE fZsU93FtKC24aE2BTC7X-8] (From: [1. Tự đông Tạo Yêu cầu thu hồi dư thừa từ công trình Với mỗi loại về Plant Sloc tương ứng] -> To: [2. Trình Yêu cầu thu hồi lên V-Office])
+  [NODE fZsU93FtKC24aE2BTC7X-9] 1. Tự đông Tạo Yêu cầu thu hồi dư thừa từ công trình Với mỗi loại về Plant Sloc tương ứng
+  [NODE fZsU93FtKC24aE2BTC7X-10] 2. Trình Yêu cầu thu hồi lên V-Office
+  [EDGE fZsU93FtKC24aE2BTC7X-11] (From: [3.1. V-Office Phê duyệt -> SAP cập nhật Status Approved] -> To: [4. SAP đẩy Lệnh thu hồi sang AIWS tự động qua API (T-API1)])
+  [NODE fZsU93FtKC24aE2BTC7X-12] 3.1. V-Office Phê duyệt -> SAP cập nhật Status Approved
+  [NODE fZsU93FtKC24aE2BTC7X-13] 4. SAP đẩy Lệnh thu hồi sang AIWS tự động qua API (T-API1)
+  [EDGE fZsU93FtKC24aE2BTC7X-14] (From: [6.1. AI-WS gọi T-API2 -> SAP đóng/hủy Lệnh thu hồi] -> To: [])
+  [NODE fZsU93FtKC24aE2BTC7X-15] 6.1. AI-WS gọi T-API2 -> SAP đóng/hủy Lệnh thu hồi
+  [EDGE fZsU93FtKC24aE2BTC7X-16] 'c' (From: [11. AI-WS gọi T-API3 -> SAP cập nhật Rejected by Whs] -> To: [])
+  [NODE fZsU93FtKC24aE2BTC7X-17] 11. AI-WS gọi T-API3 -> SAP cập nhật Rejected by Whs
+  [NODE fZsU93FtKC24aE2BTC7X-22] 21. SAP Gửi kết quả KCS sang AI-WMS
+  [EDGE gmfz7SWPtD3VJJDuFu9C-6] (From: [20. SAP cập nhật tồn kho KCS: Đạt: UU -> QI | Không đạt: UU -> Block] -> To: [Điều chỉnh giá vật tư?])
+  [NODE fZsU93FtKC24aE2BTC7X-25] 20. SAP cập nhật tồn kho KCS: Đạt: UU -> QI | Không đạt: UU -> Block
+  [EDGE fZsU93FtKC24aE2BTC7X-28] (From: [] -> To: [None])
+  [EDGE fZsU93FtKC24aE2BTC7X-29] (From: [None] -> To: [1. Tự đông Tạo Yêu cầu thu hồi dư thừa từ công trình Với mỗi loại về Plant Sloc tương ứng])
+  [EDGE fZsU93FtKC24aE2BTC7X-30] (From: [1. Tự đông Tạo Yêu cầu thu hồi dư thừa từ công trình Với mỗi loại về Plant Sloc tương ứng] -> To: [2. Trình Yêu cầu thu hồi lên V-Office])
+  [EDGE fZsU93FtKC24aE2BTC7X-31] (From: [3.1. V-Office Phê duyệt -> SAP cập nhật Status Approved] -> To: [4. SAP đẩy Lệnh thu hồi sang AIWS tự động qua API (T-API1)])
+  [EDGE fZsU93FtKC24aE2BTC7X-32] (From: [fZsU93FtKC24aE2BTC7X-21] -> To: [21. SAP Gửi kết quả KCS sang AI-WMS])
+  [EDGE fZsU93FtKC24aE2BTC7X-33] (From: [21. SAP Gửi kết quả KCS sang AI-WMS] -> To: [20. SAP cập nhật tồn kho KCS: Đạt: UU -> QI | Không đạt: UU -> Block])
+  [EDGE fZsU93FtKC24aE2BTC7X-34] (From: [20. SAP cập nhật tồn kho KCS: Đạt: UU -> QI | Không đạt: UU -> Block] -> To: [None])
+  [EDGE fZsU93FtKC24aE2BTC7X-38] (From: [19. Quy trình KCS] -> To: [20. SAP cập nhật tồn kho KCS: Đạt: UU -> QI | Không đạt: UU -> Block])
+  [NODE fZsU93FtKC24aE2BTC7X-39] 19. Quy trình KCS
+  [EDGE x51b_JA36Bi1xCfuB8iK-1] (From: [Tham chiếu 3 trường hợp PM: 1) PM.02: Thiết bị dư thừa ứng cứu thông tin (Nguyên giá) 2) PM.05.01: Hủy trạm (Quản lý số lượng, không quản lý giá) 3) PM.03.02: Thu hồi sửa chữa (Quản lý số lượng, không quản lý giá)] -> To: [1. Tự đông Tạo Yêu cầu thu hồi dư thừa từ công trình Với mỗi loại về Plant Sloc tương ứng])
+  [NODE x51b_JA36Bi1xCfuB8iK-0] Tham chiếu 3 trường hợp PM: 1) PM.02: Thiết bị dư thừa ứng cứu thông tin (Nguyên giá) 2) PM.05.01: Hủy trạm (Quản lý số lượng, không quản lý giá) 3) PM.03.02: Thu hồi sửa chữa (Quản lý số lượng, không quản lý giá)
+  [EDGE dkAuowCr7Z0QYP5795Im-2] (From: [Đóng phiếu?] -> To: [Đóng WO. Tham khảo quy trình tương ứng (PM.02 | PM.05.01 | PM.02.02)])
+  [NODE dkAuowCr7Z0QYP5795Im-3] Có
+  [EDGE dkAuowCr7Z0QYP5795Im-4] (From: [Đóng phiếu?] -> To: [1. Tự đông Tạo Yêu cầu thu hồi dư thừa từ công trình Với mỗi loại về Plant Sloc tương ứng])
+  [NODE dkAuowCr7Z0QYP5795Im-5] Không
+  [NODE dkAuowCr7Z0QYP5795Im-0] Đóng phiếu?
+  [NODE dkAuowCr7Z0QYP5795Im-1] Đóng WO. Tham khảo quy trình tương ứng (PM.02 | PM.05.01 | PM.02.02)
+  [EDGE gmfz7SWPtD3VJJDuFu9C-8] (From: [Điều chỉnh giá vật tư?] -> To: [21. SAP Gửi kết quả KCS sang AI-WMS])
+  [EDGE gmfz7SWPtD3VJJDuFu9C-10] (From: [Điều chỉnh giá vật tư?] -> To: [Điều chỉnh])
+  [NODE gmfz7SWPtD3VJJDuFu9C-5] Điều chỉnh giá vật tư?
+  [EDGE gmfz7SWPtD3VJJDuFu9C-11] (From: [Điều chỉnh] -> To: [21. SAP Gửi kết quả KCS sang AI-WMS])
+  [NODE gmfz7SWPtD3VJJDuFu9C-9] Điều chỉnh
+  [EDGE A_wgizOLAKgAEc5WnPhw-1] (From: [Sinh yêu cầu kiểm tra chất lượng] -> To: [19. Quy trình KCS])
+  [NODE A_wgizOLAKgAEc5WnPhw-0] Sinh yêu cầu kiểm tra chất lượng
+  [NODE fZsU93FtKC24aE2BTC7X-40] V-Office
+  [NODE fZsU93FtKC24aE2BTC7X-41] 3. Phê duyệt Yêu cầu thu hồi?
+  [EDGE fZsU93FtKC24aE2BTC7X-43] (From: [2. Trình Yêu cầu thu hồi lên V-Office] -> To: [3. Phê duyệt Yêu cầu thu hồi?])
+  [EDGE fZsU93FtKC24aE2BTC7X-44] 'Phê duyệt' (From: [3. Phê duyệt Yêu cầu thu hồi?] -> To: [3.1. V-Office Phê duyệt -> SAP cập nhật Status Approved])
+  [EDGE fZsU93FtKC24aE2BTC7X-45] 'Từ chối (Sửa đổi)' (From: [3. Phê duyệt Yêu cầu thu hồi?] -> To: [1. Tự đông Tạo Yêu cầu thu hồi dư thừa từ công trình Với mỗi loại về Plant Sloc tương ứng])
+  [EDGE fZsU93FtKC24aE2BTC7X-46] (From: [None] -> To: [fZsU93FtKC24aE2BTC7X-42])
+  [EDGE fZsU93FtKC24aE2BTC7X-47] 'Phê duyệt' (From: [fZsU93FtKC24aE2BTC7X-42] -> To: [fZsU93FtKC24aE2BTC7X-21])
+  [EDGE fZsU93FtKC24aE2BTC7X-48] 'T-API1 (Đẩy Lệnh thu hồi)' (From: [4. SAP đẩy Lệnh thu hồi sang AIWS tự động qua API (T-API1)] -> To: [5. AI-WS tiếp nhận Lệnh thu hồi (T-API1) & Sinh nhiệm vụ kho])
+  [EDGE fZsU93FtKC24aE2BTC7X-49] 'Từ chối (T-API2)' (From: [6. Thủ kho quyết định?] -> To: [6.1. AI-WS gọi T-API2 -> SAP đóng/hủy Lệnh thu hồi])
+  [EDGE fZsU93FtKC24aE2BTC7X-50] 'T-API3 (Báo Sai lệch/Từ chối)' (From: [10.1 Từ chối nhận hàng (Gửi T-API3 về SAP)] -> To: [11. AI-WS gọi T-API3 -> SAP cập nhật Rejected by Whs])
+  [EDGE fZsU93FtKC24aE2BTC7X-51] 'Sinh Material Doc' (From: [fZsU93FtKC24aE2BTC7X-91] -> To: [fZsU93FtKC24aE2BTC7X-19])
+  [EDGE fZsU93FtKC24aE2BTC7X-52] 'Kết quả Phê duyệt' (From: [fZsU93FtKC24aE2BTC7X-42] -> To: [fZsU93FtKC24aE2BTC7X-92])
+  [EDGE fZsU93FtKC24aE2BTC7X-53] 'T-API5 (Trả Kết quả KCS)' (From: [21. SAP Gửi kết quả KCS sang AI-WMS] -> To: [22. Thủ kho bấm nhập kho (T-AGR trên app AIWS)])
+  [EDGE fZsU93FtKC24aE2BTC7X-54] (From: [3. Phê duyệt Yêu cầu thu hồi?] -> To: [Đóng phiếu?])
+  [NODE fZsU93FtKC24aE2BTC7X-55] Từ chối
+  [EDGE fZsU93FtKC24aE2BTC7X-56] (From: [3. Phê duyệt Yêu cầu thu hồi?] -> To: [3.1. V-Office Phê duyệt -> SAP cập nhật Status Approved])
+  [NODE fZsU93FtKC24aE2BTC7X-57] Chấp nhận
+  [EDGE fZsU93FtKC24aE2BTC7X-58] (From: [4. SAP đẩy Lệnh thu hồi sang AIWS tự động qua API (T-API1)] -> To: [5. AI-WS tiếp nhận Lệnh thu hồi (T-API1) & Sinh nhiệm vụ kho])
+  [EDGE fZsU93FtKC24aE2BTC7X-59] (From: [6. Thủ kho quyết định?] -> To: [6.1. AI-WS gọi T-API2 -> SAP đóng/hủy Lệnh thu hồi])
+  [EDGE fZsU93FtKC24aE2BTC7X-60] (From: [10.1 Từ chối nhận hàng (Gửi T-API3 về SAP)] -> To: [11. AI-WS gọi T-API3 -> SAP cập nhật Rejected by Whs])
+  [EDGE fZsU93FtKC24aE2BTC7X-61] (From: [10.2. Ký BBBG điện tử Chuyển vào khu chờ nhập] -> To: [Sinh yêu cầu kiểm tra chất lượng])
+  [EDGE fZsU93FtKC24aE2BTC7X-62] (From: [fZsU93FtKC24aE2BTC7X-19] -> To: [None])
+  [EDGE fZsU93FtKC24aE2BTC7X-70] (From: [2. Trình Yêu cầu thu hồi lên V-Office] -> To: [3. Phê duyệt Yêu cầu thu hồi?])
+  [EDGE fZsU93FtKC24aE2BTC7X-71] (From: [21. SAP Gửi kết quả KCS sang AI-WMS] -> To: [22. Thủ kho bấm nhập kho (T-AGR trên app AIWS)])
+  [NODE fZsU93FtKC24aE2BTC7X-72] AI-WMS (Kho thông minh & Vận hành vật lý)
+  [EDGE fZsU93FtKC24aE2BTC7X-73] (From: [5. AI-WS tiếp nhận Lệnh thu hồi (T-API1) & Sinh nhiệm vụ kho] -> To: [6. Thủ kho quyết định?])
+  [NODE fZsU93FtKC24aE2BTC7X-74] 5. AI-WS tiếp nhận Lệnh thu hồi (T-API1) & Sinh nhiệm vụ kho
+  [EDGE fZsU93FtKC24aE2BTC7X-75] (From: [6. Thủ kho quyết định?] -> To: [6.2. Xác nhận giờ nhận hàng])
+  [NODE fZsU93FtKC24aE2BTC7X-76] 6. Thủ kho quyết định?
+  [EDGE fZsU93FtKC24aE2BTC7X-77] (From: [6.2. Xác nhận giờ nhận hàng] -> To: [7. Sinh lịch giao việc nhân sự kho])
+  [NODE fZsU93FtKC24aE2BTC7X-78] 6.2. Xác nhận giờ nhận hàng
+  [EDGE fZsU93FtKC24aE2BTC7X-79] (From: [7. Sinh lịch giao việc nhân sự kho] -> To: [8. Bảo vệ cập nhật giờ xe vào cổng (T-Scr)])
+  [NODE fZsU93FtKC24aE2BTC7X-80] 7. Sinh lịch giao việc nhân sự kho
+  [EDGE fZsU93FtKC24aE2BTC7X-81] (From: [8. Bảo vệ cập nhật giờ xe vào cổng (T-Scr)] -> To: [9. Dỡ hàng & Kiểm đếm vật lý thực tế (T-Unl)])
+  [NODE fZsU93FtKC24aE2BTC7X-82] 8. Bảo vệ cập nhật giờ xe vào cổng (T-Scr)
+  [EDGE fZsU93FtKC24aE2BTC7X-83] (From: [9. Dỡ hàng & Kiểm đếm vật lý thực tế (T-Unl)] -> To: [10. Kết quả kiểm đếm?])
+  [NODE fZsU93FtKC24aE2BTC7X-84] 9. Dỡ hàng & Kiểm đếm vật lý thực tế (T-Unl)
+  [EDGE fZsU93FtKC24aE2BTC7X-85] (From: [10. Kết quả kiểm đếm?] -> To: [10.1 Từ chối nhận hàng (Gửi T-API3 về SAP)])
+  [EDGE fZsU93FtKC24aE2BTC7X-86] (From: [10. Kết quả kiểm đếm?] -> To: [10.2. Ký BBBG điện tử Chuyển vào khu chờ nhập])
+  [NODE fZsU93FtKC24aE2BTC7X-87] 10. Kết quả kiểm đếm?
+  [NODE fZsU93FtKC24aE2BTC7X-88] 10.1 Từ chối nhận hàng (Gửi T-API3 về SAP)
+  [NODE fZsU93FtKC24aE2BTC7X-89] 10.2. Ký BBBG điện tử Chuyển vào khu chờ nhập
+  [EDGE fZsU93FtKC24aE2BTC7X-93] (From: [22. Thủ kho bấm nhập kho (T-AGR trên app AIWS)] -> To: [23. Đóng gói])
+  [NODE fZsU93FtKC24aE2BTC7X-94] 22. Thủ kho bấm nhập kho (T-AGR trên app AIWS)
+  [EDGE fZsU93FtKC24aE2BTC7X-95] (From: [23. Đóng gói] -> To: [24. Lưu trữ (Putaway to Bin layout)])
+  [NODE fZsU93FtKC24aE2BTC7X-96] 23. Đóng gói
+  [EDGE A_wgizOLAKgAEc5WnPhw-2] (From: [24. Lưu trữ (Putaway to Bin layout)] -> To: [])
+  [NODE fZsU93FtKC24aE2BTC7X-98] 24. Lưu trữ (Putaway to Bin layout)
+  [EDGE fZsU93FtKC24aE2BTC7X-99] (From: [5. AI-WS tiếp nhận Lệnh thu hồi (T-API1) & Sinh nhiệm vụ kho] -> To: [6. Thủ kho quyết định?])
+  [EDGE fZsU93FtKC24aE2BTC7X-100] 'Đồng ý' (From: [6. Thủ kho quyết định?] -> To: [6.2. Xác nhận giờ nhận hàng])
+  [EDGE fZsU93FtKC24aE2BTC7X-101] (From: [6.2. Xác nhận giờ nhận hàng] -> To: [7. Sinh lịch giao việc nhân sự kho])
+  [EDGE fZsU93FtKC24aE2BTC7X-102] (From: [7. Sinh lịch giao việc nhân sự kho] -> To: [8. Bảo vệ cập nhật giờ xe vào cổng (T-Scr)])
+  [EDGE fZsU93FtKC24aE2BTC7X-103] (From: [8. Bảo vệ cập nhật giờ xe vào cổng (T-Scr)] -> To: [9. Dỡ hàng & Kiểm đếm vật lý thực tế (T-Unl)])
+  [EDGE fZsU93FtKC24aE2BTC7X-104] (From: [9. Dỡ hàng & Kiểm đếm vật lý thực tế (T-Unl)] -> To: [10. Kết quả kiểm đếm?])
+  [EDGE fZsU93FtKC24aE2BTC7X-105] 'Đúng đủ' (From: [10. Kết quả kiểm đếm?] -> To: [10.2. Ký BBBG điện tử Chuyển vào khu chờ nhập])
+  [EDGE fZsU93FtKC24aE2BTC7X-106] 'Sai lệch' (From: [10. Kết quả kiểm đếm?] -> To: [10.1 Từ chối nhận hàng (Gửi T-API3 về SAP)])
+  [EDGE fZsU93FtKC24aE2BTC7X-107] (From: [10.2. Ký BBBG điện tử Chuyển vào khu chờ nhập] -> To: [fZsU93FtKC24aE2BTC7X-91])
+  [EDGE fZsU93FtKC24aE2BTC7X-108] (From: [22. Thủ kho bấm nhập kho (T-AGR trên app AIWS)] -> To: [23. Đóng gói])
+  [EDGE fZsU93FtKC24aE2BTC7X-109] (From: [23. Đóng gói] -> To: [24. Lưu trữ (Putaway to Bin layout)])
+  [NODE A_wgizOLAKgAEc5WnPhw-4] Khồng sinh piếu nhập vẫn KCS???
+
+=======================================================
+DIAGRAM: MM.10D - Thu hồi Non viễn thông
+=======================================================
+  [NODE D_pool] MM.10D — Luồng Nhập Kho Thu Hồi Tài Sản Non-Telco (FI-AA Fixed Asset) — Tích hợp SAP S/4HANA & AI-WMS (Blueprint S406)
+  [NODE D_sap] SAP S/4HANA (FI-AA & Kế toán)
+  [EDGE irZfweH4G37VxlIUkyWZ-5] (From: [] -> To: [Tham chiếu FI.54.01 Thu hồi TS về Location 'Tài sản thu hồi' (Bộ phận Quản lý tài sản)])
+  [EDGE irZfweH4G37VxlIUkyWZ-1] (From: [Tham chiếu FI.54.01 Thu hồi TS về Location 'Tài sản thu hồi' (Bộ phận Quản lý tài sản)] -> To: [Có thể sửa chữa])
+  [NODE D_fi54] Tham chiếu FI.54.01 Thu hồi TS về Location 'Tài sản thu hồi' (Bộ phận Quản lý tài sản)
+  [EDGE irZfweH4G37VxlIUkyWZ-7] (From: [Có thể sửa chữa] -> To: [Tham chiếu FI.53.01 Quy trình sửa chữa tài sản Non-telco])
+  [NODE irZfweH4G37VxlIUkyWZ-10] Có
+  [EDGE irZfweH4G37VxlIUkyWZ-8] (From: [Có thể sửa chữa] -> To: [Quyết định loại khỏi biên chế?])
+  [NODE irZfweH4G37VxlIUkyWZ-11] Không
+  [NODE D_d2_type] Có thể sửa chữa
+  [EDGE irZfweH4G37VxlIUkyWZ-14] (From: [Tham chiếu FI.53.01 Quy trình sửa chữa tài sản Non-telco] -> To: [])
+  [NODE D_s21_fix] Tham chiếu FI.53.01 Quy trình sửa chữa tài sản Non-telco
+  [NODE D_s1a_v0] 1A. Tạo Reservation giá trị = 0 [Z-program] (Nhập vào Plant thu hồi NV - Non-valuated)
+  [NODE D_s2a_v1] 2A. Tạo Reservation giá trị > 0 [Z-program] (Nhập vào Plant có hạch toán - Valuated)
+  [EDGE PpEvCote9B4yVmJVQmFL-8] (From: [4.1. V-Office Phê duyệt -> SAP cập nhật Status Approved] -> To: [4.2. SAP đẩy Lệnh thu hồi sang AIWS tự động qua API (T-API1)])
+  [NODE D_s41] 4.1. V-Office Phê duyệt -> SAP cập nhật Status Approved
+  [NODE D_s42_push] 4.2. SAP đẩy Lệnh thu hồi sang AIWS tự động qua API (T-API1)
+  [NODE D_s6_reject] 6/11. AI-WS gọi T-API3 -> Status -> Rejected by Whs
+  [EDGE CRxhwuv0zLNm1RNOKTl9-1] (From: [1B/2B/12. SAP sinh Phiếu nhập kho (Material Doc) [MIGO Integration] *1B: NV plant (giá 0) | 2B: Valuated plant (giá > 0)] -> To: [14.2 Đồng bộ dữ liệu phiếu nhập])
+  [NODE D_s12] 1B/2B/12. SAP sinh Phiếu nhập kho (Material Doc) [MIGO Integration] *1B: NV plant (giá 0) | 2B: Valuated plant (giá > 0)
+  [NODE D_s15_uu] 8/15. SAP cập nhật tồn kho Status Approved
+  [EDGE UeBUASBxtHPStBIUO_s6-6] (From: [16. Hạch toán Tài sản FI-AA (Asset Accounting) [ABZE / AS02] *Dành cho trường hợp 2B (Giá trị > 0)] -> To: [])
+  [NODE D_s_asset] 16. Hạch toán Tài sản FI-AA (Asset Accounting) [ABZE / AS02] *Dành cho trường hợp 2B (Giá trị > 0)
+  [EDGE D_e01] (From: [] -> To: [Tham chiếu FI.54.01 Thu hồi TS về Location 'Tài sản thu hồi' (Bộ phận Quản lý tài sản)])
+  [EDGE D_e02] (From: [Tham chiếu FI.54.01 Thu hồi TS về Location 'Tài sản thu hồi' (Bộ phận Quản lý tài sản)] -> To: [Có thể sửa chữa])
+  [EDGE D_e03_fix] 'Hàng hỏng sửa được' (From: [Có thể sửa chữa] -> To: [Tham chiếu FI.53.01 Quy trình sửa chữa tài sản Non-telco])
+  [EDGE D_e03_v0] 'Phân rã (Giá trị = 0)' (From: [Có thể sửa chữa] -> To: [1A. Tạo Reservation giá trị = 0 [Z-program] (Nhập vào Plant thu hồi NV - Non-valuated)])
+  [EDGE D_e03_v1] 'Phân rã (Giá trị > 0)' (From: [Có thể sửa chữa] -> To: [2A. Tạo Reservation giá trị > 0 [Z-program] (Nhập vào Plant có hạch toán - Valuated)])
+  [EDGE D_e04_v0] (From: [1A. Tạo Reservation giá trị = 0 [Z-program] (Nhập vào Plant thu hồi NV - Non-valuated)] -> To: [None])
+  [EDGE D_e04_v1] (From: [2A. Tạo Reservation giá trị > 0 [Z-program] (Nhập vào Plant có hạch toán - Valuated)] -> To: [None])
+  [EDGE D_e05] (From: [4.1. V-Office Phê duyệt -> SAP cập nhật Status Approved] -> To: [4.2. SAP đẩy Lệnh thu hồi sang AIWS tự động qua API (T-API1)])
+  [EDGE D_e07] (From: [8/15. SAP cập nhật tồn kho Status Approved] -> To: [16. Hạch toán Tài sản FI-AA (Asset Accounting) [ABZE / AS02] *Dành cho trường hợp 2B (Giá trị > 0)])
+  [EDGE D_e08] (From: [16. Hạch toán Tài sản FI-AA (Asset Accounting) [ABZE / AS02] *Dành cho trường hợp 2B (Giá trị > 0)] -> To: [])
+  [EDGE irZfweH4G37VxlIUkyWZ-16] (From: [Quyết định loại khỏi biên chế?] -> To: [])
+  [NODE irZfweH4G37VxlIUkyWZ-17] Không
+  [NODE irZfweH4G37VxlIUkyWZ-6] Quyết định loại khỏi biên chế?
+  [EDGE irZfweH4G37VxlIUkyWZ-19] (From: [Giá trị?] -> To: [1A. Tạo Reservation giá trị = 0 [Z-program] (Nhập vào Plant thu hồi NV - Non-valuated)])
+  [NODE irZfweH4G37VxlIUkyWZ-22] =0
+  [EDGE irZfweH4G37VxlIUkyWZ-20] (From: [Giá trị?] -> To: [2A. Tạo Reservation giá trị > 0 [Z-program] (Nhập vào Plant có hạch toán - Valuated)])
+  [NODE irZfweH4G37VxlIUkyWZ-21] >0
+  [NODE irZfweH4G37VxlIUkyWZ-9] Giá trị?
+  [EDGE irZfweH4G37VxlIUkyWZ-18] (From: [Quyết định loại khỏi biên chế?] -> To: [Giá trị?])
+  [NODE EqAfKw8dyzKOJdi_htFT-1] 2. Trình ký Voffice Đính kém quyết định
+  [EDGE irZfweH4G37VxlIUkyWZ-23] (From: [1A. Tạo Reservation giá trị = 0 [Z-program] (Nhập vào Plant thu hồi NV - Non-valuated)] -> To: [2. Trình ký Voffice Đính kém quyết định])
+  [EDGE irZfweH4G37VxlIUkyWZ-24] (From: [2A. Tạo Reservation giá trị > 0 [Z-program] (Nhập vào Plant có hạch toán - Valuated)] -> To: [2. Trình ký Voffice Đính kém quyết định])
+  [NODE D_s142] 14.2 Đồng bộ dữ liệu phiếu nhập
+  [EDGE D_c_matdoc] 'Sinh Material Doc' (From: [14.2 Đồng bộ dữ liệu phiếu nhập] -> To: [1B/2B/12. SAP sinh Phiếu nhập kho (Material Doc) [MIGO Integration] *1B: NV plant (giá 0) | 2B: Valuated plant (giá > 0)])
+  [NODE D_vof] V-Office (Phê duyệt chứng từ)
+  [NODE D_d4_vof] 3. Phê duyệt?
+  [NODE D_d14_vof] 8/14. Phê duyệt Phiếu nhập kho?
+  [EDGE D_cv1] (From: [None] -> To: [3. Phê duyệt?])
+  [EDGE D_cv2] 'Phê duyệt' (From: [3. Phê duyệt?] -> To: [4.1. V-Office Phê duyệt -> SAP cập nhật Status Approved])
+  [EDGE D_cv3] 'Từ chối (Sửa thông tin)' (From: [3. Phê duyệt?] -> To: [None])
+  [NODE D_cv3_re] Trình lại
+  [EDGE D_cv4] (From: [7/13. Trình Phiếu nhập kho (Material Doc) lên V-Office phê duyệt [Z-program/TBU]] -> To: [8/14. Phê duyệt Phiếu nhập kho?])
+  [EDGE D_cv5] 'Phê duyệt' (From: [8/14. Phê duyệt Phiếu nhập kho?] -> To: [8/15. SAP cập nhật tồn kho Status Approved])
+  [EDGE D_c_api1] 'T-API1 (Đẩy Lệnh thu hồi)' (From: [4.2. SAP đẩy Lệnh thu hồi sang AIWS tự động qua API (T-API1)] -> To: [5. AI-WS tiếp nhận Lệnh thu hồi (T-API1) & Sinh nhiệm vụ kho])
+  [EDGE D_c_api2] 'Từ chối (T-API2)' (From: [6. Thủ kho quyết định?] -> To: [None])
+  [EDGE D_c_api3] 'T-API3 (Báo Sai lệch/Từ chối)' (From: [None] -> To: [6/11. AI-WS gọi T-API3 -> Status -> Rejected by Whs])
+  [EDGE D_c_vof_aiws] 'Kết quả Phê duyệt' (From: [8/14. Phê duyệt Phiếu nhập kho?] -> To: [None])
+  [EDGE D_c_sync_agr] 'Đồng bộ Status Approved' (From: [8/15. SAP cập nhật tồn kho Status Approved] -> To: [None])
+  [EDGE EqAfKw8dyzKOJdi_htFT-2] (From: [2. Trình ký Voffice Đính kém quyết định] -> To: [3. Phê duyệt?])
+  [EDGE PpEvCote9B4yVmJVQmFL-4] (From: [3. Phê duyệt?] -> To: [4.1. V-Office Phê duyệt -> SAP cập nhật Status Approved])
+  [NODE PpEvCote9B4yVmJVQmFL-6] Đồng ý
+  [EDGE PpEvCote9B4yVmJVQmFL-5] (From: [3. Phê duyệt?] -> To: [2. Trình ký Voffice Đính kém quyết định])
+  [NODE PpEvCote9B4yVmJVQmFL-7] Từ chối
+  [EDGE PpEvCote9B4yVmJVQmFL-9] (From: [4.2. SAP đẩy Lệnh thu hồi sang AIWS tự động qua API (T-API1)] -> To: [5. AI-WS tiếp nhận Lệnh thu hồi (T-API1) & Sinh nhiệm vụ kho])
+  [EDGE PpEvCote9B4yVmJVQmFL-12] (From: [6. Thủ kho quyết định?] -> To: [6/11. AI-WS gọi T-API3 -> Status -> Rejected by Whs])
+  [EDGE PpEvCote9B4yVmJVQmFL-22] (From: [10. Kết quả kiểm đếm?] -> To: [6/11. AI-WS gọi T-API3 -> Status -> Rejected by Whs])
+  [EDGE D_e06] (From: [1B/2B/12. SAP sinh Phiếu nhập kho (Material Doc) [MIGO Integration] *1B: NV plant (giá 0) | 2B: Valuated plant (giá > 0)] -> To: [7/13. Trình Phiếu nhập kho (Material Doc) lên V-Office phê duyệt [Z-program/TBU]])
+  [EDGE hToE1cfjBnyVpKIpUm2h-1] (From: [10.2. Ký BBBG điện tử Chuyển vào khu chờ (Staging)] -> To: [1B/2B/12. SAP sinh Phiếu nhập kho (Material Doc) [MIGO Integration] *1B: NV plant (giá 0) | 2B: Valuated plant (giá > 0)])
+  [EDGE D_ae9] (From: [10.2. Ký BBBG điện tử Chuyển vào khu chờ (Staging)] -> To: [14.2 Đồng bộ dữ liệu phiếu nhập])
+  [EDGE uYQSpv0MqZ2ZlKJAThIM-2] (From: [14.2 Đồng bộ dữ liệu phiếu nhập] -> To: [14. Nhận dữ liệu Phiếu nhập])
+  [NODE D_aiws] AI-WMS (Kho thông minh & Vận hành vật lý)
+  [EDGE PpEvCote9B4yVmJVQmFL-10] (From: [5. AI-WS tiếp nhận Lệnh thu hồi (T-API1) & Sinh nhiệm vụ kho] -> To: [6. Thủ kho quyết định?])
+  [NODE D_s5] 5. AI-WS tiếp nhận Lệnh thu hồi (T-API1) & Sinh nhiệm vụ kho
+  [EDGE PpEvCote9B4yVmJVQmFL-13] (From: [6. Thủ kho quyết định?] -> To: [6.2. Xác nhận giờ nhận hàng])
+  [NODE D_d6] 6. Thủ kho quyết định?
+  [EDGE PpEvCote9B4yVmJVQmFL-14] (From: [6.2. Xác nhận giờ nhận hàng] -> To: [7. Sinh lịch giao việc nhân sự kho])
+  [NODE D_s62] 6.2. Xác nhận giờ nhận hàng
+  [EDGE PpEvCote9B4yVmJVQmFL-15] (From: [7. Sinh lịch giao việc nhân sự kho] -> To: [8. Bảo vệ cập nhật giờ xe vào cổng (T-Scr)])
+  [NODE D_s7] 7. Sinh lịch giao việc nhân sự kho
+  [EDGE PpEvCote9B4yVmJVQmFL-16] (From: [8. Bảo vệ cập nhật giờ xe vào cổng (T-Scr)] -> To: [9. Dỡ hàng & Kiểm đếm vật lý thực tế (T-Unl)])
+  [NODE D_s8] 8. Bảo vệ cập nhật giờ xe vào cổng (T-Scr)
+  [EDGE PpEvCote9B4yVmJVQmFL-18] (From: [9. Dỡ hàng & Kiểm đếm vật lý thực tế (T-Unl)] -> To: [10. Kết quả kiểm đếm?])
+  [NODE D_s9] 9. Dỡ hàng & Kiểm đếm vật lý thực tế (T-Unl)
+  [EDGE PpEvCote9B4yVmJVQmFL-19] (From: [10. Kết quả kiểm đếm?] -> To: [10.2. Ký BBBG điện tử Chuyển vào khu chờ (Staging)])
+  [NODE D_d10] 10. Kết quả kiểm đếm?
+  [NODE D_s102] 10.2. Ký BBBG điện tử Chuyển vào khu chờ (Staging)
+  [EDGE G8_C-_6rth3d9N0_9fWc-2] (From: [18. Đóng gói] -> To: [19. Lưu trữ (Putaway to Bin layout)])
+  [NODE D_s18] 18. Đóng gói
+  [EDGE UeBUASBxtHPStBIUO_s6-10] (From: [19. Lưu trữ (Putaway to Bin layout)] -> To: [])
+  [NODE D_s19] 19. Lưu trữ (Putaway to Bin layout)
+  [EDGE D_ae1] (From: [5. AI-WS tiếp nhận Lệnh thu hồi (T-API1) & Sinh nhiệm vụ kho] -> To: [6. Thủ kho quyết định?])
+  [EDGE D_ae2] 'Đồng ý' (From: [6. Thủ kho quyết định?] -> To: [6.2. Xác nhận giờ nhận hàng])
+  [EDGE D_ae3] (From: [6.2. Xác nhận giờ nhận hàng] -> To: [7. Sinh lịch giao việc nhân sự kho])
+  [EDGE D_ae4] (From: [7. Sinh lịch giao việc nhân sự kho] -> To: [8. Bảo vệ cập nhật giờ xe vào cổng (T-Scr)])
+  [EDGE D_ae5] (From: [8. Bảo vệ cập nhật giờ xe vào cổng (T-Scr)] -> To: [9. Dỡ hàng & Kiểm đếm vật lý thực tế (T-Unl)])
+  [EDGE D_ae6] (From: [9. Dỡ hàng & Kiểm đếm vật lý thực tế (T-Unl)] -> To: [10. Kết quả kiểm đếm?])
+  [EDGE D_ae7] 'Đúng đủ' (From: [10. Kết quả kiểm đếm?] -> To: [10.2. Ký BBBG điện tử Chuyển vào khu chờ (Staging)])
+  [EDGE D_ae8] 'Sai lệch' (From: [10. Kết quả kiểm đếm?] -> To: [None])
+  [EDGE D_ae10] (From: [None] -> To: [18. Đóng gói])
+  [EDGE D_ae11] (From: [18. Đóng gói] -> To: [19. Lưu trữ (Putaway to Bin layout)])
+  [NODE D_s13_trinh_sap] 7/13. Trình Phiếu nhập kho (Material Doc) lên V-Office phê duyệt [Z-program/TBU]
+  [EDGE uYQSpv0MqZ2ZlKJAThIM-3] (From: [14. Nhận dữ liệu Phiếu nhập] -> To: [7/13. Trình Phiếu nhập kho (Material Doc) lên V-Office phê duyệt [Z-program/TBU]])
+  [NODE uYQSpv0MqZ2ZlKJAThIM-1] 14. Nhận dữ liệu Phiếu nhập
+  [EDGE G8_C-_6rth3d9N0_9fWc-1] (From: [16.1. Cập nhật trạng thái] -> To: [18. Đóng gói])
+  [NODE LGFp8rBDgwr8CawVHlzB-1] 16.1. Cập nhật trạng thái
+  [NODE LGFp8rBDgwr8CawVHlzB-2] 17. Đồng bộ trạng thái
+  [EDGE LGFp8rBDgwr8CawVHlzB-3] (From: [16.1. Cập nhật trạng thái] -> To: [17. Đồng bộ trạng thái])
+  [EDGE uYQSpv0MqZ2ZlKJAThIM-4] (From: [7/13. Trình Phiếu nhập kho (Material Doc) lên V-Office phê duyệt [Z-program/TBU]] -> To: [8/14. Phê duyệt Phiếu nhập kho?])
+  [EDGE LGFp8rBDgwr8CawVHlzB-4] (From: [8/14. Phê duyệt Phiếu nhập kho?] -> To: [16.1. Cập nhật trạng thái])
+  [NODE LGFp8rBDgwr8CawVHlzB-6] Đồng ý
+  [EDGE LGFp8rBDgwr8CawVHlzB-5] (From: [8/14. Phê duyệt Phiếu nhập kho?] -> To: [7/13. Trình Phiếu nhập kho (Material Doc) lên V-Office phê duyệt [Z-program/TBU]])
+  [NODE LGFp8rBDgwr8CawVHlzB-7] Từ chối
+  [EDGE UeBUASBxtHPStBIUO_s6-5] (From: [17. Đồng bộ trạng thái] -> To: [8/15. SAP cập nhật tồn kho Status Approved])
+  [NODE feKzZM92cGb8PWpKpsQW-1] Trường hợp hủy chứng từ
+
+=======================================================
+DIAGRAM:  MM.10F - Nhập hàng tbán trả lại
+=======================================================
+  [NODE q1FbkqQIMsdCV1bjoOn0-2] MM.10F — Quy trình nhập hàng bán trả lại— Tích hợp SAP S/4HANA & AI-WMS (Blueprint S406)
+  [NODE q1FbkqQIMsdCV1bjoOn0-3] SAP S/4HANA (Quản trị & Kế toán)
+  [EDGE q1FbkqQIMsdCV1bjoOn0-4] (From: [] -> To: [Tham chiếu SD.02.04 Quy trình nhận hàng bán trả lại])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-6] (From: [Tham chiếu SD.02.04 Quy trình nhận hàng bán trả lại] -> To: [1. Tự động Tạo Yêu cầu nhập hàng bán trả lại VL01N])
+  [NODE q1FbkqQIMsdCV1bjoOn0-7] Tham chiếu SD.02.04 Quy trình nhận hàng bán trả lại
+  [EDGE q1FbkqQIMsdCV1bjoOn0-8] (From: [1. Tự động Tạo Yêu cầu nhập hàng bán trả lại VL01N] -> To: [2. Trình Yêu cầu lên V-Office])
+  [NODE q1FbkqQIMsdCV1bjoOn0-9] 1. Tự động Tạo Yêu cầu nhập hàng bán trả lại VL01N
+  [NODE q1FbkqQIMsdCV1bjoOn0-10] 2. Trình Yêu cầu lên V-Office
+  [EDGE q1FbkqQIMsdCV1bjoOn0-11] (From: [3.1. V-Office Phê duyệt -> SAP cập nhật Status Approved] -> To: [4. SAP đẩy Lệnh thu hồi sang AIWS tự động qua API (T-API1)])
+  [NODE q1FbkqQIMsdCV1bjoOn0-12] 3.1. V-Office Phê duyệt -> SAP cập nhật Status Approved
+  [NODE q1FbkqQIMsdCV1bjoOn0-13] 4. SAP đẩy Lệnh thu hồi sang AIWS tự động qua API (T-API1)
+  [EDGE q1FbkqQIMsdCV1bjoOn0-14] (From: [6.1. AI-WS gọi T-API2 -> SAP đóng/hủy Lệnh thu hồi] -> To: [])
+  [NODE q1FbkqQIMsdCV1bjoOn0-15] 6.1. AI-WS gọi T-API2 -> SAP đóng/hủy Lệnh thu hồi
+  [EDGE q1FbkqQIMsdCV1bjoOn0-16] 'c' (From: [11. AI-WS gọi T-API3 -> SAP cập nhật Rejected by Whs] -> To: [])
+  [NODE q1FbkqQIMsdCV1bjoOn0-17] 11. AI-WS gọi T-API3 -> SAP cập nhật Rejected by Whs
+  [EDGE q1FbkqQIMsdCV1bjoOn0-18] (From: [12. SAP sinh Phiếu nhập kho (Material Document) [Z-program/MIGO]] -> To: [13. Đồng bộ Mã phiếu nhập sang AIWS])
+  [NODE q1FbkqQIMsdCV1bjoOn0-19] 12. SAP sinh Phiếu nhập kho (Material Document) [Z-program/MIGO]
+  [EDGE q1FbkqQIMsdCV1bjoOn0-20] (From: [18. Nhận thông tin SAP cập nhật tồn kho Status UU] -> To: [19. Quy trình KCS])
+  [NODE q1FbkqQIMsdCV1bjoOn0-21] 18. Nhận thông tin SAP cập nhật tồn kho Status UU
+  [NODE q1FbkqQIMsdCV1bjoOn0-22] 21. SAP Gửi kết quả KCS sang AI-WMS
+  [EDGE q1FbkqQIMsdCV1bjoOn0-23] (From: [20. SAP cập nhật tồn kho KCS: Đạt: UU -> QI | Không đạt: UU -> Block] -> To: [21. SAP Gửi kết quả KCS sang AI-WMS])
+  [NODE q1FbkqQIMsdCV1bjoOn0-24] 20. SAP cập nhật tồn kho KCS: Đạt: UU -> QI | Không đạt: UU -> Block
+  [EDGE q1FbkqQIMsdCV1bjoOn0-25] (From: [] -> To: [Tham chiếu SD.02.04 Quy trình nhận hàng bán trả lại])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-26] (From: [Tham chiếu SD.02.04 Quy trình nhận hàng bán trả lại] -> To: [1. Tự động Tạo Yêu cầu nhập hàng bán trả lại VL01N])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-27] (From: [1. Tự động Tạo Yêu cầu nhập hàng bán trả lại VL01N] -> To: [2. Trình Yêu cầu lên V-Office])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-28] (From: [3.1. V-Office Phê duyệt -> SAP cập nhật Status Approved] -> To: [4. SAP đẩy Lệnh thu hồi sang AIWS tự động qua API (T-API1)])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-29] (From: [18. Nhận thông tin SAP cập nhật tồn kho Status UU] -> To: [21. SAP Gửi kết quả KCS sang AI-WMS])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-30] (From: [21. SAP Gửi kết quả KCS sang AI-WMS] -> To: [20. SAP cập nhật tồn kho KCS: Đạt: UU -> QI | Không đạt: UU -> Block])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-31] (From: [20. SAP cập nhật tồn kho KCS: Đạt: UU -> QI | Không đạt: UU -> Block] -> To: [None])
+  [NODE q1FbkqQIMsdCV1bjoOn0-34] 13. Đồng bộ Mã phiếu nhập sang AIWS
+  [EDGE q1FbkqQIMsdCV1bjoOn0-35] (From: [19. Quy trình KCS] -> To: [20. SAP cập nhật tồn kho KCS: Đạt: UU -> QI | Không đạt: UU -> Block])
+  [NODE q1FbkqQIMsdCV1bjoOn0-36] 19. Quy trình KCS
+  [NODE q1FbkqQIMsdCV1bjoOn0-37] V-Office
+  [NODE q1FbkqQIMsdCV1bjoOn0-38] 3. Phê duyệt Yêu cầu thu hồi?
+  [NODE q1FbkqQIMsdCV1bjoOn0-39] 16. Phê duyệt Phiếu nhập kho?
+  [EDGE q1FbkqQIMsdCV1bjoOn0-40] (From: [2. Trình Yêu cầu lên V-Office] -> To: [3. Phê duyệt Yêu cầu thu hồi?])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-41] 'Phê duyệt' (From: [3. Phê duyệt Yêu cầu thu hồi?] -> To: [3.1. V-Office Phê duyệt -> SAP cập nhật Status Approved])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-42] 'Từ chối (Sửa đổi)' (From: [3. Phê duyệt Yêu cầu thu hồi?] -> To: [1. Tự động Tạo Yêu cầu nhập hàng bán trả lại VL01N])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-43] (From: [None] -> To: [16. Phê duyệt Phiếu nhập kho?])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-44] 'Phê duyệt' (From: [16. Phê duyệt Phiếu nhập kho?] -> To: [18. Nhận thông tin SAP cập nhật tồn kho Status UU])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-45] 'T-API1 (Đẩy Lệnh thu hồi)' (From: [4. SAP đẩy Lệnh thu hồi sang AIWS tự động qua API (T-API1)] -> To: [5. AI-WS tiếp nhận Lệnh thu hồi (T-API1) & Sinh nhiệm vụ kho])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-46] 'Từ chối (T-API2)' (From: [6. Thủ kho quyết định?] -> To: [6.1. AI-WS gọi T-API2 -> SAP đóng/hủy Lệnh thu hồi])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-47] 'T-API3 (Báo Sai lệch/Từ chối)' (From: [10.1 Từ chối nhận hàng (Gửi T-API3 về SAP)] -> To: [11. AI-WS gọi T-API3 -> SAP cập nhật Rejected by Whs])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-48] 'Sinh Material Doc' (From: [14. Nhận dữ liệu Phiếu nhập] -> To: [12. SAP sinh Phiếu nhập kho (Material Document) [Z-program/MIGO]])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-49] 'Kết quả Phê duyệt' (From: [16. Phê duyệt Phiếu nhập kho?] -> To: [15. Xác nhận và trình ký])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-50] 'T-API5 (Trả Kết quả KCS)' (From: [21. SAP Gửi kết quả KCS sang AI-WMS] -> To: [22. Thủ kho bấm nhập kho (T-AGR trên app AIWS)])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-51] (From: [3. Phê duyệt Yêu cầu thu hồi?] -> To: [1. Tự động Tạo Yêu cầu nhập hàng bán trả lại VL01N])
+  [NODE q1FbkqQIMsdCV1bjoOn0-52] Từ chối
+  [EDGE q1FbkqQIMsdCV1bjoOn0-53] (From: [3. Phê duyệt Yêu cầu thu hồi?] -> To: [3.1. V-Office Phê duyệt -> SAP cập nhật Status Approved])
+  [NODE q1FbkqQIMsdCV1bjoOn0-54] Chấp nhận
+  [EDGE q1FbkqQIMsdCV1bjoOn0-55] (From: [4. SAP đẩy Lệnh thu hồi sang AIWS tự động qua API (T-API1)] -> To: [5. AI-WS tiếp nhận Lệnh thu hồi (T-API1) & Sinh nhiệm vụ kho])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-56] (From: [6. Thủ kho quyết định?] -> To: [6.1. AI-WS gọi T-API2 -> SAP đóng/hủy Lệnh thu hồi])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-57] (From: [10.1 Từ chối nhận hàng (Gửi T-API3 về SAP)] -> To: [11. AI-WS gọi T-API3 -> SAP cập nhật Rejected by Whs])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-58] (From: [10.2. Ký BBBG điện tử Chuyển vào khu chờ nhập] -> To: [12. SAP sinh Phiếu nhập kho (Material Document) [Z-program/MIGO]])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-59] (From: [12. SAP sinh Phiếu nhập kho (Material Document) [Z-program/MIGO]] -> To: [None])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-60] (From: [13. Đồng bộ Mã phiếu nhập sang AIWS] -> To: [14. Nhận dữ liệu Phiếu nhập])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-61] (From: [15. Xác nhận và trình ký] -> To: [16. Phê duyệt Phiếu nhập kho?])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-62] (From: [16. Phê duyệt Phiếu nhập kho?] -> To: [16.1. Cập nhật trạng thái])
+  [NODE q1FbkqQIMsdCV1bjoOn0-63] Đồng ý
+  [EDGE q1FbkqQIMsdCV1bjoOn0-64] (From: [16. Phê duyệt Phiếu nhập kho?] -> To: [15. Xác nhận và trình ký])
+  [NODE q1FbkqQIMsdCV1bjoOn0-65] Từ chối
+  [EDGE q1FbkqQIMsdCV1bjoOn0-66] (From: [17. Đồng bộ trạng thái] -> To: [18. Nhận thông tin SAP cập nhật tồn kho Status UU])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-67] (From: [2. Trình Yêu cầu lên V-Office] -> To: [3. Phê duyệt Yêu cầu thu hồi?])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-68] (From: [21. SAP Gửi kết quả KCS sang AI-WMS] -> To: [22. Thủ kho bấm nhập kho (T-AGR trên app AIWS)])
+  [NODE q1FbkqQIMsdCV1bjoOn0-69] AI-WMS (Kho thông minh & Vận hành vật lý)
+  [EDGE q1FbkqQIMsdCV1bjoOn0-70] (From: [5. AI-WS tiếp nhận Lệnh thu hồi (T-API1) & Sinh nhiệm vụ kho] -> To: [6. Thủ kho quyết định?])
+  [NODE q1FbkqQIMsdCV1bjoOn0-71] 5. AI-WS tiếp nhận Lệnh thu hồi (T-API1) & Sinh nhiệm vụ kho
+  [EDGE q1FbkqQIMsdCV1bjoOn0-72] (From: [6. Thủ kho quyết định?] -> To: [6.2. Xác nhận giờ nhận hàng])
+  [NODE q1FbkqQIMsdCV1bjoOn0-73] 6. Thủ kho quyết định?
+  [EDGE q1FbkqQIMsdCV1bjoOn0-74] (From: [6.2. Xác nhận giờ nhận hàng] -> To: [7. Sinh lịch giao việc nhân sự kho])
+  [NODE q1FbkqQIMsdCV1bjoOn0-75] 6.2. Xác nhận giờ nhận hàng
+  [EDGE q1FbkqQIMsdCV1bjoOn0-76] (From: [7. Sinh lịch giao việc nhân sự kho] -> To: [8. Bảo vệ cập nhật giờ xe vào cổng (T-Scr)])
+  [NODE q1FbkqQIMsdCV1bjoOn0-77] 7. Sinh lịch giao việc nhân sự kho
+  [EDGE q1FbkqQIMsdCV1bjoOn0-78] (From: [8. Bảo vệ cập nhật giờ xe vào cổng (T-Scr)] -> To: [9. Dỡ hàng & Kiểm đếm vật lý thực tế (T-Unl)])
+  [NODE q1FbkqQIMsdCV1bjoOn0-79] 8. Bảo vệ cập nhật giờ xe vào cổng (T-Scr)
+  [EDGE q1FbkqQIMsdCV1bjoOn0-80] (From: [9. Dỡ hàng & Kiểm đếm vật lý thực tế (T-Unl)] -> To: [10. Kết quả kiểm đếm?])
+  [NODE q1FbkqQIMsdCV1bjoOn0-81] 9. Dỡ hàng & Kiểm đếm vật lý thực tế (T-Unl)
+  [EDGE q1FbkqQIMsdCV1bjoOn0-82] (From: [10. Kết quả kiểm đếm?] -> To: [10.1 Từ chối nhận hàng (Gửi T-API3 về SAP)])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-83] (From: [10. Kết quả kiểm đếm?] -> To: [10.2. Ký BBBG điện tử Chuyển vào khu chờ nhập])
+  [NODE q1FbkqQIMsdCV1bjoOn0-84] 10. Kết quả kiểm đếm?
+  [NODE q1FbkqQIMsdCV1bjoOn0-85] 10.1 Từ chối nhận hàng (Gửi T-API3 về SAP)
+  [NODE q1FbkqQIMsdCV1bjoOn0-86] 10.2. Ký BBBG điện tử Chuyển vào khu chờ nhập
+  [EDGE q1FbkqQIMsdCV1bjoOn0-87] (From: [14. Nhận dữ liệu Phiếu nhập] -> To: [15. Xác nhận và trình ký])
+  [NODE q1FbkqQIMsdCV1bjoOn0-88] 14. Nhận dữ liệu Phiếu nhập
+  [NODE q1FbkqQIMsdCV1bjoOn0-89] 15. Xác nhận và trình ký
+  [EDGE q1FbkqQIMsdCV1bjoOn0-90] (From: [22. Thủ kho bấm nhập kho (T-AGR trên app AIWS)] -> To: [23. Đóng gói])
+  [NODE q1FbkqQIMsdCV1bjoOn0-91] 22. Thủ kho bấm nhập kho (T-AGR trên app AIWS)
+  [EDGE q1FbkqQIMsdCV1bjoOn0-92] (From: [23. Đóng gói] -> To: [24. Lưu trữ (Putaway to Bin layout)])
+  [NODE q1FbkqQIMsdCV1bjoOn0-93] 23. Đóng gói
+  [EDGE q1FbkqQIMsdCV1bjoOn0-94] (From: [24. Lưu trữ (Putaway to Bin layout)] -> To: [])
+  [NODE q1FbkqQIMsdCV1bjoOn0-95] 24. Lưu trữ (Putaway to Bin layout)
+  [EDGE q1FbkqQIMsdCV1bjoOn0-96] (From: [5. AI-WS tiếp nhận Lệnh thu hồi (T-API1) & Sinh nhiệm vụ kho] -> To: [6. Thủ kho quyết định?])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-97] 'Đồng ý' (From: [6. Thủ kho quyết định?] -> To: [6.2. Xác nhận giờ nhận hàng])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-98] (From: [6.2. Xác nhận giờ nhận hàng] -> To: [7. Sinh lịch giao việc nhân sự kho])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-99] (From: [7. Sinh lịch giao việc nhân sự kho] -> To: [8. Bảo vệ cập nhật giờ xe vào cổng (T-Scr)])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-100] (From: [8. Bảo vệ cập nhật giờ xe vào cổng (T-Scr)] -> To: [9. Dỡ hàng & Kiểm đếm vật lý thực tế (T-Unl)])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-101] (From: [9. Dỡ hàng & Kiểm đếm vật lý thực tế (T-Unl)] -> To: [10. Kết quả kiểm đếm?])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-102] 'Đúng đủ' (From: [10. Kết quả kiểm đếm?] -> To: [10.2. Ký BBBG điện tử Chuyển vào khu chờ nhập])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-103] 'Sai lệch' (From: [10. Kết quả kiểm đếm?] -> To: [10.1 Từ chối nhận hàng (Gửi T-API3 về SAP)])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-104] (From: [10.2. Ký BBBG điện tử Chuyển vào khu chờ nhập] -> To: [14. Nhận dữ liệu Phiếu nhập])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-105] (From: [22. Thủ kho bấm nhập kho (T-AGR trên app AIWS)] -> To: [23. Đóng gói])
+  [EDGE q1FbkqQIMsdCV1bjoOn0-106] (From: [23. Đóng gói] -> To: [24. Lưu trữ (Putaway to Bin layout)])
+  [NODE q1FbkqQIMsdCV1bjoOn0-107] 16.1. Cập nhật trạng thái
+  [NODE q1FbkqQIMsdCV1bjoOn0-108] 17. Đồng bộ trạng thái
+  [EDGE q1FbkqQIMsdCV1bjoOn0-109] (From: [16.1. Cập nhật trạng thái] -> To: [17. Đồng bộ trạng thái])
+
+=======================================================
+DIAGRAM: MM.10G - Nhập kho khác
+=======================================================
+  [NODE G_pool] MM.10G — Quy trình nhập kho khác (Mvt Z10 Hàng mượn / Z08 Thay thế đền bù / 501 / 561) — Tích hợp SAP S/4HANA & AI-WMS (Blueprint S406)
+  [NODE G_sap] SAP S/4HANA (Quản trị & Kế toán)
+  [EDGE ybFsrxwpEoBnCnKS3vqe-26] (From: [1. Tạo Tờ trình nhập kho khác [Non-SAP] Khi ban hành, tự động đồng bộ data về SAP S/4HANA (IF.422 / CS.215)] -> To: [2. Tạo Reservation trên SAP [MB21] *Chọn Movement Type (Z10 Mượn | Z08 Thay thế | 501 | 561)])
+  [NODE G_s1_rpt] 1. Tạo Tờ trình nhập kho khác [Non-SAP] Khi ban hành, tự động đồng bộ data về SAP S/4HANA (IF.422 / CS.215)
+  [EDGE ybFsrxwpEoBnCnKS3vqe-27] (From: [2. Tạo Reservation trên SAP [MB21] *Chọn Movement Type (Z10 Mượn | Z08 Thay thế | 501 | 561)] -> To: [3. Trình ký Reservation *Đính kèm giấy tờ liên quan])
+  [NODE G_s2_mb21] 2. Tạo Reservation trên SAP [MB21] *Chọn Movement Type (Z10 Mượn | Z08 Thay thế | 501 | 561)
+  [NODE G_s3_trinh] 3. Trình ký Reservation *Đính kèm giấy tờ liên quan
+  [EDGE UY2AOS5GU3AMu1VImwLn-2] (From: [4.1. V-Office Phê duyệt -> SAP cập nhật Status Approved] -> To: [4.2. SAP đẩy Lệnh nhập kho khác sang AIWS tự động qua API (T-API1)])
+  [NODE G_s41] 4.1. V-Office Phê duyệt -> SAP cập nhật Status Approved
+  [NODE G_s42_push] 4.2. SAP đẩy Lệnh nhập kho khác sang AIWS tự động qua API (T-API1)
+  [NODE G_s61_reject] 6.1. AI-WS gọi T-API2 -> SAP đóng/hủy Lệnh nhập kho khác
+  [NODE G_s6_reject] 6/11. AI-WS gọi T-API3 -> SAP cập nhật Rejected by Whs [Z-program], Tự động gửi thông báo cho người tạo
+  [EDGE 3Ow7DgFvkpTxSE1diOw_-3] (From: [7/12. SAP sinh Phiếu nhập kho (Material Doc) [MIGO Integration] *Z10 (Mượn): Chỉ sinh MatDoc | Z08 (Đền bù): Sinh cả AccDoc] -> To: [14.2 Đồng bộ dữ liệu phiếu nhập])
+  [NODE G_s12] 7/12. SAP sinh Phiếu nhập kho (Material Doc) [MIGO Integration] *Z10 (Mượn): Chỉ sinh MatDoc | Z08 (Đền bù): Sinh cả AccDoc
+  [NODE G_s13_trinh_sap] 8/13. Trình Phiếu nhập kho (Material Doc) lên V-Office phê duyệt [Z-program/TBU]
+  [EDGE G_e01] (From: [] -> To: [1. Tạo Tờ trình nhập kho khác [Non-SAP] Khi ban hành, tự động đồng bộ data về SAP S/4HANA (IF.422 / CS.215)])
+  [EDGE G_e02] 'Đồng bộ Số tờ trình' (From: [1. Tạo Tờ trình nhập kho khác [Non-SAP] Khi ban hành, tự động đồng bộ data về SAP S/4HANA (IF.422 / CS.215)] -> To: [2. Tạo Reservation trên SAP [MB21] *Chọn Movement Type (Z10 Mượn | Z08 Thay thế | 501 | 561)])
+  [EDGE G_e03] (From: [2. Tạo Reservation trên SAP [MB21] *Chọn Movement Type (Z10 Mượn | Z08 Thay thế | 501 | 561)] -> To: [3. Trình ký Reservation *Đính kèm giấy tờ liên quan])
+  [EDGE G_e05] (From: [4.1. V-Office Phê duyệt -> SAP cập nhật Status Approved] -> To: [4.2. SAP đẩy Lệnh nhập kho khác sang AIWS tự động qua API (T-API1)])
+  [EDGE G_e06] (From: [7/12. SAP sinh Phiếu nhập kho (Material Doc) [MIGO Integration] *Z10 (Mượn): Chỉ sinh MatDoc | Z08 (Đền bù): Sinh cả AccDoc] -> To: [8/13. Trình Phiếu nhập kho (Material Doc) lên V-Office phê duyệt [Z-program/TBU]])
+  [EDGE HQ3n8NMGwUUxqTOSZLyW-9] (From: [6.1. AI-WS gọi T-API2 -> SAP đóng/hủy Lệnh nhập kho khác] -> To: [])
+  [EDGE HQ3n8NMGwUUxqTOSZLyW-10] (From: [6/11. AI-WS gọi T-API3 -> SAP cập nhật Rejected by Whs [Z-program], Tự động gửi thông báo cho người tạo] -> To: [])
+  [NODE 3Ow7DgFvkpTxSE1diOw_-1] 14.2 Đồng bộ dữ liệu phiếu nhập
+  [NODE Cu0se6qhg-ErdUAUmJN--1] 8/15. SAP cập nhật tồn kho Status Approved
+  [EDGE Cu0se6qhg-ErdUAUmJN--2] (From: [16. Hạch toán Tài sản FI-AA (Asset Accounting) [ABZE / AS02] *Dành cho trường hợp 2B (Giá trị > 0)] -> To: [])
+  [NODE Cu0se6qhg-ErdUAUmJN--3] 16. Hạch toán Tài sản FI-AA (Asset Accounting) [ABZE / AS02] *Dành cho trường hợp 2B (Giá trị > 0)
+  [NODE G_vof] V-Office (Phê duyệt chứng từ)
+  [NODE G_d4_vof] 4. Phê duyệt Reservation?
+  [NODE G_d14_vof] 9/14. Phê duyệt Phiếu nhập kho?
+  [EDGE G_cv1] (From: [3. Trình ký Reservation *Đính kèm giấy tờ liên quan] -> To: [4. Phê duyệt Reservation?])
+  [EDGE G_cv2] 'Phê duyệt' (From: [4. Phê duyệt Reservation?] -> To: [4.1. V-Office Phê duyệt -> SAP cập nhật Status Approved])
+  [EDGE G_cv3] 'Từ chối (Sửa thông tin)' (From: [4. Phê duyệt Reservation?] -> To: [None])
+  [EDGE G_cv3_re] 'Trình lại' (From: [None] -> To: [3. Trình ký Reservation *Đính kèm giấy tờ liên quan])
+  [EDGE G_cv4] (From: [8/13. Trình Phiếu nhập kho (Material Doc) lên V-Office phê duyệt [Z-program/TBU]] -> To: [9/14. Phê duyệt Phiếu nhập kho?])
+  [EDGE G_cv5] 'Phê duyệt' (From: [9/14. Phê duyệt Phiếu nhập kho?] -> To: [None])
+  [EDGE G_c_api1] 'T-API1 (Đẩy Lệnh nhập kho khác)' (From: [4.2. SAP đẩy Lệnh nhập kho khác sang AIWS tự động qua API (T-API1)] -> To: [5. AI-WS tiếp nhận Lệnh nhập kho khác (T-API1) & Sinh nhiệm vụ kho])
+  [EDGE G_c_api2] 'Từ chối (T-API2)' (From: [6. Thủ kho quyết định?] -> To: [6.1. AI-WS gọi T-API2 -> SAP đóng/hủy Lệnh nhập kho khác])
+  [EDGE G_c_api3] 'T-API3 (Báo Sai lệch/Từ chối)' (From: [10.1 Từ chối nhận hàng (Gửi T-API3 về SAP)] -> To: [6/11. AI-WS gọi T-API3 -> SAP cập nhật Rejected by Whs [Z-program], Tự động gửi thông báo cho người tạo])
+  [EDGE G_c_matdoc] 'Sinh Material Doc' (From: [None] -> To: [7/12. SAP sinh Phiếu nhập kho (Material Doc) [MIGO Integration] *Z10 (Mượn): Chỉ sinh MatDoc | Z08 (Đền bù): Sinh cả AccDoc])
+  [EDGE G_c_vof_aiws] 'Kết quả Phê duyệt' (From: [9/14. Phê duyệt Phiếu nhập kho?] -> To: [13. Trình & Nhận kết quả ký V-Office])
+  [NODE G_c_api5] T-API5 (Trả Kết quả KCS)
+  [EDGE ybFsrxwpEoBnCnKS3vqe-28] (From: [3. Trình ký Reservation *Đính kèm giấy tờ liên quan] -> To: [4. Phê duyệt Reservation?])
+  [EDGE ybFsrxwpEoBnCnKS3vqe-29] (From: [4. Phê duyệt Reservation?] -> To: [2. Tạo Reservation trên SAP [MB21] *Chọn Movement Type (Z10 Mượn | Z08 Thay thế | 501 | 561)])
+  [NODE TdnE7HhwvkmpHfDXfWZr-1] Từ chối
+  [EDGE UY2AOS5GU3AMu1VImwLn-1] (From: [4. Phê duyệt Reservation?] -> To: [4.1. V-Office Phê duyệt -> SAP cập nhật Status Approved])
+  [EDGE UY2AOS5GU3AMu1VImwLn-3] (From: [4.2. SAP đẩy Lệnh nhập kho khác sang AIWS tự động qua API (T-API1)] -> To: [5. AI-WS tiếp nhận Lệnh nhập kho khác (T-API1) & Sinh nhiệm vụ kho])
+  [EDGE HQ3n8NMGwUUxqTOSZLyW-1] (From: [10.1 Từ chối nhận hàng (Gửi T-API3 về SAP)] -> To: [6/11. AI-WS gọi T-API3 -> SAP cập nhật Rejected by Whs [Z-program], Tự động gửi thông báo cho người tạo])
+  [EDGE HQ3n8NMGwUUxqTOSZLyW-3] (From: [6. Thủ kho quyết định?] -> To: [6.1. AI-WS gọi T-API2 -> SAP đóng/hủy Lệnh nhập kho khác])
+  [EDGE HQ3n8NMGwUUxqTOSZLyW-11] (From: [10.2. Ký BBBG điện tử Chuyển vào khu chờ (Staging)] -> To: [7/12. SAP sinh Phiếu nhập kho (Material Doc) [MIGO Integration] *Z10 (Mượn): Chỉ sinh MatDoc | Z08 (Đền bù): Sinh cả AccDoc])
+  [EDGE 3Ow7DgFvkpTxSE1diOw_-4] (From: [14.2 Đồng bộ dữ liệu phiếu nhập] -> To: [14. Nhận dữ liệu Phiếu nhập])
+  [EDGE 3Ow7DgFvkpTxSE1diOw_-6] (From: [13. Trình & Nhận kết quả ký V-Office] -> To: [9/14. Phê duyệt Phiếu nhập kho?])
+  [NODE G_aiws] AI-WMS (Kho thông minh & Vận hành vật lý)
+  [EDGE HQ3n8NMGwUUxqTOSZLyW-2] (From: [5. AI-WS tiếp nhận Lệnh nhập kho khác (T-API1) & Sinh nhiệm vụ kho] -> To: [6. Thủ kho quyết định?])
+  [NODE G_s5] 5. AI-WS tiếp nhận Lệnh nhập kho khác (T-API1) & Sinh nhiệm vụ kho
+  [EDGE IFf2Vy5-q4Zk8AwoR41a-1] (From: [6. Thủ kho quyết định?] -> To: [6.2. Xác nhận giờ nhận hàng])
+  [NODE G_d6] 6. Thủ kho quyết định?
+  [EDGE IFf2Vy5-q4Zk8AwoR41a-2] (From: [6.2. Xác nhận giờ nhận hàng] -> To: [7. Sinh lịch giao việc nhân sự kho])
+  [NODE G_s62] 6.2. Xác nhận giờ nhận hàng
+  [EDGE IFf2Vy5-q4Zk8AwoR41a-3] (From: [7. Sinh lịch giao việc nhân sự kho] -> To: [8. Bảo vệ cập nhật giờ xe vào cổng (T-Scr)])
+  [NODE G_s7] 7. Sinh lịch giao việc nhân sự kho
+  [EDGE IFf2Vy5-q4Zk8AwoR41a-4] (From: [8. Bảo vệ cập nhật giờ xe vào cổng (T-Scr)] -> To: [9. Dỡ hàng & Kiểm đếm vật lý thực tế (T-Unl)])
+  [NODE G_s8] 8. Bảo vệ cập nhật giờ xe vào cổng (T-Scr)
+  [EDGE IFf2Vy5-q4Zk8AwoR41a-5] (From: [9. Dỡ hàng & Kiểm đếm vật lý thực tế (T-Unl)] -> To: [10. Kết quả kiểm đếm?])
+  [NODE G_s9] 9. Dỡ hàng & Kiểm đếm vật lý thực tế (T-Unl)
+  [EDGE IFf2Vy5-q4Zk8AwoR41a-6] (From: [10. Kết quả kiểm đếm?] -> To: [10.2. Ký BBBG điện tử Chuyển vào khu chờ (Staging)])
+  [EDGE IFf2Vy5-q4Zk8AwoR41a-7] (From: [10. Kết quả kiểm đếm?] -> To: [10.1 Từ chối nhận hàng (Gửi T-API3 về SAP)])
+  [NODE G_d10] 10. Kết quả kiểm đếm?
+  [NODE G_s101] 10.1 Từ chối nhận hàng (Gửi T-API3 về SAP)
+  [NODE G_s102] 10.2. Ký BBBG điện tử Chuyển vào khu chờ (Staging)
+  [NODE G_s13_aiws] 13. Trình & Nhận kết quả ký V-Office
+  [EDGE G_ae1] (From: [5. AI-WS tiếp nhận Lệnh nhập kho khác (T-API1) & Sinh nhiệm vụ kho] -> To: [6. Thủ kho quyết định?])
+  [EDGE G_ae2] 'Đồng ý' (From: [6. Thủ kho quyết định?] -> To: [6.2. Xác nhận giờ nhận hàng])
+  [EDGE G_ae3] (From: [6.2. Xác nhận giờ nhận hàng] -> To: [7. Sinh lịch giao việc nhân sự kho])
+  [EDGE G_ae4] (From: [7. Sinh lịch giao việc nhân sự kho] -> To: [8. Bảo vệ cập nhật giờ xe vào cổng (T-Scr)])
+  [EDGE G_ae5] (From: [8. Bảo vệ cập nhật giờ xe vào cổng (T-Scr)] -> To: [9. Dỡ hàng & Kiểm đếm vật lý thực tế (T-Unl)])
+  [EDGE G_ae6] (From: [9. Dỡ hàng & Kiểm đếm vật lý thực tế (T-Unl)] -> To: [10. Kết quả kiểm đếm?])
+  [EDGE G_ae7] 'Đúng đủ' (From: [10. Kết quả kiểm đếm?] -> To: [10.2. Ký BBBG điện tử Chuyển vào khu chờ (Staging)])
+  [EDGE G_ae8] 'Sai lệch' (From: [10. Kết quả kiểm đếm?] -> To: [10.1 Từ chối nhận hàng (Gửi T-API3 về SAP)])
+  [EDGE G_ae9] (From: [10.2. Ký BBBG điện tử Chuyển vào khu chờ (Staging)] -> To: [None])
+  [EDGE 3Ow7DgFvkpTxSE1diOw_-5] (From: [14. Nhận dữ liệu Phiếu nhập] -> To: [13. Trình & Nhận kết quả ký V-Office])
+  [NODE 3Ow7DgFvkpTxSE1diOw_-2] 14. Nhận dữ liệu Phiếu nhập
+  [EDGE Cu0se6qhg-ErdUAUmJN--7] (From: [18. Đóng gói] -> To: [19. Lưu trữ (Putaway to Bin layout)])
+  [NODE Cu0se6qhg-ErdUAUmJN--8] 18. Đóng gói
+  [EDGE Cu0se6qhg-ErdUAUmJN--9] (From: [19. Lưu trữ (Putaway to Bin layout)] -> To: [])
+  [NODE Cu0se6qhg-ErdUAUmJN--10] 19. Lưu trữ (Putaway to Bin layout)
+  [EDGE Cu0se6qhg-ErdUAUmJN--11] (From: [16.1. Cập nhật trạng thái] -> To: [18. Đóng gói])
+  [NODE Cu0se6qhg-ErdUAUmJN--12] 16.1. Cập nhật trạng thái
+  [NODE Cu0se6qhg-ErdUAUmJN--13] 17. Đồng bộ trạng thái
+  [EDGE Cu0se6qhg-ErdUAUmJN--14] (From: [16.1. Cập nhật trạng thái] -> To: [17. Đồng bộ trạng thái])
+  [EDGE Cu0se6qhg-ErdUAUmJN--18] (From: [17. Đồng bộ trạng thái] -> To: [8/15. SAP cập nhật tồn kho Status Approved])
+  [EDGE Cu0se6qhg-ErdUAUmJN--20] (From: [9/14. Phê duyệt Phiếu nhập kho?] -> To: [16.1. Cập nhật trạng thái])
+  [NODE Cu0se6qhg-ErdUAUmJN--22] Đồng ý
+  [EDGE Cu0se6qhg-ErdUAUmJN--21] (From: [9/14. Phê duyệt Phiếu nhập kho?] -> To: [13. Trình & Nhận kết quả ký V-Office])
+  [NODE Cu0se6qhg-ErdUAUmJN--23] Từ chối
+  [NODE Cu0se6qhg-ErdUAUmJN--17] Đồng ý
+  [NODE Cu0se6qhg-ErdUAUmJN--24] Trường hợp hủy chứng từ
