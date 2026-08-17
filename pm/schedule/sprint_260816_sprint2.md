@@ -37,7 +37,9 @@ Bảng tổng hợp theo cấu trúc quản lý: **Component → Epic → Story 
 | **Cấu hình** | Quản lý Quy trình | US-055 | Cấu hình quy trình luồng nhập kho | Cấu hình luồng nhập kho động dựa trên movementtype, đơn vị quản lý, điều kiện KCS | 5 | High | 3 | BA:20h / FE:24h / BE:40h |
 | **Cấu hình** | Quản lý Quy trình | US-056 | Tự động phân công Task kế tiếp | Tự động kích hoạt task sau và job tự động phân việc sau 5 phút | 5 | High | 3 | BA:20h / FE:24h / BE:40h |
 | **Cấu hình** | Quản lý Thông báo | US-066 | Push Notification di động | Tích hợp dịch vụ Push Notification (FCM/APNs) nhận thông báo thời gian thực khi phân công task/cảnh báo | 5 | High | 3 | BA:12h / Mobile:24h / BE:24h |
+| **Cấu hình** | Quản lý Đăng nhập | US-068 | Đăng nhập sinh trắc học (Vân tay / Face ID) trên Mobile | Tích hợp xác thực Vân tay/Face ID di động hỗ trợ cấu hình đa môi trường (Staging & Production) | 5 | High | 3 | BA:12h / Mobile:24h / BE:24h |
 | **Nhập kho** | Luồng nhập mua mới | US-059 | Chụp ảnh minh chứng hoàn thành task | Chụp ảnh thực tế và tải lên làm minh chứng khi hoàn thành task nhập kho | 5 | High | 1 | BE:24h |
+| **Nhập kho** | Quản lý Quy trình | US-067 | Nút nhận việc tại màn chi tiết Task (FE Mobile) | Hiển thị nút "Nhận việc" (Claim Task) tại màn chi tiết Task trên mobile cho nhân viên kho chủ động nhận nhiệm vụ | 3 | High | 3 | BA:8h / Mobile:16h / BE:16h |
 | **Quản lý Tài liệu** | Quản lý Phiếu Xuất Nhập Kho | US-060 | Tạo PDF Phiếu Nhập Kho | In phiếu nhập kho với thông tin chi tiết order, hàng hóa, KCS, chữ ký | 5 | High | 3 | BA:12h / FE:20h / BE:28h |
 | **Quản lý Tài liệu** | Quản lý Phiếu Xuất Nhập Kho | US-061 | Tạo PDF Phiếu Xuất Kho | In phiếu xuất kho với thông tin đơn vị nhận, điều kiện giao, chữ ký hai bên | 5 | High | 3 | BA:12h / FE:20h / BE:28h |
 | **Quản lý Tài liệu** | Quản lý Phiếu Xuất Nhập Kho | US-062 | Tạo PDF Biên Bản Bàn Giao (BBBG) | Tạo BBBG ghi nhận tình trạng hàng hóa, có ảnh, chữ ký hai bên | 5 | High | 3 | BA:16h / FE:24h / BE:32h |
@@ -45,17 +47,17 @@ Bảng tổng hợp theo cấu trúc quản lý: **Component → Epic → Story 
 | **Quản lý Tài liệu** | Lưu trữ & Tra cứu PDF | US-064 | Lưu trữ & Tra cứu PDF | Lưu và tra cứu lại các phiếu xuất nhập/BBBG đã tạo | 5 | Medium | 3 | BA:8h / FE:16h / BE:20h |
 | **Quản lý Tài liệu** | Quản lý Phiếu Xuất Nhập Kho | US-065 | Trình ký nhiều phiếu nhập kho | Chọn và trình ký gom (batch submit) nhiều phiếu nhập kho sang VOffice trong 1 luồng duyệt duy nhất | 5 | High | 3 | BA:12h / FE:20h / BE:28h |
 
-**Tổng số User Story trong Sprint 2:** 33 stories  
-**Tổng số Story Points:** 114 SP
+**Tổng số User Story trong Sprint 2:** 35 stories  
+**Tổng số Story Points:** 122 SP
 
 ### Thống kê phân bổ theo Component:
 | Component | Số Stories | Tổng SP | Trọng số |
 |:---|---:|---:|---:|
-| Danh mục | 13 stories | 34 SP | 31.2% |
-| Cấu hình | 13 stories | 45 SP | 39.5% |
-| Nhập kho | 1 story | 5 SP | 4.6% |
-| Quản lý Tài liệu | 6 stories | 30 SP | 27.5% |
-| **Tổng** | **32 stories** | **109 SP** | **100%** |
+| Danh mục | 13 stories | 34 SP | 27.9% |
+| Cấu hình | 14 stories | 50 SP | 41.0% |
+| Nhập kho | 2 stories | 8 SP | 6.6% |
+| Quản lý Tài liệu | 6 stories | 30 SP | 24.5% |
+| **Tổng** | **35 stories** | **122 SP** | **100%** |
 
 ---
 
@@ -159,15 +161,21 @@ Bảng tổng hợp theo cấu trúc quản lý: **Component → Epic → Story 
 | 94 | Quản lý Thông báo | US-066: Push Notification di động | Đặc tả luồng xử lý thông báo push notification, ma trận sự kiện trigger & template thông báo | BA | 12h | ⬜ Chưa bắt đầu |
 | 95 | Quản lý Thông báo | US-066: Push Notification di động | [Mobile] Tích hợp dịch vụ FCM/APNs, nhận notification foreground/background, điều hướng màn hình khi click notification | Dev Flutter | 24h | ⬜ Chưa bắt đầu |
 | 96 | Quản lý Thông báo | US-066: Push Notification di động | [BE] Tích hợp FCM Admin SDK, phát bản tin push notification cho thiết bị người dùng dựa trên event trigger | Dev Backend | 24h | ⬜ Chưa bắt đầu |
+| 97 | Quản lý Quy trình | US-067: Nút nhận việc tại màn chi tiết Task (FE Mobile) | Đặc tả yêu cầu nghiệp vụ và luồng xử lý nhận việc (Claim Task) tại màn chi tiết Task | BA | 8h | ⬜ Chưa bắt đầu |
+| 98 | Quản lý Quy trình | US-067: Nút nhận việc tại màn chi tiết Task (FE Mobile) | [Mobile] Phát triển nút "Nhận việc" (Claim Task) trên màn hình chi tiết Task, cập nhật trạng thái UI | Dev Flutter | 16h | ⬜ Chưa bắt đầu |
+| 99 | Quản lý Quy trình | US-067: Nút nhận việc tại màn chi tiết Task (FE Mobile) | [BE] Phát triển API Claim Task (nhận việc), kiểm tra trạng thái Task và gán User ID | Dev Backend | 16h | ⬜ Chưa bắt đầu |
+| 100 | Quản lý Đăng nhập | US-068: Đăng nhập sinh trắc học (Vân tay / Face ID) trên Mobile | Đặc tả yêu cầu nghiệp vụ, luồng xác thực sinh trắc học và cấu hình 2 môi trường Staging/Prod | BA | 12h | ⬜ Chưa bắt đầu |
+| 101 | Quản lý Đăng nhập | US-068: Đăng nhập sinh trắc học (Vân tay / Face ID) trên Mobile | [Mobile] Tích hợp Biometrics (Vân tay/FaceID), mã hóa Keystore/Keychain, cấu hình Staging/Production | Dev Flutter | 24h | ⬜ Chưa bắt đầu |
+| 102 | Quản lý Đăng nhập | US-068: Đăng nhập sinh trắc học (Vân tay / Face ID) trên Mobile | [BE] Phát triển API xác thực sinh trắc học, Refresh Token và phân tách Endpoint 2 môi trường | Dev Backend | 24h | ⬜ Chưa bắt đầu |
 
-*Tổng số giờ nỗ lực ước tính cho toàn bộ sub-tasks trong Sprint 2:* **1760 giờ**.
+*Tổng số giờ nỗ lực ước tính cho toàn bộ sub-tasks trong Sprint 2:* **1860 giờ**.
 
 ## 3. Thống kê điểm (Story Points Metrics)
 
 Phần này đã được trình bày chi tiết trong **Bảng 1: Bảng tổng hợp danh sách User Story** ở trên, bao gồm:
 - Phân bổ Story Point theo từng Epic
 - Trọng số công việc của từng Component
-- Tổng số Story Points: **109 SP**
+- Tổng số Story Points: **122 SP**
 
 ---
 
