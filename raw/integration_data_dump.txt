@@ -1,0 +1,548 @@
+=== SHEET: Quy trình & mã lệnh ===
+STT | Process Group (L2) | Process Name (L3) | Process Code | Bản chất quy trình | Mã loại chứng từ LNK/LXK
+1 | MM-INV | Goods receipt from supplier process | MM.10A  | Quy trình áp dụng cho nghiệp vụ nhập kho mua hàng từ nhà cung cấp tại các đơn vị. Thủ kho kiểm tra và ghi nhận trên hệ thống.
+- Áp dụng cho các nghiệp vụ mua hàng sau:
+• MM.05 – Quy trình quản lý mua hàng trong nước
+• MM.06 – Quy trình quản lý mua hàng nhập khẩu
+• MM.08 – Quy trình thuê, mua dịch vụ gia công
+• MM.09 – Quy trình mua hàng ký gửi | LNK_NCC
+2 | MM-INV | Return from construction site process (PS) | MM.10B | Quy trình mô tả các bước thực hiện trên hệ thống SAP S4 HANA khi nhập kho thu hồi vật tư dư thừa từ công trình xây lắp mới hoặc các dự án bảo dưỡng lớn. | LNK_THCTR
+3 | MM-INV | Return from site process (PM) | MM.10C | Quy trình mô tả các bước thực hiện trên hệ thống SAP S4 HANA khi nhập kho vật tư thiết bị thu hồi từ trạm.
+- Vật tư thiết bị thu hồi từ trạm có các trường hợp sau:
+• Trường hợp 1: Thu hồi vật tư thiết bị dư thừa ứng cứu thông tin: tham chiếu quy trình PM.02 – Quy trình bảo trì sửa chữa.
+• Trường hợp 2: Hủy trạm, tháo dỡ thu hồi vật tư, thiết bị về kho: Tham chiếu quy trình PM.05.01 – Quy trình hủy trạm, thu hồi không giá trị.
+• Trường hợp 3: Thu hồi vật tư thiết bị sửa chữa: Tham chiếu quy trình PM.03.02 – quy trình thu hồi (vật tư, thiết bị).
+ | LNK_TH_TRAMTUYEN
+4 | MM-INV | Goods return Non telco Asset | MM.10D | - Quy trình mô tả các bước thực hiện trên hệ thống SAP S4 HANA khi nhập kho thu hồi tài sản không thuộc lĩnh vực viễn thông.
+- Tài sản ngoài ngành viễn thông như trang thiết bị văn phòng (Laptop, bàn ghế, …) thu hồi về kho thực hiện đưa tài sản vào Location “Tài sản thu hồi” và thực hiện theo các trường hợp sau:
+• Đối với trường hợp hàng hỏng sửa được: chuyển qua quy trình sửa chữa (FI.53.01).
+• Đối với trường hợp hàng hỏng không sửa được:
+o Trường hợp 1:  Tài sản thanh lý không có “Quyết định loại khỏi biên chế”, chỉ thực hiện cập nhật tài sản về location mới theo quy trình FI.54. Không thực hiện giao dịch nhập kho vật tư về kho thu hồi chờ xử lý.
+o Trường hợp 2:  Tài sản có quyết định phân rã dựa vào “Quyết định loại khỏi biên chế”, chia ra 2 trường hợp xử lý:
+• Trường hợp 2A: Nếu vật tư được đánh giá giá trị > 0, tạo yêu cầu nhập vật tư vào plant có hạch toán.
+• Trường hợp 2B: Nếu vật tư được đánh giá giá trị = 0, tạo yêu cầu nhập vật tư vào plant thu hồi chờ xử lý.
+ | LNK_THTS_NOTELCO
+5 | MM-INV | Goods receipt consignment from Vendor integration BCCS | MM.10E | - Quy trình mô tả các bước thực hiện trên hệ thống SAP S4 HANA khi nhập kho hàng ký gửi từ nhà cung cấp.
+- Áp dụng cho các trường hợp:
+• Hàng hóa (E-pass) từ VDTC ký gửi VTT, có quản lý tồn kho về mặt số lượng. VTT thực hiện bán hộ E-pass theo quy trình thu hộ chi hộ trên BCCS, không ghi nhận doanh thu và không xuất hóa đơn. Cuối tháng VTT tổng kết số lượng hàng bán, đối soát với VDTC và xuất hóa đơn ghi nhận doanh thu (hoa hồng từ bán E-pass).
+ | N/A
+6 | MM-INV | Goods return from customer (SAP) | MM.10F | Sau khi hoàn thành quy trình bán hàng trên SAP, khách hàng thông báo sản phẩm bán gặp vấn đề và khách hàng mong muốn được trả lại sản phẩm này. Bộ phận kho sẽ thực hiện quy trình nhập hàng bán trả lại với tham chiếu từ đơn trả hàng được tạo từ quy trình SD.02.04.
+Quy trình nhập hàng bán trả lại áp dụng cho nghiệp vụ:
+o SD.02.04 – Quy trình nhận hàng bán trả lại
+ | LNK_TRAHANG_KH
+7 | MM-INV | Other goods receipt process | MM.10G | Quy trình nhập kho khác được áp dụng cho các nghiệp vụ nhập kho sau:
+- Nhập kho đi mượn từ nhà cung cấp: Nhà cung cấp cho mượn, sau đó trả vật tư, thiết bị lại cho nhà cung cấp. Không phát sinh hạch toán.
+- Nhập kho thay thế: Trường hợp xử lý mất mát, đền bù bằng vật tư, thiết bị thay thế
+ | LNK_KHAC
+8 | MM-INV | Goods Issue to Cost Center | MM.11A | - Quy trình quy định các bước thực hiện cho nghiệp vụ xuất kho vật tư sử dụng cho các phòng ban.
+- Các phòng ban tạo phiếu yêu cầu xuất kho (Reservation) ghi rõ các thông tin phòng ban sử dụng (Cost Center) và tài khoản ghi nhận chi phí (G/L Account). Mỗi 1 phiếu yêu cầu chỉ được gán 1 mã Cost Center, tài khoản chi phí được gán cho từng item.
+- Nhân viên kho tham chiếu phiếu yêu cầu xuất kho để thực hiện xuất kho, hệ thống tự động hạch toán giao dịch theo thông tin đã khai báo:
+Nợ tài khoản 6xx
+   Có tài khoản 15x
+ | LXK_CHIPHI
+9 | MM-INV | Goods issue to AuC process | MM.11B | - Quy trình xuất kho hình thành tài sản quy định các bước thực hiện trên hệ thống SAP S4 HANA để thực hiện việc xuất công cụ, thiết bị hình thành tài sản phân bổ nhiều kỳ.
+- Mã tài sản sẽ được tạo và quản lý ở phân hệ kế toán – tài chính (FI module). Các thông tin tài sản như nguyên giá, thời gian khấu hao, giá trị khấu hao, giá trị còn lại sẽ được theo dõi ở phân hệ kế toán sau khi đã hình thành tài sản.
+- Quy trình được áp dụng cho các trường hợp:
+• Xuất công cụ, máy móc, thiết bị đang tồn kho và có nhu cầu chạy khấu hao phân bổ nhiều kỳ ra hình thành tài sản cố định, theo dõi bên kế toán tài sản.
+ | LXK_AUC
+10 | MM-INV | Goods Issue to Construction site process (PS) | MM.11C | - Quy trình xuất kho cho trạm mô tả các bước thực hiện xuất kho vật tư, thiết bị ra công trình cho dự án xây lắp mới.
+- Vật tư, thiết bị sẽ được xuất từ kho chi nhánh Tỉnh ra các công trình xây lắp mới.
+ | LXK_CTR
+11 | MM-INV | Goods issue to Construction Site – Maintenance Process (PM) | MM.11D | - Quy trình xuất kho vật tư, thiết bị cho trạm phục vụ việc ứng cứu thông tin quy định các bước thực hiện trên hệ thống SAP S4 HANA và luồng tích hợp với các hệ thống khác khi phát sinh sự cố tại trạm.
+- Khi các thiết bị ở trạm có sự cố, tín hiệu sẽ được cảnh báo trên hệ thống, GNOC sẽ sinh ra một ticket để sửa chữa. Khi đó Work Order cũng sẽ được tự động sinh ra trên GNOC để yêu cầu các vật tư, thiết bị ứng cứu thông tin.
+- Ngoài ra khi nhân viên kỹ thuật kiểm tra trạm phát hiện sự cố có thể tạo thủ công Work Order trên hệ thống GNOC để yêu cầu cấp vật tư thay thế.
+- Work Order sẽ được tích hợp về hệ thống SAP dưới dạng Order quản lý ở phân hệ bảo trì (PM module).
+- Yêu cầu cấp vật tư thiết bị (Reservation) sẽ được tự động sinh ra và gán vào Order khi Order được tạo trên hệ thống SAP S4 HANA.
+ | LXK_TRAMTUYEN
+12 | MM-INV | Goods Issue return to supplier | MM.11E | - Quy trình này áp dụng cho nghiệp vụ đổi/ trả hàng cho nhà cung cấp vì lý do hàng hóa chưa đúng quy cách, chất lượng.
+- Hàng đã sử dụng hoặc lưu kho mới phát hiện có sự cố liên quan đến chất lượng, hư hỏng, …: làm đơn trả hàng, phiếu xuất kho với giá trị đã thỏa thuận với nhà cung cấp và ghi nhận giảm công nợ phải trả cho nhà cung cấp.
+- Giao dịch xuất kho trả hàng nhà cung cấp được thực hiện xuất từ các kho đang lưu trữ vật tư cần trả.
+ | LXK_NCC
+13 | MM-INV | Goods issue for sales | MM.11F | Sau khi đơn bán hàng được tạo thành công trên hệ thống. Bộ phận kho sẽ bắt đầu quy trình xuất kho hàng bán với tham chiếu từ đơn bán hàng.
+Quy trình xuất kho bán hàn trên SAP áp dụng cho nghiệp vụ:
+o SD.02.01 – Quy trình bán hàng trên SAP
+o SD.02.04 – Quy trình nhận hàng bán trả lại (Phương pháp bồi hoàn: đổi hàng trả)
+ | LXK_BANHANG
+14 | MM-INV | Other goods issue | MM.11G | Quy trình xuất kho khác được áp dụng cho các nghiệp vụ xuất kho sau:
+- Xuất thiệt hại do thiên tai - mất mát toàn bộ
+- Xuất thiệt hại do cá nhân - trường hợp có đền bù vật tư, thiết bị mới
+- Xuất trả NCC cho mượn
+ | LXK_KHAC
+15 | MM-INV | Stock transport (Within entity between plants) | MM.12 | Quy trình mô tả các bước thực hiện trên hệ thống SAP để chuyển hàng từ Plant A sang Plant B. Quy trình được áp dụng cho các trường hợp:
+- Điều chuyển hàng giữa các Tổng kho.
+- Điều chuyển hàng từ các Tổng kho đến các kho Chi nhánh/Tỉnh.
+- Điều chuyển hàng giữa các chi nhánh Tỉnh.
+ | LXK_XCK_PLANT
+16 | MM-INV | Transfer Posting between storage location - One transaction | MM.13A | Quy trình chuyển kho giữa 2 kho vật lý (thực hiện 1 giao dịch) quy định những bước thực hiện khi cần chuyển vật tư giữa các kho và các bước thực hiện trên hệ thống SAP. | 
+17 | MM-INV | Transfer Posting - STO between storage location within plant | MM.13B | - Quy trình chuyển kho (thực hiện 2 giao dịch: xuất kho và nhập kho) quy định những bước thực hiện khi cần chuyển vật tư giữa các kho và các bước thực hiện trên hệ thống SAP S/4HANA.
+- Chuyển giữa 2 kho vật lý ở cách xa nhau về mặt địa lý, thời gian hàng đi đường 1-3 ngày hoặc giữa 2 kho trong cùng phạm vi Tổng kho/Kho chi nhánh nhưng có sự chuyển giao trách nhiệm giữa 2 đối tượng bên giao và bên nhận.
+- Quy trình được áp dụng cho các nghiệp vụ chuyển vật tư, thiết bị, hàng hóa nhằm đảm bảo duy trì mức tồn kho theo định mức ở các kho:
+o Chuyển từ Tổng kho (VTN) sang kho Công ty Công trình tại Tổng kho, hoặc ngược lại.
+o Chuyển từ kho CTCT tại Tổng kho sang kho CTCT tại chi nhánh Tỉnh, hoặc ngược lại.
+o Chuyển từ kho CTCT tại chi nhánh Tỉnh sang kho CTCT tại các huyện, hoặc ngược lại.
+o Chuyển giữa các kho trong cùng phạm vi Tổng kho, kho chi nhánh Tỉnh, kho CTCT.
+o Chuyển giữa các kho của các công ty như VTM, VT academy, VT Sport, VAM, VHT, VTX, VTCC, …
+ | LXK_XCK_SLOC
+18 | MM-INV | Transfer Posting - Special stock | MM.13C | Quy trình chuyển trạng thái tồn kho quy định các bước thực hiện trên hệ thống SAP cho các nghiệp vụ như: 
+Chuyển tồn kho đặc biệt (Special Stock Number)
+o Chuyển tồn kho từ dự án A sang dự án B.
+o Chuyển tồn kho từ WBS hạng mục mua sắm sang WBS của từng công trình: Tham chiếu quy trình MM.11C – Xuất kho ra công trình.
+o Chuyển vật tư, thiết bị cho nhà cung cấp gia công, tồn kho đặc biệt O – Stock provided to vendor.
+o Chuyển vật tư, thiết bị cho đối tác bảo hành, quản lý bằng tồn kho đặc biệt O – Stock provided to vendor.
+o Các giao dịch chuyển trạng thái hàng tồn kho, ví dụ từ trạng thái chờ kiểm tra chất lượng (Quality Inspection) sang trạng thái được phép sử dụng (Unrestricted Use) sẽ được đề cập trong các quy trình giao dịch kho và các quy trình kiểm tra chất lượng tương ứng
+ | 
+19 | MM-INV | Physical inventory cycle process - Material Stock | MM.14 | Quy trình kiểm kê này được áp dụng cho nghiệp vụ kiểm kê tại các kho đơn vị của Viettel.  | 
+20 | MM-INV | Inventory integration process between BCCS & SAP S/4 HANA | MM.15 | Quy trình mô tả các luồng giao dịch kho được tích hợp giữa hai hệ thống BCCS và SAP S/4 HANA. | 
+21 | MM-INV | Process when material document is not approved in V-office | MM.16 | Quy trình mô tả các bước xử lý khi chứng từ giao dịch kho (Material Document) không được phê duyệt trên hệ thống V-office (Rejected). Trạng thái từ chối sẽ được cập nhật về hệ thống SAP S/4 HANA, bộ phận kho hoặc bộ phận liên quan thực hiện xử lý chứng từ giao dịch kho không được ký duyệt. | 
+22 | MM-INV | Revaluation Process for Material (Stock/Price change) | MM.17 | Quy trình được sử dụng cho việc điều chỉnh giá trị của vật tư. Khi vật tư được tạo và đã phát sinh các giao dịch kho, khi đó hệ thống sẽ không cho phép điều chỉnh giá trị thông qua transaction code MM02. Những trường hợp này, bắt buộc phải thực hiện điều chỉnh giá bằng cách sử dụng transaction code MR21. | 
+
+
+=== SHEET: QT nhập kho NCC ===
+
+
+=== SHEET: Document type ===
+ | Loại giao dịch | Mã LNK/LXK & PNK/PXK | Mô tả | Voffice type (SAP) | VOffice description (SAP)
+ | Lệnh nhập | LNK_NCC | LNK mua mới từ NCC | LNK1 | Lệnh nhập kho mua mới
+ | Lệnh nhập | LNK_THCTR | LNK thu hồi từ công trình | LNK2 | Lệnh nhập kho thu hồi từ công trình
+ | Lệnh nhập | LNK_TH_TRAMTUYEN | LNK thu hồi từ trạm/tuyến | LNK3 | Lệnh nhập kho theo Reservation
+ | Lệnh nhập | LNK_THTS_NONTELCO | LNK thu hồi tài sản non-telco |  | 
+ | Lệnh nhập | LNK_TRAHANG_KH | LNK trả hàng từ khách hàng |  | 
+ | Lệnh nhập | LNK_KHAC | LNK khác (đi mượn từ NCC, nhập kho thay thế..) |  | 
+ | Lệnh xuất | LXK_CHIPHI | LXK chi phí phòng ban |  | 
+ | Lệnh xuất | LXK_AUC | LXK hình thành tài sản tại đơn vị |  | 
+ | Lệnh xuất | LXK_CTR | LXK công trình | LXK1 | Lệnh xuất kho ra công trình
+ | Lệnh xuất | LXK_TRAMTUYEN | LXK trạm/tuyến | LXK2 | Lệnh xuất kho theo Reservation
+ | Lệnh xuất | LXK_NCC | LXK trả hàng NCC |  | 
+ | Lệnh xuất | LXK_BANHANG | LXK bán hàng |  | 
+ | Lệnh xuất | LXK_KHAC | LXK khác | LXK2 | Lệnh xuất kho theo Reservation
+ | Lệnh xuất | LXK_XCK_PLANT | LXK xuất chuyển kho giữa plant và plant | LNK4 | Lệnh nhập kho theo PO STO
+ | Lệnh xuất | LXK_XCK_SLOC | LXK xuất chuyển kho giữa các sloc trong cùng plant | LNK4 | Lệnh nhập kho theo PO STO
+ | Phiếu nhập | PNK_NCC | Phiếu nhập kho mua mới từ NCC | PNK1 | Phiếu nhập kho mua mới
+ | Phiếu nhập | PNK_THCK | Phiếu nhập kho thu hồi, chuyển kho | PNK2 | Phiếu nhập kho thu hồi, chuyển kho
+ | Phiếu nhập | PNK_BHSC | Phiếu nhập kho sau BHSC | PNK3 | Phiếu nhập kho sau BHSC
+ | Phiếu nhập | PNXK_HUY | Phiếu hủy giao dịch xuất nhập kho | PR01 | Phiếu hủy giao dịch xuất nhập kho
+ | Phiếu phân rã | PHIEU_PHANRA | Phiếu phân rã | PR1 | Phiếu phân rã
+ | Phiếu xuất | PXK | Phiếu xuất kho | PXK1 | Phiếu xuất kho
+ | Phiếu xuất | PXK_BHSC | Phiếu xuất kho BHSC | PXK2 | Phiếu xuất kho BHSC
+ | Kiểm tra chất lượng | KCS_NCC | Hàng mới |  | 
+ | Kiểm tra chất lượng | KCS_TRONGKHO | Hàng trong kho |  | 
+ | Kiểm tra chất lượng | KCS_SAUSUACHUA | Hàng sau sửa chữa |  | 
+ | Kiểm tra chất lượng | KCS_HANGTHUHOI | Hàng thu hồi |  | 
+ | Kiểm tra chất lượng | KCS_SAUBAOHANH | Hàng sau bảo hành |  | 
+
+
+=== SHEET: Danh sách API ===
+Mã API | Tên API | Mô tả | Hệ thống nguồn | Hệ thống đích | Luồng (vào/ra) | Giao thức tích hợp | Cơ chế tích hợp | Đặc tả API | Tần suất truy cập | Lưu lượng (KB) | TPS | Response time (Sec) |  | 
+API01 | Lệnh nhập kho & xuất kho | Đồng bộ lệnh nhập kho hoặc xuất kho đã ký duyệt, ban hành VOffice từ hệ thống SAP -> AIWS | SAP S/4 | AIWS | Outbound | Service API - Deployed by AIWS | SAP chủ động đẩy dữ liệu (Push by SAP S/4) | Lệnh nhập kho & xuất kho'!A1 |  |  |  |  |  | Inbound
+API02 | Tu choi LNK hoặc LXK | Thực hiện từ chối nhập hoặc xuất kho theo lệnh | AIWS | SAP S/4 | Inbound | Service API - Deployed by S4HANA | AIWS chủ động đẩy dữ liệu (Push by AIWS) | Tu choi'!A1 |  |  |  |  |  | Outbound
+API03 | Đồng bộ PNXK VOF đã ban hành | Đồng bộ PNK & PXK đã được ký duyệt hoặc ban hành từ AIWS về SAP | AIWS | SAP S/4 | Inbound | Service API - Deployed by S4HANA | AIWS chủ động đẩy dữ liệu (Push by AIWS) | Đồng bộ PNXK VOF đã ban hành'!A1 |  |  |  |  |  | 
+API04 | Đồng bộ ra quyết định chất lượng | Chức năng đồng bộ ra quyết định chất lượng (UD usage) từ hệ thống SAP sang AIWS | SAP S/4 | AIWS | Outbound | Service API - Deployed by AIWS | SAP chủ động đẩy dữ liệu (Push by SAP S/4) | Đồng bộ kết quả thực hiện KCS'!A1 |  |  |  |  |  | 
+
+
+=== SHEET: Lệnh nhập kho & xuất kho ===
+ | STT | Cột dữ liệu (*) | Kiểu dữ liệu và độ dài(*) | Nullable | Unique | P/F key | Mặc định | Mô tả ý nghĩa, định dạng (*) | Gía trị sample(*)
+ | 1. Input parameter |  |  |  |  |  |  |  | 
+ | 1. Header (1:N) |  |  |  |  |  |  |  | 
+ | 1 | transaction_id | VARCHAR(32) | No | Yes |  |  | mã định danh duy nhất của 01 bản ghi đồng bộ | 0f8fad5b-d9cb-469f-a165-70867728950e
+ | 2 | document_type | VARCHAR(20) | No | No |  |  | Loại giao dịch | Tham khảo sheet "document type"
+ | 3 | document_number | VARCHAR(10) | No | Yes | Yes |  | Mã số LNK/LXK | Inbound delivery: 8029660
+Reservation: 652345
+Outbound delivery: 6000000265
+ | 4 | delivery_date | DATE | No | No |  |  | Ngày giao hàng (delivery date) | MM.DD.YYYY
+ | 5 | delivery_time | TIME | Yes | No |  | 00:00 | Thời gian giao hàng | HH:MM
+ | 6 | total_weight | NUMC(15,3) | No | No |  |  | Tổng trọng lượng của toàn bộ VTTB trong LNK | 3 số thập phân. Mặc định = 0.
+
+Phân tách phần nguyên và thập phân bằng dấu chấm (.), không phân tách hàng nghìn. Ví dụ 12345678.050
+ | 7 | weight_unit | CHAR(3) | Yes | No |  |  | Đơn vị tính của trọng lượng | 
+ | 8 | net_weight | NUMC(15,3) | No | No |  | 0 | Trọng lượng tịnh của toàn bộ VTTB trong LNK | 3 số thập phân.
+
+Phân tách phần nguyên và thập phân bằng dấu chấm (.), không phân tách hàng nghìn. Ví dụ 12345678.050
+ | 9 | volume | NUMC(15,3) | No | No |  | 0 | Khối lượng | 3 số thập phân.
+
+Phân tách phần nguyên và thập phân bằng dấu chấm (.), không phân tách hàng nghìn. Ví dụ 12345678.050
+ | 10 | created_by | CHAR(12) | No | No |  |  | Mã tài khoản tạo chứng từ | 019829
+ | 11 | created_on | DATE | No | No |  |  | Ngày tạo giao dịch | MM.DD.YYYY
+ | 12 | change_by | CHAR(12) | Yes | No |  |  | Thay đổi bởi ai | 019829
+ | 13 | change_on | DATE | No | No |  |  | Ngày thay đổi | MM.DD.YYYY
+ | 14 | supplier | CHAR(10) | No | No |  |  | Mã NCC | 3000000005
+- LNK NCC: lấy supplier từ PO
+- LXK CTR: lấy theo hợp đồng xây lắp
+ | 15 | description | STRING | Yes | No |  |  | Diễn giải LNK | 
+ | 16 | shipment_no | VARCHAR(156) | Yes | No |  |  | Mã lô hàng | 
+ | 17 | delivery_man | VARCHAR(100) | Yes | No |  |  | Người giao hàng | Nguyễn Văn A
+ | 18 | using_vehicle_for_transport | CHAR(1) | Yes | No |  |  ' | Có sử dụng xe vận chuyển hay không | Nếu có sử dụng xe vận chuyển, gán giá trị = 'X'
+ | 1.1 Items (1:N) |  |  |  |  |  |  |  | 
+ | 19 | item_number | NUMC(4) | No | Yes | Yes |  | Số thứ tự | Ví dụ: 0010, 0020
+ | 20 | material_number | CHAR(40) | No | No |  |  | Mã VTTB | 100000244
+ | 21 | quantity | QUAN(15,3) | No | No |  |  | Số lượng nhập/xuất kho | 03 số thập phân
+
+Phân tách phần nguyên và thập phân bằng dấu chấm (.), không phân tách hàng nghìn. Ví dụ 12345678.050
+ | 22 | unit_of_measure | CHAR(3) | No | No |  |  | Đơn vị tính | CAI, CHI, MET…
+ | 23 | item_description | CHAR(256) | Yes | No |  |  | Tên VTTB | Daikin_12000BTU_Inverter_282873
+ | 24 | purchase_order | NUMC(10) | No | No |  |  | Đơn hàng tham chiếu | 4600011194
+ | 25 | purchase_order_item | NUMC(4) | No | No |  |  | Số TT dòng tham chiếu trong đơn hàng | 1
+ | 26 | plant | CHAR(4) | No | No |  |  | Mã plant | V011
+ | 27 | storage_location | CHAR(4) | Yes | No |  |  | Mã kho vật lý | V101
+ | 28 | gross_weight | NUMC(15,3) | No | No |  |  | Tổng trọng lượng của toàn bộ VTTB trong LNK | 3 số thập phân. Mặc định = 0.
+
+Phân tách phần nguyên và thập phân bằng dấu chấm (.), không phân tách hàng nghìn. Ví dụ 12345678.050
+ | 29 | weight_unit | CHAR(3) | Yes | No |  |  | Đơn vị tính của trọng lượng | 
+ | 30 | net_weight | NUMC(15,3) | No | No |  | 0 | Trọng lượng tịnh của toàn bộ VTTB trong LNK | 3 số thập phân.
+
+Phân tách phần nguyên và thập phân bằng dấu chấm (.), không phân tách hàng nghìn. Ví dụ 12345678.050
+ | 31 | volume | NUMC(15,3) | No | No |  | 0 | Khối lượng | 3 số thập phân.
+
+Phân tách phần nguyên và thập phân bằng dấu chấm (.), không phân tách hàng nghìn. Ví dụ 12345678.050
+ | 32 | volume_unit | CHAR(3) | Yes | No |  |  | Đơn vị tính của khối lượng | 
+ | 33 | movement_type | CHAR(3) | No | No |  |  | Mã giao dịch movement type | 101
+ | 34 | stock_type | CHAR(1) | Yes | No |  |  | Loại lưu kho | - 'X': Quality inspection (hàng có KCS)
+- 'S': Blocked
+- '2': Quality inspection (hàng có KCS)
+- '3': Blocked
+- ' ': Unrestricted-use
+- 'F': Unrestricted-use
+ | 35 | material_type | CHAR(4) | No | No |  |  | Mã loại danh mục | ZPAR: mã cha, ZCHI: mã con
+ | 36 | project | CHAR(12) | No | No |  |  | Mã dự án | TE-000034
+ | 37 | project_name | CHAR(256) | No | No |  |  | Tên dự án | CTR tự thực hiện
+ | 38 | wbs_element | CHAR(24) | Yes | No |  |  | Mã wbs element
+
+Là:
+- Mã dự wbs nguồn, áp dụng cho nghiệp vụ xuất kho công trình
+- Mã wbs element, áp dụng cho các nghiệp vụ nhập kho hoặc xuất kho hàng dự án | - WBS mua sắm: TE-000033-D-01
+- WBS tồn kho dự án PO-00001-01-01
+ | 39 | name_wbs_element | CHAR(256) | Yes | No |  |  | Tên wbs nguồn | Mua sắm VTTB - Equipment Procurement WBS
+ | 40 | target_wbs_element | CHAR(24) | Yes | No |  |  | Mã wbs đích, áp dụng cho nghiệp vụ xuất kho công trình | TE-000033-D-02-CONSTRUC2
+ | 41 | name_target_wbs_element | CHAR(256) | Yes | No |  |  | Tên wbs đích | WBS Construction 2
+ | 42 | functional_location | CHAR(20) | Yes | No |  |  | Mã trạm/tuyến | 3BG009
+ | 43 | sending_sloc | CHAR(4) | Yes | No |  |  | Mã kho vật lý xuất | HN01
+ | 44 | contractor_sloc | CHAR(4) | Yes | No |  |  | Mã kho nhà thầu, áp dụng cho luồng xuất nhập kho công trình | V999
+ | 45 | transferred_quantity | QUAN(15,3) | Yes | No |  |  | Số lượng đã điều chuyển ra công trình, áp dụng cho luồng xuất nhập kho công trình | 15
+ | 46 | transfer_quantity | QUAN(15,3) | Yes | No |  |  | Số lượng yêu cầu điều chuyển, áp dụng trong nghiệp vụ xuất kho công trinh | 15
+ | 47 | actual_quantity | QUAN(15,3) | Yes | No |  |  | Số lượng thực xuất kho công trình | 12
+ | 48 | managed_serialization | CHAR(1) | Yes | No |  |  ' | VTTB có quản lý serial hay không | Nếu VTTB có quản lý serial, giá trị = 'X'
+ | 49 | receiving_org | NUMC(20) | Yes | No |  |  | Mã đơn vị nhận theo câu nhân sự, áp dụng trong nghiệp vụ xuất kho công trinh | 9032060
+ | 50 | receiving_org_name | STRING | Yes | No |  |  | Tên đơn vị nhận theo câu nhân sự, áp dụng trong nghiệp vụ xuất kho công trinh | Nhóm Dự án Chuyển đổi quản trị
+ | 51 | employee_code | CHAR(12) | Yes | No |  |  | Mã nhân viên, áp dụng cho luồng xuất nhập kho công trình | 289975
+ | 52 | phone | CHAR15) | Yes | No |  |  | Số đt của nhân viên | +84 972981256
+ | 53 | requesting_org | NUMC(20) | Yes | No |  |  | Mã đơn vị yêu cầu, áp dụng cho luồng xuất nhập kho công trình | 9032060
+ | 54 | requesting_org_name | STRING | Yes | No |  |  | Tên đơn vị yêu cầu, áp dụng cho luồng xuất nhập kho công trình | Nhóm Dự án Chuyển đổi quản trị
+ | 55 | note | STRING | Yes | No |  |  | Ghi chú, áp dụng cho luồng xuất nhập kho công trình | 
+ | 56 | kcs_department | NUMC(20) | Yes | No |  |  | Đơn vị KCS, áp dụng cho luồng nhập kho thu hồi từ công trình | 
+ | 57 | bussiness_area | CHAR(4) | Yes | No |  |  | Mã đơn vị | VTN, HNI
+ | 1.1.1 Serial number - áp dụng với những mã có quản lý serial number (0:N) |  |  |  |  |  |  |  | 
+ | 58 | item_number | NUMC(4) | No | Yes | Yes |  | Số thứ tự | Ví dụ: 0010, 0020
+ | 59 | material_number | CHAR(40) | No | No |  |  | Mã VTTB | 100000244
+ | 60 | serial_manufacturer_number | CHAR(30) | No | Yes |  |  | Số serial NSX | VT_8015601_03
+ | 61 | sap_serial_number | CHAR(18) | Yes | Yes |  | để trống | Số SAP Serial | Luôn luôn trống
+ | 1.1.2 packing list - áp dụng với mã cha material type = ZPAR (0:N) |  |  |  |  |  |  |  | 
+ | 62 | item_number | NUMC(4) | No | Yes | Yes |  | Số thứ tự | Ví dụ: 0010, 0020
+ | 63 | packing_list_number | NUMC(10) | No | No | Yes |  | Số packing list | 1000000231
+ | 64 | packing_list_item | NUMC(4) | No | No | Yes |  | Số thứ tự packing list | 0010
+ | 65 | material_number_parent | CHAR(40) | No | No |  |  | Mã cha | 100000244
+ | 66 | material_parent_desc | STRING | No | No |  |  | Tên VTTB cha | Daikin_12000BTU_Inverter_282873
+ | 67 | quantity_parent_po | QUAN(15,3) | No | No |  |  | Số lượng mã cha trong purchase order | 5
+ | 68 | unit_of_measure_parent | CHAR(3) | No | No |  |  | ĐVT mã cha | CAI, CHI, MET…
+ | 69 | material_child | CHAR(40) | No | No |  |  | Số lượng mã con | 2
+ | 70 | material_child_desc | STRING | No | No |  |  | Tên mã con | 
+ | 71 | quantity_child_ibd | QUAN(15,3) | No | No |  |  | Số lượng mã con thực tế trong inbound delivery | 
+ | 72 | netprice_child_ibd | CURR(16,2) | No | No |  |  | Đơn giá mã con | 1500000
+
+ | 73 | netprice_unit | CHAR(3) | No | No |  |  | Loại tiền tệ đơn giá mã con | VND, USD
+ | 74 | gross_price_child_ibd | CURR(16,2) | No | No |  |  | Tổng giá trị mã con thực tế | 3000000
+ | 75 | contract_number | VARCHAR(125) | No | No |  |  | Số hợp đồng bản cứng | 02/VTNET/2026/ERRICSON
+ | 76 | part_number | CHAR(10) | No | No |  |  | Mã part number của NSX | 
+ | 77 | manufacturer | CHAR(120) | No | No |  |  | Nhà sản xuất | Finland
+ | 78 | original | CHAR(120) | No | No |  |  | Xuất sứ | 
+ | 79 | created_by | CHAR(12) | No | No |  |  | Tạo bởi | 
+ | 80 | Created_on | DATE | No | No |  |  | Tạo ngày | 
+ | 1.1.2.1 Packing list serial (0:N) |  |  |  |  |  |  |  | 
+ | 81 | packing_list_number | NUMC(10) | No | No | Yes |  | Số packing list | 1000000231
+ | 82 | packing_list_item | NUMC(4) | No | No | Yes |  | Số thứ tự packing list | 0010
+ | 83 | material_number | CHAR(40) | No | No |  |  | Mã con packing list | 100000244
+ | 84 | serial_manufacturer_number | CHAR(30) | No | Yes |  |  | Số serial NSX | VT_8015601_03
+ | 85 | sap_serial_number | CHAR(18) | Yes | Yes |  | để trống | Số SAP Serial | Luôn luôn trống
+ | 86 | quantity | QUAN(15,3) | No | No |  | 1 | Số lượng | Số lượng luôn = 1
+ | 2. Output parmeter |  |  |  |  |  |  |  | 
+ | 2.1 Documents (1:N) |  |  |  |  |  |  |  | 
+ | 87 | transaction_id | VARCHAR(32) | No | Yes |  |  | mã định danh duy nhất của 01 bản ghi đồng bộ | 
+ | 88 | document_type | VARCHAR(20) | No | No |  |  | Loại giao dịch | Tham khảo sheet "document type"
+ | 89 | document_number | VARCHAR(10) | No | Yes | Yes |  | Mã số LNK/LXK | Inbound delivery: 8029660
+Reservation: 652345
+ | 2.1.1 Message details (1:N) |  |  |  |  |  |  |  | 
+ | 90 | message_code | NUMC(3) | No | Yes |  |  | Mã thông báo | Mã lỗi, ví dụ: 001
+ | 91 | message_type | CHAR(1) | No | No |  |  | Loại thông báo | - 'E': Error
+- 'W': Warning
+- 'S': Success
+ | 92 | messages | STRING | No | No |  |  | Chi tiết thông báo | 
+
+
+=== SHEET: Tu choi ===
+ |  |  | STT | Cột dữ liệu (*) | Kiểu dữ liệu và độ dài(*) | Nullable | Unique | P/F key | Mặc định | Mô tả ý nghĩa, định dạng (*) | Gía trị sample(*)
+ |  |  | 1. Input parameter |  |  |  |  |  |  |  | 
+ |  |  | 1. Header (1:1) |  |  |  |  |  |  |  | 
+ |  |  | 1 | transaction_id | VARCHAR(32) | No | Yes |  |  | mã định danh duy nhất của 01 bản ghi đồng bộ | 0f8fad5b-d9cb-469f-a165-70867728950e
+ |  |  | 2 | document_type | VARCHAR(20) | No | No |  |  | Loại giao dịch | Tham khảo sheet "document type"
+ |  |  | 3 | document_number | VARCHAR(10) | No | Yes | Yes |  | Mã số LNK/LXK | Inbound delivery: 8029660
+Reservation: 652345
+Outbound delivery: 6000000265
+ |  |  | 4 | rejection_reason | VARCHAR(10) | No | No |  |  | Lý do từ chối, giới hạn 02 lựa chọn:
+- Not good
+- Fail | Ví dụ: Not good
+
+ |  |  | 5 | manual_reason | VARCHAR(256) | No | No |  |  | Mô tả chi tiết lý do từ chối | Chất lượng kém
+ |  |  | 6 | rejected_by | CHAR(12) | No | No |  |  | Từ chối bởi ai | 081124
+ |  |  | 7 | rejected_on | DATE | No | No |  |  | Từ chối ngày | DD.MM.YYY
+ |  |  | 8 | rejected_time | TIME | No | No |  |  | Thời gian từ chối | HH:MM:SS
+ |  |  | 2. Output parameter |  |  |  |  |  |  |  | 
+ |  |  | 2. Message details (1:N) |  |  |  |  |  |  |  | 
+ |  |  | 90 | message_code | NUMC(3) | No | Yes |  |  | Mã thông báo | Mã lỗi, ví dụ: 001
+ |  |  | 91 | message_type | CHAR(1) | No | No |  |  | Loại thông báo | - 'E': Error
+- 'W': Warning
+- 'S': Success
+ |  |  | 92 | messages | STRING | No | No |  |  | Chi tiết thông báo | 
+
+
+=== SHEET: Đồng bộ PNXK VOF đã ban hành ===
+ |  | STT | Cột dữ liệu (*) | Kiểu dữ liệu và độ dài(*) | Nullable | Unique | P/F key | Mặc định | Mô tả ý nghĩa, định dạng (*) | Gía trị sample(*)
+ |  | 1. Input parameter |  |  |  |  |  |  |  | 
+ |  | 1. Header (1:1) - Thông tin chung |  |  |  |  |  |  |  | 
+ |  | 1 | transaction_id | VARCHAR(32) | No | Yes |  |  | mã định danh duy nhất của 01 bản ghi đồng bộ | 0f8fad5b-d9cb-469f-a165-70867728950e
+ |  | 2 | document_type | VARCHAR(20) | No | No |  |  | Loại giao dịch | Tham khảo sheet "document type", lọc cột loại giao dịch = "phiếu nhập, phiếu xuất, phiếu phân rã"
+ |  | 3 | sap_reference_number | CHAR(10) | No | No | Yes |  | Mã số PNXK | 5000000058
+
+Lưu ý: trường sap_reference_number + sap_reference_year là 01 cặp key xác định duy nhất 01 giao dịch
+ |  | 4 | sap_reference_year | NUMC(4) | No | No | Yes |  | Năm chứng từ của PNXK | 2026
+ |  | 5 | document_date | DATE | No | No |  |  | Ngày chứng từ | DD.MM.YYY
+ |  | 6 | document_form_type | CHAR(40) | No | No |  |  | Loại biểu mẫu | Theo danh sách khai báo từ trước
+
+1 - Công văn
+10 - Phương án
+104 - pháp luật
+11 - Quyết định (Ban hành quy chế)
+12 - Nghị quyết
+13 - Kết luận
+14 - Biên bản
+143 - Đề nghị
+15 - Giấy mời
+16 - Quy trình
+169 - Decision
+17 - Công Điện khẩn
+18 - Giấy uỷ quyền
+182 - letter of leave
+19 - Thông Tư
+195 - resign of leave
+2 - Chỉ thị
+20 - Nghị định
+208 - Summarize
+221 - Certificate
+234 - Handover
+247 - Contract
+260 - Lịch trực ban, trực chỉ huy
+27 - Guideline-Hướng dẫn
+28 - Quy định
+286 - Nội Quy
+299 - Phát động
+3 - Thông báo
+30 - Tài liệu
+31 - Đề xuất
+312 - Phụ lục
+32 - Phiếu yêu cầu
+325 - Đăng ký
+33 - Công ty Viễn thông Viettel
+338 - KPI-Tiêu chuẩn
+34 - Lịch tuần
+35 - Lĩnh vực pháp luật
+351 - Tiêu đề
+377 - REQUEST
+390 - Đề nghị chuyển tiền
+4 - Hướng dẫn
+400 - Trích sao Quyết định nâng lương
+401 - Phiếu nhận xét đánh giá Đảng viên
+416 - Phiếu nhận xét
+429 - Phiếu giao nhiệm vụ
+442 - Employment Letter
+455 - Interview Result
+468 - Phiếu trình
+481 - Evaluation list
+494 - Biên bản điều chuyển vật tư
+5 - Kế hoạch
+507 - Biên bản đối chiếu
+520 - Chứng từ XNK
+521 - Phiếu nhận xét đánh giá cán bộ
+533 - Chương trình
+546 - Đề án
+559 - Dự án
+572 - Hợp đồng
+585 - Bản ghi nhớ
+598 - Bản cam kết
+611 - Bản thỏa thuận
+624 - Giấy chứng nhận
+637 - Giấy giới thiệu
+650 - Giấy nghỉ phép
+663 - Giấy công tác
+676 - Giấy biên nhận
+689 - Phiếu gửi
+7 - Tờ trình
+702 - Phiếu chuyển
+715 - Đề nghị tạm ứng
+728 - Thư mời
+741 - Điện
+767 - Tờ trình/Kế hoạch có kinh phí
+780 - Bảng tổng hợp thanh toán
+793 - Chứng từ báo cáo
+8 - Đơn khiếu nại
+806 - Báo cáo định kỳ
+819 - Báo cáo đột xuất
+861 - Chỉ tiêu kỹ thuật
+862 - Báo cáo tài chính
+863 - Sổ kế toán
+864 - Bảng kê chứng từ
+865 - Phiếu giao nhiệm vụ giám sát
+866 - Biên bản Bàn giao mặt bằng
+867 - Biên bản Bàn giao TS đưa vào sử dụng
+868 - Bảng phân bổ CP nhân công dự án
+887 - Hợp đồng LĐ/TV/TN
+9 - Quyết định
+900 - Phụ lục hợp đồng
+SCTTK - Sổ chi tiết tài khoản
+TRM_BOND - Trai phieu
+ |  | 7 | Area | CHAR(70) | No | No |  |  | Lĩnh vực | Theo danh sách khai báo từ trước
+10 - Đầu tư
+1178 - Quản trị dữ liệu
+17 - Pháp chế
+501 - Quản lý tài sản
+503 - Công tác chính trị
+610 - Ngành tổ chức lao động
+922 - Tuyển sinh
+ |  | 8 | Privacy | CHAR(15) | No | No |  |  | Độ mật | Theo danh sách khai báo từ trước
+
+1 - Bình thường
+2 - Mật
+ |  | 9 | document_sign_code | VARCHAR(50) | No | No |  |  | Mã số chứng từ | Lấy giá trị từ cột sap_reference_number (Phiếu nhập hoặc xuất kho)
+ |  | 10 | title | VARCHAR(200) | No | No |  |  | Tiêu đề | Quy tắc lấy theo tên của giao dịch + số phiếu
+Ví dụ: luồng nhập kho mua mới -> "Phiếu nhập kho mua mới - 5000000058"
+
+Tham khảo tên trong sheet "Document type"
+ |  | 11 | content | STRING | No | No |  |  | Nội dung/ghi chú | Nhập thông tin ghi chú, ví dụ: Phiếu nhập kho mua mới - 5000000058
+ |  | 12 | submitter_department | CHAR(70) | Yes | No |  |  |  | 
+ |  | 13 | submitter | CHAR(156) | No | No |  |  | Người trình ký | Gồm mã NV & tên NV, phân tách bằng dấu "-"
+
+Ví dụ: 111600 - Trần Diệu Linh
+ |  | 14 | document_creator | CHAR(70) | No | No |  |  | Người tạo | Họ và tên người tạo
+
+Ví dụ: Việt Lại Vũ Tiến
+ |  | 15 | last_changed_by | CHAR(70) | No | No |  |  | Người thay đổi gần nhất | Họ và tên
+
+Ví dụ: Việt Lại Vũ Tiến
+ |  | 16 | status | CHAR(2) | No | No |  |  | Trạng thái | Trạng thái ký duyệt, ban hành hoặc đóng dấu
+- 03: Đã ký
+- 05: Ban hành
+- 09: Đóng dấu
+ |  | 17 | vo_document_id | NUMC(12) | No | No |  |  | Số văn bản VO Document ID | 2385593
+ |  | 18 | from_id | CHAR(10) | Yes | No |  | Để trống | biểu mẫu chân ký | Luôn luôn trống
+ |  | 19 | parallel_signing | CHAR(1) | No | No |  |  | Trình ký song song | X': Có trình ký song song
+' ': Không trình ký song song
+ |  | 20 | auto_forward | CHAR(1) | No | No |  |  | Tự động forward văn bản | X': chuyển văn bản tự động
+' ':  không chuyển văn bản tự đông
+ |  | 21 | auto_publish | CHAR(1) | No | No |  |  | Tự động ban hành | X': tự động ban hành
+' ': không tự động ban hành
+ |  | 22 | ignore_doc_manager | CHAR(1) | No | No |  |  | Tự động bỏ qua văn thư duyệt | X': Tự động bỏ qua văn thư xét duyệt
+' ': không bỏ qua văn thư xét duyệt
+ |  | 1.1. File list (1:N) - biểu mẫu đính kèm |  |  |  |  |  |  |  | 
+ |  | 23 | sequence | NUMC(3) | No | Yes |  |  | Số thứ tự | Tăng tuần tự từ 1
+ |  | 24 | sap_reference_number | CHAR(10) | No | No | Yes |  | Mã số PNXK | 5000000058
+ |  | 25 | file_type | CHAR(2) | No | No |  |  | Loại văn bản | - 00: Main signing file
+- 01: Appendix file
+- 02: Template file
+ |  | 26 | file_name | STRING | No | No |  |  | Tên văn bản | PNK1_5000000042.PDF
+ |  | 27 | file_content | RAWSTRING | No | No |  |  | Nội dung file | 
+ |  | 28 | manual | CHAR(1) | No | No |  | Để trống | Văn bảntạo thủ công hay sinh tự động | 
+ |  | 29 | changed_by | CHAR(12) | No | No |  |  | Thay đổi bởi ai | 829910
+ |  | 30 | changed_on | DATE | No | No |  |  | Ngày thay đổi | DD.MM.YYY
+ |  | 31 | change_time | TIME | No | No |  |  | Giờ thay đổi | HH:MM:SS
+ |  | 1.2. Signer list (1:N) - thành phần ký duyệt |  |  |  |  |  |  |  | 
+ |  | 31 | sequence | NUMC(3) | No | Yes |  |  | Số thứ tự | Tăng tuần tự từ 1
+ |  | 32 | role_title | CHAR(70) | No | No |  |  | Vai trò | 
+ |  | 33 | person_number | CHAR(12) | No | No |  |  | Mã nhân viên người ký | 129910
+ |  | 34 | name | CHAR(120) | No | No |  |  | Tên nhân viên | Nguyễn Văn A
+ |  | 35 | position | CHAR(256) | No | No |  |  | Vị trí | Thủ kho
+ |  | 36 | email_address | CHAR(156) | No | No |  |  | Địa chỉ email | abc@viettel.com.vn
+ |  | 37 | department_name | STRING | No | No |  |  | Phòng ban | Dự án Chuyển đổi quản trị - Ban Công nghệ thông tin - Khối cơ quan Tập đoàn
+ |  | 38 | change_time | TIME | No | No |  |  | Giờ thay đổi | HH:MM:SS
+ |  | 39 | signature_image | CHAR(1) | No | No |  |  | Hiển thị chữ ký hay không | X': Ký có hiển thị chữ ký
+' ': Ký không hiển thị chữ ký
+ |  | 40 | publish | CHAR(1) | No | No |  |  | Ban hành | X': Là người ký ban hành
+' ': Không ký ban hành
+ |  | 2. Output paramters |  |  |  |  |  |  |  | 
+ |  | 2. Message details (1:N) |  |  |  |  |  |  |  | 
+ |  | 41 | message_code | NUMC(3) | No | Yes |  |  | Mã thông báo | Mã lỗi, ví dụ: 001
+ |  | 42 | message_type | CHAR(1) | No | No |  |  | Loại thông báo | - 'E': Error
+- 'W': Warning
+- 'S': Success
+ |  | 43 | messages | STRING | No | No |  |  | Chi tiết thông báo | 
+
+
+=== SHEET: Đồng bộ kết quả thực hiện KCS ===
+ | STT | Cột dữ liệu (*) | Kiểu dữ liệu và độ dài(*) | Nullable | Unique | P/F key | Mặc định | Mô tả ý nghĩa, định dạng (*) | Gía trị sample(*)
+ | 1. Input parameter |  |  |  |  |  |  |  | 
+ | 1. Header (1:1) - Thông tin chung |  |  |  |  |  |  |  | 
+ | 1 | transaction_id | VARCHAR(32) | No | Yes |  |  | mã định danh duy nhất của 01 bản ghi đồng bộ | 0f8fad5b-d9cb-469f-a165-70867728950e
+ | 2 | document_type | VARCHAR(20) | No | No |  |  | Loại giao dịch | Tham khảo sheet "document type", lọc theo cột loại giao dịch = "Kiểm tra chất lượng"
+ | 3 | qc_request_number | VARCHAR(30) | No | No | Yes |  | Số yêu cầu KCS | 331659/26/PYC_TK-KCS-VTPost
+ | 4 | material_document | CHAR(10) | No | No | Yes |  | Số phiếu nhập kho | 4900954915
+
+Lưu ý: trường material_document + material_document_year là 01 cặp key xác định duy nhất 01 phiếu nhập kho NCC
+ | 5 | material_document_year | NUMC(4) | No | No | Yes |  | Năm chứng từ | 2026
+ | 6 | status | CHAR(4) | No | No |  |  | Trạng thái kiểm tra chất lượng | Trạng thái được đồng bộ từ SAP sang AIWS
+- A001- UD Đạt – Nhập kho toàn bộ (Q0111)
+- A002- UD Không Đạt- Nhập kho toàn bộ (Q0112)
+- A003- UD không Đạt, nhập kho 1 phần (Q0113)
+- A004- UD không đạt- Đổi hàng (Q0114)
+- A005- UD không đạt- Hủy hợp đồng (Q0115)
+ | 7 | contract_number | CHAR(120) | No | No |  |  | Số hợp đồng bản cứng | 16620254-ĐT/VTNet-Tecapro/MS2025
+ | 8 | UD_completion_date | DATE | No | No |  |  | Ngày hoàn thành ra quyết định chất lượng | DD.MM.YYYY
+ | 1.1. Item list  (1:N) - danh sách VTTB |  |  |  |  |  |  |  | 
+ | 9 | item_number | NUMC(4) | No | No |  |  | Số thứ tự | 1
+ | 10 | inspection_lot | NUMC(12) | No | No |  |  | Số chứng từ kiểm tra chất lượng | 10000271671
+ | 11 | material_number | CHAR(40) | No | No |  |  | Mã VTTB | 200007110
+ | 12 | material_description | STRING | No | No |  |  | Tên VTTB | COND_Liebert_HPM M42 HBE74
+ | 13 | manufacturer_serial | CHAR(30) | No | No |  |  | Mã serial NSX | 14164191
+ | 14 | plant | CHAR(4) | No | No |  |  | Mã plant | V011
+ | 15 | storage_location | CHAR(4) | No | No |  |  | Mã kho vật lý | V101
+ | 16 | quantity | QUAN(15,3) | No | No |  |  | Số lượng trong PNK | 100
+
+Lưu ý: 
+- Nếu là thiết bị (có quản lý serial) số lượng luôn = 1, trường hợp thiết bị có nhiều serial, mỗi serial sẽ tương ứng là 01 dòng
+- Nếu là vật tư, số lượng bằng tổng số lượng nhập. Ví dụ 1200
+- Số lượng không phân tách hàng nghìn, cho phép lẻ 03 số thập phân, phân tách thập phân bằng dấu chấm (.). Ví dụ: 12345.090
+ | 17 | UoM | CHAR(3) | No | No |  |  | Đơn vị tính | CHI
+ | 18 | manufacturer | CHAR(156) | Yes | No |  |  | Nhà sản xuất | Vertiv/Poland
+ | 19 | KCS_result | VARCHAR(20) | No | No |  |  | kết quả KCS | Đạt
+ | 20 | inspected_quantity | QUAN(15,3) | No | No |  |  | Số lượng kiểm tra chất lượng | 100
+
+Lưu ý: số lượng kiểm tra ≤ số lượng nhập trong PNK
+ | 21 | passed_quantity | QUAN(15,3) | No | No |  |  | Số lượng kiểm tra đạt chất lượng | 100
+
+Lưu ý: số lượng kiểm tra đạt chất lượng ≤ số lượng kiểm tra
+ | 22 | failed_quantity | QUAN(15,3) | No | No |  |  | Số lượng không đạt chất lượng | 100
+
+Lưu ý: số lượng không đạt chất lượng ≤ số lượng kiểm tra - số lượng kiểm tra đạt chất lượng
+ | 23 | equipment_number | CHAR(18) | Yes | Yes |  |  | Mã thiết bị | 60001433175
+
+Lưu ý: Chỉ áp dụng với thiết bị có quản lý serial.
+ | 24 | sap_serial_number | CHAR(18) | Yes | Yes |  |  | Mã serial của SAP | 60012002580
+Lưu ý: Chỉ áp dụng với thiết bị có quản lý serial. Mã này duy nhất toàn hệ thống theo cặp key material number + sap serial number
+ | 25 | batch_number | CHAR(10) | No | No |  |  | Số lô nhập kho | 0006867565
+ | 26 | status_before_kcs | CHAR(20) | Yes | No |  |  | Trạng thái trước khi KCS | Tốt
+
+Áp dụng cho trường hợp KCS hàng trong kho
+ | 27 | num_days_from_last_kcs | INT(8) | No |  |  | 0 | Số ngày tính từ ngày KCS gần nhất | 158
+ | 2. Output parameter |  |  |  |  |  |  |  | 
+ | 2. Message details (1:N) |  |  |  |  |  |  |  | 
+ | 28 | message_code | NUMC(3) | No | Yes |  |  | Mã thông báo | Mã lỗi, ví dụ: 001
+ | 29 | message_type | CHAR(1) | No | No |  |  | Loại thông báo | - 'E': Error
+- 'W': Warning
+- 'S': Success
+ | 30 | messages | STRING | No | No |  |  | Chi tiết thông báo | 
+
+

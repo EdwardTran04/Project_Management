@@ -23,10 +23,11 @@
     - [2.2.5. Quy tắc dịch chuyển trạng thái & Mở khóa liên hoàn (Task Chain Mechanism)](#225-quy-tắc-dịch-chuyển-trạng-thái--mở-khóa-liên-hoàn-task-chain-mechanism)
   - [2.3. Mô hình giao tiếp & Tích hợp với hệ thống ngoài (SAP S/4HANA × V-Office)](#23-mô-hình-giao-tiếp--tích-hợp-với-hệ-thống-ngoài-sap-s4hana--v-office)
 - [PHẦN 3. THIẾT KẾ CHI TIẾT](#phần-3-thiết-kế-chi-tiết)
-  - [3.1. Nhóm chức năng: Duyệt tiếp nhận Lệnh nhập kho NCC (Gate 1 - Single/Batch)](#31-nhóm-chức-năng-duyệt-tiếp-nhận-lệnh-nhập-kho-ncc-gate-1---singlebatch)
-    - [3.1.1. Xem chi tiết thông tin Lệnh nhập & Vật tư PO](#311-xem-chi-tiết-thông-tin-lệnh-nhập--vật-tư-po)
-    - [3.1.2. Chức năng Đồng ý duyệt tiếp nhận Lệnh nhập kho (Đơn lẻ & Hàng loạt)](#312-chức-năng-đồng-ý-duyệt-tiếp-nhận-lệnh-nhập-kho-đơn-lẻ--hàng-loạt)
-    - [3.1.3. Chức năng Từ chối tiếp nhận Lệnh nhập kho (Gate 1 Rejection)](#313-chức-năng-từ-chối-tiếp-nhận-lệnh-nhập-kho-gate-1-rejection)
+  - [3.1. Nhóm chức năng Duyệt lệnh](#31-nhóm-chức-năng-duyệt-lệnh)
+    - [3.1.1. Chức năng xem danh sách lệnh](#311-chức-năng-xem-danh-sách-lệnh)
+    - [3.1.2. Chức năng Xem chi tiết thông tin lệnh nhập](#312-chức-năng-xem-chi-tiết-thông-tin-lệnh-nhập)
+    - [3.1.3. Đồng ý duyệt](#313-đồng-ý-duyệt)
+    - [3.1.4. Từ chối duyệt](#314-từ-chối-duyệt)
   - [3.2. Nhóm chức năng: Lập kế hoạch & Batch Duyệt lịch giao việc T+1](#32-nhóm-chức-năng-lập-kế-hoạch--batch-duyệt-lịch-giao-việc-t1)
     - [3.2.1. Bảng Dashboard Quy hoạch lịch nhập kho ngày T+1](#321-bảng-dashboard-quy-hoạch-lịch-nhập-kho-ngày-t1)
     - [3.2.2. Chức năng Batch Duyệt lịch giao việc & Phân ca trực 1 lần/ngày](#322-chức-năng-batch-duyệt-lịch-giao-việc--phân-ca-trực-1-lầnngày)
@@ -382,52 +383,340 @@ Quy trình nhập kho MM.10A kết nối trực tiếp với 2 hệ thống vệ
 
 ## PHẦN 3. THIẾT KẾ CHI TIẾT
 
-### 3.1. Nhóm chức năng: Duyệt tiếp nhận Lệnh nhập kho NCC (Gate 1 - Single/Batch)
+### 3.1. Nhóm chức năng Duyệt lệnh
 
-> [!NOTE]
-> Chức năng Quản lý/Tiếp nhận chứng từ nhập kho thuộc Cấp Thủ kho (`ROLE_WAREHOUSE_MASTER`), KHÔNG PHẢI Task tác nghiệp kho. Hệ thống hỗ trợ thao tác Duyệt đơn lẻ và Duyệt hàng loạt (Batch Acceptance).
+#### 3.1.1. Chức năng xem danh sách lệnh
 
-#### ① Thông tin chung
+##### ① Thông tin chung
 
 | Mục | Nội dung chi tiết |
 |---|---|
-| **Tên chức năng** | **Duyệt tiếp nhận Lệnh nhập kho từ NCC (Gate 1)** (`Supplier Inbound Order Accept/Reject Gate 1`) |
-| **Mã màn hình** | `SCR-WH-NCC-ACCEPT-01` |
-| **Loại chức năng** | Administrative / Management Action (Non-Task) |
+| **Tên chức năng** | **Xem danh sách Lệnh nhập kho mua mới từ NCC** (`Inbound Order List View`) |
+| **Mã màn hình** | `SCR-WH-NCC-LIST-01` |
+| **Loại chức năng** | Data Grid / Inquiry / List View (Non-Task) |
 | **Actor (Tác nhân)** | Thủ kho (`ROLE_WAREHOUSE_MASTER`), Giám đốc kho (`ROLE_WAREHOUSE_DIRECTOR`) |
-| **Mô tả** | Màn hình chức năng cho phép Thủ kho kiểm tra thông tin chi tiết Lệnh nhập kho (`INB-2026-xxxxx`) đồng bộ tự động từ chứng từ Inbound Delivery VL31N trên SAP S/4HANA (`T-API1`), đối soát danh sách mặt hàng, số lượng PO và thực hiện **Đồng ý tiếp nhận lệnh (đơn lẻ hoặc hàng loạt)** hoặc **Từ chối tiếp nhận lệnh** (Gate 1 Rejection). |
-| **Đường dẫn** | Navigation: `Quản lý Nhập kho` $\rightarrow$ `Danh sách Lệnh nhập kho` $\rightarrow$ Chọn tab `Chờ tiếp nhận`. |
-| **Trigger** | Tự động hiển thị khi Lệnh nhập kho được SAP đồng bộ thành công ở trạng thái `PENDING_APPROVAL`. |
-| **Tiền điều kiện** | Lệnh nhập kho đã được SAP phát bản tin `T-API1` truyền sang AI-WS thành công. |
-| **Hậu điều kiện** | • **Đồng ý:** Lệnh nhập chuyển `IN_PROGRESS`, hiển thị trên Màn hình Lập kế hoạch T+1 của GĐ kho.<br>• **Từ chối:** Lệnh nhập chuyển `REJECTED`, phát bản tin `T-API2` gửi SAP và không phát sinh bất kỳ Task kho nào. |
-| **Phân quyền Matrix** | • **Thao tác:** Thủ kho (`ROLE_WAREHOUSE_MASTER`), Giám đốc kho (`ROLE_WAREHOUSE_DIRECTOR`). |
+| **Mô tả** | Màn hình trung tâm quản lý và tra cứu toàn bộ các Lệnh nhập kho mua mới từ Nhà cung cấp (`INB-2026-xxxxx`) được đồng bộ tự động từ SAP S/4HANA (`T-API1`). Hỗ trợ lọc theo các Tab trạng thái (`Chờ tiếp nhận`, `Đang xử lý`, `Hoàn thành`, `Từ chối`), tìm kiếm theo từ khóa đa trường (Mã Lệnh, Số PO, Số Delivery Note, Số Hợp đồng, Tên NCC), lọc theo khoảng thời gian và kho vật lý. Cho phép thực hiện tích chọn hàng loạt để duyệt tiếp nhận Gate 1. |
+| **Đường dẫn** | Navigation: `Quản lý Nhập kho` $\rightarrow$ `Danh sách Lệnh nhập kho`. |
+| **Trigger** | Người dùng chọn menu `Danh sách Lệnh nhập kho` hoặc sau khi hoàn tất đăng nhập vào hệ thống. |
+| **Tiền điều kiện** | • Tài khoản người dùng được gán quyền Thủ kho hoặc Giám đốc kho.<br>• Các bản tin `T-API1` từ SAP đã được hệ thống tiếp nhận và khởi tạo Lệnh nhập kho. |
+| **Hậu điều kiện** | Hiển thị danh sách Lệnh nhập kho thỏa mãn điều kiện lọc và tìm kiếm trên Data Grid. |
+| **Phân quyền Matrix** | • **Xem danh sách:** Thủ kho (`ROLE_WAREHOUSE_MASTER`), Giám đốc kho (`ROLE_WAREHOUSE_DIRECTOR`). |
 
-#### ② Màn hình
+##### ② Luồng xử lý
 
-- **Link file thiết kế UI:** [Frame 2.png](file:///c:/Users/Admin/Desktop/ai-agent-wms/UIUX/TaskNhap/Frame%202.png) | [image 7.png](file:///c:/Users/Admin/Desktop/ai-agent-wms/UIUX/TaskNhap/image%207.png)
+- **Sơ đồ luồng giao tiếp (Sequence Diagram):**
 
-#### ③ Bảng Ma Trận Control Chi Tiết (Control Matrix)
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User as Thủ kho / GĐ Kho
+    participant FE as UI Web Client (SCR-WH-NCC-LIST-01)
+    participant BE as API Gateway & Order Controller
+    participant DB as AIWS Core DB (PostgreSQL)
 
-| STT | Tên Control | Kiểu Control / Kiểu Dữ Liệu | Input / Output | Data Khởi Tạo | Mô Tả Chi Tiết (Mapping CSDL) |
+    User->>FE: 1. Truy cập Menu "Quản lý Nhập kho -> Danh sách Lệnh nhập"
+    FE->>BE: 2. GET /api/v1/inbound/orders?warehouseId={id}&status=WAIT_CONFIRM&page=1&size=20
+    BE->>DB: 3. SELECT wo.*, ext.* FROM warehouse_order wo LEFT JOIN order_extension_inbound_ncc ext...
+    DB-->>BE: 4. Trả về RecordSet danh sách Lệnh kho
+    BE-->>FE: 5. Trả về JSON Response (HTTP 200 OK + Metadata)
+    FE-->>User: 6. Render Data Grid danh sách Lệnh nhập kho
+
+    opt Tìm kiếm & Lọc dữ liệu động
+        User->>FE: 7. Nhập từ khóa (VD: "4600011194") hoặc chọn Tab "Đang xử lý"
+        FE->>BE: 8. GET /api/v1/inbound/orders?status=IN_PROGRESS&keyword=4600011194
+        BE->>DB: 9. Exec SQL Query Filter (Like Search)
+        DB-->>BE: 10. Trả về Filtered RecordSet
+        BE-->>FE: 11. Trả về JSON Response
+        FE-->>User: 12. Cập nhật lại danh sách trên Data Grid
+    end
+```
+
+- **Các bước chi tiết xử lý nghiệp vụ:**
+  - **BƯỚC 1: Tải dữ liệu mặc định**
+    - Hệ thống tự động lấy thông tin `warehouse_id` thuộc phân quyền của người dùng đang đăng nhập.
+    - Gọi API `GET /api/v1/inbound/orders` với bộ lọc mặc định: `status = WAIT_CONFIRM` (Tab "Chờ tiếp nhận"), `page = 1`, `size = 20`, `sortBy = created_at`, `sortOrder = DESC`.
+  - **BƯỚC 2: Thao tác tìm kiếm & lọc dữ liệu**
+    - **Chuyển Tab Trạng thái (`cbo_status_tab`):** Click chuyển giữa các Tab `Chờ tiếp nhận` (`WAIT_CONFIRM`), `Đang xử lý` (`APPROVED` / `IN_PROGRESS`), `Hoàn thành` (`COMPLETED`), `Từ chối / Hủy` (`CANCELED`). Hệ thống tự động reset về trang 1 và tải lại danh sách tương ứng.
+    - **Tìm kiếm theo từ khóa (`txt_keyword`):** Nhập chuỗi tìm kiếm (Mã Lệnh `INB-2026-xxx`, Số PO `46000xxx`, Số Hợp đồng, Tên NCC) và nhấn Enter hoặc icon Kính lúp. Hệ thống thực hiện tìm kiếm mờ (Like Search) trên các trường tương ứng.
+    - **Lọc theo thời gian (`dtp_date_range`):** Chọn khoảng thời gian tạo lệnh (Từ ngày - Đến ngày).
+  - **BƯỚC 3: Phân trang & Sắp xếp**
+    - Thay đổi số bản ghi/trang (`10`, `20`, `50`, `100`).
+    - Click vào tiêu đề các cột (`Mã Lệnh`, `Ngày tạo`, `Tổng trọng lượng`...) để sắp xếp tăng/giảm dần.
+  - **Xử lý Backend & Query DB:**
+    ```sql
+    SELECT wo.order_id, wo.order_code, wo.order_status, wo.document_type, 
+           wo.delivery_date, wo.total_weight_kg, wo.total_volume_m3, wo.created_at,
+           ext.supplier_partner_id, ext.sap_contract_no
+    FROM warehouse_order wo
+    LEFT JOIN order_extension_inbound_ncc ext ON wo.order_id = ext.order_id
+    WHERE wo.warehouse_id = :warehouse_id
+      AND wo.order_status = :order_status
+      AND (:keyword IS NULL OR wo.order_code ILIKE %:keyword% OR ext.sap_contract_no ILIKE %:keyword%)
+    ORDER BY wo.created_at DESC
+    LIMIT :limit OFFSET :offset;
+    ```
+
+##### ③ Màn hình & Bảng Ma Trận Control Chi Tiết (Unified Control & Field Matrix)
+
+- **Link file thiết kế UI:** [Danh sách lệnh nhập.png](file:///c:/Users/quantm18/Desktop/New%20folder/Project_Management/UIUX/TaskNhap/Danh%20s%C3%A1ch%20l%E1%BB%87nh%20nh%E1%BA%ADp.png)
+- **Mô tả Layout:** Giao diện gồm 4 tầng thành phần:
+  1. **Header Bar & Top Actions:** Tiêu đề *"Danh sách Order Nhập kho"*, góc phải là nút `[Export Excel]`.
+  2. **Card Thống kê KPI Summary (3 Cards):** Card 1 *Lũy kế tháng* (Số lệnh, Khối lượng Tấn, Thể tích m³), Card 2 *Lũy kế năm* (Số lệnh, Khối lượng Tấn, Thể tích m³), Card 3 *Kho vận hành & SLA* (Mã kho N800, SLA % đúng hạn).
+  3. **Status Filter Tabs & Search Bar:** Thanh Tab trạng thái (`Tổng order 20`, `Chờ xác nhận 12`, `Đang xử lý 6`, `Hoàn tất 0`, `Từ chối xử lý 1`), Ô tìm kiếm `txt_keyword`.
+  4. **Data Grid & Pagination:** Bảng dữ liệu Data Grid 11 cột hiển thị danh sách Order nhập kho và Cụm Nút Phân trang (Select Size trang & Nút chuyển trang).
+
+###### Bảng Ma Trận Control & Cột Dữ Liệu Chi Tiết
+
+| STT | Tên Control / Tên Cột | Mã Control / Cột | Kiểu Control & Kiểu Dữ Liệu | Input / Output | Mô tả |
 |---|---|---|---|---|---|
-| 1 | `chk_select_all` | Checkbox Select All | Input | Unchecked | Tích chọn tất cả các Lệnh nhập `PENDING_APPROVAL` để duyệt hàng loạt. |
-| 2 | `lbl_order_code` | Bold Red Text / String [50] | Output | Order Code | Mã Lệnh nhập kho (`inbound_orders.order_code`). |
-| 3 | `badge_order_status` | Status Badge / String [30] | Output | `Chờ tiếp nhận` | Badge trạng thái Lệnh nhập (`inbound_orders.status`). |
-| 4 | `btn_batch_accept` | Solid Primary Red Button | Input/Trigger | Active | Label: `Đồng ý tiếp nhận hàng loạt`. Trigger API `POST /api/v1/inbound/orders/batch-accept`. |
-| 5 | `btn_reject_gate1` | Outline Red Button | Input/Trigger | Active | Label: `Từ chối lệnh`. Trigger mở Modal `mdl_reject_gate1` gửi bản tin `T-API2` sang SAP. |
+| **1** | `Header Title Màn Hình` | `lbl_screen_title` | Page Title Text | Output | Tiêu đề màn hình: *"Danh sách Order Nhập kho"*. Text đen Bold 22px `#111111`. |
+| **2** | `Nút Export Excel` | `btn_export_excel` | Outline Button / Trigger | Input/Trigger | Nút `[Export Excel]` góc trên bên phải. Viền Xanh Dương `#1890FF`, chữ Xanh `#1890FF`, icon Download. Click xuất file dữ liệu danh sách Lệnh kho ra định dạng Excel (CSV/Excel UTF-8). |
+| **3** | `Card KPI Lũy Kế Tháng` | `card_kpi_month` | Metric Summary Card | Output | Card thống kê tổng hợp chỉ số lũy kế trong tháng (Khoảng thời gian: `created_at >= DATE_TRUNC('month', CURRENT_DATE)` AND `created_at <= NOW()` AND `order_status != 'Rejected'`):<br>• **Mapping CSDL:** Query Aggregation bảng `warehouse_order`.<br>• **Số lệnh:** `COUNT(DISTINCT order_id)`. Công thức: Đếm tổng số Lệnh nhập kho sinh ra từ 00:00:00 ngày 01 đầu tháng đến thời điểm hiện tại. Đơn vị: `Lệnh`. Text đen **Bold 16px** (VD: `19`).<br>• **Khối lượng:** `SUM(total_weight_kg) / 1000.0`. Công thức: Tổng trọng lượng (kg) của tất cả các Lệnh phát sinh từ ngày 01 đầu tháng chia 1,000 để đổi sang Tấn. Đơn vị: `Tấn`. Text đen **Bold 16px**, định dạng `#,##0.02 Tấn` (VD: `8483.37 Tấn`).<br>• **Thể tích:** `SUM(total_volume_m3)`. Công thức: Tổng thể tích mét khối ($m^3$) của tất cả các Lệnh phát sinh từ ngày 01 đầu tháng đến hiện tại. Đơn vị: `$m^3$`. Text đen **Bold 16px**, định dạng `#,##0.02 m³` (VD: `6228.45 m³`). |
+| **4** | `Card KPI Lũy Kế Năm` | `card_kpi_year` | Metric Summary Card | Output | Card thống kê tổng hợp chỉ số lũy kế trong năm (Khoảng thời gian: `created_at >= DATE_TRUNC('year', CURRENT_DATE)` AND `created_at <= NOW()` AND `order_status != 'Rejected'`):<br>• **Mapping CSDL:** Query Aggregation bảng `warehouse_order`.<br>• **Số lệnh:** `COUNT(DISTINCT order_id)`. Công thức: Đếm tổng số Lệnh nhập kho sinh ra từ 00:00:00 ngày 01/01 đầu năm đến hiện tại. Đơn vị: `Lệnh`. Text đen **Bold 16px** (VD: `19`).<br>• **Khối lượng:** `SUM(total_weight_kg) / 1000.0`. Công thức: Tổng trọng lượng (kg) tất cả các Lệnh phát sinh từ 01/01 đầu năm chia 1,000 để đổi sang Tấn. Đơn vị: `Tấn`. Text đen **Bold 16px**, định dạng `#,##0.02 Tấn` (VD: `8483.37 Tấn`).<br>• **Thể tích:** `SUM(total_volume_m3)`. Công thức: Tổng thể tích mét khối ($m^3$) tất cả các Lệnh phát sinh từ 01/01 đầu năm đến hiện tại. Đơn vị: `$m^3$`. Text đen **Bold 16px**, định dạng `#,##0.02 m³` (VD: `6228.45 m³`). |
+| **5** | `Card Kho Vận Hành & SLA` | `card_kpi_wh_sla` | Metric Summary Card | Output | Card hiển thị thông tin Kho & Chỉ số SLA:<br>• **Kho hàng:** Mapping `warehouse.warehouse_code`. Text Đen **Bold 20px** (VD: `N800`). Lấy unique Mã kho. trường hợp có nhiều plant thì hiển thị 1 plant ... và hiển thị tooltip<br>• **SLA đúng hạn:** Tỷ lệ % Lệnh nhập hoàn thành đúng hạn cam kết SLA trong tháng. Công thức: `(Số lệnh hoàn thành đúng hạn SLA / Tổng số lệnh hoàn thành) * 100%`. Đơn vị: Phần trăm (`%`). Text **Bold Xanh Lá `#00A854` 20px** (VD: `100 %`). |
+| **6** | `Thanh Tabs Lọc Trạng Thái` | `tab_status_group` | Tab Buttons Group / String | Input | Nhóm Tab lọc trạng thái Lệnh nhập kho (`warehouse_order.order_status`) có đếm số lượng Badge đỏ:<br>• `Tổng order`: Badge đỏ tròn `20`. Tab Active có nền Đỏ `#FF4D4F`, chữ Trắng `#FFFFFF`.<br>• `Chờ xác nhận`: Badge đỏ `12`. Tab Inactive chữ đen `#333333`.<br>• `Đang xử lý`: Badge đỏ `6`. Text đen `#333333`.<br>• `Hoàn tất`: Badge đỏ `0`. Text đen `#333333`.<br>• `Từ chối xử lý`: Badge đỏ `1`. Text đen `#333333`. |
+| **7** | `Ô Tìm Kiếm Đa Trường` | `txt_keyword` | Text Input / String [100] | Input | Searching `warehouse_order.order_code`, `project_code`, `project_name`. Ô nhập từ khóa tìm kiếm. Icon kính lúp phía trước. Placeholder: `"Tìm mã lệnh, dự án..."`. Khung viền xám `#D9D9D9`, focus đổi viền Xanh `#1890FF`. |
+| **8** | `Nút Lọc Nâng Cao` | `btn_filter` | Outline Button / Trigger | Input/Trigger | Dynamic Filter Context. Nút `[Filter]` viền Xanh `#1890FF`, chữ Xanh `#1890FF`, icon Phễu. Click mở Popover/Form lọc nâng cao theo Plant, SLOC, Khoảng thời gian, Thủ kho. |
+| **9** | `Bảng Danh Sách Data Grid` | `grid_inbound_order_pool` | Data Grid Table / Component | Output | Bảng dữ liệu hiển thị 11 cột danh sách các Order nhập kho. Mapping `warehouse_order` JOIN `order_extension_inbound_ncc`. Khung viền bảng xám nhạt `#E0E0E0`, hàng lẻ nền trắng `#FFFFFF`, hàng chẵn nền xám xơ `#FAFAFA`, hover dòng đổi màu xanh nhạt `#E6F7FF`. |
+| **10** | `Mã Lệnh Nhập` | `col_order_code` | Hyperlink Text / String [50] | Output | Mã Lệnh kho AIWS. Mapping `warehouse_order.order_code`. Text chữ **Bold Xanh Dương `#1890FF`** (VD: `INB-2026-180`, `INB-2026-179`). Click vào mở Màn hình Xem chi tiết `SCR-WH-NCC-DETAIL-01`. |
+| **11** | `Loại Lệnh Nhập` | `col_order_type_name` | String [100] | Output | Diễn giải tên loại lệnh nhập kho. Mapping `warehouse_order.document_type` / `order_type`. Text màu đen `#333333`, font Regular 13px (VD: `Nhập kho nhà CC`). |
+| **12** | `Mã Lô Hàng` | `col_batch_no` | String [50] | Output | Số Lô hàng hóa được cấp sau KCS. Mapping `warehouse_order_item.batch_no`. Text xám `#888888` `—` nếu chưa có Lô, hoặc mã Lô `LOT-2026-xxx`. |
+| **13** | `Ngày Giao Hàng` | `col_delivery_date` | Date / Date | Output | Ngày giao hàng dự kiến theo chứng từ SAP. Mapping `warehouse_order.delivery_date`. Text màu đen `#333333`, định dạng `DD/MM/YYYY`, căn giữa (VD: `18/08/2026`). |
+| **14** | `Plant` | `col_plant_code` | String [10] | Output | Mã trung tâm phân phối / Plant kho SAP. Mapping `order_extension_inbound_ncc.plant_code` / `warehouse.plant_code`. Text màu đen `#333333`, căn giữa (VD: `N800`). |
+| **15** | `SLOC` | `col_sloc_code` | String [10] | Output | Mã kho lưu trữ chi tiết Storage Location SAP. Mapping `order_extension_inbound_ncc.sloc_code` / `warehouse_zone.sloc_code`. Text màu đen `#333333`, căn giữa (VD: `SLOC001`). |
+| **16** | `Mã, Tên Dự Án` | `col_project_info` | String [255] | Output | Tên dự án / Hạng mục tiếp nhận VTTB. Mapping `order_extension_inbound_ncc.project_code` / `project_name`. Text màu đen `#333333`, font Regular 13px (VD: `Kỹ thuật`). |
+| **17** | `Tải Trọng / Thể Tích (Quy Đổi)` | `col_weight_volume_converted` | Composite String / Two-line | Output | Hiển thị 2 dòng thông số quy đổi hàng hóa (`warehouse_order.total_weight_kg` & `total_volume_m3`):<br>• Dòng 1: `446 kg / 328 m³` (Text màu đen `#222222` font 13px).<br>• Dòng 2: `(0.45 tấn)` (Text màu xám `#666666` font 12px, đặt trong ngoặc đơn). |
+| **18** | `Thủ Kho` | `col_assigned_keeper` | String [100] | Output | Tên Thủ kho phụ trách tiếp nhận Lệnh. Mapping `warehouse_order.assigned_keeper_id` / `users.full_name`. Hiển thị `—` nếu chưa phân công. Text xám `#888888` hoặc đen `#333333`. |
+| **19** | `Trạng Thái` | `col_order_status` | Status Text / Enum | Output | Hiển thị văn bản trạng thái Lệnh kho (`warehouse_order.order_status`):<br>• `Chờ xác nhận` (`WAIT_CONFIRM`): Text màu Vàng Đậm `#D97706` / Đen `#333333`.<br>• `Đang xử lý` (`IN_PROGRESS` / `APPROVED`): Text màu Xanh Lá `#16A34A` / Đen `#333333`.<br>• `Hoàn tất` (`COMPLETED`): Text màu Xanh Dương `#0288D1`.<br>• `Từ chối xử lý` (`CANCELED`): Text màu Đỏ `#DC2626`. |
+| **20** | `Cụm Icon Action` | `col_actions` | Action Icons Group | Input/Trigger | Action Context `order_id`. Nhóm các icon thao tác trực tiếp trên từng dòng Lệnh kho:<br>• **Trạng thái `Chờ xác nhận`:** Hiển thị 3 icon:<br>  1. **Icon Tích Xanh `[Duyệt]`:** Icon Tích tròn xanh lá `#52C41A`. Click duyệt nhanh Gate 1 (Gửi API `POST /approve`).<br>  2. **Icon X Đỏ `[Từ chối]`:** Icon X đỏ `#FF4D4F`. Click mở Modal từ chối Gate 1 `mdl_reject_gate1`.<br>  3. **Icon Mắt `[Xem]`:** Icon Mắt xanh nhạt `#1890FF`. Click chuyển hướng sang Màn hình Chi tiết `SCR-WH-NCC-DETAIL-01`.<br>• **Trạng thái `Đang xử lý` / Khác:** Chỉ hiển thị 1 **Icon Mắt `[Xem]`**. |
+| **21** | `Dropdown Size Trang` | `cbo_page_size` | Dropdown Select / Integer | Input | Pagination Parameter `size`. Select chọn số bản ghi hiển thị trên 1 trang (`10`, `20`, `50`, `100`). Mặc định chọn `20`. Nền trắng `#FFFFFF`, viền xám nhạt `#D9D9D9`. |
+| **22** | `Thanh Phân Trang Pagination` | `pnl_pagination` | Pagination Controls | Input/Trigger | Pagination Parameter `page`. Cụm nút chuyển trang ở góc dưới bên phía dưới:<br>• Nút `<<`, `<`: Về trang đầu / trang trước.<br>• Ô số `1`: Trang hiện tại (Square Badge viền xanh nhạt `#1890FF`, chữ xanh).<br>• Nút `>`, `>>`: Sang trang sau / trang cuối. |
 
-#### ④ Luồng xử lý nghiệp vụ các chức năng thành phần
+---
 
-#### 3.1.1. Xem chi tiết thông tin Lệnh nhập & Vật tư PO
-Thủ kho xem danh sách đơn chờ duyệt, click vào đơn bất kỳ để xem bảng vật tư chứng từ PO.
+#### 3.1.2. Chức năng Xem chi tiết thông tin lệnh nhập
 
-#### 3.1.2. Chức năng Đồng ý duyệt tiếp nhận Lệnh nhập kho (Đơn lẻ & Hàng loạt)
-Thủ kho bấm duyệt 1 đơn hoặc chọn nhiều đơn bấm **[Đồng ý tiếp nhận hàng loạt]**. 
-- **Xử lý Backend:** Gọi API `POST /api/v1/inbound/orders/batch-accept`. DB Update: `UPDATE inbound_orders SET status = 'IN_PROGRESS', accepted_at = NOW() WHERE id IN (:order_ids)`.
+##### ① Thông tin chung
 
-#### 3.1.3. Chức năng Từ chối tiếp nhận Lệnh nhập kho (Gate 1 Rejection)
-Thủ kho từ chối nhận đơn do thông tin không hợp lệ, bấm **[Từ chối lệnh]**. Mở Modal `mdl_reject_gate1` nhập lý do. 
-- **Xử lý Backend:** Gọi API `POST /api/v1/inbound/orders/{id}/reject`. DB Update: `UPDATE inbound_orders SET status = 'REJECTED', rejection_reason = :reason WHERE id = :id`. Đồng bộ bản tin **`T-API2`** báo SAP S/4HANA.
+| Mục | Nội dung chi tiết |
+|---|---|
+| **Tên chức năng** | **Xem chi tiết thông tin Lệnh nhập kho & Danh mục Vật tư PO** (`Inbound Order Detail View`) |
+| **Mã màn hình** | `SCR-WH-NCC-DETAIL-01` |
+| **Loại chức năng** | Full-page / Detail View (Non-Task) |
+| **Actor (Tác nhân)** | Thủ kho (`ROLE_WAREHOUSE_MASTER`), Giám đốc kho (`ROLE_WAREHOUSE_DIRECTOR`) |
+| **Mô tả** | Màn hình hiển thị toàn bộ thông tin chi tiết của 1 Lệnh nhập kho mua mới từ NCC: Thông tin chung Header (Mã lệnh, Loại giao dịch, Tổng trọng lượng, Thể tích), Thông tin mở rộng Hợp đồng/NCC (Bảng `order_extension_inbound_ncc`), Thanh tiến độ trực quan 4 Stage (20% -> 100%), Danh sách dòng hàng VTTB theo chứng từ PO, cấu trúc phân rã Mã Cha $ZPAR \rightarrow$ Mã Con $ZCHI$, số lượng kế hoạch, số lượng thực nhận và Lịch sử tiến độ Task tác nghiệp. |
+| **Đường dẫn** | Navigation: `Quản lý Nhập kho` $\rightarrow$ `Danh sách Lệnh nhập kho` $\rightarrow$ Click vào Mã lệnh hoặc nút [Xem chi tiết]. |
+| **Trigger** | Người dùng click vào Mã Lệnh nhập kho trên Màn hình Xem danh sách `SCR-WH-NCC-LIST-01`. |
+| **Tiền điều kiện** | Lệnh nhập kho tồn tại hợp lệ trong CSDL hệ thống. |
+| **Hậu điều kiện** | Hiển thị giao diện thông tin chi tiết Lệnh nhập kho với đầy đủ các Card thông tin và nút Thao tác duyệt/từ chối tương ứng với trạng thái Lệnh. |
+| **Phân quyền Matrix** | • **Xem chi tiết:** Thủ kho (`ROLE_WAREHOUSE_MASTER`), Giám đốc kho (`ROLE_WAREHOUSE_DIRECTOR`). |
+
+##### ② Luồng xử lý
+
+- **BƯỚC 1: Khởi tạo & Tải dữ liệu chi tiết**
+  - Hệ thống lấy `order_id` từ URL path parameters (`/inbound/orders/:orderId`).
+  - Gọi API `GET /api/v1/inbound/orders/{orderId}`.
+  - Backend thực hiện Query SQL liên bảng:
+    - Bảng Header: `warehouse_order` (Mã lệnh, Ngày giao, Trọng lượng, Khối lượng).
+    - Bảng Extension: `order_extension_inbound_ncc` (Số PO, Hợp đồng SAP, Tên NCC, Packing List no).
+    - Bảng Dòng hàng: `warehouse_order_item` (Mã SKU, Tên VTTB, Mã Cha ZPAR/Mã Con ZCHI, Movement Type 101, Số lượng kế hoạch).
+    - Bảng Tiến độ Task: `warehouse_task` (Danh sách 7 Task và trạng thái thực thi `NEW`, `IN_PROGRESS`, `COMPLETED`).
+- **BƯỚC 2: Hiển thị các khối thông tin (UI Components)**
+  - **Header Summary Card:** Hiển thị Mã lệnh, Badge trạng thái Lệnh (`Chờ tiếp nhận`, `Đang xử lý`...), Kho vật lý thực thi và các Nút Thao tác (`[Đồng ý duyệt]`, `[Từ chối]`, `[Quay lại]`).
+  - **Progress Stepper Component:** Hiển thị thanh tiến độ ngang 4 Stage nghiệp vụ:
+    - Stage 1: Tiếp nhận Lệnh (20%)
+    - Stage 2: Hạ hàng & BBBG (40%)
+    - Stage 3: KCS & Thực nhập (70%)
+    - Stage 4: Putaway Cất hàng (100%)
+  - **Contract & Supplier Extension Card:** Hiển thị Số Hợp đồng SAP, Mã & Tên Nhà cung cấp, Số chứng từ Delivery Note, Số Packing List.
+  - **Items Data Table:** Bảng hiển thị từng dòng VTTB. Nếu là Mã Cha `ZPAR`, hỗ trợ icon Nút mở rộng (Expand Tree) để xem danh sách Mã Con `ZCHI` phân rã theo Packing List.
+  - **Task Timeline Audit:** Bảng dòng thời gian lưu lịch sử ai làm Task gì, thời điểm nhận việc và thời điểm hoàn thành.
+- **Validate Rules:**
+  - Nếu Lệnh ở trạng thái `WAIT_CONFIRM`: Hiển thị cặp nút bấm `[Đồng ý duyệt]` và `[Từ chối duyệt]`.
+  - Nếu Lệnh ở trạng thái `COMPLETED` / `CANCELED`: Ẩn tất cả các nút Thao tác phê duyệt, chỉ cho phép xem thông tin dạng Read-Only.
+
+##### ③ Màn hình & Bảng Ma Trận Control Chi Tiết (Unified Control & Field Matrix)
+
+- **Link file thiết kế UI:** [image 7.png](file:///c:/Users/Admin/Desktop/ai-agent-wms/UIUX/TaskNhap/image%207.png)
+- **Mô tả Layout:** Màn hình dạng Chi tiết Full-page. Đầu trang là Header Bar kèm Thanh Tiến độ Stepper 4 bước. Thân trang được bố trí làm 2 cột: Cột trái (70% chiều rộng) chứa Card Thông tin Chứng từ & Bảng Chi tiết Vật tư PO; Cột phải (30% chiều rộng) chứa Card Thông tin Nhà cung cấp, Trọng lượng/Thể tích tổng và Timeline Lịch sử Task.
+
+###### Bảng Ma Trận Control & Cột Dữ Liệu Chi Tiết
+
+| STT | Tên Control / Tên Cột | Mã Control / Cột | Kiểu Control & Kiểu Dữ Liệu | Input / Output | Mô tả |
+|---|---|---|---|---|---|
+| **1** | `Mã Lệnh Kho Header` | `lbl_detail_order_code` | Large Bold Text / String [50] | Output | Mã Lệnh kho hiển thị ở góc trên bên trái Header. Mapping `warehouse_order.order_code`. Font size 24px **Bold Đỏ `#EE0000`**. |
+| **2** | `Badge Trạng Thái Header` | `badge_detail_status` | Colored Status Badge | Output | Badge trạng thái Lệnh kho. Mapping `warehouse_order.order_status`. Màu sắc: `WAIT_CONFIRM` (Nền vàng nhạt `#FFF4E5`, chữ Vàng cam `#ED6C02`), `IN_PROGRESS` (Nền xanh lá `#E8F5E9`, chữ Xanh `#2E7D32`), `COMPLETED` (Nền xanh dương `#E1F5FE`, chữ Xanh `#0288D1`), `CANCELED` (Nền đỏ nhạt `#FFEBEE`, chữ Đỏ `#D32F2F`). |
+| **3** | `Thanh Tiến Độ 4 Stage` | `stepper_stages` | Horizontal Stepper | Output | Thanh ngang hiển thị tiến độ 4 bước. Mapping `process_stage` (Stage 1: 20%, Stage 2: 40%, Stage 3: 70%, Stage 4: 100%). Bước hoàn thành hiển thị Icon Tích Xanh `#2E7D32`, bước đang làm hiển thị Vòng quay Đỏ `#EE0000`, bước chưa làm màu Xám `#BDBDBD`. |
+| **4** | `Card Thông Tin Hợp Đồng/NCC` | `card_supplier_info` | Read-only Info Card | Output | Card chứa thông tin Tên NCC (`partner_name`), Số Hợp đồng (`sap_contract_no`), Mã PO (`sap_po_number`), Số Packing List. Mapping `order_extension_inbound_ncc` & `partner`. Nền trắng `#FFFFFF`, viền xám nhạt `#E0E0E0`, tiêu đề Card chữ Đỏ `#EE0000`. |
+| **5** | `Card Chỉ Số Trọng Lượng/Thể Tích` | `card_metrics` | Metrics Box | Output | Hiển thị 3 chỉ số lớn. Mapping `total_weight_kg`, `net_weight_kg`, `total_volume_m3`:<br>• **Tổng trọng lượng:** Text Bold Đen 18px (`#,##0.000 kg`).<br>• **Trọng lượng tịnh:** Text 14px (`#,##0.000 kg`).<br>• **Thể tích:** Text Bold Đen 18px (`#,##0.000 m³`). |
+| **6** | `Bảng Danh Mục Vật Tư PO` | `tbl_detail_items` | Expandable Tree Table | Component / Output | Bảng dữ liệu hiển thị 10 cột vật tư chứng từ PO. Mapping `warehouse_order_item` JOIN `material_master`. Hỗ trợ Nút bấm Mở rộng (Expand Tree) cho dòng Mã Cha `ZPAR` để xổ ra các dòng Mã Con `ZCHI`. Nền dòng Mã Cha màu kem nhạt `#FFFDE7`, dòng Mã Con màu trắng `#FFFFFF`. |
+| **7** | `STT Dòng SAP` | `col_item_number` | String [10] | Output | Số thứ tự dòng chứng từ SAP (`0010`, `0020`). Mapping `warehouse_order_item.item_number`. Text căn giữa, màu xám `#555555`. |
+| **8** | `Mã SKU VTTB` | `col_material_code` | String [50] (Bold) | Output | Mã vật tư thiết bị AIWS (VD: `10000244`). Mapping `material_master.material_code`. Text chữ **Bold Đen `#111111`**, font 13px. |
+| **9** | `Tên VTTB & Quy Cách` | `col_material_name` | String [255] | Output | Tên chi tiết và quy cách sản phẩm (VD: `Điều hòa Daikin 12000BTU Inverter`). Mapping `material_master.material_name`. Text màu đen `#222222`. |
+| **10** | `Mã Phân Loại (Cha/Con)` | `col_material_type` | String [10] Badge | Output | Badge phân loại. Mapping `warehouse_order_item.material_type`:<br>• `ZPAR` (Mã Cha): Badge màu Cam `#ED6C02` kèm icon Mở rộng.<br>• `ZCHI` (Mã Con): Badge màu Xanh lam `#1976D2` lùi lề 20px. |
+| **11** | `Movement Type` | `col_movement_type` | String [10] | Output | Mã phong trào chuyển động kho SAP (VD: `101`). Mapping `warehouse_order_item.movement_type`. Text chữ nghiêng xám `#666666`. |
+| **12** | `Đơn Vị Tính (UoM)` | `col_uom` | String [10] | Output | Đơn vị tính sản phẩm (VD: `CAI`, `MET`, `BOD`). Mapping `material_master.unit_of_measure`. Text căn giữa, màu đen `#333333`. |
+| **13** | `Số Lượng Kế Hoạch` | `col_planned_qty` | Decimal (15,3) | Output | Số lượng vật tư theo đơn PO SAP. Mapping `warehouse_order_item.planned_qty`. Text màu đen **Bold `#000000`**, định dạng `#,##0.000`, căn phải. |
+| **14** | `Số Lượng Thực Nhận` | `col_actual_received_qty` | Decimal (15,3) | Output | Số lượng thực tế dỡ hàng / kiểm đếm tại kho. Mapping `warehouse_order_item.actual_received_qty`. Text màu Xanh lá `#2E7D32` **Bold**, định dạng `#,##0.000`, căn phải. |
+| **15** | `Số Lô (Batch No)` | `col_batch_no` | String [50] | Output | **Số Lô (Batch No)** được gán chính thức sau KCS API04 / Task 4 `T-AGR` (VD: `0006867565`). Mapping `warehouse_order_item.batch_no`. Text màu Tím `#7B1FA2` **Bold**, nếu chưa KCS hiển thị `"--"`. |
+| **16** | `Trạng Thái Dòng` | `col_item_status` | Status Badge | Output | Badge trạng thái dòng vật tư. Mapping `warehouse_order_item.item_status` (`PENDING` - Vàng, `UNLOADED` - Cam, `KCS_PASSED` - Xanh lá, `STORED` - Xanh dương). |
+| **17** | `Nút Đồng Ý Duyệt` | `btn_detail_approve` | Solid Primary Button | Input/Trigger | Nút `Đồng ý duyệt`. Trigger Action Gate 1 Approval. Nền Đỏ Viettel `#EE0000`, chữ Trắng **Bold `#FFFFFF`**. Chỉ hiển thị khi `order_status == 'WAIT_CONFIRM'`. |
+| **18** | `Nút Từ Chối Lệnh` | `btn_detail_reject` | Outline Danger Button | Input/Trigger | Nút `Từ chối lệnh`. Trigger mở Modal `mdl_reject_gate1`. Viền Đỏ `#D32F2F`, chữ Đỏ `#D32F2F`, nền trắng. Chỉ hiển thị khi `order_status == 'WAIT_CONFIRM'`. |
+
+---
+
+#### 3.1.3. Đồng ý duyệt
+
+##### ① Thông tin chung
+
+| Mục | Nội dung chi tiết |
+|---|---|
+| **Tên chức năng** | **Đồng ý duyệt tiếp nhận Lệnh nhập kho từ NCC (Gate 1 - Single & Batch)** (`Approve Inbound Order Gate 1`) |
+| **Mã màn hình** | `SCR-WH-NCC-ACCEPT-01` (Nút thao tác tích hợp trên `SCR-WH-NCC-LIST-01` & `SCR-WH-NCC-DETAIL-01`) |
+| **Loại chức năng** | Action / Approval / State Mutation (Gate 1) |
+| **Actor (Tác nhân)** | Thủ kho (`ROLE_WAREHOUSE_MASTER`), Giám đốc kho (`ROLE_WAREHOUSE_DIRECTOR`) |
+| **Mô tả** | Chức năng cho phép Thủ kho / Giám đốc kho xác nhận Đồng ý tiếp nhận Lệnh nhập kho mua mới từ Nhà cung cấp (thực hiện cho 1 Lệnh đơn lẻ hoặc chọn tích chọn hàng loạt N Lệnh cùng lúc) sau khi đã kiểm tra tính đầy đủ, chính xác của thông tin chứng từ PO đồng bộ từ SAP. Khi bấm duyệt thành công, trạng thái Lệnh nhập chuyển từ `WAIT_CONFIRM` (Chờ tiếp nhận) sang `APPROVED` (Đã duyệt), cập nhật mốc thời gian `confirmed_at = NOW()`, sẵn sàng hiển thị trên Màn hình Quy hoạch Kế hoạch ngày T+1 của Giám đốc kho. |
+| **Đường dẫn** | Navigation: `Quản lý Nhập kho` $\rightarrow$ Click nút `[Đồng ý tiếp nhận]` trên Danh sách hoặc nút `[Đồng ý duyệt]` trên màn hình Chi tiết. |
+| **Trigger** | Người dùng bấm nút **[Đồng ý duyệt]** (Đơn lẻ) hoặc **[Đồng ý tiếp nhận hàng loạt]** (Hàng loạt). |
+| **Tiền điều kiện** | • Lệnh nhập kho đang ở trạng thái `WAIT_CONFIRM` (Chờ tiếp nhận).<br>• Tài khoản thao tác thuộc Role Thủ kho hoặc Giám đốc kho. |
+| **Hậu điều kiện** | • Trạng thái Lệnh nhập chuyển thành `APPROVED`.<br>• Ghi nhận `confirmed_at = CURRENT_TIMESTAMP` và lưu nhật ký Audit Trail.<br>• Lệnh nhập sẵn sàng cho bước Quy hoạch Lịch ca trực T+1. |
+| **Phân quyền Matrix** | • **Thao tác Duyệt:** Thủ kho (`ROLE_WAREHOUSE_MASTER`), Giám đốc kho (`ROLE_WAREHOUSE_DIRECTOR`). |
+
+##### ② Luồng xử lý
+
+- **BƯỚC 1: Phát động hành động Duyệt**
+  - **Trường hợp 1 (Duyệt đơn lẻ):** Trên màn hình Chi tiết hoặc tại từng dòng trên Data Grid Danh sách, người dùng bấm nút **[Đồng ý duyệt]**.
+  - **Trường hợp 2 (Duyệt hàng loạt):** Trên màn hình Danh sách, người dùng tích chọn $N$ Checkbox (`chk_order_item`) và bấm nút **[Đồng ý tiếp nhận hàng loạt]**.
+- **BƯỚC 2: Kiểm tra Điều kiện & Hiển thị Pop-up Xác nhận**
+  - System Validate: Check danh sách `order_id` truyền vào. Đảm bảo tất cả các Lệnh được chọn đều đang ở trạng thái `order_status = 'WAIT_CONFIRM'`. Nếu có lệnh khác trạng thái ➔ Hiển thị thông báo lỗi cảnh báo.
+  - Hiển thị Modal Pop-up Xác nhận Duyệt (`dlg_confirm_approve`):
+    - Nội dung Pop-up: *"Bạn có chắc chắn muốn duyệt tiếp nhận [N] Lệnh nhập kho đã chọn để chuyển sang bước Lập kế hoạch ngày T+1 không?"*
+    - Các nút: `[Xác nhận duyệt]`, `[Hủy bỏ]`.
+- **BƯỚC 3: Thực thi Cập nhật DB & Backend Service**
+  - Người dùng bấm **[Xác nhận duyệt]**.
+  - Gọi Backend API: `POST /api/v1/inbound/orders/approve`
+  - Body Payload:
+    ```json
+    {
+      "orderIds": ["f47ac10b-58cc-4372-a567-0e02b2c3d479"],
+      "note": "Đồng ý tiếp nhận Lệnh nhập NCC"
+    }
+    ```
+  - Backend Transaction SQL:
+    ```sql
+    UPDATE warehouse_order 
+    SET order_status = 'APPROVED', 
+        confirmed_at = CURRENT_TIMESTAMP,
+        updated_at = CURRENT_TIMESTAMP
+    WHERE order_id IN (:orderIds) AND order_status = 'WAIT_CONFIRM';
+
+    INSERT INTO system_audit_log (log_id, user_id, action_name, entity_name, entity_id, created_at)
+    VALUES (gen_random_uuid(), :current_user_id, 'APPROVE_GATE_1', 'warehouse_order', :order_id, NOW());
+    ```
+- **BƯỚC 4: Phản hồi kết quả & Cập nhật UI**
+  - Đóng Modal Pop-up Xác nhận.
+  - Backend trả về HTTP Status `200 OK`.
+  - Frontend hiển thị thông báo Toast Notification thành công: *"Đã duyệt tiếp nhận thành công N Lệnh nhập kho!"*.
+  - Cập nhật trạng thái Badge trên UI thành `Đã duyệt` (`APPROVED`) và làm mới danh sách dữ liệu.
+
+##### ③ Màn hình & Bảng Ma Trận Control Chi Tiết (Unified Control & Field Matrix)
+
+- **Link file thiết kế UI:** [Frame 2.png](file:///c:/Users/Admin/Desktop/ai-agent-wms/UIUX/TaskNhap/Frame%202.png) | Modal Pop-up Confirm
+- **Mô tả Layout:** Nút bấm màu Đỏ Nổi bật (Solid Primary Red Button) hiển thị ở góc trên bên phải của Màn hình Danh sách và Màn hình Chi tiết. Khi bấm vào sẽ mở Modal Dialog xác nhận ở chính giữa màn hình với phông nền mờ (Backdrop overlay).
+
+###### Bảng Ma Trận Control & Cột Dữ Liệu Chi Tiết
+
+| STT | Tên Control / Tên Cột | Mã Control / Cột | Kiểu Control & Kiểu Dữ Liệu | Input / Output | Mô tả |
+|---|---|---|---|---|---|
+| **1** | `Nút Duyệt Hàng Loạt` | `btn_batch_accept` | Solid Primary Red Button | Input/Trigger | Nút `Đồng ý tiếp nhận hàng loạt` trên Toolbar danh sách. Nền màu **Đỏ Viettel `#EE0000`**, chữ Trắng **Bold `#FFFFFF`**. Mặc định mờ (`Disabled `#E0E0E0``). Sáng lên khi có tích chọn Checkbox. Trigger mở Modal `dlg_confirm_approve`. Context: `order_ids[]`. |
+| **2** | `Nút Duyệt Đơn Lẻ` | `btn_single_accept` | Solid Primary Button | Input/Trigger | Nút `Đồng ý duyệt` trên trang chi tiết Lệnh kho hoặc cuối dòng Data Grid. Nền màu Đỏ `#EE0000`, chữ Trắng `#FFFFFF`. Trigger mở Modal `dlg_confirm_approve`. Context: `order_id`. |
+| **3** | `Modal Dialog Pop-up` | `dlg_confirm_approve` | Modal Component | Output / Component | Modal xác nhận thao tác duyệt Gate 1. Khung Modal nền trắng `#FFFFFF`, góc bo 8px, bóng mờ Shadow `#00000033`, backdrop đen trong suốt 50% `#00000080`. Tiêu đề chữ Đỏ **Bold `#EE0000`**: *"XÁC NHẬN DUYỆT TIẾP NHẬN LỆNH NHẬP KHO"*. |
+| **4** | `Nút Xác Nhận Duyệt Modal` | `btn_modal_confirm` | Solid Primary Button | Input/Trigger | Nút `Xác nhận duyệt` trên Modal. Nền màu Đỏ `#EE0000`, chữ Trắng **Bold `#FFFFFF`**. Trigger gọi API Backend `POST /api/v1/inbound/orders/approve` và cập nhật DB: `UPDATE warehouse_order SET order_status = 'APPROVED', confirmed_at = CURRENT_TIMESTAMP`. |
+| **5** | `Nút Hủy Bỏ Modal` | `btn_modal_cancel` | Secondary Button | Input/Trigger | Nút `Hủy bỏ` trên Modal. Viền xám `#9E9E9E`, chữ xám `#616161`, nền trắng `#FFFFFF`. Click đóng Pop-up không thực thi. |
+| **6** | `Toast Thông Báo Thành Công` | `toast_success_approve` | Toast Notification | Output | Popup thông báo góc trên bên phải màn hình khi duyệt thành công. Nền Xanh lá `#2E7D32`, chữ Trắng `#FFFFFF`, icon Tích Xanh. Tự động ẩn sau 3 giây. |
+
+---
+
+#### 3.1.4. Từ chối duyệt
+
+##### ① Thông tin chung
+
+| Mục | Nội dung chi tiết |
+|---|---|
+| **Tên chức năng** | **Từ chối tiếp nhận Lệnh nhập kho từ NCC (Gate 1 Rejection)** (`Reject Inbound Order Gate 1`) |
+| **Mã màn hình** | `SCR-WH-NCC-REJECT-01` (Modal Pop-up tích hợp trên `SCR-WH-NCC-LIST-01` & `SCR-WH-NCC-DETAIL-01`) |
+| **Loại chức năng** | Action / Rejection / State Mutation (Gate 1 Rejection) |
+| **Actor (Tác nhân)** | Thủ kho (`ROLE_WAREHOUSE_MASTER`), Giám đốc kho (`ROLE_WAREHOUSE_DIRECTOR`) |
+| **Mô tả** | Chức năng cho phép Thủ kho / Giám đốc kho chủ động từ chối tiếp nhận Lệnh nhập kho do phát hiện chứng từ SAP không hợp lệ, thông tin PO/Hợp đồng bị sai lệch, hàng hóa giao không đúng kế hoạch hoặc trùng lặp. Khi bấm từ chối, hệ thống hiển thị Pop-up bắt buộc chọn Lý do từ chối chuẩn và nhập Mô tả giải thích chi tiết. Khi xác nhận, trạng thái Lệnh nhập chuyển thành `CANCELED` (Đã từ chối/Hủy), phát động thông điệp API `API02` (`T-API2`) gửi phản hồi về SAP S/4HANA để phía ERP xử lý khiếu nại/hủy chứng từ, đồng thời hủy tất cả các Task kho chưa thực hiện. |
+| **Đường dẫn** | Navigation: `Quản lý Nhập kho` $\rightarrow$ Click nút `[Từ chối]` trên Danh sách hoặc nút `[Từ chối lệnh]` trên màn hình Chi tiết. |
+| **Trigger** | Người dùng bấm nút **[Từ chối]** / **[Từ chối lệnh]**. |
+| **Tiền điều kiện** | Lệnh nhập kho đang ở trạng thái `WAIT_CONFIRM` (hoặc `APPROVED` nhưng chưa phát sinh thao tác vật lý dỡ hàng). |
+| **Hậu điều kiện** | • Trạng thái Lệnh nhập chuyển thành `CANCELED`.<br>• Phát động bản tin API02 gửi phản hồi lý do từ chối về SAP S/4HANA.<br>• Ghi log nhật ký `sap_integration_message_log` và hủy toàn bộ các Task liên quan. |
+| **Phân quyền Matrix** | • **Thao tác Từ chối:** Thủ kho (`ROLE_WAREHOUSE_MASTER`), Giám đốc kho (`ROLE_WAREHOUSE_DIRECTOR`). |
+
+##### ② Luồng xử lý
+
+- **BƯỚC 1: Mở Modal Từ chối Gate 1**
+  - Người dùng bấm nút **[Từ chối lệnh]** trên giao diện Danh sách hoặc Chi tiết.
+  - Hệ thống mở Modal Dialog Pop-up `mdl_reject_gate1`.
+- **BƯỚC 2: Nhập thông tin Lý do từ chối**
+  - **Chọn Mã lý do từ chối (`cbo_rejection_reason`):** Danh sách chọn gồm:
+    - `NOT_GOOD`: Hàng hóa / Thông tin chứng từ không đảm bảo chất lượng.
+    - `FAIL`: Thông tin chứng từ SAP bị sai lệch hoặc trùng lặp.
+  - **Nhập Mô tả chi tiết (`txt_manual_reason`):** Ô văn bản nhập nội dung giải thích (Bắt buộc nhập tối thiểu 10 ký tự, tối đa 500 ký tự).
+- **BƯỚC 3: Validate Rules & Thực thi Backend**
+  - Người dùng bấm nút **[Xác nhận từ chối]**.
+  - **Frontend Validation:**
+    - Kiểm tra `rejection_reason` không được để trống.
+    - Kiểm tra `manual_reason` không được để trống và có độ dài $\ge 10$ ký tự. Nếu không đạt ➔ Hiển thị lỗi đỏ chân trường nhập.
+  - **Backend Processing:**
+    - Gọi API: `POST /api/v1/inbound/orders/{orderId}/reject`
+    - Body Payload:
+      ```json
+      {
+        "rejectionReason": "NOT_GOOD",
+        "manualReason": "Số lượng VTTB trên chứng từ sai lệch so với Hợp đồng bản cứng",
+        "rejectedBy": "NV111600"
+      }
+      ```
+    - Transaction SQL Update:
+      ```sql
+      UPDATE warehouse_order 
+      SET order_status = 'CANCELED', updated_at = NOW() 
+      WHERE order_id = :orderId;
+
+      UPDATE warehouse_task 
+      SET task_status = 'CANCELED', updated_at = NOW() 
+      WHERE order_id = :orderId AND task_status IN ('NEW', 'AVAILABLE');
+
+      INSERT INTO sap_integration_message_log (
+        message_id, order_id, api_code, direction, rejection_reason, manual_reason, rejected_by, status, created_at
+      ) VALUES (
+        gen_random_uuid(), :orderId, 'API02', 'OUTBOUND_TO_SAP', :rejectionReason, :manualReason, :rejectedBy, 'SUCCESS', NOW()
+      );
+      ```
+    - **Tích hợp API02 sang SAP S/4HANA:** Tự động gửi bản tin Webhook/Service API `API02` truyền các thông số `document_number`, `rejection_reason`, `manual_reason`, `rejected_by` sang SAP.
+- **BƯỚC 4: Phản hồi kết quả & Cập nhật UI**
+  - Đóng Modal Dialog.
+  - Hiển thị Toast Notification màu vàng/đỏ: *"Đã từ chối Lệnh nhập kho và đồng bộ thông báo về hệ thống SAP S/4HANA!"*.
+  - Cập nhật UI Badge trạng thái Lệnh thành `Đã từ chối` / `Hủy` (`CANCELED`).
+
+##### ③ Màn hình & Bảng Ma Trận Control Chi Tiết (Unified Control & Field Matrix)
+
+- **Link file thiết kế UI:** Modal Pop-up UI
+- **Mô tả Layout:** Modal Pop-up nổi giữa màn hình, chứa Form chọn Lý do từ chối (Combobox), ô nhập Ghi chú diễn giải chi tiết (Textarea) và cặp nút thao tác `[Xác nhận từ chối]` (Outline Danger Button) và `[Hủy bỏ]`.
+
+###### Bảng Ma Trận Control & Cột Dữ Liệu Chi Tiết
+
+| STT | Tên Control / Tên Cột | Mã Control / Cột | Kiểu Control & Kiểu Dữ Liệu | Input / Output | Mô tả |
+|---|---|---|---|---|---|
+| **1** | `Nút Từ Chối Lệnh` | `btn_reject_gate1` | Outline Danger Button | Input/Trigger | Nút `Từ chối lệnh` trên giao diện Danh sách / Chi tiết. Viền Đỏ `#D32F2F`, chữ Đỏ `#D32F2F`, nền trắng `#FFFFFF`. Hover đổi nền đỏ nhạt `#FFEBEE`. Trigger mở Modal Pop-up `mdl_reject_gate1`. |
+| **2** | `Modal Dialog Pop-up` | `mdl_reject_gate1` | Modal Component | Output / Component | Modal Pop-up nhập thông tin từ chối Gate 1. Nền trắng `#FFFFFF`, góc bo 8px, backdrop mờ `#00000080`. Tiêu đề chữ Đỏ **Bold `#D32F2F`**: *"TỪ CHỐI TIẾP NHẬN LỆNH NHẬP KHO"*. |
+| **3** | `Combobox Mã Lý Do Từ Chối` | `cbo_rejection_reason` | Dropdown Select / String [20] | Input | Dropdown chọn lý do từ chối chuẩn theo API02. Mapping `sap_integration_message_log.rejection_reason`:<br>• `NOT_GOOD`: Hàng hóa / Thông tin không đảm bảo chất lượng.<br>• `FAIL`: Thông tin chứng từ SAP bị sai lệch hoặc trùng lặp.<br>Bắt buộc chọn. Viền đỏ `#D32F2F` khi chưa chọn và bấm Submit. |
+| **4** | `Textarea Mô Tả Chi Tiết` | `txt_manual_reason` | Textarea / String [500] | Input | Ô văn bản nhập diễn giải chi tiết lý do từ chối. Mapping `sap_integration_message_log.manual_reason`. Bắt buộc nhập tối thiểu 10 ký tự, tối đa 500 ký tự. Đếm số ký tự ở góc phải (`0/500`). Viền xám `#C4C4C4`, focus màu Đỏ `#EE0000`. |
+| **5** | `Nút Xác Nhận Từ Chối` | `btn_confirm_reject_gate1` | Solid Red Button | Input/Trigger | Nút `Xác nhận từ chối` trên Modal. Nền màu Đỏ Đậm `#D32F2F`, chữ Trắng **Bold `#FFFFFF`**. Trigger validate form, gửi bản tin API02 sang SAP S/4HANA và cập nhật DB: `UPDATE warehouse_order SET order_status = 'CANCELED'`. |
+| **6** | `Nút Hủy Bỏ Modal` | `btn_cancel_reject_gate1` | Secondary Button | Input/Trigger | Nút `Hủy bỏ` trên Modal. Viền xám `#9E9E9E`, chữ xám `#616161`. Đóng Modal không thực thi. |
+| **7** | `Toast Thông Báo Từ Chối` | `toast_reject_notice` | Toast Notification | Output | Popup thông báo góc trên bên phải màn hình. Nền Vàng Cam / Đỏ `#ED6C02`, chữ Trắng `#FFFFFF`, icon Cảnh báo. Thông báo: *"Đã từ chối Lệnh nhập kho và đồng bộ thông báo về hệ thống SAP S/4HANA!"*. Hiển thị trong 3 giây. |
 
 ---
 
