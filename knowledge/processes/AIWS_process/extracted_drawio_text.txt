@@ -1,0 +1,291 @@
+
+=======================================================
+DIAGRAM: MM.10A - Nhập kho mua hàng NCC
+=======================================================
+
+=======================================================
+DIAGRAM: MM.10B - Thu hồi từ công trình PS
+=======================================================
+  * MM.10B — Quy trình nhập kho thu hồi từ công trình (PS) — Tích hợp SAP S/4HANA & AI-WMS (Blueprint S406)
+  * SAP S/4HANA (Quản trị & Kế toán)
+  * Tham chiếu PS.05.01 Quy trình thực hiện dự án (Kỹ thuật hạ tầng Tỉnh)
+  * 1. Tự đọngTạo Yêu cầu thu hồi dư thừa từ công trình (Return Request) [Z-program]
+  * 2. Trình Yêu cầu thu hồi lên V-Office [Z-program/TBU] *Đính kèm Phiếu yêu cầu kiêm lệnh nhập kho
+  * 3.1. V-Office Phê duyệt -> SAP cập nhật Status Approved
+  * 4. SAP đẩy Lệnh thu hồi sang AIWS tự động qua API (T-API1)
+  * 6.1. AI-WS gọi T-API2 -> SAP đóng/hủy Lệnh thu hồi
+  * c
+  * 11. AI-WS gọi T-API3 -> SAP cập nhật Rejected by Whs
+  * 12. SAP sinh Phiếu nhập kho (Material Document) [Z-program/MIGO]
+  * 18. Nhận thông tin SAP cập nhật tồn kho Status UU
+  * 21. SAP Gửi kết quả KCS sang AI-WMS
+  * 20. SAP cập nhật tồn kho KCS: Đạt: UU -> QI | Không đạt: UU -> Block
+  * 13. Đồng bộ Mã phiếu nhập sang AIWS
+  * 19. Quy trình KCS
+  * V-Office
+  * 3. Phê duyệt Yêu cầu thu hồi?
+  * 16. Phê duyệt Phiếu nhập kho?
+  * Phê duyệt
+  * Từ chối (Sửa đổi)
+  * Phê duyệt
+  * T-API1 (Đẩy Lệnh thu hồi)
+  * Từ chối (T-API2)
+  * T-API3 (Báo Sai lệch/Từ chối)
+  * Sinh Material Doc
+  * Kết quả Phê duyệt
+  * T-API5 (Trả Kết quả KCS)
+  * Từ chối
+  * Chấp nhận
+  * Đồng ý
+  * Từ chối
+  * AI-WMS (Kho thông minh & Vận hành vật lý)
+  * 5. AI-WS tiếp nhận Lệnh thu hồi (T-API1) & Sinh nhiệm vụ kho
+  * 6. Thủ kho quyết định?
+  * 6.2. Xác nhận giờ nhận hàng
+  * 7. Sinh lịch giao việc nhân sự kho
+  * 8. Bảo vệ cập nhật giờ xe vào cổng (T-Scr)
+  * 9. Dỡ hàng & Kiểm đếm vật lý thực tế (T-Unl)
+  * 10. Kết quả kiểm đếm?
+  * 10.1 Từ chối nhận hàng (Gửi T-API3 về SAP)
+  * 10.2. Ký BBBG điện tử Chuyển vào khu chờ nhập
+  * 14. Nhận dữ liệu Phiếu nhập
+  * 15. Xác nhận và trình ký
+  * 22. Thủ kho bấm nhập kho (T-AGR trên app AIWS)
+  * 23. Đóng gói
+  * 24. Lưu trữ (Putaway to Bin layout)
+  * Đồng ý
+  * Đúng đủ
+  * Sai lệch
+  * 16.1. Cập nhật trạng thái
+  * 17. Đồng bộ trạng thái
+
+=======================================================
+DIAGRAM: MM.10C - Thu hồi từ trạm PM
+=======================================================
+  * MM.10C — Quy trình nhập kho thu hồi từ trạm (PM) — Tích hợp SAP S/4HANA & AI-WMS (Blueprint S406)
+  * SAP S/4HANA (Quản trị & Kế toán)
+  * 1. Tự đông Tạo Yêu cầu thu hồi dư thừa từ công trình Với mỗi loại về Plant Sloc tương ứng
+  * 2. Trình Yêu cầu thu hồi lên V-Office
+  * 3.1. V-Office Phê duyệt -> SAP cập nhật Status Approved
+  * 4. SAP đẩy Lệnh thu hồi sang AIWS tự động qua API (T-API1)
+  * 6.1. AI-WS gọi T-API2 -> SAP đóng/hủy Lệnh thu hồi
+  * c
+  * 11. AI-WS gọi T-API3 -> SAP cập nhật Rejected by Whs
+  * 21. SAP Gửi kết quả KCS sang AI-WMS
+  * 20. SAP cập nhật tồn kho KCS: Đạt: UU -> QI | Không đạt: UU -> Block
+  * 19. Quy trình KCS
+  * Tham chiếu 3 trường hợp PM: 1) PM.02: Thiết bị dư thừa ứng cứu thông tin (Nguyên giá) 2) PM.05.01: Hủy trạm (Quản lý số lượng, không quản lý giá) 3) PM.03.02: Thu hồi sửa chữa (Quản lý số lượng, không quản lý giá)
+  * Có
+  * Không
+  * Đóng phiếu?
+  * Đóng WO. Tham khảo quy trình tương ứng (PM.02 | PM.05.01 | PM.02.02)
+  * Điều chỉnh giá vật tư?
+  * Điều chỉnh
+  * Sinh yêu cầu kiểm tra chất lượng
+  * V-Office
+  * 3. Phê duyệt Yêu cầu thu hồi?
+  * Phê duyệt
+  * Từ chối (Sửa đổi)
+  * Phê duyệt
+  * T-API1 (Đẩy Lệnh thu hồi)
+  * Từ chối (T-API2)
+  * T-API3 (Báo Sai lệch/Từ chối)
+  * Sinh Material Doc
+  * Kết quả Phê duyệt
+  * T-API5 (Trả Kết quả KCS)
+  * Từ chối
+  * Chấp nhận
+  * AI-WMS (Kho thông minh & Vận hành vật lý)
+  * 5. AI-WS tiếp nhận Lệnh thu hồi (T-API1) & Sinh nhiệm vụ kho
+  * 6. Thủ kho quyết định?
+  * 6.2. Xác nhận giờ nhận hàng
+  * 7. Sinh lịch giao việc nhân sự kho
+  * 8. Bảo vệ cập nhật giờ xe vào cổng (T-Scr)
+  * 9. Dỡ hàng & Kiểm đếm vật lý thực tế (T-Unl)
+  * 10. Kết quả kiểm đếm?
+  * 10.1 Từ chối nhận hàng (Gửi T-API3 về SAP)
+  * 10.2. Ký BBBG điện tử Chuyển vào khu chờ nhập
+  * 22. Thủ kho bấm nhập kho (T-AGR trên app AIWS)
+  * 23. Đóng gói
+  * 24. Lưu trữ (Putaway to Bin layout)
+  * Đồng ý
+  * Đúng đủ
+  * Sai lệch
+  * Khồng sinh piếu nhập vẫn KCS???
+
+=======================================================
+DIAGRAM: MM.10D - Thu hồi Non viễn thông
+=======================================================
+  * MM.10D — Luồng Nhập Kho Thu Hồi Tài Sản Non-Telco (FI-AA Fixed Asset) — Tích hợp SAP S/4HANA & AI-WMS (Blueprint S406)
+  * SAP S/4HANA (FI-AA & Kế toán)
+  * Tham chiếu FI.54.01 Thu hồi TS về Location 'Tài sản thu hồi' (Bộ phận Quản lý tài sản)
+  * Có
+  * Không
+  * Có thể sửa chữa
+  * Tham chiếu FI.53.01 Quy trình sửa chữa tài sản Non-telco
+  * 1A. Tạo Reservation giá trị = 0 [Z-program] (Nhập vào Plant thu hồi NV - Non-valuated)
+  * 2A. Tạo Reservation giá trị > 0 [Z-program] (Nhập vào Plant có hạch toán - Valuated)
+  * 4.1. V-Office Phê duyệt -> SAP cập nhật Status Approved
+  * 4.2. SAP đẩy Lệnh thu hồi sang AIWS tự động qua API (T-API1)
+  * 6/11. AI-WS gọi T-API3 -> Status -> Rejected by Whs
+  * 1B/2B/12. SAP sinh Phiếu nhập kho (Material Doc) [MIGO Integration] *1B: NV plant (giá 0) | 2B: Valuated plant (giá > 0)
+  * 8/15. SAP cập nhật tồn kho Status Approved
+  * 16. Hạch toán Tài sản FI-AA (Asset Accounting) [ABZE / AS02] *Dành cho trường hợp 2B (Giá trị > 0)
+  * Hàng hỏng sửa được
+  * Phân rã (Giá trị = 0)
+  * Phân rã (Giá trị > 0)
+  * Không
+  * Quyết định loại khỏi biên chế?
+  * =0
+  * >0
+  * Giá trị?
+  * 2. Trình ký Voffice Đính kém quyết định
+  * 14.2 Đồng bộ dữ liệu phiếu nhập
+  * Sinh Material Doc
+  * V-Office (Phê duyệt chứng từ)
+  * 3. Phê duyệt?
+  * 8/14. Phê duyệt Phiếu nhập kho?
+  * Phê duyệt
+  * Từ chối (Sửa thông tin)
+  * Trình lại
+  * Phê duyệt
+  * T-API1 (Đẩy Lệnh thu hồi)
+  * Từ chối (T-API2)
+  * T-API3 (Báo Sai lệch/Từ chối)
+  * Kết quả Phê duyệt
+  * Đồng bộ Status Approved
+  * Đồng ý
+  * Từ chối
+  * AI-WMS (Kho thông minh & Vận hành vật lý)
+  * 5. AI-WS tiếp nhận Lệnh thu hồi (T-API1) & Sinh nhiệm vụ kho
+  * 6. Thủ kho quyết định?
+  * 6.2. Xác nhận giờ nhận hàng
+  * 7. Sinh lịch giao việc nhân sự kho
+  * 8. Bảo vệ cập nhật giờ xe vào cổng (T-Scr)
+  * 9. Dỡ hàng & Kiểm đếm vật lý thực tế (T-Unl)
+  * 10. Kết quả kiểm đếm?
+  * 10.2. Ký BBBG điện tử Chuyển vào khu chờ (Staging)
+  * 18. Đóng gói
+  * 19. Lưu trữ (Putaway to Bin layout)
+  * Đồng ý
+  * Đúng đủ
+  * Sai lệch
+  * 7/13. Trình Phiếu nhập kho (Material Doc) lên V-Office phê duyệt [Z-program/TBU]
+  * 14. Nhận dữ liệu Phiếu nhập
+  * 16.1. Cập nhật trạng thái
+  * 17. Đồng bộ trạng thái
+  * Đồng ý
+  * Từ chối
+  * Trường hợp hủy chứng từ
+
+=======================================================
+DIAGRAM:  MM.10F - Nhập hàng tbán trả lại
+=======================================================
+  * MM.10F — Quy trình nhập hàng bán trả lại— Tích hợp SAP S/4HANA & AI-WMS (Blueprint S406)
+  * SAP S/4HANA (Quản trị & Kế toán)
+  * Tham chiếu SD.02.04 Quy trình nhận hàng bán trả lại
+  * 1. Tự động Tạo Yêu cầu nhập hàng bán trả lại VL01N
+  * 2. Trình Yêu cầu lên V-Office
+  * 3.1. V-Office Phê duyệt -> SAP cập nhật Status Approved
+  * 4. SAP đẩy Lệnh thu hồi sang AIWS tự động qua API (T-API1)
+  * 6.1. AI-WS gọi T-API2 -> SAP đóng/hủy Lệnh thu hồi
+  * c
+  * 11. AI-WS gọi T-API3 -> SAP cập nhật Rejected by Whs
+  * 12. SAP sinh Phiếu nhập kho (Material Document) [Z-program/MIGO]
+  * 18. Nhận thông tin SAP cập nhật tồn kho Status UU
+  * 21. SAP Gửi kết quả KCS sang AI-WMS
+  * 20. SAP cập nhật tồn kho KCS: Đạt: UU -> QI | Không đạt: UU -> Block
+  * 13. Đồng bộ Mã phiếu nhập sang AIWS
+  * 19. Quy trình KCS
+  * V-Office
+  * 3. Phê duyệt Yêu cầu thu hồi?
+  * 16. Phê duyệt Phiếu nhập kho?
+  * Phê duyệt
+  * Từ chối (Sửa đổi)
+  * Phê duyệt
+  * T-API1 (Đẩy Lệnh thu hồi)
+  * Từ chối (T-API2)
+  * T-API3 (Báo Sai lệch/Từ chối)
+  * Sinh Material Doc
+  * Kết quả Phê duyệt
+  * T-API5 (Trả Kết quả KCS)
+  * Từ chối
+  * Chấp nhận
+  * Đồng ý
+  * Từ chối
+  * AI-WMS (Kho thông minh & Vận hành vật lý)
+  * 5. AI-WS tiếp nhận Lệnh thu hồi (T-API1) & Sinh nhiệm vụ kho
+  * 6. Thủ kho quyết định?
+  * 6.2. Xác nhận giờ nhận hàng
+  * 7. Sinh lịch giao việc nhân sự kho
+  * 8. Bảo vệ cập nhật giờ xe vào cổng (T-Scr)
+  * 9. Dỡ hàng & Kiểm đếm vật lý thực tế (T-Unl)
+  * 10. Kết quả kiểm đếm?
+  * 10.1 Từ chối nhận hàng (Gửi T-API3 về SAP)
+  * 10.2. Ký BBBG điện tử Chuyển vào khu chờ nhập
+  * 14. Nhận dữ liệu Phiếu nhập
+  * 15. Xác nhận và trình ký
+  * 22. Thủ kho bấm nhập kho (T-AGR trên app AIWS)
+  * 23. Đóng gói
+  * 24. Lưu trữ (Putaway to Bin layout)
+  * Đồng ý
+  * Đúng đủ
+  * Sai lệch
+  * 16.1. Cập nhật trạng thái
+  * 17. Đồng bộ trạng thái
+
+=======================================================
+DIAGRAM: MM.10G - Nhập kho khác
+=======================================================
+  * MM.10G — Quy trình nhập kho khác (Mvt Z10 Hàng mượn / Z08 Thay thế đền bù / 501 / 561) — Tích hợp SAP S/4HANA & AI-WMS (Blueprint S406)
+  * SAP S/4HANA (Quản trị & Kế toán)
+  * 1. Tạo Tờ trình nhập kho khác [Non-SAP] Khi ban hành, tự động đồng bộ data về SAP S/4HANA (IF.422 / CS.215)
+  * 2. Tạo Reservation trên SAP [MB21] *Chọn Movement Type (Z10 Mượn | Z08 Thay thế | 501 | 561)
+  * 3. Trình ký Reservation *Đính kèm giấy tờ liên quan
+  * 4.1. V-Office Phê duyệt -> SAP cập nhật Status Approved
+  * 4.2. SAP đẩy Lệnh nhập kho khác sang AIWS tự động qua API (T-API1)
+  * 6.1. AI-WS gọi T-API2 -> SAP đóng/hủy Lệnh nhập kho khác
+  * 6/11. AI-WS gọi T-API3 -> SAP cập nhật Rejected by Whs [Z-program], Tự động gửi thông báo cho người tạo
+  * 7/12. SAP sinh Phiếu nhập kho (Material Doc) [MIGO Integration] *Z10 (Mượn): Chỉ sinh MatDoc | Z08 (Đền bù): Sinh cả AccDoc
+  * 8/13. Trình Phiếu nhập kho (Material Doc) lên V-Office phê duyệt [Z-program/TBU]
+  * Đồng bộ Số tờ trình
+  * 14.2 Đồng bộ dữ liệu phiếu nhập
+  * 8/15. SAP cập nhật tồn kho Status Approved
+  * 16. Hạch toán Tài sản FI-AA (Asset Accounting) [ABZE / AS02] *Dành cho trường hợp 2B (Giá trị > 0)
+  * V-Office (Phê duyệt chứng từ)
+  * 4. Phê duyệt Reservation?
+  * 9/14. Phê duyệt Phiếu nhập kho?
+  * Phê duyệt
+  * Từ chối (Sửa thông tin)
+  * Trình lại
+  * Phê duyệt
+  * T-API1 (Đẩy Lệnh nhập kho khác)
+  * Từ chối (T-API2)
+  * T-API3 (Báo Sai lệch/Từ chối)
+  * Sinh Material Doc
+  * Kết quả Phê duyệt
+  * T-API5 (Trả Kết quả KCS)
+  * Từ chối
+  * AI-WMS (Kho thông minh & Vận hành vật lý)
+  * 5. AI-WS tiếp nhận Lệnh nhập kho khác (T-API1) & Sinh nhiệm vụ kho
+  * 6. Thủ kho quyết định?
+  * 6.2. Xác nhận giờ nhận hàng
+  * 7. Sinh lịch giao việc nhân sự kho
+  * 8. Bảo vệ cập nhật giờ xe vào cổng (T-Scr)
+  * 9. Dỡ hàng & Kiểm đếm vật lý thực tế (T-Unl)
+  * 10. Kết quả kiểm đếm?
+  * 10.1 Từ chối nhận hàng (Gửi T-API3 về SAP)
+  * 10.2. Ký BBBG điện tử Chuyển vào khu chờ (Staging)
+  * 13. Trình & Nhận kết quả ký V-Office
+  * Đồng ý
+  * Đúng đủ
+  * Sai lệch
+  * 14. Nhận dữ liệu Phiếu nhập
+  * 18. Đóng gói
+  * 19. Lưu trữ (Putaway to Bin layout)
+  * 16.1. Cập nhật trạng thái
+  * 17. Đồng bộ trạng thái
+  * Đồng ý
+  * Từ chối
+  * Đồng ý
+  * Trường hợp hủy chứng từ

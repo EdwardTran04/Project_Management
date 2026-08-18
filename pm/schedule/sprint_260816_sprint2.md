@@ -1,4 +1,4 @@
-# Kế Hoạch Chi Tiết Sprint 2 — Chuẩn Hóa Danh Mục & Cấu Hình Nghiệp Vụ (WMS Setup)
+ # Kế Hoạch Chi Tiết Sprint 2 — Chuẩn Hóa Danh Mục & Cấu Hình Nghiệp Vụ (WMS Setup)
 
 **Khoảng thời gian:** 16/08/2026 → 30/08/2026 (2 tuần)
 **Mục tiêu sprint:** Chuẩn hóa toàn bộ hệ thống danh mục nền của WMS (Nhân sự, Công cụ lưu trữ, Sản phẩm, KPI, Chân ký), tích hợp tính năng RFID ô kệ bãi, cấu hình động luồng nhập kho, lập job tự động phân công việc và giải quyết bài toán phân quyền bảo mật cho người dùng non-SAP.
