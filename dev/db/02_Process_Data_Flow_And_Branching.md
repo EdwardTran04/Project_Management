@@ -163,5 +163,41 @@ flowchart TD
 - **Trạng thái thực thi:** Cả 2 cùng ở trạng thái `IN_PROGRESS`. Từng người xác nhận khi làm xong phần việc của mình.
 - **Nguyên tắc mở khóa:** Task dỡ hàng chỉ chuyển trạng thái `COMPLETED` khi **toàn bộ xe hàng đã dỡ xong 100%**. Chỉ khi đó, Task tiếp theo (**Kiểm hàng & Ký BBBG**) mới được mở khóa chuyển `AVAILABLE`.
 
+---
 
+## PHẦN 5: ĐẶC TẢ LUỒNG DỮ LIỆU & CHUYỂN ĐỔI TRẠNG THÁI LUỒNG XUẤT KHO (MM.11A — MM.11G)
 
+### 5.1. Bảng Chuyển Đổi Trạng Thái Lệnh Kho & Bảng Mở Rộng Theo Giai Đoạn Xuất Kho
+
+```mermaid
+flowchart TD
+    SAP_RES["1. SAP Reservation (MB21) / Sales Order (VA01) / Outbound Delivery (VL01N)"] -->|GI-API1 / T-API1| ORD_INIT["Tạo Warehouse_Order & Warehouse_Order_Item<br>• order_status = 'WAIT_CONFIRM'<br>• Sinh bản ghi Order_Extension_Outbound_* tương ứng"]
+    
+    ORD_INIT -->|V-Office duyệt Lần 1| ORD_APP["Duyệt Lệnh xuất: order_status = 'APPROVED'<br>• Task Engine sinh Picking Task (T-S9) & Lịch xe (T-S2)"]
+    
+    ORD_APP -->|Công nhân PDA Picking| TASK_PICK["Picking Task (T-Mv4):<br>• Suggested Bin (FIFO/FEFO) ➔ Actual Picked Bin<br>• Quét Serial trực tiếp hoặc Upload Excel (GI-API4)<br>• Sinh Stock_Move (move_type = OUTBOUND_PICKING)"]
+    
+    TASK_PICK -->|Đóng gói & Tem QR| TASK_PACK["Packing Task (T-Pac):<br>• Sinh Handling_Unit (HU) & Handling_Unit_Item<br>• Cập nhật Stock_Quant (stock_status = 'PACKED_PENDING_OUT')"]
+    
+    TASK_PACK -->|Ký BBBG Điện tử| TASK_HO["Handover Task (T-Ho):<br>• Sinh Delivery_Handover_Record (Chữ ký cảm ứng / CA)<br>• An ninh Gate-In (Gate_Security_Event = 'CHECKED_IN')"]
+    
+    TASK_HO -->|Thủ kho chốt T-AGI| SAP_PGI["Gửi GI-API5 / T-API3 về SAP:<br>• SAP sinh Material Document WA (49xx)<br>• SAP hạch toán Kế toán tự động (632 / 641 / 241 / 261 / 122)"]
+    
+    SAP_PGI -->|Tích hợp S-Invoice| SINVOICE["Phát hành PXKKVC Điện tử (GI-API6):<br>• Sinh bản ghi SInvoice_E_Transit_Slip (sinvoice_status = 'ISSUED')"]
+    
+    SINVOICE -->|Trình ký V-Office Lần 2| VOFFICE_L2["Trình ký V-Office (T-Sig):<br>• Sinh Voffice_Signing_Dossier (signing_status = 'APPROVED')"]
+    
+    VOFFICE_L2 -->|Xe ra cổng Gate-Out| COMPLETE["Hoàn tất Lệnh xuất kho:<br>• order_status = 'COMPLETED'<br>• Gate_Security_Event = 'CHECKED_OUT'<br>• Cập nhật Stock_Quant trừ tồn kho chính thức"]
+```
+
+### 5.2. Ma Trận Dữ Liệu Biến Đổi Cho 7 Quy Trình Xuất Kho
+
+| Mã Luồng | Chứng từ Khởi tạo | Bảng Mở rộng Sử dụng | Giao dịch SAP & Movement Type | Bảng Tích hợp Phát sinh | Cơ chế Xử lý Ngoại lệ / Hủy (MM.16) |
+|---|---|---|---|---|---|
+| **MM.11A** (Cost Center) | Reservation `MB21` | `OrderExtensionOutbound` | `MIGO` (Mvt 201) | `DeliveryHandoverRecord`, `VofficeSigningDossier` | Sửa Reservation `MB22` hoặc Hủy MIGO Material Document. |
+| **MM.11B** (AuC / Asset) | Reservation `MB21` | `OrderExtensionOutbound` | `MIGO` (Mvt 241) | `DeliveryHandoverRecord`, `VofficeSigningDossier` | Tham chiếu mã Tài sản AuC (FI-AA). Sửa Reservation `MB22`. |
+| **MM.11C** (Dự án PS) | YC Cấp VT `Z-program` | `OrderExtensionOutboundPS` | `Z-program` (Mvt 221 / STO 1-step) | `SInvoiceETransitSlip`, `VofficeSigningDossier` | Upload file Excel Serial (`GI-API4`). Nếu hủy: Mark Z-program Rejected. |
+| **MM.11D** (Trạm PM) | PM Work Order | `OrderExtensionOutboundPM` | `MIGO` (Mvt 261) | `SInvoiceETransitSlip`, `DeliveryHandoverRecord` | Đặt cờ `is_urgent_priority = true`. Sửa PM Work Order nếu hủy. |
+| **MM.11E** (Trả NCC) | Return PO `ME21N` | `OrderExtensionOutboundReturnSupplier` | `MIGO` (Mvt 122 / 161) | `KcsInspectionResult`, `SInvoiceETransitSlip` | Định vị xuất từ `Blocked Stock`. Hủy Return PO `ME22N` nếu bị từ chối. |
+| **MM.11F** (Bán SD) | Sales Order `VA01` ➔ Delivery `VL01N` | `OrderExtensionOutbound` | `VL02N` (PGI Mvt 601) ➔ Billing `VF01` | `SInvoiceETransitSlip`, `VofficeSigningDossier` | Hủy PGI `VL09` ➔ Hủy Hóa đơn Billing `VF11` ➔ Sửa Delivery `VL02N`. |
+| **MM.11G** (Xuất Khác) | Tường trình Non-SAP ➔ `MB21` | `OrderExtensionOutboundOther` | `MIGO` (Mvt Z06 / Z07 / Z11) | `DeliveryHandoverRecord`, `VofficeSigningDossier` | Phân nhánh `Z06_DISASTER`, `Z07_EMPLOYEE_LOSS`, `Z11_LENT_RETURN` (Z11 không hạch toán). |

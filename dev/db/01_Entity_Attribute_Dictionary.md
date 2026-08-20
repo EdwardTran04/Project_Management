@@ -729,10 +729,16 @@ erDiagram
 | **51** | `SapIntegrationMessageLog` | `sap_integration_message_log` | Nhóm 10: Tích hợp Staging | AIWS Staging Table | **Mục đích**: Sổ nhật ký lưu vết thông điệp API truyền nhận 2 chiều giữa SAP và AIWS (`T-API1..5`).<br>**Quan hệ**: FK trỏ `order_id`.<br>**Vòng đời & Trigger**: Ghi log tự động khi có gọi API.<br>**Phân định**: AIWS lưu vết tích hợp. |
 | **52** | `SlaAlertLog` | `sla_alert_log` | Nhóm 10: SLA & Log | **AIWS Native Core** | **Mục đích**: Lưu vết các cảnh báo vi phạm SLA quá hạn Task (`T-S11` 90% SLA / `T-S12` timeout).<br>**Quan hệ**: FK trỏ `task_id`.<br>**Vòng đời & Trigger**: Kích hoạt tự động từ SLA Engine.<br>**Phân định**: AIWS làm chủ SLA Engine. |
 | **53** | `SystemAuditLog` | `system_audit_log` | Nhóm 10: SLA & Log | **AIWS Native Core** | **Mục đích**: Sổ nhật ký Audit Trail ghi lại mọi hành vi tác động thay đổi dữ liệu của người dùng hệ thống.<br>**Quan hệ**: FK trỏ `user_id`.<br>**Vòng đời & Trigger**: Ghi vết tự động ở mọi API mutating state.<br>**Phân định**: AIWS làm chủ Audit Trail. |
+| **54** | `OrderExtensionOutbound` | `order_extension_outbound` | Nhóm 11: Mở rộng Xuất MM.11 | **AIWS Native Core** | **Mục đích**: Mở rộng dữ liệu Lệnh Xuất kho bán hàng SD (MM.11F) & Xuất kho dùng chung (Sales Order `VA01`, Outbound Delivery `VL01N`, Billing `VF01`, Lý do hủy PGI `VL09`).<br>**Quan hệ**: FK UK trỏ `warehouse_order.order_id`, FK trỏ `partner.partner_id`.<br>**Vòng đời & Trigger**: Tạo cùng Lệnh xuất kho SD.<br>**Phân định**: AIWS làm chủ quản lý thông tin xuất kho. |
+| **55** | `OrderExtensionOutboundPS` | `order_extension_outbound_ps` | Nhóm 11: Mở rộng Xuất MM.11 | **AIWS Native Core** | **Mục đích**: Mở rộng Lệnh Xuất kho Dự án PS / WBS (MM.11C). Quản lý WBS Mua sắm, WBS Công trình, Kho Nhà thầu xây lắp, và **URL / Lịch sử Upload Excel Serial (`GI-API4`)**.<br>**Quan hệ**: FK UK trỏ `warehouse_order.order_id`, FK trỏ `partner.partner_id`, `physical_warehouse.warehouse_id`.<br>**Vòng đời & Trigger**: Tạo cùng Lệnh xuất kho Dự án WBS.<br>**Phân định**: AIWS lưu vết giao dịch WBS & Excel Upload. |
+| **56** | `OrderExtensionOutboundPM` | `order_extension_outbound_pm` | Nhóm 11: Mở rộng Xuất MM.11 | **AIWS Native Core** | **Mục đích**: Mở rộng Lệnh Xuất kho Trạm / Bảo trì PM (MM.11D). Quản lý PM Work Order, Mã trạm viễn thông, Kỹ thuật viên tiếp nhận và **Cờ ưu tiên ứng cứu khẩn cấp (`is_urgent_priority`)**.<br>**Quan hệ**: FK UK trỏ `warehouse_order.order_id`, FK trỏ `employee.employee_id`.<br>**Vòng đời & Trigger**: Tạo cùng Lệnh xuất trạm PM.<br>**Phân định**: AIWS ưu tiên điều phối Task xuất khẩn cấp. |
+| **57** | `OrderExtensionOutboundReturnSupplier` | `order_extension_outbound_return_supplier` | Nhóm 11: Mở rộng Xuất MM.11 | **AIWS Native Core** | **Mục đích**: Mở rộng Lệnh Xuất kho Trả hàng NCC (MM.11E). Quản lý Return PO (`ME21N`), Lịch sử lô KCS bị từ chối và Kho cách ly Blocked Stock.<br>**Quan hệ**: FK UK trỏ `warehouse_order.order_id`, FK trỏ `kcs_inspection_result.kcs_id`.<br>**Vòng đời & Trigger**: Tạo khi xuất trả hàng lỗi NCC.<br>**Phân định**: AIWS định vị xuất từ kho Blocked Stock. |
+| **58** | `OrderExtensionOutboundOther` | `order_extension_outbound_other` | Nhóm 11: Mở rộng Xuất MM.11 | **AIWS Native Core** | **Mục đích**: Mở rộng Lệnh Xuất kho Khác (MM.11G Z06/Z07/Z11). Quản lý loại xuất (`Z06_DISASTER`, `Z07_EMPLOYEE_LOSS`, `Z11_LENT_RETURN`), Mã Tường trình sự cố Non-SAP, Nhân viên bồi thường và NCC cho mượn.<br>**Quan hệ**: FK UK trỏ `warehouse_order.order_id`, FK trỏ `employee.employee_id`, `partner.partner_id`.<br>**Vòng đời & Trigger**: Tạo khi phát sinh xuất kho khác.<br>**Phân định**: AIWS lưu vết kịch bản xuất đặc thù. |
+| **59** | `SInvoiceETransitSlip` | `sinvoice_e_transit_slip` | Nhóm 11: Mở rộng Xuất MM.11 | AIWS Core DB (Ref S-Inv) | **Mục đích**: Bảng quản lý chứng từ **Phiếu xuất kho kiêm Vận chuyển nội bộ (PXKKVC)** điện tử từ hệ thống S-Invoice (`GI-API6`).<br>**Quan hệ**: FK trỏ `warehouse_order.order_id`.<br>**Vòng đời & Trigger**: `DRAFT` $\rightarrow$ `ISSUED` $\rightarrow$ `CANCELED`.<br>**Phân định**: S-Invoice cấp mã; AIWS lưu vết chứng từ vận chuyển. |
 
 ---
 
-# PHẦN 3: TỪ ĐIỂN DỮ LIỆU CHI TIẾT 53 THỰC THỂ AIWS (DATA DICTIONARY)
+# PHẦN 3: TỪ ĐIỂN DỮ LIỆU CHI TIẾT 59 THỰC THỂ AIWS (DATA DICTIONARY)
 
 ---
 
@@ -1480,3 +1486,98 @@ erDiagram
 | 4 | `entity_affected` | `VARCHAR(100)` | `NOT NULL` | Tên thực thể / bảng bị tác động (`warehouse_order`, `stock_quant`). |
 | 5 | `details_json` | `TEXT` | `NULL` | Chi tiết dữ liệu JSON trước và sau khi thay đổi. |
 | 6 | `timestamp` | `TIMESTAMP` | `NOT NULL` | Thời điểm thực hiện thao tác. |
+
+---
+
+## NHÓM 11: MỞ RỘNG LUỒNG XUẤT KHO MM.11 & S-INVOICE (6 Thực thể)
+
+### 54. `OrderExtensionOutbound` (Tên Bảng DB: `order_extension_outbound`)
+*Mô tả: Bảng mở rộng dữ liệu Lệnh Xuất kho bán hàng SD (MM.11F) và xuất kho tiêu dùng chung.*
+
+| STT | Tên Cột (Column Name) | Kiểu Dữ Liệu (Data Type) | Ràng Buộc (Constraints) | Mô Tả & Quy Tắc Nghiệp Vụ (Description & Rules) |
+|---|---|---|---|---|
+| 1 | `ext_id` | `UUID` | `PK, NOT NULL` | Định danh duy nhất bản ghi mở rộng xuất kho. |
+| 2 | `order_id` | `UUID` | `FK, UK, NOT NULL` | Trỏ tới `warehouse_order.order_id` — Lệnh kho sở hữu. |
+| 3 | `sap_so_number` | `VARCHAR(50)` | `NULL` | Số Đơn bán hàng Sales Order (`VA01`) từ SAP SD. |
+| 4 | `sap_outbound_delivery_no` | `VARCHAR(50)` | `NULL` | Số Lệnh xuất kho Outbound Delivery (`VL01N`) từ SAP. |
+| 5 | `customer_partner_id` | `UUID` | `FK, NULL` | Trỏ tới `partner.partner_id` — Mã Khách hàng mua hàng. |
+| 6 | `so_doc_type` | `VARCHAR(20)` | `NULL` | Loại chứng từ bán hàng SAP SD (VD: `OR`, `ZOR`). |
+| 7 | `shipping_point` | `VARCHAR(20)` | `NULL` | Mã điểm xuất hàng SAP (Shipping Point). |
+| 8 | `billing_doc_no` | `VARCHAR(50)` | `NULL` | Mã Hóa đơn bán hàng Billing Document (`VF01`). |
+| 9 | `cancel_pgi_reason` | `VARCHAR(500)` | `NULL` | Lý do hủy Post Goods Issue khi bị V-Office từ chối (`VL09`). |
+
+---
+
+### 55. `OrderExtensionOutboundPS` (Tên Bảng DB: `order_extension_outbound_ps`)
+*Mô tả: Bảng mở rộng Lệnh Xuất kho Dự án / Công trình viễn thông phân hệ PS MM.11C.*
+
+| STT | Tên Cột (Column Name) | Kiểu Dữ Liệu (Data Type) | Ràng Buộc (Constraints) | Mô Tả & Quy Tắc Nghiệp Vụ (Description & Rules) |
+|---|---|---|---|---|
+| 1 | `ext_id` | `UUID` | `PK, NOT NULL` | Định danh duy nhất bản ghi mở rộng PS. |
+| 2 | `order_id` | `UUID` | `FK, UK, NOT NULL` | Trỏ tới `warehouse_order.order_id` — Lệnh kho sở hữu. |
+| 3 | `procurement_wbs_code` | `VARCHAR(100)` | `NOT NULL` | Mã WBS Mua sắm (Procurement WBS Element) gốc. |
+| 4 | `construction_wbs_code` | `VARCHAR(100)` | `NOT NULL` | Mã WBS Công trình (Construction WBS Element) đích. |
+| 5 | `contractor_partner_id` | `UUID` | `FK, NULL` | Trỏ tới `partner.partner_id` — Mã Nhà thầu xây lắp tiếp nhận. |
+| 6 | `contractor_warehouse_id` | `UUID` | `FK, NULL` | Trỏ tới `physical_warehouse.warehouse_id` — Mã Kho Nhà thầu. |
+| 7 | `serial_excel_file_url` | `VARCHAR(500)` | `NULL` | Đường dẫn file Excel chứa danh sách Serial upload (`GI-API4`). |
+| 8 | `excel_uploaded_by` | `UUID` | `FK, NULL` | Trỏ tới `user_account.user_id` — Người upload file Excel. |
+| 9 | `excel_uploaded_at` | `TIMESTAMP` | `NULL` | Thời điểm upload thành công file Excel Serial. |
+
+---
+
+### 56. `OrderExtensionOutboundPM` (Tên Bảng DB: `order_extension_outbound_pm`)
+*Mô tả: Bảng mở rộng Lệnh Xuất kho Trạm viễn thông / Vận hành bảo trì PM MM.11D.*
+
+| STT | Tên Cột (Column Name) | Kiểu Dữ Liệu (Data Type) | Ràng Buộc (Constraints) | Mô Tả & Quy Tắc Nghiệp Vụ (Description & Rules) |
+|---|---|---|---|---|
+| 1 | `ext_id` | `UUID` | `PK, NOT NULL` | Định danh duy nhất bản ghi mở rộng PM. |
+| 2 | `order_id` | `UUID` | `FK, UK, NOT NULL` | Trỏ tới `warehouse_order.order_id` — Lệnh kho sở hữu. |
+| 3 | `pm_work_order_no` | `VARCHAR(50)` | `NOT NULL` | Mã Lệnh sửa chữa bảo trì (PM Work Order) phát động từ SAP. |
+| 4 | `station_code` | `VARCHAR(100)` | `NOT NULL` | Mã trạm viễn thông (BTS Station Code) cần thay thế linh kiện. |
+| 5 | `is_urgent_priority` | `BOOLEAN` | `NOT NULL, DEFAULT false` | Cờ đánh dấu xuất khẩn cấp ứng cứu thông tin (Urgent Priority Task). |
+| 6 | `technician_employee_id` | `UUID` | `FK, NULL` | Trỏ tới `employee.employee_id` — Kỹ thuật viên ứng cứu tiếp nhận. |
+
+---
+
+### 57. `OrderExtensionOutboundReturnSupplier` (Tên Bảng DB: `order_extension_outbound_return_supplier`)
+*Mô tả: Bảng mở rộng Lệnh Xuất kho Trả hàng cho Nhà cung cấp MM.11E.*
+
+| STT | Tên Cột (Column Name) | Kiểu Dữ Liệu (Data Type) | Ràng Buộc (Constraints) | Mô Tả & Quy Tắc Nghiệp Vụ (Description & Rules) |
+|---|---|---|---|---|
+| 1 | `ext_id` | `UUID` | `PK, NOT NULL` | Định danh duy nhất bản ghi mở rộng Trả NCC. |
+| 2 | `order_id` | `UUID` | `FK, UK, NOT NULL` | Trỏ tới `warehouse_order.order_id` — Lệnh kho sở hữu. |
+| 3 | `return_po_number` | `VARCHAR(50)` | `NOT NULL` | Số Đơn mua hàng trả Return PO (`ME21N`) từ SAP. |
+| 4 | `original_inbound_order_id` | `UUID` | `FK, NULL` | Trỏ tới `warehouse_order.order_id` — Lệnh nhập ban đầu (nếu có). |
+| 5 | `quality_lot_id` | `UUID` | `FK, NULL` | Trỏ tới `kcs_inspection_result.kcs_id` — Lô KCS từ chối (QM.02/04). |
+| 6 | `blocked_stock_reason` | `VARCHAR(500)` | `NULL` | Lý do xuất trả hàng (Hỏng KCS, không đúng thông số hợp đồng). |
+
+---
+
+### 58. `OrderExtensionOutboundOther` (Tên Bảng DB: `order_extension_outbound_other`)
+*Mô tả: Bảng mở rộng Lệnh Xuất kho Khác (Z06 Thiên tai, Z07 Cá nhân bồi thường, Z11 Trả mượn NCC) MM.11G.*
+
+| STT | Tên Cột (Column Name) | Kiểu Dữ Liệu (Data Type) | Ràng Buộc (Constraints) | Mô Tả & Quy Tắc Nghiệp Vụ (Description & Rules) |
+|---|---|---|---|---|
+| 1 | `ext_id` | `UUID` | `PK, NOT NULL` | Định danh duy nhất bản ghi mở rộng xuất khác. |
+| 2 | `order_id` | `UUID` | `FK, UK, NOT NULL` | Trỏ tới `warehouse_order.order_id` — Lệnh kho sở hữu. |
+| 3 | `other_gi_type` | `VARCHAR(50)` | `NOT NULL` | Mã loại xuất khác (`ENUM: Z06_DISASTER, Z07_EMPLOYEE_LOSS, Z11_LENT_RETURN`). |
+| 4 | `non_sap_report_no` | `VARCHAR(100)` | `NULL` | Số Tường trình / Tờ trình khai báo trên hệ thống Non-SAP. |
+| 5 | `incident_date` | `DATE` | `NULL` | Ngày phát sinh sự cố thiên tai / mất mát vật tư. |
+| 6 | `compensation_employee_id` | `UUID` | `FK, NULL` | Trỏ tới `employee.employee_id` — Nhân viên bồi thường (Luồng Z07). |
+| 7 | `lender_supplier_id` | `UUID` | `FK, NULL` | Trỏ tới `partner.partner_id` — Nhà cung cấp cho mượn hàng (Luồng Z11). |
+
+---
+
+### 59. `SInvoiceETransitSlip` (Tên Bảng DB: `sinvoice_e_transit_slip`)
+*Mô tả: Bảng quản lý chứng từ Phiếu xuất kho kiêm Vận chuyển nội bộ (PXKKVC) điện tử từ S-Invoice (`GI-API6`).*
+
+| STT | Tên Cột (Column Name) | Kiểu Dữ Liệu (Data Type) | Ràng Buộc (Constraints) | Mô Tả & Quy Tắc Nghiệp Vụ (Description & Rules) |
+|---|---|---|---|---|
+| 1 | `slip_id` | `UUID` | `PK, NOT NULL` | Định danh duy nhất bản ghi PXKKVC. |
+| 2 | `order_id` | `UUID` | `FK, NOT NULL` | Trỏ tới `warehouse_order.order_id` — Lệnh kho xuất phát hành. |
+| 3 | `sinvoice_lookup_code` | `VARCHAR(100)` | `UK, NOT NULL` | Mã tra cứu chứng từ trên hệ thống S-Invoice. |
+| 4 | `pxkkvc_number` | `VARCHAR(100)` | `NOT NULL` | Số Phiếu xuất kho kiêm vận chuyển nội bộ điện tử. |
+| 5 | `issued_at` | `TIMESTAMP` | `NOT NULL` | Thời điểm S-Invoice cấp mã và phát hành. |
+| 6 | `digital_signature_hash` | `VARCHAR(500)` | `NULL` | Chuỗi băm chữ ký số chứng thực PXKKVC. |
+| 7 | `sinvoice_status` | `VARCHAR(20)` | `NOT NULL, DEFAULT 'ISSUED'` | Trạng thái chứng từ (`ENUM: DRAFT, ISSUED, CANCELED`). |
+
