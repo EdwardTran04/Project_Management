@@ -77,48 +77,6 @@
   - [6.1. Tài liệu quy trình nghiệp vụ](#61-tài-liệu-quy-trình-nghiệp-vụ)
   - [6.2. Tài liệu thiết kế CSDL](#62-tài-liệu-thiết-kế-csdl)
   - [6.3. Phân quyền](#63-phân-quyền)
-  - [6.4. Bản đồ API](#64-bản-đồ-api)
-  - [6.5. Danh sách chức năng](#65-danh-sách-chức-năng)
-
----
-
-## THÔNG TIN TÀI LIỆU
-
-| Thông tin | Chi tiết |
-|---|---|
-| **Tên tài liệu** | Thiết kế chi tiết (TKCT) — Phân hệ Nhập Kho Mua Hàng Từ NCC (MM.10A) |
-| **Mã tài liệu** | `BM04-AIWS-MM10A-01` |
-| **Hệ thống** | AI-WS (WMS Platform) × SAP S/4HANA (ERP) × V-Office (E-Office) |
-| **Phiên bản** | `v2.0` |
-| **Trạng thái** | Draft |
-| **Người lập** | BA Team / AIWS Product Owner |
-| **Ngày khởi tạo** | 06/08/2026 |
-
-### Lịch sử sửa đổi
-
-| Version | Ngày | Tác giả | Mô tả thay đổi |
-|---|---|---|---|
-| v1.0 ~ v1.2 | 06/08/2026 | BA Team | Khởi tạo SRS, chuẩn hóa Control Matrix, kiến trúc Trigger & Module. |
-| **v2.0** | 06/08/2026 | BA Team | Viết lại hoàn toàn theo chuẩn BM.04 TKCT: Mỗi chức năng gồm 4 mục (① Thông tin chung, ② Màn hình, ③ Bảng 6 cột thành phần, ④ Luồng nghiệp vụ). |
-
----
-
-## PHẦN 1. GIỚI THIỆU
-
-### 1.1. Mục đích
-
-Tài liệu đặc tả thiết kế chi tiết các chức năng thuộc phân hệ **Nhập kho mua hàng từ Nhà cung cấp (MM.10A)** trên hệ thống AI-WS. Là đầu vào cho giai đoạn lập trình và kiểm thử.
-
-Tài liệu cung cấp:
-- Tổng quan nghiệp vụ nhập kho từ NCC
-- Thành phần chi tiết từng màn hình UI (mapping CSDL)
-- Luồng dữ liệu và xử lý sự kiện
-- Trao đổi với hệ thống ngoài (SAP, V-Office)
-
-| Đối tượng sử dụng | Mục đích |
-|---|---|
-| Nhóm phát triển (Frontend + Backend) | Lập trình theo đặc tả thành phần, sự kiện, mapping DB |
-| Nhóm kiểm thử | Xây dựng test case từ luồng nghiệp vụ và validate rules |
 | Nhóm quản lý dự án | Theo dõi phạm vi, ước lượng effort |
 
 ### 1.2. Phạm vi
@@ -165,36 +123,47 @@ Thiết kế chi tiết toàn bộ 7 Task vận hành kho + 1 màn hình Danh s�
 ### 2.1. Sơ đồ phân cấp chức năng
 
 ```mermaid
-graph TD
+flowchart TD
+    %% Root Module
     A["Phân hệ Nhập kho Mua hàng từ NCC (MM.10A)"]
 
+    %% Group I: Management & Gate Control
     subgraph GROUP_MGMT ["I. NHÓM CHỨC NĂNG ĐIỀU HÀNH & KIỂM SOÁT CỔNG (Non-Task / Event Milestone)"]
-        B1["3.1. Duyệt tiếp nhận Lệnh nhập kho NCC (Gate 1 - Single/Batch)"]
-        B2["3.2. Lập kế hoạch & Batch Duyệt lịch giao việc T+1 (GĐ kho - 1 lần/ngày)"]
-        B3["3.3. Giám sát an ninh cổng kho (Bảo vệ - 1 Màn hình duy nhất)"]
-        B4["3.4. Quản lý Command Center Danh sách Task (T-WH)"]
+        direction LR
+        B1["1. Duyệt tiếp nhận Lệnh nhập kho NCC (Gate 1 - Single/Batch)"]
+        B2["2. Lập kế hoạch & Batch Duyệt lịch giao việc T+1 (GĐ kho - 1 lần/ngày)"]
+        B3["3. Giám sát an ninh cổng kho (Bảo vệ - 1 Màn hình duy nhất)"]
+        B4["4. Quản lý Command Center Danh sách Task (T-WH)"]
+
+        B1 --> B2
+        B2 -->|Batch Approve T+1| B3
     end
 
+    %% Group II: Physical Tasks Chain
     subgraph GROUP_TASK ["II. NHÓM TASK TÁC NGHIỆP KHO THỰC ĐỊA (Physical Tasks Chain)"]
-        T1["3.5. Task 1: Dỡ hàng khỏi xe (T-Unl)"]
-        T2["3.6. Task 2: Kiểm hàng & Ký BBBG Điện tử (T-Ho)"]
-        T3["3.7. Task 3: Đưa vào Khu chờ nhập (T-Mv1)"]
-        T4["3.8. Task 4: Thực nhập kho - KCS & Mã Con (T-AGR)"]
-        T5["3.9. Task 5: Đưa sang khu đóng gói (T-Mv2)"]
-        T6["3.10. Task 6: Đóng gói & In tem RFID (T-Pac)"]
-        T7["3.11. Task 7: Đưa vào lưu trữ Bin Putaway (T-Mv3)"]
+        direction LR
+        T1["5. Task 1: Dỡ hàng khỏi xe (T-Unl)"]
+        T2["6. Task 2: Kiểm hàng & Ký BBBG Điện tử (T-Ho)"]
+        T3["7. Task 3: Đưa vào Khu chờ nhập (T-Mv1)"]
+        T4["8. Task 4: Thực nhập kho - KCS & Mã Con (T-AGR)"]
+        T5["9. Task 5: Đưa sang khu đóng gói (T-Mv2)"]
+        T6["10. Task 6: Đóng gói & In tem RFID (T-Pac)"]
+        T7["11. Task 7: Đưa vào lưu trữ Bin Putaway (T-Mv3)"]
+
+        T1 --> T2 --> T3 --> T4 --> T5 --> T6 --> T7
     end
 
+    %% Group III: V-Office Integration
     subgraph GROUP_VOFFICE ["III. TÍCH HỢP ĐIỆN TỬ V-OFFICE"]
-        V1["3.12. Trình ký V-Office Phiếu nhập kho (T-Sig)"]
+        direction LR
+        V1["11. Trình ký V-Office Phiếu nhập kho (T-Sig)"]
     end
 
-    A --> GROUP_MGMT
-    A --> GROUP_TASK
-    A --> GROUP_VOFFICE
-
-    B2 -->|Batch Approve T+1| B3
+    %% Flow Connections (Top to Bottom across Subgraphs)
+    A --> B1
+    A --> B4
     B3 -->|Event: Vehicle Gate Entry| T1
+    T7 --> V1
 ```
 
 ### 2.2. Quy trình nghiệp vụ End-to-End trên Hệ thống Kho Thông Minh
@@ -207,47 +176,49 @@ Dưới đây là sơ đồ luồng dữ liệu và tác nghiệp End-to-End xuy
 
 ```mermaid
 flowchart TD
-    %% SAP Khoi tao & API1
-    START([Bắt đầu: SAP tạo PO & Inbound Delivery]) --> STEP1["1. SAP gửi T-API1: Đồng bộ Lệnh nhập kho"]
-    STEP1 --> STEP2{"2. AI-WS: Duyệt lệnh nhập kho (Thủ kho - T-Ncc)"}
-    
-    %% Nhanh tu choi o Buoc 2
-    STEP2 -- Từ chối Lệnh --> REJ1["2.1. AI-WS gửi T-API2 sang SAP<br>Cập nhật trạng thái Rejected by Whs"]
-    REJ1 --> END_REJ1([Kết thúc luồng từ chối])
+    subgraph MAIN ["Sơ đồ luồng End-to-End Nhập kho (U-Turn Flow)"]
+        direction LR
+        
+        subgraph COL1 ["CỘT 1: LUỒNG ĐI XUỐNG (BƯỚC 1 - 7)"]
+            direction TB
+            START([Bắt đầu: SAP tạo PO & Inbound Delivery]) --> STEP1["1. SAP gửi T-API1: Đồng bộ Lệnh nhập kho"]
+            STEP1 --> STEP2{"2. AI-WS: Duyệt lệnh nhập kho (Thủ kho - T-Ncc)"}
+            
+            STEP2 -- Từ chối Lệnh --> REJ1["2.1. AI-WS gửi T-API2 sang SAP<br>Cập nhật trạng thái Rejected by Whs"]
+            REJ1 --> END_REJ1([Kết thúc luồng từ chối])
 
-    %% Nhanh Dong y Lenh -> Buoc 3 Duyet lich -> App An ninh -> Task 1 -> Task 2
-    STEP2 -- Đồng ý Lệnh --> STEP3["3. AI-WS: Duyệt lịch giao việc (Giám đốc kho - T-Apr)<br>(Chỉ định Staging, chốt khung giờ - Không từ chối)"]
-    STEP3 --> STEP4["4. App An ninh: Bảo vệ kiểm tra Biển số + CCCD<br>Xác nhận xe vào cổng (T-Scr)"]
-    STEP4 --> STEP5["5. Task 1 [T-Unl]: NV kho Dỡ hàng xuống bãi Staging"]
-    STEP5 --> STEP6{"6. Task 2 [T-Ho]: Thủ kho Kiểm đếm & Ký bàn giao"}
+            STEP2 -- Đồng ý Lệnh --> STEP3["3. AI-WS: Duyệt lịch giao việc (Giám đốc kho - T-Apr)<br>(Chỉ định Staging, chốt khung giờ - Không từ chối)"]
+            STEP3 --> STEP4["4. App An ninh: Bảo vệ kiểm tra Biển số + CCCD<br>Xác nhận xe vào cổng (T-Scr)"]
+            STEP4 --> STEP5["5. Task 1 [T-Unl]: NV kho Dỡ hàng xuống bãi Staging"]
+            STEP5 --> STEP6{"6. Task 2 [T-Ho]: Thủ kho Kiểm đếm & Ký bàn giao"}
 
-    %% Option 1: Tu choi hang
-    STEP6 -- Option 1: Từ chối nhận hàng --> REJ2["6.1. Ghi nhận sai lệch & AI-WS gửi T-API3 sang SAP"]
-    REJ2 --> END_REJ2([Kết thúc luồng từ chối])
+            STEP6 -- Option 1: Từ chối nhận hàng --> REJ2["6.1. Ghi nhận sai lệch & AI-WS gửi T-API3 sang SAP"]
+            REJ2 --> END_REJ2([Kết thúc luồng từ chối])
 
-    %% Option 2: Dong y hang -> Ky BBBG -> Chay song song 2 nhanh
-    STEP6 -- Option 2: Đồng ý hàng --> SIGN_BBBG["7. Ký BBBG điện tử (Thủ kho & Lái xe)"]
-    
-    %% Nhanh 1 (Vat ly - Kho): Task 3
-    SIGN_BBBG --> STEP7["8. Task 3 [T-Mv1]: Đưa hàng vào Khu chờ nhập (Staging Zone)"]
-    
-    %% Nhanh 2 (Chung tu - Tich hop): Dong bo SAP -> Lay Phieu nhap -> Trinh ky V-Office -> Nhan ket qua
-    SIGN_BBBG --> SYNC_SAP["9. AI-WS đồng bộ thông tin BBBG sang SAP<br>Lấy Mã phiếu nhập kho (Material Doc Mvt 101)"]
-    SYNC_SAP --> VOFFICE["10. Thủ kho Trình ký V-Office (T-Sig) Phiếu nhập kho (trên AI-WS)"]
-    VOFFICE --> VOFFICE_CB["11. Nhận kết quả trình ký từ V-Office<br>(AI-WS nhận Webhook & truyền kết quả về SAP)"]
+            STEP6 -- Option 2: Đồng ý hàng --> SIGN_BBBG["7. Ký BBBG điện tử (Thủ kho & Lái xe)"]
+        end
 
-    %% Hoi tu 2 nhanh -> Cho KCS tu SAP
-    STEP7 --> JOIN_SYNC(["Chờ KCS"])
-    VOFFICE_CB --> JOIN_SYNC
-    
-    JOIN_SYNC --> WAIT_KCS["12. SAP gửi T-API5: Kết quả KCS (Tách hoặc không tách Mã Con)"]
-    WAIT_KCS --> STEP8["13. Task 4 [T-AGR]: NV kho Xác nhận Thực nhập kho (KCS)"]
-    STEP8 --> STEP9["14. Task 5 [T-Mv2]: Đưa hàng sang Khu đóng gói (Packing Zone)"]
-    STEP9 --> STEP10["15. Task 6 [T-Pac]: Đóng gói hàng & In tem RFID"]
-    STEP10 --> STEP11["16. Task 7 [T-Mv3]: Gợi ý Bin & Cất hàng vào ô kệ lưu trữ"]
-    STEP11 --> FINISH([Kết thúc: Tồn kho SAP & AI-WS cập nhật chính thức])
+        subgraph COL2 ["CỘT 2: LUỒNG ĐI NGƯỢC LÊN TRÊN (BƯỚC 8 - 16)"]
+            direction BT
+            SYNC_SAP["9. AI-WS đồng bộ thông tin BBBG sang SAP<br>Lấy Mã phiếu nhập kho (Material Doc Mvt 101)"] --> VOFFICE["10. Thủ kho Trình ký V-Office (T-Sig) Phiếu nhập kho (trên AI-WS)"]
+            VOFFICE --> VOFFICE_CB["11. Nhận kết quả trình ký từ V-Office<br>(AI-WS nhận Webhook & truyền kết quả về SAP)"]
+            
+            STEP7["8. Task 3 [T-Mv1]: Đưa hàng vào Khu chờ nhập (Staging Zone)"] --> JOIN_SYNC(["Chờ KCS"])
+            VOFFICE_CB --> JOIN_SYNC
 
-    %% Styling: Chu đen nen trang
+            JOIN_SYNC --> WAIT_KCS["12. SAP gửi T-API5: Kết quả KCS (Tách hoặc không tách Mã Con)"]
+            WAIT_KCS --> STEP8["13. Task 4 [T-AGR]: NV kho Xác nhận Thực nhập kho (KCS)"]
+            STEP8 --> STEP9["14. Task 5 [T-Mv2]: Đưa hàng sang Khu đóng gói (Packing Zone)"]
+            STEP9 --> STEP10["15. Task 6 [T-Pac]: Đóng gói hàng & In tem RFID"]
+            STEP10 --> STEP11["16. Task 7 [T-Mv3]: Gợi ý Bin & Cất hàng vào ô kệ lưu trữ"]
+            STEP11 --> FINISH([Kết thúc: Tồn kho SAP & AI-WS cập nhật chính thức])
+        end
+
+        SIGN_BBBG --> STEP7
+        SIGN_BBBG --> SYNC_SAP
+    end
+
+    %% Styling: Chữ đen nền trắng
     classDef mainNode fill:#ffffff,stroke:#000000,color:#000000,stroke-width:1.5px;
     class START,STEP1,STEP2,REJ1,END_REJ1,STEP3,STEP4,STEP5,STEP6,REJ2,END_REJ2,SIGN_BBBG,STEP7,SYNC_SAP,VOFFICE,VOFFICE_CB,JOIN_SYNC,WAIT_KCS,STEP8,STEP9,STEP10,STEP11,FINISH mainNode;
 ```

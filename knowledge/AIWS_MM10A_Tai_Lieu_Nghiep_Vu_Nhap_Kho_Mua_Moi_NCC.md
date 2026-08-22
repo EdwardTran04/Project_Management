@@ -1,794 +1,1073 @@
- TÀI LIỆU NGHIỆP VỤ — LUỒNG NHẬP KHO MUA MỚI TỪ NHÀ CUNG CẤP (MM.10A)
-## Hệ Thống Kho Thông Minh AI-WS (AIWS)
+TÀI LIỆU PHÂN TÍCH YÊU CẦU NGƯỜI SỬ DỤNG — PHÂN HỆ NHẬP KHO MUA MỚI TỪ NCC (MM.10A)
 
-> **Mã quy trình:** `MM.10A` (Nhập mua NCC)  
-> **Phiên bản:** v1.0  
-> **Ngày lập:** 15/08/2026  
-> **Trạng thái:** Thiết kế hoàn chỉnh — Sẵn sàng triển khai  
-> **Đối tượng đọc:** Developer, Tech Lead, QA/Tester  
-> **Mục đích:** Cung cấp đầy đủ thông tin nghiệp vụ để dev có thể **tự xây dựng cơ sở dữ liệu** và **tự triển khai logic** mà không cần hỏi thêm BA.
+> **Mã hiệu dự án:** QTR.VIC.Warehouse  
+> **Mã hiệu tài liệu:** VIC_Warehouse_PTYC_Phân hệ Nhập Kho Mua Mới NCC_v2.0.0  
+> **Mã quy trình:** `MM.10A`  
+> **Phiên bản:** v2.0.0  
+> **Ngày cập nhật:** 22/08/2026  
+
+---
+
+## BẢNG GHI NHẬN THAY ĐỔI
+
+*A – Tạo mới, M – Sửa đổi, D – Xóa bỏ*
+
+| Ngày thay đổi | Vị trí thay đổi | A/M/D | Phiên bản cũ | Mô tả thay đổi | Phiên bản mới |
+|---|---|---|---|---|---|
+| T8/2026 |  | A |  | Khởi tạo tài liệu PTYC Nhập kho Mua mới NCC MM.10A | v1.0.0 |
+| 22/08/2026 | Toàn bộ | M | v1.0.0 | Viết lại theo template PTYC chuẩn, chuẩn hóa 16 bước End-to-End, đồng bộ 8 API | v2.0.0 |
+| 22/08/2026 | Mục 4, 5, 9, 11, 14, 16 | M | v2.0.0 | Bổ sung và chuẩn hóa toàn diện tính năng Trình ký V-Office (`T-Sig` / `[M-VOff]`) trên Web/Mobile, đồng bộ luồng Dependency Engine và 8 API | v2.0.1 |
 
 ---
 
 ## MỤC LỤC
 
-- [1. TỔNG QUAN QUY TRÌNH](#1-tổng-quan-quy-trình)
-- [2. TÁC NHÂN VÀ VAI TRÒ](#2-tác-nhân-và-vai-trò)
-- [3. LUỒNG CHÍNH END-TO-END (HAPPY PATH)](#3-luồng-chính-end-to-end-happy-path)
-- [4. CHI TIẾT TỪNG BƯỚC NGHIỆP VỤ](#4-chi-tiết-từng-bước-nghiệp-vụ)
-- [5. LUỒNG NGOẠI LỆ VÀ TỪ CHỐI](#5-luồng-ngoại-lệ-và-từ-chối)
-- [6. QUY TẮC NGHIỆP VỤ BẤT BIẾN (BUSINESS RULES)](#6-quy-tắc-nghiệp-vụ-bất-biến-business-rules)
-- [7. MÔ HÌNH TRẠNG THÁI (STATE MACHINES)](#7-mô-hình-trạng-thái-state-machines)
-- [8. CƠ CHẾ SINH TASK VÀ ĐIỀU PHỐI (TASK ENGINE)](#8-cơ-chế-sinh-task-và-điều-phối-task-engine)
-- [9. CƠ CHẾ BÓC TÁCH MÃ CHA — MÃ CON VÀ GÁN SỐ LÔ](#9-cơ-chế-bóc-tách-mã-cha--mã-con-và-gán-số-lô)
-- [10. CƠ CHẾ BẺ LUỒNG SONG SONG (PARALLEL BRANCHING)](#10-cơ-chế-bẻ-luồng-song-song-parallel-branching)
-- [11. CƠ CHẾ GIAO VIỆC ĐA NHÂN SỰ (JOINT TASK)](#11-cơ-chế-giao-việc-đa-nhân-sự-joint-task)
-- [12. TÍCH HỢP HỆ THỐNG NGOÀI (SAP, V-OFFICE)](#12-tích-hợp-hệ-thống-ngoài-sap-v-office)
-- [13. SLA, KPI VÀ CẢNH BÁO](#13-sla-kpi-và-cảnh-báo)
-- [14. DỮ LIỆU ĐẦU VÀO / ĐẦU RA TỪNG BƯỚC](#14-dữ-liệu-đầu-vào--đầu-ra-từng-bước)
-- [15. PHỤ LỤC: BẢNG ÁNH XẠ DỮ LIỆU NGHIỆP VỤ ↔ THỰC THỂ DỮ LIỆU](#15-phụ-lục-bảng-ánh-xạ-dữ-liệu-nghiệp-vụ--thực-thể-dữ-liệu)
+**PHẦN I — GIỚI THIỆU & TỔNG QUAN**
+
+- [1. GIỚI THIỆU](#1-giới-thiệu)
+- [2. TỔNG QUAN QUY TRÌNH](#2-tổng-quan-quy-trình)
+- [3. TÁC NHÂN VÀ VAI TRÒ](#3-tác-nhân-và-vai-trò)
+
+**PHẦN II — QUY TRÌNH & ĐẶC TẢ CHỨC NĂNG**
+
+- [4. LUỒNG CHÍNH END-TO-END (HAPPY PATH - 16 BƯỚC)](#4-luồng-chính-end-to-end-happy-path---16-bước)
+- [5. CHI TIẾT TỪNG BƯỚC NGHIỆP VỤ (ĐẶC TẢ USE CASE)](#5-chi-tiết-từng-bước-nghiệp-vụ-đặc-tả-use-case)
+  - [A. Nhóm chức năng Điều hành & Kiểm soát cổng](#a-nhóm-chức-năng-điều-hành--kiểm-soát-cổng)
+  - [B. Nhóm Task thực địa kho (Physical Task Chain)](#b-nhóm-task-thực-địa-kho-physical-task-chain)
+  - [C. Nhóm Chức năng Trình ký & Tích hợp điện tử](#c-nhóm-chức-năng-trình-ký--tích-hợp-điện-tử)
+- [6. LUỒNG NGOẠI LỆ VÀ TỪ CHỐI](#6-luồng-ngoại-lệ-và-từ-chối)
+
+**PHẦN III — QUY TẮC & MÔ HÌNH NGHIỆP VỤ**
+
+- [7. QUY TẮC NGHIỆP VỤ BẤT BIẾN (BUSINESS RULES)](#7-quy-tắc-nghiệp-vụ-bất-biến-business-rules)
+- [8. MÔ HÌNH TRẠNG THÁI (STATE MACHINES)](#8-mô-hình-trạng-thái-state-machines)
+- [9. CƠ CHẾ SINH TASK VÀ ĐIỀU PHỐI (TASK ENGINE)](#9-cơ-chế-sinh-task-và-điều-phối-task-engine)
+- [10. CƠ CHẾ BÓC TÁCH MÃ CHA — MÃ CON VÀ GÁN SỐ LÔ](#10-cơ-chế-bóc-tách-mã-cha--mã-con-và-gán-số-lô)
+- [11. CƠ CHẾ BẺ LUỒNG SONG SONG (PARALLEL BRANCHING)](#11-cơ-chế-bẻ-luồng-song-song-parallel-branching)
+- [12. CƠ CHẾ GIAO VIỆC ĐA NHÂN SỰ (JOINT TASK)](#12-cơ-chế-giao-việc-đa-nhân-sự-joint-task)
+
+**PHẦN IV — TÍCH HỢP, SLA & DỮ LIỆU**
+
+- [13. TÍCH HỢP HỆ THỐNG NGOÀI (SAP, V-OFFICE)](#13-tích-hợp-hệ-thống-ngoài-sap-v-office)
+- [14. SLA, KPI VÀ CẢNH BÁO](#14-sla-kpi-và-cảnh-báo)
+- [15. DỮ LIỆU ĐẦU VÀO / ĐẦU RA TỪNG BƯỚC](#15-dữ-liệu-đầu-vào--đầu-ra-từng-bước)
+- [16. PHỤ LỤC: BẢNG ÁNH XẠ DỮ LIỆU NGHIỆP VỤ ↔ THỰC THỂ DỮ LIỆU](#16-phụ-lục-bảng-ánh-xạ-dữ-liệu-nghiệp-vụ--thực-thể-dữ-liệu)
+
+**PHẦN V — YÊU CẦU PHI CHỨC NĂNG & NGHIỆM THU**
+
+- [17. CÁC YÊU CẦU PHI CHỨC NĂNG](#17-các-yêu-cầu-phi-chức-năng)
+- [18. TIÊU CHUẨN NGHIỆM THU HỆ THỐNG](#18-tiêu-chuẩn-nghiệm-thu-hệ-thống)
 
 ---
 
-## 1. TỔNG QUAN QUY TRÌNH
+# PHẦN I — GIỚI THIỆU & TỔNG QUAN
 
-### 1.1. Định nghĩa
+## 1. GIỚI THIỆU
 
-Quy trình **MM.10A — Nhập kho mua mới từ NCC** mô tả toàn bộ hành trình của một lô hàng vật tư viễn thông được mua từ Nhà cung cấp (NCC), kể từ khi SAP đẩy Lệnh nhập kho (Inbound Delivery) sang hệ thống AIWS, qua các bước tiếp nhận, kiểm đếm, ký biên bản bàn giao, kiểm định chất lượng (KCS), đóng gói, gán RFID, đến khi hàng hóa được cất vào đúng vị trí ô kệ (Bin Putaway) trong kho và tồn kho chính thức được cập nhật.
+### 1.1. Mục đích tài liệu
 
-### 1.2. Phạm vi
+Tài liệu này mô tả chi tiết yêu cầu nghiệp vụ, luồng xử lý, đặc tả chức năng và các ràng buộc kỹ thuật cho **Phân hệ Nhập kho Mua mới từ Nhà cung cấp (MM.10A)** thuộc hệ thống Kho thông minh AI-WS (AIWS). Tài liệu phục vụ làm cơ sở cho việc thiết kế kỹ thuật, phát triển phần mềm, kiểm thử và nghiệm thu hệ thống.
 
-| Hạng mục | Chi tiết |
+### 1.2. Phạm vi tài liệu
+
+Tài liệu tập trung mô tả yêu cầu nghiệp vụ số hoá cho quy trình **Nhập kho mua mới từ Nhà cung cấp (NCC)** — từ khi SAP S/4HANA đẩy Lệnh nhập kho (Inbound Delivery) sang AI-WS, qua các bước tiếp nhận, kiểm soát an ninh cổng, dỡ hàng, kiểm đếm, ký BBBG điện tử, **Trình ký V-Office Phiếu nhập kho**, KCS bóc tách mã cha-con, đóng gói in tem RFID, đến khi hàng hóa được cất xếp vào Bin Putaway và tồn kho chính thức cập nhật.
+
+### 1.3. Định nghĩa thuật ngữ và các từ viết tắt
+
+| Thuật ngữ | Định nghĩa | Ghi chú |
+|---|---|---|
+| AIWS / AI-WS | Hệ thống Kho thông minh (AI Warehouse System) | WMS Platform |
+| NCC | Nhà cung cấp |  |
+| LNK | Lệnh nhập kho |  |
+| PO | Purchase Order (Đơn mua hàng) |  |
+| BBBG | Biên bản bàn giao |  |
+| PNK | Phiếu nhập kho (Material Document - Mvt 101) |  |
+| KCS | Kiểm tra chất lượng sản phẩm (Quality Control) |  |
+| HU | Handling Unit (Kiện hàng đóng gói) |  |
+| RFID | Radio-Frequency Identification |  |
+| V-Office | Hệ thống Quản lý văn bản điện tử Tập đoàn Viettel | Ký duyệt số |
+| SAP S/4HANA | Hệ thống ERP quản trị nguồn lực doanh nghiệp |  |
+| UU | Unrestricted Use (Tồn kho khả dụng) |  |
+| BOM | Bill of Materials (Danh mục vật tư phân rã) |  |
+
+### 1.4. Tài liệu tham khảo
+
+| STT | Tên tài liệu | Phiên bản |
+|---|---|---|
+| 1 | SRS_MM.10A_QuyTrinh_Va_ManHinh_Task_NhapKho_NCC_v1.0.0 | v1.0.0 |
+| 2 | SRS_MM.10A_QuyTrinh_Va_ManHinh_Task_NhapKho_NCC_Mobile_v1.0.0 | v1.0.0 |
+| 3 | VIC_Warehouse_PTYC_Phân hệ Xuất Kho_v1.0.0 (Template cấu trúc) | v1.0.0 |
+
+### 1.5. Mô tả tài liệu
+
+Tài liệu này được xây dựng nhằm phục vụ các cấp quản lý, đội ngũ phát triển và kiểm thử trong việc triển khai, theo dõi và nghiệm thu phân hệ **Nhập kho Mua mới từ NCC (MM.10A)**.
+
+---
+
+## 2. TỔNG QUAN QUY TRÌNH
+
+### 2.1. Phát biểu bài toán
+
+#### 2.1.1. Tổng quan bài toán
+
+Quy trình **MM.10A — Nhập kho mua mới từ NCC** mô tả toàn bộ hành trình liên hoàn 16 bước của lô hàng vật tư viễn thông từ Nhà cung cấp (NCC), kể từ khi SAP S/4HANA khởi tạo Lệnh nhập kho đồng bộ sang AI-WS, qua các khâu điều hành, kiểm soát an ninh cổng, dỡ hàng, kiểm đếm ký BBBG điện tử, **Trình ký V-Office Phiếu nhập kho**, kiểm định KCS bóc tách mã cha-con, đóng gói in tem RFID, cho đến khi vật tư được cất xếp chính thức vào vị trí ô kệ (Bin Putaway) và cập nhật tồn kho ERP.
+
+#### 2.1.2. Hiện trạng quy trình nghiệp vụ
+
+- N/a
+
+#### 2.1.3. Hiện trạng hạ tầng dữ liệu
+
+- N/a
+
+### 2.2. Mục tiêu hệ thống
+
+Xây dựng hệ thống số hoá quy trình **Nhập kho mua mới từ NCC** nhằm:
+
+- Số hoá và chuẩn hóa toàn bộ quy trình nhập kho 16 bước End-to-End.
+- Quản lý tập trung thông tin Lệnh nhập kho (`Warehouse_Order`).
+- Tự động sinh chuỗi Task tác nghiệp thực địa (Task Engine).
+- Đồng bộ dữ liệu với SAP S/4HANA (8 API: `T-API1` đến `T-API5` và `V-API1` đến `V-API3`).
+- **Tích hợp tính năng Trình ký V-Office Tập đoàn trực tiếp trên giao diện Web PC và Mobile App của AI-WS**.
+- Số hoá BBBG điện tử với chữ ký cảm ứng 2 bên (Thủ kho & Đại diện NCC).
+- Tự động bóc tách Mã Cha → Mã Con và gán Batch No chính thức sau KCS.
+
+### 2.3. Phạm vi hệ thống
+
+| Hạng mục | Chi tiết đặc tả |
 |---|---|
-| **Hệ thống chủ trì** | AI-WS (Lớp vận hành thực thi kho vật lý) |
-| **Hệ thống tích hợp** | SAP S/4HANA (ERP — Chứng từ, Kế toán, KCS), V-Office (Ký duyệt điện tử) |
+| **Hệ thống chủ trì** | AI-WS (WMS Platform — Thực thi kho vật lý và điều phối Task) |
+| **Hệ thống tích hợp ERP** | SAP S/4HANA (Chứng từ PO/Inbound Delivery, kế toán Mvt 101, chủ trì KCS) |
+| **Hệ thống ký điện tử** | V-Office (Trình ký PNK trực tiếp từ UI Web/Mobile của AI-WS) |
 | **Workflow Domain** | `INBOUND` (Tầng 1) |
 | **Process Profile** | `MM.10A` (Tầng 2) |
-| **Nguồn khởi tạo** | SAP Inbound Delivery (VL31N) tham chiếu PO |
-| **Đối tượng hàng hóa** | Vật tư viễn thông: thiết bị mạng (RRU, Antenna, Switch), linh kiện, cáp, phụ kiện |
-| **Đặc thù nổi bật** | Bóc tách Mã Cha → Mã Con, bẻ luồng song song Đóng gói vs Cất thẳng, giao việc 2 người, tích hợp V-Office trực tiếp từ UI |
+| **Nguồn phát động** | SAP Inbound Delivery (VL31N) tham chiếu PO |
+| **Đối tượng hàng hóa** | Vật tư viễn thông: RRU, Antenna, Switch, Cáp quang, phụ kiện |
+| **Đặc thù nghiệp vụ** | Bóc tách Mã Cha → Mã Con (`T-API5`), bẻ luồng song song Trình ký V-Office vs Vận hành thực địa, đóng gói RFID vs cất thẳng, Joint Task 2 người |
 
-### 1.3. Điểm bắt đầu & Kết thúc
+### 2.4. Điểm bắt đầu & Kết thúc
 
-| | Mô tả |
+| Điểm | Mô tả |
 |---|---|
-| **Start** | SAP tạo Inbound Delivery (VL31N) từ PO, đẩy `T-API1` sang AIWS → AIWS tạo **Warehouse Order** ở trạng thái `WAIT_CONFIRM` |
-| **End (AIWS)** | Toàn bộ dòng hàng đã được cất vào vị trí ô kệ (Bin Putaway), Warehouse Order chuyển `COMPLETED` |
-| **End (SAP)** | Tồn kho SAP cập nhật chính thức: `UU` (Unrestricted Use) nếu đạt KCS, `Blocked Stock` nếu không đạt |
+| **Start** | SAP phát động `T-API1` truyền Lệnh nhập kho sang AI-WS. AI-WS tạo `Warehouse_Order` (`WAIT_CONFIRM`). |
+| **End (AI-WS)** | Toàn bộ dòng hàng đã cất vào Bin Putaway, `Warehouse_Order` chuyển `COMPLETED`. |
+| **End (SAP)** | Tồn kho SAP hạch toán chính thức: `UU` nếu KCS đạt, `Blocked Stock` nếu không đạt. |
 
-### 1.4. Điều kiện tiên quyết (Pre-conditions)
+### 2.5. Điều kiện tiên quyết (Pre-conditions)
 
-1. PO (Purchase Order) đã được tạo và duyệt trên SAP.
+1. PO đã được phê duyệt trên SAP.
 2. Inbound Delivery (VL31N) đã được tạo tham chiếu PO.
-3. LNK (Lệnh nhập kho) đã được ký duyệt/ban hành trên V-Office.
-4. Nếu LNK mua mã cha (material type = `ZPAR`), **Packing List** (BOM phân rã tỷ trọng kỹ thuật và tài chính) phải đã được tạo trên SAP.
-5. Kết nối API giữa SAP ↔ AIWS hoạt động bình thường.
+3. Nếu mua Mã Cha (`ZPAR`), Packing List / BOM đã được thiết lập trên SAP.
+4. Hạ tầng kết nối API giữa SAP ↔ AI-WS ↔ V-Office hoạt động bình thường.
 
 ---
 
-## 2. TÁC NHÂN VÀ VAI TRÒ
+## 3. TÁC NHÂN VÀ VAI TRÒ
 
-| Tác nhân | Role Code | Mô tả vai trò trong quy trình MM.10A |
-|---|---|---|
-| **Bộ phận Mua sắm** | *(Ngoài AIWS — trên SAP)* | Tạo PO, tạo Inbound Delivery, tạo Packing List, trình ký LNK trên V-Office. Hoạt động trên SAP, **AIWS không quản lý tác nhân này**. |
-| **Thủ kho** | `ROLE_WAREHOUSE_MASTER` | Tiếp nhận lệnh trên AIWS, check lệnh, xác nhận lệnh (trigger sinh Task), phân công ca trực, chỉ định Staging Area, kiểm hàng & ký BBBG, xác nhận thực nhập kho, trình ký V-Office Phiếu nhập kho. |
-| **Bảo vệ cổng kho** | `ROLE_SECURITY` | Đối soát biển số xe & CCCD tài xế NCC tại cổng kho, ghi nhận giờ xe vào/ra cổng (`T-Scr`). |
-| **Nhân viên kho** | `ROLE_WAREHOUSE_WORKER` | Dỡ hàng từ xe, di chuyển hàng giữa các khu vực, kiểm đếm hỗ trợ, đóng gói (Carton/Pallet), in tem nhãn SKU, gán RFID. |
-| **Lái xe nâng** | `ROLE_FORKLIFT_DRIVER` | Cất hàng (đã đóng gói hoặc nguyên kiện to) vào vị trí Bin Putaway trên kệ/bãi sàn. |
-| **Đại diện NCC** | `ROLE_PARTNER` | Ký BBBG điện tử trên App AIWS, theo dõi trạng thái giao hàng. Truy cập hệ thống với quyền hạn chế. |
-| **Giám đốc kho** | `ROLE_WAREHOUSE_DIRECTOR` | Phê duyệt trên V-Office, giám sát Dashboard, phê duyệt gia hạn SLA. |
+| STT | Tác nhân | Role Code | Mô tả vai trò trong quy trình MM.10A |
+|---|---|---|---|
+| 1 | Bộ phận Mua sắm (SAP) | *(Ngoài AI-WS)* | Tạo PO, Inbound Delivery, Packing List trên SAP. |
+| 2 | Thủ kho | `ROLE_WAREHOUSE_MASTER` | Duyệt lệnh Gate 1 (`T-Ncc`), kiểm đếm & ký BBBG (`T-Ho`), xác nhận thực nhập KCS (`T-AGR`), **Trình ký V-Office Phiếu nhập kho (`T-Sig`)**. |
+| 3 | Giám đốc kho | `ROLE_WAREHOUSE_DIRECTOR` | Duyệt lịch giao việc T+1 (`T-Apr`), chỉ định Staging/Dock, phê duyệt gia hạn SLA / KPI trình ký. |
+| 4 | Bảo vệ cổng kho | `ROLE_SECURITY` | Kiểm tra Biển số xe + CCCD (`T-Scr`), ghi nhận giờ xe vào/ra cổng. |
+| 5 | Nhân viên kho | `ROLE_WAREHOUSE_WORKER` | Dỡ hàng (`T-Unl`), di chuyển C02 (`T-Mv1`), đưa sang Packing (`T-Mv2`), đóng gói & RFID (`T-Pac`). |
+| 6 | Lái xe nâng | `ROLE_FORKLIFT_DRIVER` | Cất xếp HU/hàng to vào Bin Putaway (`T-Mv3`). |
+| 7 | Đại diện NCC / Lái xe | `ROLE_PARTNER` | Kiểm đếm cùng Thủ kho và ký BBBG điện tử trên App. |
+| 8 | Hệ thống SAP S/4HANA | *(Hệ thống)* | Đẩy LNK, nhận BBBG (`T-API4`), cung cấp KCS (`T-API5`) và nhận kết quả ký V-Office (`V-API3`). |
+| 9 | Hệ thống V-Office | *(Hệ thống)* | Tiếp nhận hồ sơ trình ký (`V-API1`), thực hiện luồng ký số Tập đoàn và trả kết quả Webhook (`V-API2`). |
 
 ---
 
-## 3. LUỒNG CHÍNH END-TO-END (HAPPY PATH)
+# PHẦN II — QUY TRÌNH & ĐẶC TẢ CHỨC NĂNG
+
+## 4. LUỒNG CHÍNH END-TO-END (HAPPY PATH - 16 BƯỚC)
+
+### 4.1. Sơ đồ luồng End-to-End (U-Turn Flow)
 
 ```mermaid
 flowchart TD
-    SAP_START(["SAP: Tạo PO → Tạo Inbound Delivery<br>→ Ký duyệt V-Office LNK<br>→ Tạo Packing List (nếu mua mã cha)"]) 
-    SAP_START -->|"T-API1: Đồng bộ LNK + Packing List"| S0
-
-    subgraph STAGE_1 ["STAGE 1: Tiếp nhận và Kiểm soát cổng - 20%"]
-        S0["Bước 0: AIWS nhận T-API1<br>Tạo Warehouse Order<br>Status: WAIT_CONFIRM"]
-        S1["Bước 1: Thủ kho Check lệnh<br>Đối soát thông tin chứng từ"]
-        S2["Bước 2: Thủ kho Xác nhận lệnh<br>TRIGGER: Task Engine sinh Task<br>Order chuyển APPROVED"]
-        S3["Bước 3: Bảo vệ xác nhận xe vào cổng<br>Đối soát Biển số + CCCD"]
-        S0 --> S1
-        S1 --> S2
-        S2 --> S3
+    subgraph MAIN ["Sơ đồ luồng End-to-End Nhập kho MM.10A (Bao gồm Nhánh Trình ký V-Office)"]
+        direction LR
+        subgraph COL1 ["CỘT 1: BƯỚC 1 - 7 (TIẾP NHẬN & BÀN GIAO)"]
+            direction TB
+            START([Bắt đầu: SAP tạo PO & Inbound Delivery]) --> STEP1["1. SAP gửi T-API1: Đồng bộ LNK"]
+            STEP1 --> STEP2{"2. Duyệt lệnh Gate 1 (Thủ kho - T-Ncc)"}
+            STEP2 -- Từ chối --> REJ1["2.1. T-API2 sang SAP: Rejected by Whs"]
+            REJ1 --> END_REJ1([Kết thúc từ chối])
+            STEP2 -- Đồng ý --> STEP3["3. Duyệt lịch giao việc (GĐ kho - T-Apr)"]
+            STEP3 --> STEP4["4. An ninh cổng (Bảo vệ - T-Scr)"]
+            STEP4 --> STEP5["5. Task 1 [T-Unl]: Dỡ hàng"]
+            STEP5 --> STEP6{"6. Task 2 [T-Ho]: Kiểm đếm & Ký BBBG"}
+            STEP6 -- Từ chối --> REJ2["6.1. T-API3 sang SAP"]
+            REJ2 --> END_REJ2([Kết thúc từ chối])
+            STEP6 -- Đồng ý --> SIGN_BBBG["7. Ký BBBG điện tử"]
+        end
+        subgraph COL2 ["CỘT 2: BƯỚC 8 - 16 (TRÌNH KÝ V-OFFICE, KCS & CẤT KHO)"]
+            direction BT
+            SYNC_SAP["9. Đồng bộ SAP (T-API4)<br>Lấy mã PNK (Mvt 101)"] --> VOFFICE["10. Task [T-Sig]: Trình ký V-Office PNK<br>(Thủ kho gửi V-API1 trên Web/Mobile)"]
+            VOFFICE --> VOFFICE_CB["11. Nhận kết quả V-Office<br>(Webhook V-API2 & đồng bộ SAP V-API3)"]
+            STEP7["8. Task 3 [T-Mv1]: Đưa vào C02"] --> JOIN(["Chờ KCS (AND Gate: T-Mv1 + V-Office)"])
+            VOFFICE_CB --> JOIN
+            JOIN --> WAIT_KCS["12. SAP gửi T-API5: Kết quả KCS & Phân rã BOM"]
+            WAIT_KCS --> STEP8["13. Task 4 [T-AGR]: Thực nhập kho"]
+            STEP8 --> STEP9["14. Task 5 [T-Mv2]: Sang Packing Zone"]
+            STEP9 --> STEP10["15. Task 6 [T-Pac]: Đóng gói & RFID"]
+            STEP10 --> STEP11["16. Task 7 [T-Mv3]: Cất vào Bin Putaway"]
+            STEP11 --> FINISH([Kết thúc: Tồn kho SAP & AI-WS cập nhật])
+        end
+        SIGN_BBBG --> STEP7
+        SIGN_BBBG --> SYNC_SAP
     end
-
-    subgraph STAGE_2 ["STAGE 2: Dỡ hàng và Kiểm đếm BBBG - 40%"]
-        S4["Bước 4: Task 1 T-Unl<br>Dỡ hàng từ xe xuống Staging Area"]
-        S5["Bước 5: Task 2 T-Ho<br>Kiểm đếm số lượng<br>Ký BBBG điện tử 2 bên"]
-    end
-
-    subgraph STAGE_3 ["STAGE 3: Thực nhập kho và KCS - 60%"]
-        S6["Bước 6: Task 3 T-Mv1<br>Di chuyển hàng vào Khu chờ nhập C02"]
-        S6_SYNC["Bước 6.1: Đồng bộ BBBG sang SAP<br>SAP sinh PNK Mvt 101<br>Trả mã PNK về AIWS"]
-        S6_VOF["Bước 6.2: Trình ký V-Office PNK<br>trực tiếp trên UI AIWS"]
-        S7["Bước 7: Task 4 T-AGR<br>Nhận kết quả KCS T-API5<br>Bóc tách Mã Cha thành Mã Con<br>Gán Batch No chính thức"]
-    end
-
-    subgraph STAGE_4 ["STAGE 4: Đóng gói RFID và Cất kho - 80%"]
-        FORK{"BẺ NHÁNH<br>Quét cờ is_packing_required<br>trên từng dòng Order Item"}
-        S8A["Bước 8A: Task 5 T-Mv2<br>Đưa sang Khu đóng gói"]
-        S9A["Bước 9A: Task 6 T-Pac<br>Đóng gói, In tem và Gắn RFID"]
-        S10A["Bước 10A: Task 7A T-Mv3<br>Cất kiện HU vào kệ"]
-        S10B["Bước 10B: Task 7B T-Mv3<br>Xe nâng đưa THẲNG vào Bin"]
-    end
-
-    subgraph STAGE_5 ["STAGE 5: Hoàn tất và Chốt tồn kho - 100%"]
-        JOIN{"HỘI TỤ AND Gate<br>Tất cả Order Items<br>đã STORED_IN_BIN?"}
-        COMPLETE(["Order COMPLETED<br>Tồn kho SAP cập nhật"])
-    end
-
-    S3 -->|"Trigger mở khóa Task 1"| S4
-    S4 --> S5
-    S5 --> S6
-    S5 -.->|Song song| S6_SYNC
-    S6_SYNC --> S6_VOF
-    S6 --> S7
-    S7 --> FORK
-    FORK -->|"TRUE: Hàng nhỏ"| S8A
-    FORK -->|"FALSE: Hàng to"| S10B
-    S8A --> S9A
-    S9A --> S10A
-    S10A --> JOIN
-    S10B --> JOIN
-    JOIN --> COMPLETE
+    classDef mainNode fill:#ffffff,stroke:#000000,color:#000000,stroke-width:1.5px;
+    class START,STEP1,STEP2,REJ1,END_REJ1,STEP3,STEP4,STEP5,STEP6,REJ2,END_REJ2,SIGN_BBBG,STEP7,SYNC_SAP,VOFFICE,VOFFICE_CB,JOIN,WAIT_KCS,STEP8,STEP9,STEP10,STEP11,FINISH mainNode;
 ```
 
+### 4.2. Đặc tả mô hình tổng thể 16 bước
+
+| STT | Tên Bước / Mã Task | Đầu vào | Hệ thống thực hiện | Nhân sự thực hiện | Đầu ra |
+|---|---|---|---|---|---|
+| 1 | Start (T-API1) | LNK từ SAP qua API. | Nhận API, tạo `Warehouse_Order` (`WAIT_CONFIRM`), tạo `Order_Item`. | Không (Tự động). | LNK hiển thị trên AI-WS. |
+| 2 | Duyệt Gate 1 (T-Ncc) | LNK `WAIT_CONFIRM`. | Hiển thị chi tiết. Nếu từ chối → `T-API2`. | Thủ kho duyệt/từ chối. | Duyệt → Bước 3. Từ chối → `REJECTED_BY_WHS`. |
+| 3 | Duyệt lịch T+1 (T-Apr) — TRIGGER | Lệnh đã duyệt Gate 1. | Chỉ định Staging/Dock. **Task Engine sinh chuỗi Task** (`NEW`). | GĐ kho duyệt kế hoạch. | Order `APPROVED`. Chuỗi Task sinh. |
+| 4 | An ninh cổng (T-Scr) | Xe NCC đến cổng. | Tạo `Gate_Security_Event`. **Mở khóa Task 1**. | Bảo vệ xác nhận xe vào. | Task 1 `AVAILABLE`. |
+| 5 | Task 1: Dỡ hàng (T-Unl) | Task `AVAILABLE`. | Ghi `Task_Evidence`. **Mở khóa Task 2**. | NV kho dỡ hàng. | T-Unl `COMPLETED`. |
+| 6 | Task 2: Kiểm đếm (T-Ho) | Task `AVAILABLE`. | Tính sai lệch. Nếu NOK → `T-API3`. | Thủ kho + NCC kiểm đếm. | OK → Bước 7. NOK → `REJECTED`. |
+| 7 | Ký BBBG | Kết quả OK. | Sinh PDF BBBG. **Kích hoạt song song Bước 8 (Vận hành) & 9 (Tích hợp SAP/V-Office)**. | 2 bên ký cảm ứng Tablet. | T-Ho `COMPLETED`. BBBG `SIGNED`. |
+| 8 | Task 3: Đưa vào C02 (T-Mv1) | Song song với Bước 9-11. | Di chuyển Staging → C02. | NV kho di chuyển. | T-Mv1 `COMPLETED`. |
+| 9 | Đồng bộ SAP (T-API4) | BBBG `SIGNED`. | Gửi BBBG → SAP sinh PNK Mvt 101 → Nhận mã PNK. | Không (Tự động). | BBBG `SYNCED_SAP_OK`. |
+| 10 | **Trình ký V-Office (T-Sig / V-API1)** | **Mã PNK từ SAP + BBBG**. | **Load template chân ký, hiển thị PDF, gửi `V-API1` sang V-Office**. | **Thủ kho kiểm tra & bấm Trình ký trên Web/Mobile**. | **Hồ sơ `PENDING_APPROVAL` trên V-Office**. |
+| 11 | **Nhận & Trả kết quả V-Office (V-API2/3)** | **Webhook V-Office**. | **Nhận Callback `V-API2` → Cập nhật trạng thái → Phát `V-API3` đồng bộ SAP. AND Gate chờ KCS**. | **Không (Tự động)**. | **Dossier `APPROVED`, SAP cập nhật. Hội tụ chờ KCS**. |
+| 12 | SAP gửi KCS (T-API5) | Bản tin KCS. | Sinh `DECOMPOSED_CHILD`, gán `batch_no`. **Mở khóa Task 4**. | Không (Tự động). | Task 4 `AVAILABLE`. |
+| 13 | Task 4: Thực nhập (T-AGR) | Task `AVAILABLE` + KCS. | **Bẻ nhánh**: `is_packing_required`. | Thủ kho xác nhận. | T-AGR `COMPLETED`. Bẻ nhánh A/B. |
+| 14 | Task 5: Sang Packing (T-Mv2) — Nhánh A | `is_packing_required = TRUE`. | Di chuyển C02 → Packing Zone. | NV kho di chuyển. | T-Mv2 `COMPLETED`. |
+| 15 | Task 6: Đóng gói & RFID (T-Pac) — Nhánh A | Task `AVAILABLE`. | Tạo HU, in tem, gán RFID. | NV kho đóng gói. | T-Pac `COMPLETED`. HU `PACKED`. |
+| 16 | Task 7: Cất Bin (T-Mv3) | Task `AVAILABLE`. | Gợi ý Bin, quét mã Bin, tạo `Inventory_Location_Balance`. **AND Gate → COMPLETED**. | Lái xe nâng cất hàng. | T-Mv3 `COMPLETED`. Order `COMPLETED`. |
+
 ---
 
-## 4. CHI TIẾT TỪNG BƯỚC NGHIỆP VỤ
+## 5. CHI TIẾT TỪNG BƯỚC NGHIỆP VỤ (ĐẶC TẢ USE CASE)
 
-### Bước 0: Tiếp nhận lệnh từ SAP (T-API1)
+### A. Nhóm chức năng Điều hành & Kiểm soát cổng
 
-| Hạng mục | Chi tiết |
+#### A1. Duyệt tiếp nhận Lệnh nhập kho NCC (Gate 1 - T-Ncc)
+
+##### A1.1. Thông tin chung chức năng
+
+| Hạng mục | Nội dung |
 |---|---|
-| **Trigger** | SAP gọi API `T-API1` khi LNK đã được ký duyệt V-Office và đã tạo Packing List (nếu mua mã cha) |
-| **Hệ thống thực hiện** | SAP → AIWS (tự động) |
-| **Dữ liệu nhận** | Số Inbound Delivery, Số PO, Mã NCC (Vendor), Mã Plant, Mã SLoc, Danh sách dòng hàng (Mã vật tư cha + danh mục mã con dự kiến nếu có Packing List, số lượng kế hoạch, đơn vị tính) |
-| **Hành vi AIWS** | 1. Tạo 1 bản ghi **Warehouse Order** (status = `WAIT_CONFIRM`)<br>2. Tạo n bản ghi **Warehouse Order Item** cho từng dòng hàng (item_level = `ORIGINAL`, batch_no = `NULL`)<br>3. Ghi log vào **SAP Integration Log** (api_code = `T-API1`, direction = `INBOUND`) |
-| **Quy tắc đặc biệt** | • Nếu `sap_delivery_no` đã tồn tại trên AIWS → Không tạo mới, không cập nhật, trả về trạng thái "Đã đồng bộ"<br>• Nếu AIWS trả lỗi → SAP lưu thông tin lỗi để chạy đồng bộ lại (Re-process)<br>• Lưu toàn bộ request/response JSON vào Integration Log |
-| **Chưa thực hiện** | Chưa gán Batch No, chưa sinh Task vận hành |
-
----
-
-### Bước 1: Thủ kho Check lệnh
-
-| Hạng mục | Chi tiết |
-|---|---|
+| **Tên chức năng** | Duyệt tiếp nhận Lệnh nhập kho NCC (Gate 1) |
+| **Mục tiêu** | Thủ kho xem xét, đối soát chứng từ LNK từ SAP và quyết định duyệt/từ chối. |
 | **Tác nhân** | Thủ kho (`ROLE_WAREHOUSE_MASTER`) |
-| **Nền tảng** | Web PC / Tablet |
-| **Hành vi** | Thủ kho mở danh sách Order có status `WAIT_CONFIRM`, xem chi tiết lệnh để đối soát:<br>• Thông tin NCC có khớp không<br>• Danh sách hàng hóa, số lượng có hợp lý không<br>• Kho tiếp nhận (warehouse_id, sloc_id) có đúng không<br>• Ngày dự kiến giao hàng có phù hợp lịch kho không |
-| **Kết quả** | Thủ kho quyết định: **Xác nhận** (→ Bước 2) hoặc **Từ chối** (→ Luồng từ chối 1) |
-| **Dữ liệu thay đổi** | Chưa thay đổi trạng thái Order |
+| **Điều kiện kích hoạt** | AI-WS nhận thành công `T-API1`. `order_status = WAIT_CONFIRM`. |
+| **Điều kiện đầu vào** | LNK đã đồng bộ thành công từ SAP (Bước 1). |
+| **Điều kiện đầu ra** | Duyệt → Chuyển Bước 3. Từ chối → `REJECTED_BY_WHS` + `T-API2` sang SAP. |
+
+##### A1.2. Mô tả dòng sự kiện chính
+
+| Hành động của tác nhân | Phản ứng của hệ thống | C/R/U/D |
+|---|---|---|
+| 1. Truy cập danh sách LNK `WAIT_CONFIRM`. | 2. Hiển thị danh sách lệnh chờ duyệt. | R |
+| 3. Xem chi tiết lệnh, đối soát chứng từ. | 4. Hiển thị Mã NCC, PO, dòng hàng, kho tiếp nhận. | R |
+| 5a. Nhấn **"Duyệt lệnh"**. | 6a. Chuyển sang bước Duyệt lịch (T-Apr). | U |
+| 5b. Nhấn **"Từ chối lệnh"** + nhập lý do. | 6b. `order_status = REJECTED_BY_WHS`. Gọi `T-API2`. | U |
+
+##### A1.3. Ghi chú
+
+- Hỗ trợ duyệt đơn lẻ (Single) hoặc duyệt theo lô (Batch).
 
 ---
 
-### Bước 2: Thủ kho Xác nhận lệnh — TRIGGER SINH TASK
+#### A2. Duyệt lịch giao việc T+1 (T-Apr) — TRIGGER SINH TASK
 
-| Hạng mục | Chi tiết |
+##### A2.1. Thông tin chung chức năng
+
+| Hạng mục | Nội dung |
 |---|---|
+| **Tên chức năng** | Duyệt kế hoạch & Lịch giao việc T+1 |
+| **Mục tiêu** | GĐ kho chỉ định Staging/Dock, khung giờ xe. **TRIGGER SINH TASK** chính thức. |
+| **Tác nhân** | Giám đốc kho (`ROLE_WAREHOUSE_DIRECTOR`) |
+| **Điều kiện kích hoạt** | Lệnh đã qua Gate 1. |
+| **Điều kiện đầu ra** | Order `APPROVED`. `Delivery_Schedule_Slot` tạo. Task Engine sinh chuỗi Task (`NEW`). |
+
+##### A2.2. Mô tả dòng sự kiện chính
+
+| Hành động của tác nhân | Phản ứng của hệ thống | C/R/U/D |
+|---|---|---|
+| 1. Truy cập danh sách lệnh chờ duyệt lịch. | 2. Hiển thị danh sách lệnh đã qua Gate 1. | R |
+| 3. Chọn Staging Area, Dock, khung giờ xe, phân công ca. | 4. Ghi nhận, kiểm tra trùng lịch. | C/U |
+| 5. Nhấn **"Duyệt kế hoạch"**. | 6. `APPROVED`. Sinh `Delivery_Schedule_Slot`. **Task Engine sinh chuỗi Task**. | C/U |
+
+##### A2.3. Ghi chú
+
+- Duyệt 1 lần/ngày (Batch Approval). Bước này **không có từ chối**.
+
+---
+
+#### A3. Giám sát an ninh cổng kho (T-Scr)
+
+##### A3.1. Thông tin chung chức năng
+
+| Hạng mục | Nội dung |
+|---|---|
+| **Tên chức năng** | Giám sát an ninh cổng kho |
+| **Mục tiêu** | Đối soát Biển số xe + CCCD tài xế NCC, ghi nhận giờ xe vào/ra. |
+| **Tác nhân** | Bảo vệ (`ROLE_SECURITY`) |
+| **Điều kiện kích hoạt** | Xe NCC đến cổng kho. Order `APPROVED` có lịch trong ngày. |
+| **Điều kiện đầu ra** | `Gate_Security_Event` tạo. Task 1 `T-Unl` → `AVAILABLE`. |
+
+##### A3.2. Mô tả dòng sự kiện chính
+
+| Hành động của tác nhân | Phản ứng của hệ thống | C/R/U/D |
+|---|---|---|
+| 1. Bảo vệ mở App, tra cứu lệnh theo biển số xe. | 2. Hiển thị lệnh: Mã LNK, NCC, Dock. | R |
+| 3. Đăng ký tài xế: Biển số, Tên, SĐT, CCCD. | 4. Ghi nhận thông tin. | C |
+| 5. Nhấn **"Xác nhận xe vào cổng"**. | 6. Tạo `Gate_Security_Event` (`entry_time`). Task 1 → `AVAILABLE`. | C/U |
+
+---
+
+### B. Nhóm Task thực địa kho (Physical Task Chain)
+
+#### B1. Task 1: Dỡ hàng khỏi xe (T-Unl)
+
+##### B1.1. Thông tin chung chức năng
+
+| Hạng mục | Nội dung |
+|---|---|
+| **Tên chức năng** | Dỡ hàng khỏi xe xuống bãi Staging |
+| **Tác nhân** | NV kho (`ROLE_WAREHOUSE_WORKER`) — 1 hoặc 2 người (Joint Task) |
+| **Điều kiện kích hoạt** | `Gate_Security_Event.entry_time IS NOT NULL`. Task `AVAILABLE`. |
+| **Điều kiện đầu ra** | Task `COMPLETED`. Task 2 `T-Ho` → `AVAILABLE`. |
+
+##### B1.2. Mô tả dòng sự kiện chính
+
+| Hành động của tác nhân | Phản ứng của hệ thống | C/R/U/D |
+|---|---|---|
+| 1. Truy cập Task trên App Mobile. | 2. Hiển thị Task `AVAILABLE`, Staging Area. | R |
+| 3. Nhấn **"Nhận việc"**. | 4. Task → `IN_PROGRESS`. | U |
+| 5. Dỡ hàng, chụp ảnh (nếu cần). | 6. Lưu `Task_Evidence` (`PHOTO_UNLOAD`). | C |
+| 7. Nhấn **"Hoàn thành"**. | 8. Task → `COMPLETED`. Task 2 → `AVAILABLE`. | U |
+
+##### B1.3. Ghi chú
+
+- **Joint Task**: Nếu 2 người, Task chỉ `COMPLETED` khi cả 2 NV bấm "Hoàn thành".
+
+---
+
+#### B2. Task 2: Kiểm đếm & Ký BBBG (T-Ho)
+
+##### B2.1. Thông tin chung chức năng
+
+| Hạng mục | Nội dung |
+|---|---|
+| **Tên chức năng** | Kiểm đếm hàng hóa và Ký Biên bản bàn giao điện tử |
+| **Tác nhân** | Thủ kho (`ROLE_WAREHOUSE_MASTER`) + Đại diện NCC (`ROLE_PARTNER`) |
+| **Điều kiện kích hoạt** | Task 1 `COMPLETED`. Task 2 `AVAILABLE`. |
+| **Điều kiện đầu ra** | OK: BBBG `SIGNED` → Song song Bước 8 & 9. NOK: `T-API3` → `REJECTED`. |
+
+##### B2.2. Mô tả dòng sự kiện chính
+
+| Hành động của tác nhân | Phản ứng của hệ thống | C/R/U/D |
+|---|---|---|
+| 1. Truy cập Task 2. | 2. Hiển thị danh mục hàng: Mã VT, SL kế hoạch, ĐVT. | R |
+| 3. Kiểm đếm, nhập `actual_received_qty`. | 4. Tính sai lệch vs `planned_qty`. | U |
+| Nếu hư hỏng: Nhập `damaged_qty`, chụp ảnh. | Lưu `Task_Evidence` (`PHOTO_DAMAGE`). | C |
+| **NOK:** Nhấn **"Báo sai lệch"**. | Gọi `T-API3`. Order → `REJECTED`. | U |
+| **OK:** 2 bên ký cảm ứng Tablet. | Tạo `Delivery_Handover_Record` (`SIGNED`). Sinh PDF BBBG. | C/U |
+| Nhấn **"Hoàn thành"**. | Task → `COMPLETED`. **Song song**: Task 3 + T-API4. | U |
+
+##### B2.3. Ghi chú
+
+- Sai lệch **nhỏ**: Thủ kho có thể chấp nhận nhận một phần → Ký BBBG với số lượng thực tế.
+
+---
+
+#### B3. Task 3: Đưa vào Khu chờ nhập (T-Mv1)
+
+##### B3.1. Thông tin chung chức năng
+
+| Hạng mục | Nội dung |
+|---|---|
+| **Tên chức năng** | Đưa hàng vào Khu chờ nhập kho (C02 Waiting Zone) |
+| **Tác nhân** | NV kho (`ROLE_WAREHOUSE_WORKER`) |
+| **Điều kiện kích hoạt** | Task 2 `COMPLETED`. Chạy song song với Bước 9-11. |
+| **Điều kiện đầu ra** | Task `COMPLETED`. Hàng chờ KCS tại C02. |
+
+##### B3.2. Mô tả dòng sự kiện chính
+
+| Hành động của tác nhân | Phản ứng của hệ thống | C/R/U/D |
+|---|---|---|
+| 1. Truy cập Task 3. | 2. Hiển thị Staging → C02. | R |
+| 3. Nhấn **"Nhận việc"**, di chuyển hàng. | 4. Task → `IN_PROGRESS`. | U |
+| 5. Nhấn **"Hoàn thành"**. | 6. Task → `COMPLETED`. `target_location = C02_WAIT`. | U |
+
+---
+
+#### B4. Task 4: Xác nhận Thực nhập kho — KCS (T-AGR)
+
+##### B4.1. Thông tin chung chức năng
+
+| Hạng mục | Nội dung |
+|---|---|
+| **Tên chức năng** | Xác nhận Thực nhập kho và Nhận kết quả KCS |
 | **Tác nhân** | Thủ kho (`ROLE_WAREHOUSE_MASTER`) |
-| **Hành vi** | Thủ kho bấm nút **"Xác nhận lệnh"** trên giao diện AIWS. Khi xác nhận, Thủ kho đồng thời thiết lập:<br>• **Ca trực/ngày** nhận hàng<br>• **Staging Area** (Khu vực bãi tạm tiếp nhận) — chọn từ danh sách `Warehouse_Zone` loại `INBOUND_STAGING`<br>• **Cửa Dock** chỉ định — chọn từ danh sách `Warehouse_Dock` loại `INBOUND` hoặc `HYBRID`<br>• **Khung giờ hẹn xe** (VD: 08:00 - 10:00) |
-| **Sự kiện hệ thống** | **TRIGGER EVENT — Task Engine được kích hoạt:**<br>1. Cập nhật Order: `order_status` = `APPROVED`, `confirmed_at` = NOW()<br>2. Ghi nhận `assigned_staging_zone_id`, `assigned_dock_id`, `manager_assignee_id`<br>3. Tạo bản ghi **Delivery Schedule Slot** (lịch hẹn xe cập bến)<br>4. **Task Engine** tra cứu **Catalog quy trình** (`Process_Profile` = `MM.10A`) → Lấy danh sách **Task_Template** → **Sinh toàn bộ chuỗi Task** (Warehouse_Task) ở trạng thái `NEW` |
-| **Task được sinh** | Xem chi tiết tại [Mục 8: Cơ chế sinh Task](#8-cơ-chế-sinh-task-và-điều-phối-task-engine) |
+| **Điều kiện kích hoạt** | Task 3 `COMPLETED` + `T-API5` nhận OK + V-Office `APPROVED` (AND Gate). |
+| **Điều kiện đầu ra** | Task `COMPLETED`. **Bẻ nhánh**: Nhánh A (Đóng gói) / Nhánh B (Cất thẳng). |
+
+##### B4.2. Mô tả dòng sự kiện chính
+
+| Hành động của tác nhân | Phản ứng của hệ thống | C/R/U/D |
+|---|---|---|
+| 1. Truy cập Task 4. | 2. Hiển thị danh mục hàng + KCS (Đạt/Không đạt, Mã Con, Batch No). | R |
+| 3. Nhấn **"Xác nhận thực nhập"**. | 4. Task → `COMPLETED`. Quét `is_packing_required` → Mở khóa Task 5 (A) / Task 7B (B). | U |
+
+##### B4.3. Ghi chú
+
+- SAP chủ trì KCS, phân rã BOM, gửi `T-API5`. AI-WS sinh `DECOMPOSED_CHILD` + gán `batch_no`.
 
 ---
 
-### Bước 3: Bảo vệ xác nhận xe vào cổng (T-Scr)
+#### B5. Task 5: Đưa sang Khu đóng gói (T-Mv2) — Nhánh A
 
-| Hạng mục | Chi tiết |
+##### B5.1. Thông tin chung chức năng
+
+| Hạng mục | Nội dung |
 |---|---|
-| **Tác nhân** | Bảo vệ cổng kho (`ROLE_SECURITY`) |
-| **Nền tảng** | Mobile App |
-| **Trigger** | Xe NCC đến cổng kho |
-| **Hành vi** | 1. Bảo vệ mở App AIWS, tìm Order đã được duyệt lịch trong ngày<br>2. Đối soát thông tin tài xế: **Biển số xe** và **Số CCCD** so với dữ liệu trên Order/Vehicle<br>3. Ghi nhận **ngoại quan xe** (kiểm tra seal niêm phong, tình trạng xe)<br>4. Bấm **"Cho xe vào"** |
-| **Dữ liệu sinh ra** | Tạo bản ghi **Gate Security Event**: `entry_time` = NOW(), `plate_number`, `driver_name`, `driver_id_card`, `security_guard_id` |
-| **Sự kiện hệ thống** | `entry_time` được ghi nhận → **Trigger mở khóa Task 1 [T-Unl]**: Task 1 chuyển từ `NEW` → `AVAILABLE` |
-| **Quy tắc** | Task 1 không thể AVAILABLE nếu chưa có sự kiện xe vào cổng |
+| **Tên chức năng** | Đưa hàng sang Khu đóng gói (Packing Zone) |
+| **Tác nhân** | NV kho (`ROLE_WAREHOUSE_WORKER`) |
+| **Áp dụng** | Dòng hàng `is_packing_required = TRUE` (Nhánh A / `PACKING_TRACK`). |
+| **Điều kiện đầu ra** | Task `COMPLETED` → Mở khóa Task 6 `T-Pac`. |
+
+##### B5.2. Mô tả dòng sự kiện chính
+
+| Hành động của tác nhân | Phản ứng của hệ thống | C/R/U/D |
+|---|---|---|
+| 1. Truy cập Task 5. | 2. Hiển thị hàng Nhánh A, C02 → Packing Zone. | R |
+| 3. Nhấn **"Nhận việc"**, di chuyển hàng. | 4. Task → `IN_PROGRESS`. | U |
+| 5. Nhấn **"Hoàn thành"**. | 6. Task → `COMPLETED`. Task 6 → `AVAILABLE`. | U |
 
 ---
 
-### Bước 4: Task 1 [T-Unl] — Dỡ hàng từ xe
+#### B6. Task 6: Đóng gói, In tem & RFID (T-Pac) — Nhánh A
 
-| Hạng mục | Chi tiết |
+##### B6.1. Thông tin chung chức năng
+
+| Hạng mục | Nội dung |
 |---|---|
-| **Mã Task** | `T-Unl` (Unloading) |
-| **Role thực hiện** | `ROLE_WAREHOUSE_WORKER` |
-| **Chế độ giao việc** | 1 người hoặc **2 người cùng làm** (Joint Task — xem [Mục 11](#11-cơ-chế-giao-việc-đa-nhân-sự-joint-task)) |
-| **Nền tảng** | Mobile App / Tablet |
-| **Hành vi** | 1. NV kho nhìn thấy Task `AVAILABLE` trên danh sách Task trong ngày → Bấm **"Nhận việc"** (hoặc Auto-match)<br>2. Task chuyển `IN_PROGRESS`<br>3. NV thực hiện dỡ hàng từ xe xuống Staging Area đã chỉ định<br>4. NV có thể chụp ảnh hiện trường (Task Evidence: `PHOTO_UNLOAD`)<br>5. Bấm **"Hoàn thành"** |
-| **Dữ liệu cập nhật** | • `Warehouse_Task`: `task_status` = `COMPLETED`, `completed_at` = NOW()<br>• Ghi nhận `actual_duration_minutes`<br>• Nếu Joint Task: Chỉ `COMPLETED` khi cả 2 NV hoàn thành (xem Mục 11) |
-| **Sự kiện hệ thống** | Task 1 `COMPLETED` → **Mở khóa Task 2 [T-Ho]**: Task 2 chuyển `NEW` → `AVAILABLE` |
+| **Tên chức năng** | Đóng gói, In tem nhãn SKU và Gắn thẻ RFID |
+| **Tác nhân** | NV kho (`ROLE_WAREHOUSE_WORKER`) |
+| **Điều kiện đầu ra** | HU `PACKED`. Tem RFID gán. Task `COMPLETED` → Mở khóa Task 7A. |
+
+##### B6.2. Mô tả dòng sự kiện chính
+
+| Hành động của tác nhân | Phản ứng của hệ thống | C/R/U/D |
+|---|---|---|
+| 1. Truy cập Task 6. | 2. Hiển thị hàng cần đóng gói + phương án. | R |
+| 3. Chọn công cụ (Thùng/Pallet). | 4. Tạo `Handling_Unit` + `Handling_Unit_Item`. | C |
+| 5. Nhấn **"In tem"**. | 6. Gửi lệnh in (Zebra ZT411). | R |
+| 7. Gán RFID. | 8. Cập nhật `rfid_epc_code`. | U |
+| 9. Nhấn **"Hoàn thành"**. | 10. HU `PACKED`. Task → `COMPLETED`. Task 7A → `AVAILABLE`. | U |
 
 ---
 
-### Bước 5: Task 2 [T-Ho] — Kiểm đếm số lượng & Ký BBBG
+#### B7. Task 7: Cất hàng vào Bin Putaway (T-Mv3)
 
-| Hạng mục | Chi tiết |
+##### B7.1. Thông tin chung chức năng
+
+| Hạng mục | Nội dung |
 |---|---|
-| **Mã Task** | `T-Ho` (Handover) |
-| **Role thực hiện** | `ROLE_WAREHOUSE_MASTER` (Thủ kho) + `ROLE_PARTNER` (Đại diện NCC) |
-| **Nền tảng** | Tablet (có màn hình ký cảm ứng) |
-| **Hành vi** | 1. Thủ kho kiểm đếm số lượng thực tế từng dòng hàng đã dỡ xuống:<br>&nbsp;&nbsp;&nbsp;• Nhập `actual_received_qty` cho từng `Warehouse_Order_Item`<br>&nbsp;&nbsp;&nbsp;• Nếu phát hiện hỏng hóc: Nhập `damaged_qty`, chụp ảnh (Task Evidence: `PHOTO_DAMAGE`)<br>2. So sánh `actual_received_qty` vs `planned_qty`:<br>&nbsp;&nbsp;&nbsp;• **Đúng đủ** → Tiếp tục ký BBBG<br>&nbsp;&nbsp;&nbsp;• **Sai lệch/Hư hỏng** → Luồng từ chối 2 (xem [Mục 5](#5-luồng-ngoại-lệ-và-từ-chối))<br>3. Thủ kho ký chữ ký cảm ứng trên màn hình → Lưu `warehouse_signature_data`<br>4. Đại diện NCC ký chữ ký cảm ứng → Lưu `partner_signature_data`<br>5. Hệ thống tự động tạo file PDF BBBG hoàn chỉnh → Lưu `pdf_file_url` |
-| **Dữ liệu sinh ra** | Tạo bản ghi **Delivery Handover Record** (BBBG): `bbbg_code`, `handover_date`, chữ ký 2 bên, tổng số lượng kiểm nhận, chênh lệch |
-| **Trạng thái BBBG** | `DRAFT` → `SIGNED` (sau khi cả 2 bên ký) |
-| **Sự kiện hệ thống** | Task 2 `COMPLETED` → **Đồng thời:**<br>• Mở khóa Task 3 [T-Mv1]<br>• Kích hoạt đồng bộ BBBG sang SAP (Bước 6.1) |
+| **Tên chức năng** | Cất hàng vào vị trí ô kệ Bin Putaway |
+| **Tác nhân** | Lái xe nâng (`ROLE_FORKLIFT_DRIVER`) |
+| **Phân loại** | **7A** (Nhánh A): Cất kiện HU. **7B** (Nhánh B): Cất THẲNG hàng to vào Bin. |
+| **Điều kiện đầu ra** | `item_status = STORED_IN_BIN`. `Inventory_Location_Balance` tạo. AND Gate → Order `COMPLETED`. |
+
+##### B7.2. Mô tả dòng sự kiện chính
+
+| Hành động của tác nhân | Phản ứng của hệ thống | C/R/U/D |
+|---|---|---|
+| 1. Truy cập Task 7. | 2. Hiển thị Bin gợi ý tối ưu (loại VT, kích thước, tải trọng). | R |
+| 3. Nhấn **"Nhận việc"**, vận chuyển đến Bin. | 4. Task → `IN_PROGRESS`. | U |
+| 5. Quét mã Barcode/QR Bin Code. | 6. Xác nhận Bin, cập nhật HU, `Inventory_Location_Balance`. | C/U |
+| 7. Nhấn **"Xác nhận cất kho"**. | 8. `STORED_IN_BIN`. Task `COMPLETED`. AND Gate → Order `COMPLETED`. | U |
 
 ---
 
-### Bước 6: Task 3 [T-Mv1] — Di chuyển hàng vào Khu chờ nhập
+### C. Nhóm Chức năng Trình ký & Tích hợp điện tử
 
-| Hạng mục | Chi tiết |
+#### C1. Trình ký V-Office Phiếu nhập kho (`T-Sig` / `[M-VOff]`)
+
+##### C1.1. Thông tin chung chức năng
+
+| Hạng mục | Nội dung |
 |---|---|
-| **Mã Task** | `T-Mv1` (Move to Waiting Zone) |
-| **Role thực hiện** | `ROLE_WAREHOUSE_WORKER` |
-| **Hành vi** | NV kho di chuyển toàn bộ lô hàng vừa ký BBBG từ Staging Area vào **Khu vực chờ nhập kho (C02 / Inbound Waiting Zone)**. |
-| **Dữ liệu cập nhật** | Ghi nhận target_location = zone `WAITING_INBOUND` (`C02_WAIT`) trong `Task_Item_Detail` |
-| **Sự kiện** | Task 3 `COMPLETED` → Chờ điều kiện tiếp theo: KCS SAP trả kết quả → mở khóa Task 4 |
+| **Tên chức năng** | **Trình ký V-Office Phiếu nhập kho** (`V-Office Goods Receipt Submission & Tracking`) |
+| **Mã chức năng** | `T-Sig` (Web PC) / `[M-VOff]` (Mobile App) |
+| **Mục tiêu** | Cho phép Thủ kho xem trước file PDF Phiếu nhập kho (Mvt 101 từ SAP `T-API4`) và Biên bản bàn giao đính kèm; chọn mẫu luồng ký quy chuẩn Tập đoàn; cấu hình danh sách người duyệt ký số; khởi tạo hồ sơ trình ký gửi sang hệ thống V-Office qua `V-API1`; theo dõi tiến độ duyệt real-time; nhận Webhook Callback `V-API2` và đồng bộ kết quả về SAP qua `V-API3`. |
+| **Tác nhân** | Thủ kho (`ROLE_WAREHOUSE_MASTER`) |
+| **Điều kiện kích hoạt** | - Bước 9 hoàn tất: Bản tin `T-API4` gửi thành công sang SAP, SAP hạch toán Material Document Mvt 101 và trả về `sap_material_doc_no` cho AI-WS.<br>- BBBG điện tử đã được ký ở Bước 7 (`Delivery_Handover_Record.status = SIGNED`). |
+| **Điều kiện đầu vào** | - Mã Phiếu nhập kho (`sap_material_doc_no`) đã lưu trong hệ thống.<br>- File PDF Phiếu nhập kho và file PDF BBBG đã sẵn sàng.<br>- Danh mục mẫu chân ký / luồng ký V-Office có sẵn trong hệ thống (`/api/registration/voffice/templates`). |
+| **Điều kiện đầu ra** | - Hồ sơ trình ký được tạo thành công trên V-Office Tập đoàn, nhận `voffice_document_id` (VD: `1059921`).<br>- Trạng thái hồ sơ trên AI-WS chuyển thành `PENDING_APPROVAL` (Chờ ký).<br>- Khi nhận Webhook Callback `V-API2`: Cập nhật trạng thái `APPROVED` hoặc `REJECTED`.<br>- Nếu `APPROVED`: Phát động `V-API3` đồng bộ kết quả sang SAP, mở khóa điều kiện hội tụ AND Gate để chuẩn bị cho Bước 12 (KCS `T-API5`). |
+
+##### C1.2. Biểu đồ luồng xử lý chức năng
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor TK as Thủ kho (Web / Mobile)
+    participant WMS as AI-WS Backend
+    participant VOFF as V-Office Tập đoàn
+    participant SAP as SAP S/4HANA
+
+    Note over TK,WMS: Điều kiện: Đã nhận Mã PNK từ T-API4
+    TK->>WMS: Mở màn hình Trình ký V-Office [T-Sig / M-VOff]
+    WMS-->>TK: Hiển thị Preview PDF PNK, BBBG & Danh sách mẫu chân ký
+    TK->>WMS: Chọn mẫu chân ký, nhập Trích yếu nội dung & Bấm [Gửi trình ký V-Office]
+    WMS->>WMS: Tạo bản ghi VOffice_Signing_Dossier (DRAFT -> PENDING_APPROVAL)
+    WMS->>VOFF: Gửi bản tin V-API1 (Tạo hồ sơ trình ký + đính kèm file)
+    VOFF-->>WMS: Phản hồi V-API1 OK (Trả về voffice_document_id)
+    WMS-->>TK: Thông báo: "Trình ký V-Office thành công! Mã hồ sơ: 1059921"
+    
+    Note over VOFF: Luồng ký số trên V-Office (Lãnh đạo đơn vị, Phụ trách kho, Thủ kho)
+    alt Lãnh đạo Phê duyệt
+        VOFF->>WMS: Gửi Webhook Callback V-API2 (status: APPROVED)
+        WMS->>WMS: Cập nhật Dossier -> APPROVED
+        WMS->>SAP: Tự động phát bản tin V-API3 (Đồng bộ kết quả duyệt sang SAP)
+        SAP-->>WMS: Phản hồi V-API3 OK (Chốt kế toán chứng từ Mvt 101)
+        WMS->>WMS: Đánh dấu điều kiện V-Office OK (Sẵn sàng hội tụ AND Gate cho T-API5)
+    else Lãnh đạo Từ chối
+        VOFF->>WMS: Gửi Webhook Callback V-API2 (status: REJECTED, reason)
+        WMS->>WMS: Cập nhật Dossier -> REJECTED
+        WMS-->>TK: Push Notification cảnh báo: "Hồ sơ V-Office bị từ chối ký"
+        TK->>WMS: Mở lại hồ sơ, chỉnh sửa/điều chỉnh & Trình ký lại
+    end
+```
+
+##### C1.3. Mô tả dòng sự kiện chính
+
+| Bước | Hành động của tác nhân | Phản ứng của hệ thống | Dữ liệu liên quan (C/R/U/D) |
+|---|---|---|---|
+| 1 | Thủ kho truy cập màn hình Trình ký V-Office từ Web PC (Menu *Quản lý nhập kho* ➔ *Trình ký V-Office*) hoặc Mobile App (`[M-VOff]`). | Hệ thống hiển thị giao diện Trình ký: Tóm tắt thông tin Phiếu nhập kho, số chứng từ SAP (`101-2026-889900`), tổng giá trị tiền, số dòng SKU, và trình xem trước file PDF PNK + file scan BBBG. | R |
+| 2 | Thủ kho chọn **Mẫu luồng trình ký** từ dropdown (VD: *Phiếu nhập kho Mua sắm — V-Office Standard Flow*). | Hệ thống tự động điền danh sách người duyệt theo cấu hình mẫu (Lãnh đạo đơn vị, Phụ trách kho, Kế toán kho, Thủ kho). | R |
+| 3 | Thủ kho nhập **Trích yếu nội dung trình ký** (Textarea), chọn mức độ ưu tiên (Checkbox *Trình ký hỏa tốc* nếu cần), kiểm tra danh sách cán bộ nhận thông báo. | Hệ thống kiểm tra tính hợp lệ dữ liệu (Validate bắt buộc trích yếu, kiểm tra file đính kèm hợp lệ). | U |
+| 4 | Thủ kho nhấn **[Xem trước file V-Office]** để kiểm tra layout chữ ký, sau đó nhấn **[Gửi trình ký V-Office]**. | Hệ thống hiển thị Modal xác nhận: *"Xác nhận gửi hồ sơ Phiếu nhập kho GR-2026/05/14-018 sang V-Office trình ký?"*. | R |
+| 5 | Thủ kho nhấn **[Đồng ý]** trên Modal xác nhận. | - Tạo bản ghi `VOffice_Signing_Dossier` ở trạng thái `PENDING_APPROVAL`.<br>- Đóng gói Payload và phát bản tin **`V-API1`** sang hệ thống V-Office.<br>- Nhận kết quả phản hồi từ V-Office kèm `voffice_document_id`.<br>- Hiển thị Badge trạng thái màu cam **"Đang trình ký"** (01 - ĐANG XỬ LÝ). | C/U |
+| 6 | *(Hệ thống tự động)* Tiếp nhận kết quả ký duyệt từ V-Office qua Webhook **`V-API2`**. | - Khi toàn bộ chân ký hoàn tất, V-Office bắn Webhook `V-API2` (`status: APPROVED`).<br>- Hệ thống cập nhật `VOffice_Signing_Dossier.status = APPROVED`.<br>- Đổi Badge sang màu xanh **"Đã ký duyệt"**.<br>- Hệ thống tự động phát bản tin **`V-API3`** truyền kết quả sang SAP S/4HANA để chốt trạng thái chứng từ ERP. | U |
+| 7 | *(Hệ thống tự động)* Hoàn tất Task `T-Sig`. | Task `T-Sig` chuyển sang `COMPLETED`. Hệ thống ghi nhận điều kiện tiên quyết cho hội tụ AND Gate tại Bước 11-12. | U |
+
+##### C1.4. Mô tả dòng sự kiện phụ
+
+- **Luồng 5.1a — Lãnh đạo Từ chối ký trên V-Office:**
+  - Khi có một cấp duyệt từ chối trên V-Office, Webhook `V-API2` gửi về AI-WS với `status = REJECTED` kèm lý do từ chối.
+  - Hệ thống cập nhật `VOffice_Signing_Dossier.status = REJECTED`, gửi Push Notification và thông báo chuông (Bell) đến Thủ kho.
+  - Thủ kho mở lại màn hình `[T-Sig]`, kiểm tra lý do từ chối, chỉnh sửa thông tin hồ sơ/tài liệu đính kèm và thực hiện trình ký lại (Quay lại Bước 3).
+- **Luồng 5.1b — Thủ kho xin Gia hạn KPI trình ký (`btn_extend_kpi`):**
+  - Nếu gặp sự cố chưa thể trình ký đúng hạn SLA (120 phút), Thủ kho nhấn nút **[Gia hạn KPI]**.
+  - Hệ thống hiển thị Dialog: Nhập số phút xin gia hạn (`requested_extra_minutes`) và lý do gia hạn (`extend_reason`).
+  - Gửi yêu cầu `Task_SLA_Extension` đến Giám đốc kho phê duyệt. Khi GĐ kho duyệt, hệ thống cập nhật `sla_deadline` mới.
+- **Luồng 5.1c — Lưu nháp hồ sơ trình ký:**
+  - Thủ kho có thể nhấn nút **[Lưu nháp]** để lưu lại các thông tin đã điền (Mẫu luồng, Trích yếu) mà chưa gửi sang V-Office. Hồ sơ lưu ở trạng thái `DRAFT`.
+
+##### C1.5. Ghi chú & Đặc tả giao diện
+
+- **Giao diện Web PC (`Frame 2.png`):**
+  - **Header & Action Bar:** Tiêu đề `Trình ký V-Office Phiếu nhập kho - INB-2026-0012`, Nút `Xem trước file V-Office` (Outline), Nút `Lưu nháp` (Outline), Nút `Gửi trình ký V-Office` (Nền đỏ solid Viettel).
+  - **Status Badge Bar:** Badge Trạng thái V-Office (`Chưa trình ký` - Xám / `Đang trình ký` - Cam / `Đã ký duyệt` - Xanh), Mã chứng từ SAP (`101-2026-889900`), Số dòng SKU, Tổng giá trị (`1.240.000.000 VNĐ`), Người tạo tờ trình (`Phạm Trần Hùng - Thủ kho`).
+  - **Card 1 — Thông tin hồ sơ:** Dropdown chọn luồng ký mẫu, Textarea trích yếu nội dung, Checkbox hỏa tốc.
+  - **Card 2 — Danh sách người duyệt & Luồng ký số:** Bảng danh sách thứ tự ký (Cột: Thứ tự, Họ tên, Chức danh, Đơn vị, Vai trò ký - Ký duyệt / Ký nháy / Nhận thông báo).
+  - **Card 3 — Danh mục vật tư & Tài liệu đính kèm:** Bảng dòng hàng SKU + Danh sách file đính kèm (File PDF PNK tự sinh, File PDF BBBG đã ký có chữ ký cảm ứng).
+- **Giao diện Mobile App (`[M-VOff]`):**
+  - Tối ưu cho màn hình di động/Tablet: Card tóm tắt hồ sơ, Nút xem trước PDF trực tiếp trong App, Dropdown chọn mẫu luồng ký, Nút `Gia hạn KPI`, và Modal Xác nhận gửi trình ký.
 
 ---
 
-### Bước 6.1: Đồng bộ BBBG sang SAP → Sinh Phiếu nhập kho (PNK)
+## 6. LUỒNG NGOẠI LỆ VÀ TỪ CHỐI
 
-| Hạng mục | Chi tiết |
-|---|---|
-| **Hệ thống** | AIWS → SAP (tự động, chạy song song với Task 3) |
-| **Hành vi** | 1. AIWS gửi dữ liệu BBBG đã ký sang SAP<br>2. SAP tự động tạo **Phiếu nhập kho (Material Document)** — Movement Type `101`<br>3. SAP hạch toán kế toán: Nợ `152/156`, Có `3388`<br>4. SAP trả **Mã PNK** (Material Document Number) về AIWS |
-| **Dữ liệu cập nhật** | • `Delivery_Handover_Record.status` = `SYNCED_SAP_OK`<br>• Lưu `sap_material_doc_no` vào `VOffice_Signing_Dossier` (chuẩn bị trình ký) |
-| **Quy tắc** | Nếu đồng bộ thất bại: Status = `SYNCED_SAP_FAILED`, ghi log lỗi, cho phép retry |
+### 6.1. Luồng 2.1: Thủ kho Từ chối Lệnh (T-API2)
 
----
+- **Thời điểm:** Bước 2 (T-Ncc).
+- **Lý do:** Chứng từ sai lệch, kho hết năng lực, lịch giao không phù hợp.
+- **Xử lý:** Thủ kho nhập lý do → `REJECTED_BY_WHS` → `T-API2` sang SAP → Dừng quy trình.
 
-### Bước 6.2: Trình ký V-Office Phiếu nhập kho
+### 6.2. Luồng 6.1: Từ chối nhận hàng (T-API3)
 
-| Hạng mục | Chi tiết |
-|---|---|
-| **Tác nhân** | Thủ kho (`ROLE_WAREHOUSE_MASTER`) — thao tác **trực tiếp trên giao diện AIWS** |
-| **Hành vi** | 1. Thủ kho mở màn hình PNK đã nhận mã từ SAP<br>2. Bấm **"Trình ký V-Office"** → AIWS tạo hồ sơ trình ký<br>3. AIWS gửi request sang V-Office API kèm file PDF PNK + Luồng ký mẫu (Signature Template)<br>4. Luồng ký: Thủ kho → Kế toán kho → Thủ trưởng đơn vị<br>5. V-Office trả callback kết quả ký về AIWS<br>6. AIWS tự động truyền kết quả ký về SAP |
-| **Dữ liệu sinh ra** | Tạo bản ghi **VOffice Signing Dossier**: `dossier_code`, `sap_material_doc_no`, `template_id`, `submitted_by`, `voffice_status` |
-| **Trạng thái** | `PENDING_APPROVAL` → `APPROVED` (khi ký xong) hoặc `REJECTED` (bị từ chối ký) |
-| **Quy tắc** | Bước này **chạy song song** với các Task vận hành (Task 3, Task 4...), không chặn luồng chính |
+- **Thời điểm:** Bước 6 (T-Ho).
+- **Xử lý:** Nhập `damaged_qty`, chụp ảnh → **"Báo sai lệch"** → `T-API3` sang SAP → Order `REJECTED` → Dừng quy trình.
+- **Quy tắc:** Sai lệch **nhỏ** → Nhận một phần, ký BBBG số thực tế. Sai lệch **nghiêm trọng** → Từ chối hoàn toàn.
 
----
+### 6.3. Hủy lệnh từ SAP
 
-### Bước 7: Task 4 [T-AGR] — Thực nhập kho & Nhận kết quả KCS (T-API5)
+- **Thời điểm:** Bất kỳ lúc nào trước `COMPLETED`.
+- **Xử lý:** SAP phát bản tin Cancel → Tất cả Task chưa `COMPLETED` → `CANCELED`. Order → `CANCELED`.
 
-| Hạng mục | Chi tiết |
-|---|---|
-| **Mã Task** | `T-AGR` (Agree / Goods Receipt Confirmation) |
-| **Role thực hiện** | `ROLE_WAREHOUSE_MASTER` (Thủ kho) |
-| **Trigger mở khóa** | SAP gửi `T-API5` trả kết quả KCS về AIWS |
-| **Hành vi** | 1. SAP chủ trì KCS, thực hiện kiểm định chất lượng:<br>&nbsp;&nbsp;&nbsp;• SAP **bóc tách danh mục Mã Cha → Mã Con** theo BOM / Packing List<br>&nbsp;&nbsp;&nbsp;• SAP phân định: Đạt KCS (`APPROVED_UU`) hay Không đạt (`REJECTED_BLOCKED`)<br>&nbsp;&nbsp;&nbsp;• SAP gửi `T-API5` kèm toàn bộ chi tiết<br>2. AIWS nhận `T-API5`:<br>&nbsp;&nbsp;&nbsp;• Tạo bản ghi **KCS Inspection Result**<br>&nbsp;&nbsp;&nbsp;• Sinh các dòng **Warehouse Order Item** mới (`item_level` = `DECOMPOSED_CHILD`) nếu có bóc tách<br>&nbsp;&nbsp;&nbsp;• **GÁN BATCH NO CHÍNH THỨC** cho từng dòng con<br>&nbsp;&nbsp;&nbsp;• Phân loại `is_packing_required` và `branch_group` cho từng dòng<br>3. Thủ kho xem xét kết quả KCS trên AIWS → Bấm **"Xác nhận thực nhập"** |
-| **Sự kiện hệ thống** | Task 4 `COMPLETED` → **TRIGGER BẺ NHÁNH** (xem [Mục 10](#10-cơ-chế-bẻ-luồng-song-song-parallel-branching)) |
+### 6.4. Đồng bộ SAP / V-Office thất bại
+
+- **Xử lý:** Ghi log lỗi vào `SAP_Integration_Log` (`FAILED`). Cho phép retry từ giao diện quản trị.
 
 ---
 
-### Bước 8A: Task 5 [T-Mv2] — Đưa hàng sang Khu đóng gói (Nhánh A)
+# PHẦN III — QUY TẮC & MÔ HÌNH NGHIỆP VỤ
 
-| Hạng mục | Chi tiết |
-|---|---|
-| **Mã Task** | `T-Mv2` (Move to Packing Zone) |
-| **Nhánh** | **Nhánh A** — Chỉ áp dụng cho các dòng hàng có `is_packing_required = TRUE` |
-| **Role thực hiện** | `ROLE_WAREHOUSE_WORKER` |
-| **Hành vi** | NV kho di chuyển nhóm hàng chuẩn/linh kiện nhỏ từ Khu chờ nhập (C02) sang **Khu đóng gói (Packing Zone)**. |
-| **Dữ liệu** | `Task_Item_Detail` chứa danh sách `order_item_id` thuộc Nhánh A |
-| **Sự kiện** | Task 5 `COMPLETED` → Mở khóa Task 6 [T-Pac] |
+## 7. QUY TẮC NGHIỆP VỤ BẤT BIẾN (BUSINESS RULES)
 
----
-
-### Bước 9A: Task 6 [T-Pac] — Đóng gói, In tem & Gắn RFID (Nhánh A)
-
-| Hạng mục | Chi tiết |
-|---|---|
-| **Mã Task** | `T-Pac` (Packing and RFID Tagging) |
-| **Nhánh** | **Nhánh A** |
-| **Role thực hiện** | `ROLE_WAREHOUSE_WORKER` |
-| **Hành vi** | 1. NV chọn **công cụ lưu trữ** (Storage Tool): Thùng Carton size L, Pallet gỗ...<br>2. Đóng hàng vào thùng/pallet theo quy cách tiêu chuẩn (`standard_packing_qty`)<br>3. Hệ thống tạo bản ghi **Handling Unit (HU)**: Mã kiện `hu_code`, gắn `storage_tool_id`<br>4. Tạo các bản ghi **Handling Unit Item**: Mã SKU con + số lượng + Serial (nếu có)<br>5. **In tem nhãn SKU** con bằng máy in Zebra ZT411<br>6. **Gán mã thẻ chip RFID** (`rfid_epc_code`) lên kiện HU<br>7. Ghi nhận `packed_by`, `packed_at`, `hu_status` = `PACKED` |
-| **Sự kiện** | Task 6 `COMPLETED` → Mở khóa Task 7A [T-Mv3] (Nhánh A) |
-
----
-
-### Bước 10A: Task 7A [T-Mv3] — Cất kiện HU vào kệ (Nhánh A)
-
-| Hạng mục | Chi tiết |
-|---|---|
-| **Mã Task** | `T-Mv3` (Putaway) |
-| **Nhánh** | **Nhánh A** |
-| **Role thực hiện** | `ROLE_FORKLIFT_DRIVER` (Lái xe nâng) |
-| **Hành vi** | 1. Hệ thống **gợi ý vị trí ô kệ (Bin Putaway)** tối ưu dựa trên:<br>&nbsp;&nbsp;&nbsp;• Loại vật tư, kích thước, trọng lượng kiện HU<br>&nbsp;&nbsp;&nbsp;• Dung tích còn trống / tải trọng còn lại của Bin<br>&nbsp;&nbsp;&nbsp;• Điều kiện bảo quản (nhiệt độ, độ ẩm nếu có)<br>2. Lái xe nâng vận chuyển kiện HU đến Bin chỉ định<br>3. Quét mã Bin (barcode/QR) → Xác nhận đã xếp vào<br>4. Hệ thống cập nhật:<br>&nbsp;&nbsp;&nbsp;• `Handling_Unit.current_bin_id` = Bin đã xếp, `hu_status` = `STORED`<br>&nbsp;&nbsp;&nbsp;• `Bin_Location`: Cập nhật `current_occupied_volume_m3`, `current_occupied_weight_kg`, `bin_status`<br>&nbsp;&nbsp;&nbsp;• Tạo bản ghi **Inventory Location Balance**: `stock_type`, `batch_no`, `quantity`<br>&nbsp;&nbsp;&nbsp;• `Warehouse_Order_Item.item_status` = `STORED_IN_BIN`, `storage_bin_id` = Bin ID |
-
----
-
-### Bước 10B: Task 7B [T-Mv3] — Xe nâng đưa THẲNG vào Bin (Nhánh B)
-
-| Hạng mục | Chi tiết |
-|---|---|
-| **Mã Task** | `T-Mv3` (Direct Putaway) |
-| **Nhánh** | **Nhánh B** — Chỉ áp dụng cho dòng hàng có `is_packing_required = FALSE` |
-| **Role thực hiện** | `ROLE_FORKLIFT_DRIVER` |
-| **Hành vi** | Giống Bước 10A nhưng **bỏ qua Task 5 và Task 6** (không qua đóng gói).<br>Hàng to/quá khổ/nguyên đai kiện được xe nâng đưa **thẳng** vào Bin Putaway hoặc bãi sàn Pallet Block. |
-| **Dữ liệu** | • Không tạo Handling Unit (đặt trực tiếp vào Bin)<br>• Tạo bản ghi **Inventory Location Balance** với `hu_id` = NULL<br>• Cập nhật `item_status` = `STORED_IN_BIN` |
-| **Đặc biệt** | Task 7B được mở khóa `AVAILABLE` **đồng thời** với Task 5 (Nhánh A) ngay sau Task 4 COMPLETED |
-
----
-
-### Bước 11: Hội tụ đóng lệnh (AND Gate)
-
-| Hạng mục | Chi tiết |
-|---|---|
-| **Trigger** | Hệ thống kiểm tra: **Tất cả** `Warehouse_Order_Item` thuộc Order đều có `item_status` = `STORED_IN_BIN` |
-| **Hành vi** | 1. Cập nhật `Warehouse_Order.order_status` = `COMPLETED`, `completed_at` = NOW()<br>2. Tồn kho SAP cập nhật chính thức:<br>&nbsp;&nbsp;&nbsp;• Hàng đạt KCS → `stock_type` = `UNRESTRICTED` (UU)<br>&nbsp;&nbsp;&nbsp;• Hàng không đạt KCS → `stock_type` = `BLOCKED`<br>3. Ghi nhận sự kiện xe ra cổng (`exit_time` trong Gate Security Event) khi xe NCC rời kho |
-
----
-
-## 5. LUỒNG NGOẠI LỆ VÀ TỪ CHỐI
-
-### 5.1. Luồng từ chối 1: Thủ kho từ chối lệnh (T-API2)
-
-| Hạng mục | Chi tiết |
-|---|---|
-| **Thời điểm** | Bước 1 — Thủ kho check lệnh phát hiện bất thường |
-| **Lý do** | Thông tin chứng từ sai, kho không đủ năng lực tiếp nhận, lịch giao hàng không phù hợp |
-| **Hành vi** | 1. Thủ kho nhập `rejection_reason` trên AIWS<br>2. Bấm **"Từ chối lệnh"**<br>3. `Warehouse_Order.order_status` = `REJECTED_BY_WHS`<br>4. AIWS tự động gọi **`T-API2`** → SAP cập nhật trạng thái chứng từ thành `Rejected by Whs`<br>5. Ghi log vào **SAP Integration Log** (api_code = `T-API2`, direction = `OUTBOUND`) |
-| **Kết thúc** | Quy trình dừng lại. Bộ phận Mua sắm trên SAP xử lý tiếp (sửa lệnh hoặc hủy). |
-
-### 5.2. Luồng từ chối 2: Sai lệch kiểm đếm (T-API3)
-
-| Hạng mục | Chi tiết |
-|---|---|
-| **Thời điểm** | Bước 5 — Kiểm đếm phát hiện sai lệch số lượng hoặc hư hỏng |
-| **Hành vi** | 1. Thủ kho ghi nhận `damaged_qty`, mô tả chi tiết sai lệch<br>2. Chụp ảnh bằng chứng (Task Evidence: `PHOTO_DAMAGE`)<br>3. Bấm **"Báo sai lệch"**<br>4. AIWS gọi **`T-API3`** → SAP ghi nhận sai lệch thực tế<br>5. SAP xử lý khiếu nại NCC |
-| **Quy tắc** | • Nếu sai lệch **nhỏ** (thiếu vài đơn vị): Thủ kho có thể chấp nhận nhận một phần → Ký BBBG với số lượng thực tế → Luồng tiếp tục bình thường<br>• Nếu sai lệch **nghiêm trọng** (toàn bộ lô hỏng, thiếu quá nhiều): Thủ kho từ chối nhận → Gọi `T-API3` → Quy trình dừng |
-
-### 5.3. Hủy lệnh từ SAP
-
-| Hạng mục | Chi tiết |
-|---|---|
-| **Trigger** | SAP phát lệnh Cancel tới AIWS |
-| **Hành vi** | Tất cả Task chưa `COMPLETED` chuyển sang `CANCELED`. Order chuyển `CANCELED`. |
-
-### 5.4. Đồng bộ SAP thất bại (Lỗi kết nối)
-
-| Hạng mục | Chi tiết |
-|---|---|
-| **Hành vi** | Ghi log lỗi chi tiết vào `SAP_Integration_Log` (`integration_status` = `FAILED`, `error_message` = nội dung lỗi). Cho phép retry (Re-process) từ giao diện quản trị. |
-
----
-
-## 6. QUY TẮC NGHIỆP VỤ BẤT BIẾN (BUSINESS RULES)
-
-### 6.1. Quy tắc Lệnh (Order Rules)
+### 7.1. Quy tắc Lệnh (Order Rules)
 
 | Mã | Quy tắc | Hành vi |
 |---|---|---|
-| **BR-O01** | Mã `sap_delivery_no` là duy nhất trên toàn hệ thống | Nếu đã tồn tại → Không tạo mới, không cập nhật, trả về status "Đã đồng bộ" |
-| **BR-O02** | Chỉ Order ở trạng thái `WAIT_CONFIRM` mới cho phép Thủ kho xác nhận hoặc từ chối | Các trạng thái khác: Disable nút |
-| **BR-O03** | Order chỉ chuyển `COMPLETED` khi 100% Order Items đều `STORED_IN_BIN` | Đây là điều kiện AND Gate hội tụ |
-| **BR-O04** | Order bị `REJECTED_BY_WHS` hoặc `CANCELED` không thể quay lại trạng thái trước | Trạng thái cuối cùng, bất khả hồi |
+| **BR-O01** | `sap_delivery_no` duy nhất trên toàn hệ thống | Nếu trùng → Trả "Đã đồng bộ" (Idempotency) |
+| **BR-O02** | Chỉ Order `WAIT_CONFIRM` cho phép duyệt/từ chối Gate 1 | Trạng thái khác: Disable nút |
+| **BR-O03** | Order chỉ `COMPLETED` khi 100% Items `STORED_IN_BIN` | AND Gate hội tụ |
+| **BR-O04** | `REJECTED_BY_WHS` và `CANCELED` bất khả hồi | Trạng thái cuối |
 
-### 6.2. Quy tắc Task (Task Rules)
-
-| Mã | Quy tắc | Hành vi |
-|---|---|---|
-| **BR-T01** | Task chỉ sinh khi Thủ kho bấm "Xác nhận lệnh" | Trước đó: Không có Task nào tồn tại cho Order |
-| **BR-T02** | Task sinh ra ở trạng thái `NEW`, chờ điều kiện mở khóa | Không hiển thị cho NV kho |
-| **BR-T03** | Task chỉ chuyển `AVAILABLE` khi tất cả Task tiền đề (predecessor) đã `COMPLETED` | Tra cứu `Task_Dependency_Rule` |
-| **BR-T04** | Đặc biệt Task 1 [T-Unl]: Chuyển `AVAILABLE` khi xe vào cổng (`Gate_Security_Event.entry_time` IS NOT NULL) | Không phụ thuộc Task trước mà phụ thuộc sự kiện an ninh |
-| **BR-T05** | 1 NV chỉ có thể `IN_PROGRESS` tối đa 1 Task tại 1 thời điểm | `current_active_task_id` IS NOT NULL → Không cho nhận thêm |
-| **BR-T06** | Task Joint (2 người): Chỉ `COMPLETED` khi tất cả `Task_Assignment.individual_status` = `COMPLETED` | Bắt buộc 100% nhân sự hoàn thành |
-| **BR-T07** | NV chỉ nhìn thấy Task có `assigned_role_code` khớp với Role của mình | Role-Based Visibility |
-
-### 6.3. Quy tắc Dữ liệu (Data Rules)
+### 7.2. Quy tắc Task (Task Rules)
 
 | Mã | Quy tắc | Hành vi |
 |---|---|---|
-| **BR-D01** | `batch_no` trong `Warehouse_Order_Item` = `NULL` từ `T-API1` đến trước `T-API5` | Chỉ gán chính thức sau khi nhận KCS |
-| **BR-D02** | Dòng `DECOMPOSED_CHILD` bắt buộc có `parent_order_item_id` NOT NULL | Trỏ về dòng Mã Cha ban đầu |
-| **BR-D03** | `is_packing_required` quyết định `branch_group`: TRUE → `PACKING_TRACK`, FALSE → `DIRECT_PUTAWAY_TRACK` | Phân nhánh tự động, không can thiệp thủ công |
-| **BR-D04** | Kiện HU chỉ được tạo tại Task 6 [T-Pac] (Nhánh A). Nhánh B không tạo HU | Hàng to cất thẳng không đóng gói |
-| **BR-D05** | `Inventory_Location_Balance` chỉ được tạo khi hàng thực sự xếp vào Bin (Task 7A/7B) | Trước đó chưa có tồn kho vị trí |
+| **BR-T01** | Chuỗi Task chỉ sinh khi GĐ kho duyệt lịch (Bước 3) | Trước đó không có Task |
+| **BR-T02** | Task 1 chỉ `AVAILABLE` khi xe vào cổng (`entry_time IS NOT NULL`) | Phụ thuộc sự kiện an ninh |
+| **BR-T03** | 1 NV tối đa `IN_PROGRESS` 1 Task tại 1 thời điểm | `current_active_task_id IS NOT NULL` → Không nhận thêm |
+| **BR-T04** | Task Joint (2 người): Chỉ `COMPLETED` khi 100% NV hoàn thành | Bắt buộc toàn bộ |
+| **BR-T05** | NV chỉ thấy Task khớp `assigned_role_code` | Role-Based Visibility |
+| **BR-T06** | Task `T-Sig` chỉ mở khóa khi nhận `sap_material_doc_no` từ `T-API4` | Phụ thuộc kết quả SAP |
+
+### 7.3. Quy tắc Dữ liệu (Data Rules)
+
+| Mã | Quy tắc | Hành vi |
+|---|---|---|
+| **BR-D01** | `batch_no` = `NULL` đến trước `T-API5` | Gán chính thức sau KCS |
+| **BR-D02** | `DECOMPOSED_CHILD` bắt buộc `parent_order_item_id NOT NULL` | Trỏ về Mã Cha gốc |
+| **BR-D03** | `is_packing_required` → `PACKING_TRACK` / `DIRECT_PUTAWAY_TRACK` | Phân nhánh tự động |
+| **BR-D04** | HU chỉ tạo tại Task 6 (Nhánh A). Nhánh B không tạo HU | Hàng to cất thẳng |
+| **BR-D05** | `Inventory_Location_Balance` chỉ tạo khi xếp vào Bin (Task 7) | Trước đó chưa có tồn kho vị trí |
 
 ---
 
-## 7. MÔ HÌNH TRẠNG THÁI (STATE MACHINES)
+## 8. MÔ HÌNH TRẠNG THÁI (STATE MACHINES)
 
-### 7.1. Vòng đời Warehouse Order
+### 8.1. Vòng đời Warehouse Order
+
+**Chuỗi trạng thái:** `NEW` → `WAIT_CONFIRM` → `IN_PROGRESS` → `COMPLETED` / `CANCELED` / `REJECTED_BY_WHS`
 
 ```mermaid
 stateDiagram-v2
-    [*] --> WAIT_CONFIRM : T-API1 tạo Order
-    WAIT_CONFIRM --> APPROVED : Thủ kho xác nhận lệnh
-    WAIT_CONFIRM --> REJECTED_BY_WHS : Thủ kho từ chối T-API2
-    APPROVED --> IN_PROGRESS : Task đầu tiên IN_PROGRESS
-    IN_PROGRESS --> COMPLETED : Tất cả Items STORED_IN_BIN
-    IN_PROGRESS --> CANCELED : SAP hủy lệnh
+    [*] --> NEW : Khởi tạo
+    NEW --> WAIT_CONFIRM : T-API1 đồng bộ OK
+    WAIT_CONFIRM --> IN_PROGRESS : GĐ kho duyệt T-Apr
+    IN_PROGRESS --> COMPLETED : 100% Items STORED_IN_BIN
+    IN_PROGRESS --> CANCELED : SAP hủy chứng từ
+    WAIT_CONFIRM --> REJECTED_BY_WHS : Từ chối Gate 1 (T-API2)
+    IN_PROGRESS --> REJECTED_BY_WHS : Từ chối Gate 2 (T-API3)
+    COMPLETED --> [*]
+    CANCELED --> [*]
     REJECTED_BY_WHS --> [*]
+```
+
+| Trạng thái | Mô tả | Chuyển tiếp |
+|---|---|---|
+| `NEW` | Bản ghi vừa tạo | → `WAIT_CONFIRM` |
+| `WAIT_CONFIRM` | Chờ duyệt | → `IN_PROGRESS` / `REJECTED_BY_WHS` |
+| `IN_PROGRESS` | Đang thực thi Task | → `COMPLETED` / `CANCELED` / `REJECTED_BY_WHS` |
+| `COMPLETED` | Hoàn tất cất kho | Terminated |
+| `CANCELED` | SAP hủy | Terminated |
+| `REJECTED_BY_WHS` | Kho từ chối | Terminated |
+
+### 8.2. Vòng đời Warehouse Task
+
+**Chuỗi trạng thái:** `NEW` → `AVAILABLE` → `IN_PROGRESS` → `COMPLETED` / `CANCELED`
+
+```mermaid
+stateDiagram-v2
+    [*] --> NEW : Task Engine sinh
+    NEW --> AVAILABLE : Thỏa mãn điều kiện mở khóa
+    AVAILABLE --> IN_PROGRESS : NV nhận việc
+    IN_PROGRESS --> COMPLETED : NV hoàn thành
+    NEW --> CANCELED : Order Hủy/Từ chối
+    AVAILABLE --> CANCELED : Order Hủy/Từ chối
+    IN_PROGRESS --> CANCELED : Order Hủy/Từ chối
     COMPLETED --> [*]
     CANCELED --> [*]
 ```
 
 | Trạng thái | Mô tả | Chuyển tiếp |
 |---|---|---|
-| `WAIT_CONFIRM` | Order vừa được tạo từ T-API1, chờ Thủ kho xem xét | → `APPROVED` hoặc → `REJECTED_BY_WHS` |
-| `APPROVED` | Thủ kho đã xác nhận, Task đã được sinh | → `IN_PROGRESS` |
-| `IN_PROGRESS` | Có ít nhất 1 Task đang `IN_PROGRESS` | → `COMPLETED` hoặc → `CANCELED` |
-| `COMPLETED` | Toàn bộ hàng đã cất vào Bin | Trạng thái cuối |
-| `REJECTED_BY_WHS` | Thủ kho từ chối tiếp nhận | Trạng thái cuối |
-| `CANCELED` | SAP hủy lệnh | Trạng thái cuối |
+| `NEW` | Chưa đủ điều kiện | → `AVAILABLE` / `CANCELED` |
+| `AVAILABLE` | Sẵn sàng nhận việc | → `IN_PROGRESS` / `CANCELED` |
+| `IN_PROGRESS` | Đang tác nghiệp | → `COMPLETED` / `CANCELED` |
+| `COMPLETED` | Hoàn thành | Terminated |
+| `CANCELED` | Bị hủy | Terminated |
 
-### 7.2. Vòng đời Warehouse Task
-
-```mermaid
-stateDiagram-v2
-    [*] --> NEW : Task Engine sinh task
-    NEW --> AVAILABLE : Điều kiện mở khóa thỏa mãn
-    AVAILABLE --> IN_PROGRESS : NV nhận việc hoặc Auto-match
-    IN_PROGRESS --> COMPLETED : NV bấm Hoàn thành
-    IN_PROGRESS --> PAUSED : Tạm dừng do sự cố
-    PAUSED --> IN_PROGRESS : Tiếp tục làm
-    NEW --> CANCELED : Order bị hủy
-    AVAILABLE --> CANCELED : Order bị hủy
-    IN_PROGRESS --> CANCELED : Order bị hủy
-```
-
-### 7.3. Vòng đời Warehouse Order Item
-
-```mermaid
-stateDiagram-v2
-    [*] --> PENDING : T-API1 tạo dòng hàng
-    PENDING --> COUNTED : Kiểm đếm xong Task 2
-    COUNTED --> KCS_PROCESSED : Nhận kết quả KCS T-API5
-    KCS_PROCESSED --> PACKED : Đóng gói xong Task 6 Nhánh A
-    KCS_PROCESSED --> STORED_IN_BIN : Cất thẳng vào Bin Task 7B Nhánh B
-    PACKED --> STORED_IN_BIN : Cất kiện HU vào Bin Task 7A
-    PENDING --> REJECTED : Từ chối nhận T-API3
-```
-
-### 7.4. Vòng đời BBBG (Delivery Handover Record)
+### 8.3. Vòng đời BBBG
 
 | Trạng thái | Mô tả |
 |---|---|
-| `DRAFT` | Đang lập, chưa ký |
-| `SIGNED` | Cả 2 bên đã ký chữ ký cảm ứng |
-| `SYNCED_SAP_OK` | Đã đồng bộ SAP thành công, nhận mã PNK |
+| `DRAFT` | Đang kiểm đếm, chưa ký |
+| `SIGNED` | 2 bên đã ký cảm ứng |
+| `SYNCED_SAP_OK` | Đồng bộ SAP OK (`T-API4`), nhận mã PNK |
 | `SYNCED_SAP_FAILED` | Đồng bộ SAP thất bại, chờ retry |
 
-### 7.5. Vòng đời V-Office Dossier
+### 8.4. Vòng đời V-Office Dossier
 
-| Trạng thái | Mô tả |
-|---|---|
-| `PENDING_APPROVAL` | Đã gửi sang V-Office, chờ duyệt |
-| `APPROVED` | Tất cả người ký đã ký duyệt |
-| `REJECTED` | Bị từ chối ký |
+| Trạng thái | Mã số V-Office | Mô tả |
+|---|---|---|
+| `DRAFT` | — | Thủ kho đang soạn hồ sơ, chưa gửi |
+| `PENDING_APPROVAL` | `01 - ĐANG XỬ LÝ` | Đã gửi sang V-Office qua `V-API1`, chờ các cấp ký |
+| `APPROVED` | `02 - ĐÃ PHÊ DUYỆT` | Toàn bộ lãnh đạo/chân ký đã hoàn tất ký số |
+| `REJECTED` | `03 - TỪ CHỐI` | Bị một cấp duyệt từ chối ký, cần xử lý lại |
 
 ---
 
-## 8. CƠ CHẾ SINH TASK VÀ ĐIỀU PHỐI (TASK ENGINE)
+## 9. CƠ CHẾ SINH TASK VÀ ĐIỀU PHỐI (TASK ENGINE)
 
-### 8.1. Khi nào sinh Task?
+### 9.1. Trigger sinh Task
 
-**Trigger duy nhất:** Thủ kho bấm **"Xác nhận lệnh"** (Bước 2).
+**Trigger duy nhất:** GĐ kho bấm **"Duyệt kế hoạch"** (Bước 3 — T-Apr).
 
-### 8.2. Danh sách Task sinh ra cho quy trình MM.10A
+### 9.2. Danh mục Task MM.10A
 
-| STT | Mã Task | Tên Task | Stage (Tầng 3) | Role | Điều kiện mở khóa | Branch |
-|---|---|---|---|---|---|---|
-| 1 | `T-Unl` | Dỡ hàng từ xe | Stage 1: Tiếp nhận | `ROLE_WAREHOUSE_WORKER` | `Gate_Security_Event.entry_time` IS NOT NULL | `MAIN` |
-| 2 | `T-Ho` | Kiểm đếm và Ký BBBG | Stage 2: Dỡ hàng và Kiểm đếm | `ROLE_WAREHOUSE_MASTER` | Task 1 `COMPLETED` | `MAIN` |
-| 3 | `T-Mv1` | Đưa vào Khu chờ nhập | Stage 2: Dỡ hàng và Kiểm đếm | `ROLE_WAREHOUSE_WORKER` | Task 2 `COMPLETED` | `MAIN` |
-| 4 | `T-AGR` | Thực nhập kho và Nhận KCS | Stage 3: Thực nhập và KCS | `ROLE_WAREHOUSE_MASTER` | Task 3 `COMPLETED` + `T-API5` nhận xong | `MAIN` |
-| 5 | `T-Mv2` | Đưa sang Khu đóng gói | Stage 4: Đóng gói và RFID | `ROLE_WAREHOUSE_WORKER` | Task 4 `COMPLETED` + `is_packing_required = TRUE` | `PACKING_TRACK` |
-| 6 | `T-Pac` | Đóng gói, In tem và Gắn RFID | Stage 4: Đóng gói và RFID | `ROLE_WAREHOUSE_WORKER` | Task 5 `COMPLETED` | `PACKING_TRACK` |
-| 7A | `T-Mv3` | Cất kiện HU vào kệ | Stage 5: Lưu trữ Putaway | `ROLE_FORKLIFT_DRIVER` | Task 6 `COMPLETED` | `PACKING_TRACK` |
-| 7B | `T-Mv3` | Đưa thẳng vào Bin | Stage 5: Lưu trữ Putaway | `ROLE_FORKLIFT_DRIVER` | Task 4 `COMPLETED` + `is_packing_required = FALSE` | `DIRECT_PUTAWAY_TRACK` |
+| STT | Mã Task | Tên Task | Role | Điều kiện mở khóa (`AVAILABLE`) | Branch |
+|---|---|---|---|---|---|
+| 1 | `T-Unl` | Dỡ hàng khỏi xe | `ROLE_WAREHOUSE_WORKER` | `Gate_Security_Event.entry_time IS NOT NULL` | `MAIN` |
+| 2 | `T-Ho` | Kiểm đếm & Ký BBBG | `ROLE_WAREHOUSE_MASTER` | Task 1 `COMPLETED` | `MAIN` |
+| 3 | `T-Mv1` | Đưa hàng vào C02 | `ROLE_WAREHOUSE_WORKER` | Task 2 `COMPLETED` | `PHYSICAL_TRACK` (Song song `T-Sig`) |
+| **4** | **`T-Sig`** | **Trình ký V-Office PNK** | **`ROLE_WAREHOUSE_MASTER`** | **`T-API4` hoàn thành (Nhận mã PNK từ SAP)** | **`INTEGRATION_TRACK` (Song song `T-Mv1`)** |
+| 5 | `T-AGR` | Thực nhập kho KCS | `ROLE_WAREHOUSE_MASTER` | Task 3 `COMPLETED` + `T-API5` + V-Office OK | `MAIN` |
+| 6 | `T-Mv2` | Sang Packing Zone | `ROLE_WAREHOUSE_WORKER` | Task 5 `COMPLETED` + `is_packing = TRUE` | `PACKING_TRACK` |
+| 7 | `T-Pac` | Đóng gói & In tem RFID | `ROLE_WAREHOUSE_WORKER` | Task 6 `COMPLETED` | `PACKING_TRACK` |
+| 8A | `T-Mv3` | Cất kiện HU vào Bin | `ROLE_FORKLIFT_DRIVER` | Task 7 `COMPLETED` | `PACKING_TRACK` |
+| 8B | `T-Mv3` | Cất THẲNG Bin | `ROLE_FORKLIFT_DRIVER` | Task 5 `COMPLETED` + `is_packing = FALSE` | `DIRECT_PUTAWAY_TRACK` |
 
-### 8.3. Cơ chế mở khóa Task (Dependency Engine)
+### 9.3. Dependency Engine (Mở khóa Task)
 
 ```mermaid
-flowchart LR
-    T_UNL["T-Unl<br>Dỡ hàng"] -->|FINISH_TO_START| T_HO["T-Ho<br>Kiểm và Ký BBBG"]
-    T_HO -->|FINISH_TO_START| T_MV1["T-Mv1<br>Đưa vào C02"]
-    T_MV1 -->|FINISH_TO_START| T_AGR["T-AGR<br>KCS + Bóc tách"]
-    T_AGR -->|PARALLEL_BRANCH<br>IF packing=TRUE| T_MV2["T-Mv2<br>Đưa sang Packing"]
-    T_AGR -->|PARALLEL_BRANCH<br>IF packing=FALSE| T_MV3B["T-Mv3 Nhánh B<br>Cất thẳng"]
-    T_MV2 -->|FINISH_TO_START| T_PAC["T-Pac<br>Đóng gói + RFID"]
-    T_PAC -->|FINISH_TO_START| T_MV3A["T-Mv3 Nhánh A<br>Cất kiện HU"]
-```
-
-**Logic mở khóa (pseudo-code):**
-
-```
-WHEN task.status changes to COMPLETED:
-    FOR EACH rule IN Task_Dependency_Rule WHERE predecessor_template_id = task.template_id:
-        successor_task = find Warehouse_Task WHERE template_id = rule.successor_template_id AND order_id = task.order_id
-        
-        IF rule.dependency_type = 'FINISH_TO_START':
-            all_predecessors_done = check ALL predecessors of successor_task are COMPLETED
-            IF all_predecessors_done:
-                IF successor_task has branch_condition:
-                    evaluate branch_condition against Order Items
-                    IF condition_met:
-                        successor_task.status = 'AVAILABLE'
-                ELSE:
-                    successor_task.status = 'AVAILABLE'
-        
-        IF rule.dependency_type = 'PARALLEL_BRANCH':
-            // Mở khóa đồng thời nhiều task ở các nhánh khác nhau
-            successor_task.status = 'AVAILABLE'
-```
-
-### 8.4. Cơ chế Auto-Match (Grab-style)
-
-```
-WHEN task.status changes to AVAILABLE:
-    candidates = find Employees WHERE:
-        - role_code matches task.assigned_role_code
-        - default_warehouse_id = order.warehouse_id
-        - work_status = 'ONLINE_IDLE'
-        - current_active_task_id IS NULL
+flowchart TD
+    T_UNL["Task 1: T-Unl (Dỡ hàng)"] -->|FINISH_TO_START| T_HO["Task 2: T-Ho (Kiểm đếm & Ký BBBG)"]
     
-    IF candidates.count > 0:
-        // Gửi notification tới tất cả candidates
-        SEND push_notification to ALL candidates
-        // NV đầu tiên bấm "Nhận việc" sẽ được assign
-    ELSE:
-        // Task vẫn AVAILABLE, chờ NV rảnh
+    %% Bẻ luồng song song sau ký BBBG
+    T_HO -->|PARALLEL BRANCH 1| T_MV1["Task 3: T-Mv1 (Đưa vào C02)"]
+    T_HO -->|PARALLEL BRANCH 2| T_API4["T-API4: Đồng bộ SAP nhận Mã PNK"]
+    T_API4 -->|FINISH_TO_START| T_SIG["Task: T-Sig (Trình ký V-Office V-API1)"]
+    T_SIG -->|WEBHOOK| V_API2["V-API2 Callback (APPROVED) & V-API3 sang SAP"]
+
+    %% Hội tụ AND Gate chờ KCS
+    T_MV1 --> JOIN_KCS{Hội tụ AND Gate:<br>T-Mv1 Xong + V-Office Duyệt OK}
+    V_API2 --> JOIN_KCS
+    JOIN_KCS --> T_API5["T-API5: Nhận KCS & Phân rã BOM"]
+
+    T_API5 --> T_AGR["Task 4: T-AGR (Xác nhận Thực nhập)"]
+    
+    %% Bẻ luồng Nhánh A / Nhánh B
+    T_AGR -->|IF packing_required = TRUE| T_MV2["Task 5: T-Mv2 (Sang Packing Zone)"]
+    T_AGR -->|IF packing_required = FALSE| T_MV3B["Task 7B: T-Mv3 (Cất THẲNG Bin)"]
+    
+    T_MV2 -->|FINISH_TO_START| T_PAC["Task 6: T-Pac (Đóng gói & In tem RFID)"]
+    T_PAC -->|FINISH_TO_START| T_MV3A["Task 7A: T-Mv3 (Cất kiện HU vào Bin)"]
+    
+    %% Hội tụ hoàn thành Order
+    T_MV3A --> JOIN_FINISH{Hội tụ 100% Items STORED_IN_BIN}
+    T_MV3B --> JOIN_FINISH
+    JOIN_FINISH --> ORDER_COMPLETED([Warehouse Order COMPLETED])
 ```
+
+### 9.4. Auto-Match (Grab-style)
+
+Khi Task chuyển `AVAILABLE`, hệ thống tìm NV kho phù hợp (`role_code` khớp, `work_status = ONLINE_IDLE`, `current_active_task_id IS NULL`) → Push notification → NV đầu tiên bấm "Nhận việc" được assign.
 
 ---
 
-## 9. CƠ CHẾ BÓC TÁCH MÃ CHA — MÃ CON VÀ GÁN SỐ LÔ
+## 10. CƠ CHẾ BÓC TÁCH MÃ CHA — MÃ CON VÀ GÁN SỐ LÔ
 
-### 9.1. Dòng thời gian (Timeline)
+### 10.1. Dòng thời gian (Timeline)
 
-| Giai đoạn | Sự kiện | `batch_no` | `item_level` | Dòng Mã Con |
-|---|---|---|---|---|
-| **T-API1** (Lệnh ban đầu) | SAP đẩy LNK + Packing List | `NULL` | `ORIGINAL` | Có thể đã có dòng con dự kiến nhưng chưa chính thức |
-| **Task 1-2-3** (Dỡ, Đếm, Di chuyển) | Thao tác vật lý | `NULL` | Không thay đổi | Không thay đổi |
-| **T-API5 + Task 4** (KCS và Thực nhập) | SAP trả KCS, bóc tách BOM | **GÁN CHÍNH THỨC** | Sinh `DECOMPOSED_CHILD` | Sinh n dòng con mới |
-| **Task 5-6-7** (Đóng gói, Cất kho) | Sử dụng batch_no đã gán | Đã có giá trị | Không thay đổi | Không thay đổi |
+| Giai đoạn | `batch_no` | `item_level` | Dòng Mã Con |
+|---|---|---|---|
+| **T-API1** (Lệnh ban đầu) | `NULL` | `ORIGINAL` | Chưa chính thức |
+| **Task 1-2-3** (Vật lý) | `NULL` | Không đổi | Không đổi |
+| **T-API5 + Task 4** (KCS) | **GÁN CHÍNH THỨC** | Sinh `DECOMPOSED_CHILD` | Sinh n dòng con mới |
+| **Task 5-6-7** (Đóng gói, Cất) | Đã có giá trị | Không đổi | Không đổi |
 
-### 9.2. Logic xử lý T-API5
+### 10.2. Logic xử lý T-API5
 
 ```
 WHEN receive T-API5:
-    1. Tạo KCS_Inspection_Result:
-        - order_id, sap_inspection_lot, usage_decision, is_decomposed
-        - received_api_payload = toàn bộ JSON gốc
+    1. Tạo KCS_Inspection_Result
     
     2. IF is_decomposed = TRUE:
-        FOR EACH parent_item IN original_order_items WHERE is_parent_sku = TRUE:
-            FOR EACH child_material IN T-API5.decomposed_children:
-                CREATE new Warehouse_Order_Item:
-                    - order_id = parent_item.order_id
-                    - material_id = child_material.material_id
-                    - parent_order_item_id = parent_item.order_item_id
+        FOR EACH parent_item WHERE is_parent_sku = TRUE:
+            FOR EACH child IN T-API5.decomposed_children:
+                CREATE Warehouse_Order_Item:
                     - item_level = 'DECOMPOSED_CHILD'
-                    - batch_no = child_material.batch_number  // GÁN BATCH
-                    - planned_qty = child_material.quantity
-                    - actual_received_qty = child_material.actual_qty
-                    - kcs_passed_qty = child_material.passed_qty
-                    - kcs_blocked_qty = child_material.blocked_qty
-                    - is_packing_required = lookup Material_Master.is_packing_required
-                    - branch_group = IF is_packing_required THEN 'PACKING_TRACK' ELSE 'DIRECT_PUTAWAY_TRACK'
-                    - item_status = 'KCS_PROCESSED'
+                    - parent_order_item_id = parent_item.id
+                    - batch_no = child.batch_number
+                    - is_packing_required = lookup Material_Master
+                    - branch_group = IF is_packing THEN 'PACKING_TRACK' ELSE 'DIRECT_PUTAWAY_TRACK'
     
     3. IF is_decomposed = FALSE:
-        // Cập nhật dòng gốc trực tiếp
-        UPDATE Warehouse_Order_Item SET:
-            - batch_no = T-API5.batch_number
-            - kcs_passed_qty = T-API5.passed_qty
-            - kcs_blocked_qty = T-API5.blocked_qty
-            - item_status = 'KCS_PROCESSED'
+        UPDATE Warehouse_Order_Item SET batch_no, kcs_passed_qty, kcs_blocked_qty
 ```
 
 ---
 
-## 10. CƠ CHẾ BẺ LUỒNG SONG SONG (PARALLEL BRANCHING)
+## 11. CƠ CHẾ BẺ LUỒNG SONG SONG (PARALLEL BRANCHING)
 
-### 10.1. Điều kiện kích hoạt
+### 11.1. Song song Post-BBBG (Bước 7 → 8 & 9-11)
 
-**Trigger:** Task 4 [T-AGR] chuyển `COMPLETED`.
+Sau khi ký BBBG (Bước 7), hệ thống kích hoạt **đồng thời**:
+- **Nhánh Vận hành thực địa (`PHYSICAL_TRACK`):** Task 3 `T-Mv1` (Đưa hàng từ Staging vào C02 Waiting Zone).
+- **Nhánh Tích hợp điện tử (`INTEGRATION_TRACK`):** Đồng bộ SAP (`T-API4`) → Nhận mã PNK Mvt 101 → Mở khóa Task `T-Sig` (Trình ký V-Office qua `V-API1`) → Nhận Callback Webhook `V-API2` → Đồng bộ `V-API3` về SAP.
 
-**Logic bẻ nhánh:**
+### 11.2. Hội tụ AND Gate chờ KCS (Bước 11 ➔ 12)
 
-```
-WHEN Task 4 COMPLETED:
-    items_need_packing = Warehouse_Order_Item WHERE order_id AND is_packing_required = TRUE AND item_status = 'KCS_PROCESSED'
-    items_direct_putaway = Warehouse_Order_Item WHERE order_id AND is_packing_required = FALSE AND item_status = 'KCS_PROCESSED'
-    
-    IF items_need_packing.count > 0:
-        CREATE Task 5 [T-Mv2] (branch_track = 'PACKING_TRACK', status = 'AVAILABLE')
-        LINK Task_Item_Detail cho Task 5 với items_need_packing
-    
-    IF items_direct_putaway.count > 0:
-        CREATE Task 7B [T-Mv3] (branch_track = 'DIRECT_PUTAWAY_TRACK', status = 'AVAILABLE')
-        LINK Task_Item_Detail cho Task 7B với items_direct_putaway
-```
+Cả 2 nhánh phải hoàn tất thì hệ thống mới sẵn sàng tiếp nhận bản tin `T-API5` (KCS & Phân rã BOM) từ SAP:
+1. `T-Mv1` (Đưa hàng vào C02) ở trạng thái `COMPLETED`.
+2. `VOffice_Signing_Dossier` ở trạng thái `APPROVED` (và đã gửi `V-API3` về SAP).
 
-### 10.2. Quy tắc hội tụ (AND Gate)
+### 11.3. Song song Post-KCS (Bước 13 → 14 & 16)
+
+Sau Task 4 `T-AGR`, hệ thống quét `is_packing_required` từng dòng hàng:
+- **Nhánh A** (`TRUE` — Hàng nhỏ): Task 5 → 6 → 7A.
+- **Nhánh B** (`FALSE` — Hàng to): Task 7B cất thẳng.
+
+### 11.4. Hội tụ AND Gate hoàn thành Order
 
 ```
-AFTER any Task 7A or Task 7B COMPLETED:
-    all_items = Warehouse_Order_Item WHERE order_id = current_order
-    all_stored = all_items.ALL(item_status = 'STORED_IN_BIN')
-    
-    IF all_stored:
-        UPDATE Warehouse_Order SET order_status = 'COMPLETED', completed_at = NOW()
+AFTER any Task 7A or 7B COMPLETED:
+    all_items = Warehouse_Order_Item WHERE order_id = current
+    IF all_items.ALL(item_status = 'STORED_IN_BIN'):
+        Warehouse_Order.order_status = 'COMPLETED'
 ```
 
-### 10.3. Các kịch bản đặc biệt
+### 11.5. Kịch bản đặc biệt
 
 | Kịch bản | Hành vi |
 |---|---|
-| **100% hàng cần đóng gói** (không có Nhánh B) | Chỉ sinh Task 5 → 6 → 7A. Không có Task 7B. Order COMPLETED khi 7A xong. |
-| **100% hàng to** (không có Nhánh A) | Chỉ sinh Task 7B. Không có Task 5, 6, 7A. Order COMPLETED khi 7B xong. |
-| **Hỗn hợp** (có cả 2 nhánh) | Sinh cả 2 nhánh song song. Order COMPLETED khi **CẢ 2** nhánh xong. |
+| 100% cần đóng gói (Không có Nhánh B) | Chỉ Task 5 → 6 → 7A. COMPLETED khi 7A xong. |
+| 100% hàng to (Không có Nhánh A) | Chỉ Task 7B. COMPLETED khi 7B xong. |
+| Hỗn hợp (Cả 2 nhánh) | Song song. COMPLETED khi **CẢ 2** xong. |
 
 ---
 
-## 11. CƠ CHẾ GIAO VIỆC ĐA NHÂN SỰ (JOINT TASK)
+## 12. CƠ CHẾ GIAO VIỆC ĐA NHÂN SỰ (JOINT TASK)
 
-### 11.1. Khi nào áp dụng?
+### 12.1. Áp dụng
 
-Áp dụng cho **Task dỡ hàng [T-Unl]** khi lô hàng lớn (VD: xe Container 40ft, 500+ thùng hàng) cần 2 nhân viên cùng dỡ.
+Task dỡ hàng `T-Unl` khi lô hàng lớn (VD: Container 40ft, 500+ thùng) cần 2 NV cùng dỡ.
 
-### 11.2. Luồng xử lý
+### 12.2. Luồng xử lý
 
 ```
-1. Thủ kho/Hệ thống giao Task cho 2 NV:
-   - CREATE Task_Assignment(task_id, employee_A, role='LEADER', kpi_weight=50%)
-   - CREATE Task_Assignment(task_id, employee_B, role='MEMBER', kpi_weight=50%)
+1. Giao Task cho 2 NV:
+   CREATE Task_Assignment(employee_A, role='LEADER', kpi_weight=50%)
+   CREATE Task_Assignment(employee_B, role='MEMBER', kpi_weight=50%)
 
-2. Cả 2 NV nhìn thấy Task -> Cùng bấm "Nhận việc":
-   - Task_Assignment[A].individual_status = 'IN_PROGRESS'
-   - Task_Assignment[B].individual_status = 'IN_PROGRESS'
-   - Warehouse_Task.task_status = 'IN_PROGRESS'
+2. Cả 2 NV bấm "Nhận việc" → IN_PROGRESS
 
-3. NV A xong phần mình -> Bấm "Hoàn thành":
-   - Task_Assignment[A].individual_status = 'COMPLETED'
-   - Task_Assignment[A].individual_completed_at = NOW()
-   - Kiểm tra: NV B đã COMPLETED chưa? -> CHƯA -> Task vẫn IN_PROGRESS
+3. NV A hoàn thành → Kiểm tra NV B? CHƯA → Task vẫn IN_PROGRESS
 
-4. NV B xong phần mình -> Bấm "Hoàn thành":
-   - Task_Assignment[B].individual_status = 'COMPLETED'
-   - Task_Assignment[B].individual_completed_at = NOW()
-   - Kiểm tra: Tất cả Assignment đã COMPLETED? -> CÓ -> Task chuyển COMPLETED
+4. NV B hoàn thành → Tất cả COMPLETED? CÓ → Task COMPLETED
 
-5. Task COMPLETED -> Trigger mở khóa Task tiếp theo
+5. Task COMPLETED → Mở khóa Task tiếp theo
 ```
 
-### 11.3. Quy tắc bất biến
+### 12.3. Quy tắc
 
-- **Không chia cứng số lượng:** Hệ thống **không** áp đặt "NV A dỡ 250 thùng, NV B dỡ 250 thùng". Hai NV tự phối hợp tại hiện trường.
-- **Bắt buộc 100%:** Task chỉ `COMPLETED` khi **tất cả** `Task_Assignment` đều `COMPLETED`.
-- **KPI phân bổ:** Mỗi NV nhận `kpi_weight_percent` tương ứng (mặc định 50% - 50%).
+- Không chia cứng số lượng. 2 NV tự phối hợp tại hiện trường.
+- Task chỉ `COMPLETED` khi **100%** `Task_Assignment` đều `COMPLETED`.
+- KPI phân bổ: Mỗi NV nhận `kpi_weight_percent` tương ứng (mặc định 50-50).
 
 ---
 
-## 12. TÍCH HỢP HỆ THỐNG NGOÀI (SAP, V-OFFICE)
+# PHẦN IV — TÍCH HỢP, SLA & DỮ LIỆU
 
-### 12.1. Bản đồ API
+## 13. TÍCH HỢP HỆ THỐNG NGOÀI (SAP, V-OFFICE)
 
-| Mã API | Hướng | Trigger | Dữ liệu truyền | Dữ liệu nhận lại |
-|---|---|---|---|---|
-| **`T-API1`** | SAP → AIWS | LNK ký duyệt V-Office + Packing List (nếu có) | Số Inbound Delivery, PO, Mã NCC, Plant, SLoc, Danh sách hàng (Mã cha + Mã con dự kiến), Số lượng, ĐVT | AIWS trả: Mã Order AIWS, Status đồng bộ |
-| **`T-API2`** | AIWS → SAP | Thủ kho từ chối lệnh | Số Inbound Delivery, Lý do từ chối | SAP trả: Trạng thái cập nhật "Rejected by Whs" |
-| **`T-API3`** | AIWS → SAP | Kiểm đếm phát hiện sai lệch | Số Inbound Delivery, Danh sách dòng hàng sai lệch (Mã VT, SL kế hoạch, SL thực tế, SL hỏng) | SAP trả: Xác nhận ghi nhận |
-| **`T-API5`** | SAP → AIWS | SAP hoàn tất KCS | Số Inbound Delivery, Kết quả KCS (UU/Blocked), Danh sách bóc tách Mã Con + Batch No + Số lượng từng loại | AIWS trả: Xác nhận nhận thành công |
-| **V-Office Submit** | AIWS → V-Office | Thủ kho trình ký PNK | File PDF PNK, Mã phiếu SAP, Luồng ký (Thủ kho → KT → TT), Metadata | V-Office trả: Mã hồ sơ V-Office |
-| **V-Office Callback** | V-Office → AIWS | Ký duyệt hoàn tất | Mã hồ sơ, Trạng thái (Approved/Rejected), File PDF có chữ ký số | AIWS cập nhật Dossier + đồng bộ SAP |
+### 13.1. Bản đồ API
 
-### 12.2. Quy tắc retry và Idempotency
+| Mã API | Hướng | Bước | Mục đích |
+|---|---|---|---|
+| **`T-API1`** | SAP → AI-WS | 1 | Đồng bộ Lệnh nhập kho (Inbound Delivery). |
+| **`T-API2`** | AI-WS → SAP | 2 (Luồng 2.1) | Đồng bộ từ chối Gate 1 (`Rejected by Whs`). |
+| **`T-API3`** | AI-WS → SAP | 6 (Luồng 6.1) | Đồng bộ báo sai lệch/từ chối Gate 2. |
+| **`T-API4`** | AI-WS → SAP | 9 | Đồng bộ BBBG & sinh PNK Mvt 101. |
+| **`V-API1`** | AI-WS → V-Office | 10 | Trình ký hồ sơ PNK từ AI-WS sang V-Office. |
+| **`V-API2`** | V-Office → AI-WS | 11 | Webhook Callback kết quả ký duyệt từ V-Office về AI-WS. |
+| **`V-API3`** | AI-WS → SAP | 11 | Đồng bộ kết quả phê duyệt V-Office từ AI-WS về SAP. |
+| **`T-API5`** | SAP → AI-WS | 12 | Đồng bộ KCS, Mã Con phân rã, Batch No từ SAP về AI-WS. |
+
+### 13.2. Quy tắc retry & Idempotency
 
 - Mọi API đều **idempotent**: Gọi lại cùng request không tạo bản ghi trùng.
-- Mọi API đều có **retry mechanism**: Nếu lỗi kết nối, hệ thống tự retry tối đa 3 lần, sau đó ghi log chờ xử lý thủ công.
-- Mọi API đều **ghi log đầy đủ** vào `SAP_Integration_Log`: request body, response body, HTTP status, thời gian xử lý.
+- Retry tối đa **3 lần**, sau đó ghi log chờ xử lý thủ công.
+- Mọi API ghi log vào `SAP_Integration_Log`: request, response, HTTP status, thời gian.
 
 ---
 
-## 13. SLA, KPI VÀ CẢNH BÁO
+## 14. SLA, KPI VÀ CẢNH BÁO
 
-### 13.1. Thời gian SLA tiêu chuẩn (Tham khảo)
+### 14.1. Bảng SLA Tiêu chuẩn
 
-| Task | SLA Tiêu chuẩn | Ngưỡng cảnh báo |
-|---|---|---|
-| `T-Unl` (Dỡ hàng) | 120 phút | 100 phút (83%) |
-| `T-Ho` (Kiểm đếm và Ký BBBG) | 60 phút | 50 phút |
-| `T-Mv1` (Di chuyển vào C02) | 30 phút | 25 phút |
-| `T-AGR` (Thực nhập và KCS) | Không áp SLA (phụ thuộc SAP KCS) | — |
-| `T-Mv2` (Đưa sang Packing) | 30 phút | 25 phút |
-| `T-Pac` (Đóng gói và RFID) | 90 phút | 75 phút |
-| `T-Mv3` (Cất vào Bin) | 45 phút | 38 phút |
+| Mã Task | Tên Task | SLA Tiêu chuẩn | Ngưỡng cảnh báo (80%) |
+|---|---|---|---|
+| `T-Unl` | Dỡ hàng khỏi xe | 120 phút | 96 phút |
+| `T-Ho` | Kiểm đếm & Ký BBBG | 60 phút | 48 phút |
+| `T-Mv1` | Đưa hàng vào C02 | 30 phút | 24 phút |
+| **`T-Sig`** | **Trình ký V-Office PNK** | **120 phút** | **96 phút** |
+| `T-AGR` | Thực nhập kho KCS | Theo tiến độ SAP KCS | — |
+| `T-Mv2` | Đưa sang Packing Zone | 30 phút | 24 phút |
+| `T-Pac` | Đóng gói & In tem RFID | 90 phút | 72 phút |
+| `T-Mv3` | Cất hàng vào Bin Putaway | 45 phút | 36 phút |
 
-> **Lưu ý:** SLA được cấu hình trong `KPI_Config` và có thể tùy chỉnh theo từng kho, từng quy trình.
+> SLA cấu hình trong `KPI_Config`, tùy chỉnh theo kho/quy trình.
 
-### 13.2. Cơ chế cảnh báo
+### 14.2. Cơ chế cảnh báo
 
 ```
-CRON JOB (chạy mỗi 5 phút):
-    FOR EACH task IN Warehouse_Task WHERE task_status = 'IN_PROGRESS':
-        elapsed = NOW() - task.started_at
-        sla = task.proposed_kpi_minutes
-        warning = KPI_Config.warning_threshold_minutes
-        
-        IF elapsed >= warning AND task.sla_status = 'ON_TIME':
-            task.sla_status = 'NEAR_OVERDUE'
-            CREATE SLA_Alert_Log(alert_level='WARNING', task_id, order_id)
-            SEND notification to task.assignee_id + Thủ kho + GĐ Kho
-        
-        IF elapsed >= sla AND task.sla_status != 'OVERDUE':
-            task.sla_status = 'OVERDUE'
-            CREATE SLA_Alert_Log(alert_level='CRITICAL', task_id, order_id)
-            SEND notification (CRITICAL) to GĐ Kho
+CRON JOB (5 phút):
+    FOR EACH task WHERE status = 'IN_PROGRESS':
+        elapsed = NOW() - started_at
+        IF elapsed >= warning → sla_status = 'NEAR_OVERDUE' + Alert WARNING
+        IF elapsed >= sla → sla_status = 'OVERDUE' + Alert CRITICAL to GĐ Kho
 ```
 
-### 13.3. Gia hạn SLA
+### 14.3. Gia hạn SLA
 
-NV có thể gửi yêu cầu gia hạn thông qua `Task_SLA_Extension`:
-- Nhập `requested_extra_minutes` và `reason`
-- GĐ Kho phê duyệt (`approval_status` = `APPROVED`) hoặc từ chối
-- Nếu duyệt: `task.sla_deadline` được cập nhật cộng thêm thời gian gia hạn
+NV gửi `Task_SLA_Extension` (nhập `requested_extra_minutes` + `reason`). GĐ kho phê duyệt → Cập nhật `sla_deadline`.
 
 ---
 
-## 14. DỮ LIỆU ĐẦU VÀO / ĐẦU RA TỪNG BƯỚC
+## 15. DỮ LIỆU ĐẦU VÀO / ĐẦU RA TỪNG BƯỚC
 
-| Bước | Dữ liệu đầu vào | Dữ liệu đầu ra / Bản ghi sinh ra |
+| Bước | Dữ liệu Đầu vào | Dữ liệu Đầu ra / Bản ghi sinh ra |
 |---|---|---|
-| **Bước 0** (T-API1) | JSON: sap_delivery_no, sap_po_no, vendor_code, plant, sloc, items[] | `Warehouse_Order` (WAIT_CONFIRM), n x `Warehouse_Order_Item` (PENDING), `SAP_Integration_Log` |
-| **Bước 1** (Check lệnh) | Thủ kho đọc thông tin Order | Không thay đổi dữ liệu |
-| **Bước 2** (Xác nhận) | staging_zone_id, dock_id, expected_time_window | Order -> APPROVED, `Delivery_Schedule_Slot`, n x `Warehouse_Task` (NEW) |
-| **Bước 3** (An ninh cổng) | plate_number, driver_name, driver_id_card | `Gate_Security_Event`, Task 1 -> AVAILABLE |
-| **Bước 4** (Dỡ hàng) | Thao tác vật lý, ảnh chụp | `Task_Evidence` (PHOTO_UNLOAD), Task 1 -> COMPLETED |
-| **Bước 5** (Kiểm đếm và BBBG) | actual_received_qty[], damaged_qty[], chữ ký 2 bên | `Delivery_Handover_Record` (SIGNED), cập nhật actual_received_qty, `Task_Evidence` |
-| **Bước 6** (Di chuyển C02) | Thao tác vật lý | Cập nhật target_location trong `Task_Item_Detail` |
-| **Bước 6.1** (Đồng bộ SAP) | BBBG data | `SAP_Integration_Log`, BBBG -> SYNCED_SAP_OK, nhận sap_material_doc_no |
-| **Bước 6.2** (V-Office) | sap_material_doc_no, template_id | `VOffice_Signing_Dossier` (PENDING_APPROVAL) |
-| **Bước 7** (KCS T-API5) | JSON: kcs_result, decomposed_items[], batch_numbers[] | `KCS_Inspection_Result`, n x `Warehouse_Order_Item` (DECOMPOSED_CHILD with batch_no) |
-| **Bước 8A** (Đưa sang Packing) | Thao tác vật lý | Cập nhật `Task_Item_Detail` |
-| **Bước 9A** (Đóng gói) | storage_tool_id, items per HU, rfid_epc_code | `Handling_Unit` (PACKED), n x `Handling_Unit_Item` |
-| **Bước 10A/10B** (Cất vào Bin) | bin_id (gợi ý hoặc chọn) | `Handling_Unit` -> STORED, `Inventory_Location_Balance`, `Bin_Location` cập nhật, `Warehouse_Order_Item` -> STORED_IN_BIN |
-| **Bước 11** (Hoàn tất) | Tự động kiểm tra | `Warehouse_Order` -> COMPLETED |
+| **1** (T-API1) | JSON: `sap_delivery_no`, PO, NCC, items[] | `Warehouse_Order` (`WAIT_CONFIRM`), `Order_Item`, `Integration_Log` |
+| **2** (T-Ncc) | Thao tác duyệt/từ chối | Cập nhật `order_status`, `T-API2` (nếu từ chối) |
+| **3** (T-Apr) | Staging, Dock, khung giờ | `Delivery_Schedule_Slot`, chuỗi `Warehouse_Task` (`NEW`) |
+| **4** (T-Scr) | Biển số, CCCD tài xế | `Gate_Security_Event`, Task 1 → `AVAILABLE` |
+| **5** (T-Unl) | Thao tác dỡ hàng + ảnh | `Task_Evidence`, Task 1 → `COMPLETED` |
+| **6** (T-Ho) | `actual_received_qty`, chữ ký 2 bên | `Delivery_Handover_Record` (`SIGNED`), `T-API3` (nếu từ chối) |
+| **7** (Ký BBBG) | Xác nhận ký | File PDF BBBG, song song Bước 8 (Vận hành) & 9 (Tích hợp) |
+| **8** (T-Mv1) | Thao tác di chuyển | `Task_Item_Detail`, Task 3 → `COMPLETED` |
+| **9** (T-API4) | Dữ liệu BBBG | `sap_material_doc_no`, BBBG → `SYNCED_SAP_OK` |
+| **10** (T-Sig / V-API1) | **Mã PNK, Mẫu luồng ký, Trích yếu, File đính kèm** | **`VOffice_Signing_Dossier` (`PENDING_APPROVAL`), `voffice_submissions`** |
+| **11** (V-API2 / V-API3) | **Webhook Callback từ V-Office** | **Dossier → `APPROVED`, đồng bộ `V-API3` sang SAP** |
+| **12** (T-API5) | JSON: KCS, Mã Con, Batch No | `KCS_Inspection_Result`, `Order_Item` (`DECOMPOSED_CHILD` + `batch_no`) |
+| **13** (T-AGR) | Xác nhận thực nhập | Task 4 → `COMPLETED`, bẻ nhánh A/B |
+| **14** (T-Mv2) | Thao tác di chuyển | Task 5 → `COMPLETED` |
+| **15** (T-Pac) | Thùng/Pallet + RFID | `Handling_Unit` (`PACKED`), `HU_Item`, tem RFID |
+| **16** (T-Mv3) | Quét Bin Code | HU → `STORED`, `Inventory_Location_Balance`, Task → `COMPLETED` |
 
 ---
 
-## 15. PHỤ LỤC: BẢNG ÁNH XẠ DỮ LIỆU NGHIỆP VỤ ↔ THỰC THỂ DỮ LIỆU
+## 16. PHỤ LỤC: BẢNG ÁNH XẠ DỮ LIỆU NGHIỆP VỤ ↔ THỰC THỂ DỮ LIỆU
 
-Bảng dưới đây giúp dev ánh xạ từ **khái niệm nghiệp vụ** sang **thực thể/bảng** cần xây dựng trong database.
-
-| Khái niệm nghiệp vụ | Thực thể DB tương ứng | Ghi chú |
+| Khái niệm Nghiệp vụ | Thực thể DB | Ghi chú |
 |---|---|---|
 | Lệnh nhập kho (LNK) | `Warehouse_Order` | 1 LNK = 1 Order |
-| Dòng hàng trong lệnh | `Warehouse_Order_Item` | Quản lý cả Mã Cha và Mã Con (self-ref qua `parent_order_item_id`) |
-| Quy trình MM.10A | `Process_Profile` | Tầng 2 trong mô hình 4 tầng |
-| Giai đoạn tiến độ | `Process_Stage` | Tầng 3 — phục vụ Dashboard |
-| Mẫu Task | `Task_Template` | Tầng 4 — cấu hình sẵn trong Catalog |
-| Task thực tế | `Warehouse_Task` | Sinh ra khi Thủ kho xác nhận lệnh |
+| Dòng hàng trong lệnh | `Warehouse_Order_Item` | Mã Cha + Mã Con (`parent_order_item_id`) |
+| Quy trình MM.10A | `Process_Profile` | Tầng 2 |
+| Giai đoạn tiến độ | `Process_Stage` | Tầng 3 — Dashboard |
+| Mẫu Task | `Task_Template` | Tầng 4 — Catalog |
+| Task thực tế | `Warehouse_Task` | Sinh khi duyệt T-Apr |
+| **Hồ sơ Trình ký V-Office** | **`VOffice_Signing_Dossier`** | **Lưu thông tin hồ sơ trình ký V-Office** |
+| **Danh sách người ký V-Office** | **`VOffice_Signer_List`** | **Danh sách các cấp duyệt ký số** |
+| **Lịch sử trình ký V-Office** | **`voffice_submissions`** | **Log lịch sử các lần submit & callback** |
 | Giao việc 2 người | `Task_Assignment` | Liên kết n NV với 1 Task |
-| Phân bổ hàng vào Task | `Task_Item_Detail` | Đặc biệt quan trọng khi bẻ nhánh song song |
-| Biên bản bàn giao (BBBG) | `Delivery_Handover_Record` | Chữ ký cảm ứng 2 bên |
-| Phiếu nhập kho (PNK) | `VOffice_Signing_Dossier` | Trình ký trên V-Office |
-| Kết quả KCS | `KCS_Inspection_Result` | Nhận từ SAP qua T-API5 |
+| Phân bổ hàng vào Task | `Task_Item_Detail` | Đặc biệt khi bẻ nhánh |
+| BBBG | `Delivery_Handover_Record` | Chữ ký cảm ứng 2 bên |
+| Kết quả KCS | `KCS_Inspection_Result` | Từ SAP qua T-API5 |
 | Kiện đóng gói | `Handling_Unit` + `Handling_Unit_Item` | Chỉ Nhánh A |
 | Tồn kho vị trí | `Inventory_Location_Balance` | Cả 2 nhánh |
-| Vị trí ô kệ | `Bin_Location` | Putaway cuối cùng |
-| Sự kiện an ninh cổng | `Gate_Security_Event` | Trigger mở khóa Task 1 |
-| Lịch hẹn xe | `Delivery_Schedule_Slot` | Tạo khi xác nhận lệnh |
-| Bằng chứng (ảnh, scan) | `Task_Evidence` | Gắn theo Task |
-| Log API SAP | `SAP_Integration_Log` | Ghi mọi cuộc gọi API |
-| Cảnh báo SLA | `SLA_Alert_Log` | Chạy bởi Cron job |
-| Thông báo | `User_Notification` | Push/Bell notification |
+| Vị trí ô kệ | `Bin_Location` | Putaway cuối |
+| Sự kiện an ninh | `Gate_Security_Event` | Trigger Task 1 |
+| Lịch hẹn xe | `Delivery_Schedule_Slot` | Tạo khi duyệt T-Apr |
+| Bằng chứng | `Task_Evidence` | Gắn theo Task |
+| Log API SAP / V-Office | `SAP_Integration_Log` | Ghi mọi cuộc gọi API |
+| Cảnh báo SLA | `SLA_Alert_Log` | Cron job |
+| Thông báo | `User_Notification` | Push/Bell |
 | Gia hạn SLA | `Task_SLA_Extension` | Workflow duyệt gia hạn |
+
+---
+
+# PHẦN V — YÊU CẦU PHI CHỨC NĂNG & NGHIỆM THU
+
+## 17. CÁC YÊU CẦU PHI CHỨC NĂNG
+
+### 17.1. Yêu cầu bảo mật hệ thống - ATTT
+
+- Phân quyền theo Role Code. NV chỉ thấy Task khớp `assigned_role_code` (BR-T05).
+- Tích hợp V-Office sử dụng Token xác thực bảo mật chuẩn Tập đoàn Viettel.
+
+### 17.2. Yêu cầu sao lưu
+
+- N/a
+
+### 17.3. Yêu cầu về tính ổn định
+
+- API idempotent. Retry tối đa 3 lần.
+
+### 17.4. Yêu cầu về hiệu năng
+
+- Tham khảo bảng SLA tại [Mục 14](#14-sla-kpi-và-cảnh-báo).
+
+### 17.5. Yêu cầu về giao tiếp
+
+#### 17.5.1. Giao diện người dùng
+
+- Web PC / Tablet: Thủ kho, GĐ kho (Bao gồm màn hình Trình ký V-Office `Frame 2.png`).
+- Mobile App: Bảo vệ, NV kho, Lái xe nâng, Đại diện NCC, Thủ kho (`[M-VOff]`).
+
+#### 17.5.2. Giao tiếp phần mềm bên ngoài
+
+- Tham khảo bản đồ 8 API tại [Mục 13](#13-tích-hợp-hệ-thống-ngoài-sap-v-office).
+
+### 17.6. Yêu cầu về tính hỗ trợ
+
+- N/a
+
+### 17.7. Yêu cầu về công nghệ và các ràng buộc
+
+- N/a
+
+### 17.8. Yêu cầu tài liệu người dùng
+
+- N/a
+
+### 17.9. Yêu cầu về vận hành khai thác
+
+- N/a
+
+### 17.10. Yêu cầu về giải pháp hạ tầng
+
+- N/a
+
+### 17.11. Yêu cầu về tính ghi log
+
+- Mọi API ghi log vào `SAP_Integration_Log`: request, response, HTTP status, thời gian xử lý.
+
+### 17.12. Yêu cầu tuân thủ Quản trị dữ liệu
+
+- N/a
+
+---
+
+## 18. TIÊU CHUẨN NGHIỆM THU HỆ THỐNG
+
+| STT | Tiêu chí nghiệm thu | Yêu cầu |
+|---|---|---|
+| 1 | Đồng bộ T-API1 | AI-WS nhận thành công LNK từ SAP, tạo Order + Items. |
+| 2 | Duyệt Gate 1 (T-Ncc) | Duyệt/từ chối, T-API2 đồng bộ SAP khi từ chối. |
+| 3 | Duyệt lịch T-Apr | GĐ kho duyệt, Task Engine sinh đầy đủ chuỗi Task. |
+| 4 | An ninh cổng (T-Scr) | Xác nhận xe, Task 1 mở khóa `AVAILABLE`. |
+| 5 | Chuỗi Task B1-B7 | 7 Task đúng trình tự, chuyển trạng thái chính xác. |
+| 6 | BBBG điện tử | Ký cảm ứng 2 bên, xuất PDF, T-API4 đồng bộ SAP. |
+| **7** | **Trình ký V-Office (T-Sig)** | **Thủ kho gửi `V-API1` thành công từ Web/Mobile, V-Office trả document ID; Webhook `V-API2` nhận callback phê duyệt; `V-API3` đồng bộ kết quả sang SAP**. |
+| 8 | KCS & Bóc tách (T-API5) | Nhận KCS, sinh DECOMPOSED_CHILD, gán Batch No. |
+| 9 | Đóng gói & RFID | Tạo HU, in tem, gán RFID cho Nhánh A. |
+| 10 | Cất kho Bin Putaway | Gợi ý Bin, quét mã Bin, tồn kho cập nhật. AND Gate. |
 
 ---
 
 ## LỊCH SỬ CẬP NHẬT TÀI LIỆU
 
-| Version | Ngày | Mô tả |
-|---|---|---|
-| **v1.0** | 15/08/2026 | Khởi tạo tài liệu nghiệp vụ MM.10A đầy đủ: Luồng chính 11 bước, 2 luồng từ chối, 4 quy tắc Order, 7 quy tắc Task, 5 quy tắc Data, 5 State Machine, cơ chế sinh Task và Auto-match, bóc tách Mã Cha-Con và Batch, bẻ nhánh song song, giao việc 2 người, tích hợp 5 API SAP + V-Office, SLA/KPI, ánh xạ nghiệp vụ và DB. |
+| Version | Ngày | Tác giả | Mô tả |
+|---|---|---|---|
+| v1.0.0 | 15/08/2026 | BA Team | Khởi tạo tài liệu nghiệp vụ MM.10A. |
+| v2.0.0 | 22/08/2026 | BA Team / Tech Lead | Viết lại theo template PTYC chuẩn Viettel, kết hợp đầy đủ 18 mục. |
+| **v2.0.1** | 22/08/2026 | BA Team / Tech Lead | **Bổ sung và chuẩn hóa toàn diện tính năng Trình ký V-Office (`T-Sig` / `[M-VOff]`):** Thêm chi tiết Use Case C1 (5 phần: C1.1–C1.5, Sequence Diagram, bảng tương tác Web/Mobile, luồng từ chối/gia hạn KPI/lưu nháp), cập nhật bảng Task Catalog 9.2, sơ đồ Dependency Engine 9.3, bảng SLA 14.1, Data I/O 15 và DB Mapping 16. |
