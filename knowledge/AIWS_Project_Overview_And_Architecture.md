@@ -283,6 +283,23 @@ flowchart TD
    - **Chỉ sau khi Task dỡ hàng `COMPLETED`**, Task Engine mới kích hoạt mở khóa Task kế tiếp trong chuỗi (**`Task 2 [T-Ho]: Kiểm hàng & Ký BBBG`**) sang trạng thái `AVAILABLE`.
 
 
+### 4.6. Cơ chế Cấu hình Quy trình 3 Chiều (Process Configuration Engine)
+
+Quy trình nghiệp vụ và chuỗi Task thực thi trong AI-WS được xác định động thông qua **Bộ 3 điều kiện cấu hình**:
+
+```mermaid
+flowchart LR
+    MU["1. Đơn vị Quản lý\n(Management Unit)\nVD: Viettel Networks"] --> CFG{"Bộ 3 Điều Kiện\nCấu Hình Quy Trình\n(process_config)"}
+    REA["2. Lý do Nhập/Xuất\n(Process Reason)\nVD: Mua mới NCC, Thu hồi PS..."] --> CFG
+    DOM["3. Loại Quy Trình\n(Workflow Domain)\nVD: INBOUND / OUTBOUND"] --> CFG
+    CFG --> TASKS["Ánh xạ Task được chọn\n(process_config_task)\n[T-Unl, T-Ho, T-Mv1, T-AGR...]"]
+    MC["Master Catalog Task Template\n(task_template độc lập)"] -.->|Admin tick chọn| TASKS
+```
+
+1. **Phân cấp tổ chức:** `Đơn vị Quản lý (Management Unit)` là cấp CHA của `Plant (Chi nhánh)`, và `Plant` quản lý các `SLoc (Kho logic)`.
+2. **Master Catalog độc lập:** Bảng `task_template` là danh mục công việc mẫu dùng chung cho toàn hệ thống.
+3. **Cấu hình linh hoạt:** Admin có thể linh hoạt cấu hình mỗi tổ hợp [Đơn vị QL + Lý do + Loại quy trình] bao gồm những Task nào từ Master Catalog và thứ tự thực hiện ra sao.
+
 ---
 
 ## 5. HỆ THỐNG VAI TRÒ & PHÂN QUYỀN (ROLE SYSTEM)
@@ -361,9 +378,12 @@ Ngoài chuỗi Task vận hành kho thực thi chính, hệ thống còn có 4 M
 | **Blocked Stock** | Blocked | Tồn kho bị khóa do không đạt KCS. |
 | **Bin Code** | Bin Putaway | Mã vị trí ô kệ trong kho (VD: `G01_KN1.1.1`). |
 | **Auto-Match** | Grab Matching | Cơ chế tự động ghép nhân viên rảnh rỗi với Task khả dụng đúng Role. |
-| **Plant** | Plant | Đơn vị/Chi nhánh cấp cao nhất trên SAP S/4HANA (VD: `VN01`), dùng để quản lý tồn kho và hoạt động theo từng vùng địa lý. |
+| **Đơn vị Quản lý** | Management Unit | Cấp quản lý tổ chức cao nhất trong chuỗi vận hành kho (VD: Viettel Networks, Viettel Solutions), là cấp CHA của các Plant và là 1 trong 3 điều kiện cấu hình quy trình. |
+| **Plant** | Plant | Đơn vị/Chi nhánh cấp dưới trực thuộc Đơn vị quản lý trên SAP S/4HANA (VD: `VN01`), dùng để quản lý hoạt động và kho bãi theo từng vùng địa lý. |
 | **Storage Location** | SLoc | Kho logic trên SAP S/4HANA (VD: `HN01`) trực thuộc một Plant, dùng để phân vùng hạch toán số lượng tồn kho theo mục đích quản lý. |
 | **Kho vật lý** | Physical WH | Công trình kho bãi thực tế trong đời thực (VD: Kho Hòa Lạc). Một kho vật lý có thể chứa các phân khu, dãy kệ (Bin) cụ thể và có thể tương ứng với một hoặc nhiều SLoc logic trên SAP. |
+| **Lý do Nhập/Xuất** | Process Reason | Danh mục lý do nghiệp vụ phát sinh lệnh (PO Mua mới, Thu hồi PS, Thu hồi PM, Xuất Cost Center...), là 1 trong 3 điều kiện cấu hình quy trình. |
+| **Master Task Catalog** | Task Catalog | Danh mục các mẫu Task chuẩn độc lập (`T-Unl`, `T-Ho`, `T-Mv1`, `T-AGR`...) dùng chung toàn hệ thống để Admin tick chọn gán vào từng quy trình. |
 
 ---
 
@@ -375,5 +395,6 @@ Ngoài chuỗi Task vận hành kho thực thi chính, hệ thống còn có 4 M
 | v2.0 | 06/08/2026 | Viết lại toàn diện: Bổ sung bối cảnh SAP Gap, mô hình Grab-style Task Matching, đa quy trình Nhập/Xuất, Catalog Task & Quy trình, Multi-warehouse, Multi-platform, Role System chi tiết, Đối tác truy cập trực tiếp hệ thống. |
 | v2.1 | 12/08/2026 | Bổ sung định nghĩa các khái niệm chung: Plant, SLoc, Kho vật lý vào mục Glossary. |
 | v2.2 | 12/08/2026 | Bổ sung vai trò Quản lý Đơn vị (quản lý cấp trung) vào mục 5.1 Danh sách Role. |
-| **v2.3** | **15/08/2026** | **Bổ sung 3 nghiệp vụ cốt lõi: Phân cấp quy trình 4 tầng (Domain $\rightarrow$ Profile $\rightarrow$ Stage $\rightarrow$ Task), Cơ chế bóc tách Mã Cha - Con sau KCS (T-API5), Cơ chế Bẻ luồng song song (Đóng gói vs Cất thẳng), và Mô hình Giao việc Đa nhân sự (`parent_task_id` + `Task_Assignment`).** |
+| v2.3 | 15/08/2026 | Bổ sung 3 nghiệp vụ cốt lõi: Phân cấp quy trình 4 tầng (Domain $\rightarrow$ Profile $\rightarrow$ Stage $\rightarrow$ Task), Cơ chế bóc tách Mã Cha - Con sau KCS (T-API5), Cơ chế Bẻ luồng song song (Đóng gói vs Cất thẳng), và Mô hình Giao việc Đa nhân sự (`parent_task_id` + `Task_Assignment`). |
+| **v2.4** | **26/08/2026** | **Chuẩn hóa Cơ chế Cấu hình Quy trình 3 Chiều [Đơn vị Quản lý (Cha Plant) + Lý do Nhập/Xuất + Loại quy trình], tách bảng `task_template` thành Master Catalog độc lập, bổ sung các bảng DB `management_unit`, `process_reason`, `process_config`, `process_config_task`.** |
 

@@ -54,6 +54,7 @@ Tài liệu này tập trung thiết kế **Cơ sở Dữ liệu Nội bộ củ
 ```mermaid
 erDiagram
     %% MIỀN 1: HẠ TẦNG KHO & MẶT BẰNG VẬT LÝ
+    MANAGEMENT_UNIT ||--o{ PLANT : "quản lý nhiều Plant (1-n)"
     PLANT ||--o{ STORAGE_LOCATION : "chứa SLoc logic (1-n)"
     PLANT ||--o{ PHYSICAL_WAREHOUSE : "quản lý công trình kho vật lý"
     PHYSICAL_WAREHOUSE ||--o{ PHYSICAL_WAREHOUSE_SLOC_MAPPING : "ánh xạ kho vật lý ⇄ SLoc"
@@ -79,11 +80,15 @@ erDiagram
     PARTNER ||--o{ DRIVER : "quản lý tài xế"
     PARTNER ||--o{ VEHICLE : "sở hữu xe"
 
-    %% MIỀN 4: CATALOG QUY TRÌNH 4 TẦNG & TASK TEMPLATE
+    %% MIỀN 4: CATALOG QUY TRÌNH & CẤU HÌNH TASK ENGINE (GRAB-STYLE)
+    MANAGEMENT_UNIT ||--o{ PROCESS_CONFIG : "cấu hình quy trình theo đơn vị"
+    WORKFLOW_DOMAIN ||--o{ PROCESS_REASON : "chứa lý do nhập/xuất"
+    WORKFLOW_DOMAIN ||--o{ PROCESS_CONFIG : "phân loại INBOUND/OUTBOUND"
+    PROCESS_REASON ||--o{ PROCESS_CONFIG : "áp dụng cho cấu hình"
     WORKFLOW_DOMAIN ||--o{ PROCESS_PROFILE : "Tầng 1 -> Tầng 2 (Domain -> Profile)"
     PROCESS_PROFILE ||--o{ PROCESS_STAGE : "Tầng 2 -> Tầng 3 (Giai đoạn Dashboard %)"
-    PROCESS_PROFILE ||--o{ TASK_TEMPLATE : "Tầng 2 -> Tầng 4 (Mẫu Task tác nghiệp)"
-    PROCESS_STAGE ||--o{ TASK_TEMPLATE : "nhóm các task"
+    PROCESS_CONFIG ||--o{ PROCESS_CONFIG_TASK : "cấu hình danh sách task"
+    TASK_TEMPLATE ||--o{ PROCESS_CONFIG_TASK : "được chọn vào quy trình"
     TASK_TEMPLATE ||--o{ TASK_DEPENDENCY_RULE : "quy tắc tiền đề & song song"
     TASK_TEMPLATE }o--|| ROLE : "chỉ định Role thực hiện"
 
@@ -149,8 +154,16 @@ erDiagram
 
 ```mermaid
 erDiagram
+    MANAGEMENT_UNIT {
+        uuid mgmt_unit_id PK
+        string unit_code UK "VTN, VTS"
+        string unit_name "Tên Đơn vị quản lý"
+        boolean is_active "Trạng thái hoạt động"
+        timestamp created_at
+    }
     PLANT {
         uuid plant_id PK
+        uuid mgmt_unit_id FK "Thuộc Đơn vị QL"
         string sap_plant_code UK "VN01, HN01"
         string plant_name "Tên chi nhánh/đơn vị"
         timestamp created_at
@@ -221,6 +234,7 @@ erDiagram
         decimal width_m "Rộng lối đi m"
     }
 
+    MANAGEMENT_UNIT ||--o{ PLANT : "quản lý nhiều Plant (1-n)"
     PLANT ||--o{ STORAGE_LOCATION : "chứa SLoc logic"
     PLANT ||--o{ PHYSICAL_WAREHOUSE : "quản lý kho vật lý"
     PHYSICAL_WAREHOUSE ||--o{ PHYSICAL_WAREHOUSE_SLOC_MAPPING : "ánh xạ"
@@ -335,10 +349,38 @@ erDiagram
 
 ```mermaid
 erDiagram
+    MANAGEMENT_UNIT {
+        uuid mgmt_unit_id PK
+        string unit_code UK "VTN, VTS"
+        string unit_name "Tên Đơn vị quản lý"
+        boolean is_active "Trạng thái"
+    }
     WORKFLOW_DOMAIN {
         uuid domain_id PK
         string domain_code UK "INBOUND, OUTBOUND, TRANSFER, INVENTORY"
         string domain_name "Tầng 1: Phân hệ luồng lớn"
+    }
+    PROCESS_REASON {
+        uuid reason_id PK
+        uuid domain_id FK "Thuộc INBOUND/OUTBOUND"
+        string reason_code UK "INB_PO_PURCHASE, OUT_COST_CENTER"
+        string reason_name "Tên lý do nghiệp vụ"
+        boolean is_active "Trạng thái"
+    }
+    PROCESS_CONFIG {
+        uuid config_id PK
+        uuid mgmt_unit_id FK "Đơn vị quản lý"
+        uuid reason_id FK "Lý do nhập/xuất"
+        uuid domain_id FK "Quy trình Nhập/Xuất"
+        string config_name "Tên cấu hình"
+        boolean is_active "Đang áp dụng"
+    }
+    PROCESS_CONFIG_TASK {
+        uuid config_task_id PK
+        uuid config_id FK "Thuộc cấu hình nào"
+        uuid template_id FK "Task Template được chọn"
+        int task_order "Thứ tự thực hiện"
+        boolean is_required "Bắt buộc hay tùy chọn"
     }
     PROCESS_PROFILE {
         uuid profile_id PK
@@ -357,11 +399,9 @@ erDiagram
     }
     TASK_TEMPLATE {
         uuid template_id PK
-        uuid profile_id FK
-        uuid stage_id FK
         uuid role_id FK "Role xử lý Task"
         string task_type_code UK "T-Unl, T-Ho, T-Mv1, T-AGR, T-Pac, T-Mv3"
-        string template_name "Tầng 4: Mẫu Task"
+        string template_name "Master Catalog Task Mẫu"
         int default_sla_minutes "SLA phút"
         string execution_mode "ENUM: SINGLE_USER, JOINT_USER_2P, AUTOMATIC_SYSTEM"
     }
@@ -450,10 +490,15 @@ erDiagram
         string file_url "Đường dẫn file"
     }
 
+    MANAGEMENT_UNIT ||--o{ PROCESS_CONFIG : "cấu hình cho đơn vị"
+    WORKFLOW_DOMAIN ||--o{ PROCESS_REASON : "chứa các lý do"
+    WORKFLOW_DOMAIN ||--o{ PROCESS_CONFIG : "phân loại domain"
+    PROCESS_REASON ||--o{ PROCESS_CONFIG : "áp dụng cho config"
+    PROCESS_CONFIG ||--o{ PROCESS_CONFIG_TASK : "gồm các task"
+    TASK_TEMPLATE ||--o{ PROCESS_CONFIG_TASK : "được chọn vào config"
+
     WORKFLOW_DOMAIN ||--o{ PROCESS_PROFILE : "T1 -> T2"
     PROCESS_PROFILE ||--o{ PROCESS_STAGE : "T2 -> T3"
-    PROCESS_PROFILE ||--o{ TASK_TEMPLATE : "T2 -> T4"
-    PROCESS_STAGE ||--o{ TASK_TEMPLATE : "nhóm task"
     TASK_TEMPLATE ||--o{ TASK_DEPENDENCY_RULE : "quy tắc tuần tự/song song"
 
     WAREHOUSE_ORDER }o--|| PROCESS_PROFILE : "áp dụng"
@@ -670,93 +715,112 @@ erDiagram
 
 ---
 
-# PHẦN 2: BẢNG MA TRẬN TỔNG HỢP & PHÂN TÍCH OPERATIONAL MATRIX 53 THỰC THỂ AIWS
+# PHẦN 2: BẢNG MA TRẬN TỔNG HỢP & PHÂN TÍCH OPERATIONAL MATRIX 63 THỰC THỂ AIWS
 
-## 2.1. Bảng Ma Trận Tổng Hợp 53 Thực Thể AIWS (Summary Matrix Table với Phân Tích Chức Năng, Vòng Đời & Trigger Chi Tiết)
+## 2.1. Bảng Ma Trận Tổng Hợp 63 Thực Thể AIWS (Summary Matrix Table với Phân Tích Chức Năng, Vòng Đời & Trigger Chi Tiết)
 
 | STT | Tên Thực Thể (PascalCase) | Tên Bảng DB (snake_case) | Nhóm / Miền Vận Hành | Hệ Thống Quản Lý / Ownership | Mô Tả Chức Năng Chi Tiết, Vòng Đời & Trigger Vận Hành Trong AIWS |
 |---|---|---|---|---|---|
-| **1** | `Plant` | `plant` | Nhóm 1: Hạ tầng kho | AIWS Core DB (Ref SAP) | **Mục đích**: Định danh Chi nhánh / Đơn vị cấp cao nhất theo cấu trúc SAP (VD: `VN01` Tập đoàn, `HN01` Chi nhánh Hà Nội).<br>**Quan hệ**: $1 \rightarrow N$ với `storage_location` và `physical_warehouse`.<br>**Vòng đời & Trigger**: Tạo lập khi cấu hình master data đơn vị, ít biến động.<br>**Phân định**: SAP sở hữu mã `sap_plant_code`; AIWS lưu làm trường ngoại tham chiếu để phân vùng dữ liệu. |
-| **2** | `StorageLocation` | `storage_location` | Nhóm 1: Hạ tầng kho | AIWS Core DB (Ref SAP) | **Mục đích**: Định danh Kho Logic hạch toán Kế toán SAP (SLoc `HN01`, `HN02`) để ghi nhận tồn kho kế toán trên SAP.<br>**Quan hệ**: FK trỏ `plant_id`; $N \rightarrow N$ với `physical_warehouse` qua `physical_warehouse_sloc_mapping`.<br>**Vòng đời & Trigger**: Khởi tạo từ danh mục SLoc SAP.<br>**Phân định**: SAP hạch toán tài chính theo SLoc; AIWS tham chiếu SLoc để định tuyến hạch toán kế toán cho Lệnh kho. |
-| **3** | `PhysicalWarehouse` | `physical_warehouse` | Nhóm 1: Hạ tầng kho | **AIWS Native Core** | **Mục đích**: **Bảng Core của AIWS** quản lý công trình Kho Vật Lý thực tế ngoài đời (Kho Hòa Lạc, Kho Đông Anh...) trực tiếp vận hành.<br>**Quan hệ**: FK trỏ `plant_id`; chứa $N$ `warehouse_zone`, $N$ `warehouse_dock`, $N$ `warehouse_order`.<br>**Vòng đời & Trigger**: Sinh khi thành lập công trình kho bãi mới.<br>**Phân định**: **AIWS làm chủ 100%** thực thi kho vật lý. |
-| **4** | `PhysicalWarehouseSlocMapping` | `physical_warehouse_sloc_mapping` | Nhóm 1: Hạ tầng kho | **AIWS Native Core** | **Mục đích**: Ánh xạ $N-N$ giữa Kho Vật Lý thực tế và Kho Logic SLoc kế toán SAP.<br>**Quan hệ**: FK trỏ `warehouse_id` và FK trỏ `sloc_id`.<br>**Vòng đời & Trigger**: Cấu hình khi thiết lập luồng hạch toán cho kho.<br>**Phân định**: AIWS quản lý để giải quyết bài toán 1 công trình kho chứa hàng thuộc nhiều SLoc kế toán khác nhau. |
-| **5** | `WarehouseZone` | `warehouse_zone` | Nhóm 1: Hạ tầng kho | **AIWS Native Core** | **Mục đích**: Phân chia mặt bằng kho thành các phân khu chức năng (`INBOUND_STAGING`, `PACKING`, `STORAGE_RACK`, `STORAGE_FLOOR`).<br>**Quan hệ**: FK trỏ `warehouse_id`; chứa $N$ `warehouse_rack`, $N$ `bin_location`.<br>**Vòng đời & Trigger**: Cấu hình trên sơ đồ 2D Canvas layout.<br>**Phân định**: AIWS làm chủ 100% không gian mặt bằng kho. |
-| **6** | `WarehouseRack` | `warehouse_rack` | Nhóm 1: Hạ tầng kho | **AIWS Native Core** | **Mục đích**: Quản lý cấu trúc dãy kệ chứa hàng đa tầng (Rack A1, Rack B2) gồm số tầng `num_levels` và số khoang `num_bays_per_level`.<br>**Quan hệ**: FK trỏ `zone_id`; chứa $N$ `bin_location`.<br>**Vòng đời & Trigger**: Sinh ra khi dựng sơ đồ kệ kho.<br>**Phân định**: AIWS làm chủ 100% quản lý dãy kệ. |
-| **7** | `BinLocation` | `bin_location` | Nhóm 1: Hạ tầng kho | **AIWS Native Core** | **Mục đích**: **Ô vị trí Putaway nhỏ nhất trong kho (`G01_KN1.1.1`)** để xe nâng cất/lấy hàng.<br>**Quan hệ**: FK trỏ `rack_id`/`zone_id`; trỏ $1 \rightarrow N$ tới `stock_quant`, `handling_unit`.<br>**Vòng đời & Trigger**: Cập nhật trạng thái `EMPTY` $\rightarrow$ `PARTIAL` $\rightarrow$ `FULL` $\rightarrow$ `LOCKED` tự động mỗi khi có cất/xuất hàng.<br>**Phân định**: AIWS làm chủ 100%. |
-| **8** | `StorageTool` | `storage_tool` | Nhóm 1: Hạ tầng kho | **AIWS Native Core** | **Mục đích**: Quản lý công cụ chứa hàng (Pallet gỗ/nhựa, Thùng khay nhựa, Thùng carton) & tải trọng max $kg$.<br>**Quan hệ**: Trỏ $1 \rightarrow N$ tới `handling_unit`.<br>**Vòng đời & Trigger**: Cấu hình danh mục công cụ.<br>**Phân định**: AIWS làm chủ 100% vỏ công cụ đóng gói. |
-| **9** | `WarehouseDock` | `warehouse_dock` | Nhóm 1: Hạ tầng kho | **AIWS Native Core** | **Mục đích**: Quản lý Cửa Dock tiếp nhận xe tải/container xuất nhập hàng.<br>**Quan hệ**: FK trỏ `warehouse_id`; liên kết $1 \rightarrow N$ với `delivery_schedule_slot`.<br>**Vòng đời & Trigger**: Cập nhật `AVAILABLE` $\rightarrow$ `OCCUPIED` $\rightarrow$ `RESERVED` theo lịch xe cập bến.<br>**Phân định**: AIWS làm chủ 100% slotting bến xe. |
-| **10** | `WarehouseAisle` | `warehouse_aisle` | Nhóm 1: Hạ tầng kho | **AIWS Native Core** | **Mục đích**: Quản lý lối đi giữa các dãy kệ phục vụ thuật toán tìm đường đi xe nâng (Pathfinding Route Optimization).<br>**Quan hệ**: FK trỏ `zone_id`.<br>**Vòng đời & Trigger**: Sinh khi vẽ bản đồ kho.<br>**Phân định**: AIWS làm chủ 100%. |
-| **11** | `MaterialMaster` | `material_master` | Nhóm 2: Vật tư & BOM | AIWS Core DB (Ref SAP) | **Mục đích**: Danh mục SKU vật tư AIWS (kích thước, trọng lượng, UOM) & **cờ `is_packing_required` bẻ luồng song song sau KCS T-API5**.<br>**Quan hệ**: Đệ quy $1 \rightarrow N$ (`parent_material_id`); trỏ tới `material_bom_structure`, `material_serial_registry`, `stock_quant`.<br>**Vòng đời & Trigger**: Đồng bộ từ Material Master SAP.<br>**Phân định**: SAP sở hữu mã master; AIWS bổ sung thuộc tính vận hành kho. |
-| **12** | `MaterialBomStructure` | `material_bom_structure` | Nhóm 2: Vật tư & BOM | **AIWS Native Core** | **Mục đích**: Định mức phân rã danh mục từ Mã Cha (`ZPAR`) thành các Mã Con theo Packing List.<br>**Quan hệ**: FK trỏ `parent_material_id` và `child_material_id`.<br>**Vòng đời & Trigger**: Tra cứu tự động khi SAP đẩy `T-API1` hoặc khi KCS `T-API5` bóc tách.<br>**Phân định**: AIWS làm chủ quy tắc phân rã tác nghiệp. |
-| **13** | `MaterialSerialRegistry` | `material_serial_registry` | Nhóm 2: Vật tư & BOM | **AIWS Native Core** | **Mục đích**: Sổ cái quản lý danh mục số Serial đích danh của thiết bị viễn thông (Router, Switch, Card...).<br>**Quan hệ**: FK trỏ `material_id`.<br>**Vòng đời & Trigger**: Tạo khi quét nhập kho Task `T-Ho`/`T-AGR`; cập nhật `IN_STOCK` $\rightarrow$ `ISSUED` $\rightarrow$ `DEFECTIVE_REPAIRED`.<br>**Phân định**: AIWS làm chủ quản lý Serial hiện trường. |
-| **14** | `Employee` | `employee` | Nhóm 3: Nhân sự & Đối tác | **AIWS Native Core** | **Mục đích**: Hồ sơ nhân sự kho nội bộ (Thủ kho, NV dỡ hàng, NV đóng gói, Lái xe nâng, Bảo vệ).<br>**Quan hệ**: FK trỏ `warehouse_id`; trỏ $1 \rightarrow N$ tới `employee_role`, `task_assignment`.<br>**Vòng đời & Trigger**: Khởi tạo khi tuyển dụng/phân công.<br>**Phân định**: AIWS làm chủ danh mục nhân sự kho. |
-| **15** | `UserAccount` | `user_account` | Nhóm 3: Nhân sự & Đối tác | **AIWS Native Core** | **Mục đích**: Quản lý tài khoản đăng nhập Web/App cho cả nhân viên nội bộ và đối tác bên ngoài.<br>**Quan hệ**: FK trỏ `employee_id` hoặc `partner_id`.<br>**Vòng đời & Trigger**: Tạo khi cấp quyền sử dụng hệ thống.<br>**Phân định**: AIWS làm chủ xác thực hệ thống. |
-| **16** | `Role` | `role` | Nhóm 3: Nhân sự & Đối tác | **AIWS Native Core** | **Mục đích**: **Danh mục Role cốt lõi của Grab-style Task Engine** (`ROLE_WAREHOUSE_MASTER`, `ROLE_WAREHOUSE_WORKER`, `ROLE_FORKLIFT_DRIVER`...).<br>**Quan hệ**: $N-N$ với `employee` qua `employee_role`; trỏ $1 \rightarrow N$ tới `task_template`.<br>**Vòng đời & Trigger**: Danh mục bất biến hệ thống.<br>**Phân định**: AIWS làm chủ mô hình giao việc. |
-| **17** | `EmployeeRole` | `employee_role` | Nhóm 3: Nhân sự & Đối tác | **AIWS Native Core** | **Mục đích**: Bảng gán đa vai trò cho nhân sự (VD: Thủ kho kiêm Nhân viên kiểm đếm).<br>**Quan hệ**: FK trỏ `employee_id` và `role_id`.<br>**Vòng đời & Trigger**: Cập nhật khi phân công kiêm nhiệm.<br>**Phân định**: AIWS làm chủ 100%. |
-| **18** | `RolePermission` | `role_permission` | Nhóm 3: Nhân sự & Đối tác | **AIWS Native Core** | **Mục đích**: Phân quyền truy cập chi tiết API endpoint và chức năng màn hình UI.<br>**Quan hệ**: FK trỏ `role_id`.<br>**Vòng đời & Trigger**: Cấu hình phân quyền hệ thống.<br>**Phân định**: AIWS làm chủ 100%. |
-| **19** | `Partner` | `partner` | Nhóm 3: Nhân sự & Đối tác | AIWS Core DB (Ref SAP) | **Mục đích**: Danh mục đối tác ngoài (Nhà cung cấp NCC, Hãng xe TSA, Khách hàng).<br>**Quan hệ**: Đồng bộ mã `sap_vendor_code` từ SAP.<br>**Vòng đời & Trigger**: Tạo khi phát sinh giao dịch.<br>**Phân định**: SAP quản lý mã master; AIWS tham chiếu đối soát. |
-| **20** | `Driver` | `driver` | Nhóm 3: Nhân sự & Đối tác | **AIWS Native Core** | **Mục đích**: Thông tin tài xế giao/nhận hàng & số CCCD đối soát an ninh cổng `T-Scr`.<br>**Quan hệ**: FK trỏ `partner_id`.<br>**Vòng đời & Trigger**: Đăng ký khi cập bến/đặt lịch.<br>**Phân định**: AIWS làm chủ quản lý tài xế bến. |
-| **21** | `Vehicle` | `vehicle` | Nhóm 3: Nhân sự & Đối tác | **AIWS Native Core** | **Mục đích**: Danh sách phương tiện vận tải (Biển số xe, loại xe, tải trọng max).<br>**Quan hệ**: FK trỏ `partner_id`.<br>**Vòng đời & Trigger**: Đăng ký khi vào cổng/gán chuyến xe TMS.<br>**Phân định**: AIWS làm chủ quản lý xe bến. |
-| **22** | `WorkflowDomain` | `workflow_domain` | Nhóm 4: Phân cấp Quy trình | **AIWS Native Core** | **Mục đích**: Tầng 1: Phân hệ luồng lớn (`INBOUND`, `OUTBOUND`, `TRANSFER`, `INVENTORY`).<br>**Quan hệ**: Trỏ $1 \rightarrow N$ tới `process_profile`.<br>**Vòng đời & Trigger**: Khởi tạo danh mục quy trình chuẩn.<br>**Phân định**: AIWS làm chủ kiến trúc 4 tầng. |
-| **23** | `ProcessProfile` | `process_profile` | Nhóm 4: Phân cấp Quy trình | **AIWS Native Core** | **Mục đích**: Tầng 2: Quy trình nghiệp vụ cụ thể (`MM.10A`, `MM.10B`, `OUT.01A`...).<br>**Quan hệ**: FK trỏ `domain_id`; trỏ $1 \rightarrow N$ tới `process_stage`, `task_template`.<br>**Vòng đời & Trigger**: Áp dụng khi sinh Warehouse Order.<br>**Phân định**: AIWS làm chủ 100%. |
-| **24** | `ProcessStage` | `process_stage` | Nhóm 4: Phân cấp Quy trình | **AIWS Native Core** | **Mục đích**: Tầng 3: Các Cụm Giai Đoạn (Stage) phục vụ tính toán progress Dashboard % ($20\% \rightarrow 100\%$).<br>**Quan hệ**: FK trỏ `profile_id`.<br>**Vòng đời & Trigger**: Tự động tính toán khi hoàn thành Task.<br>**Phân định**: AIWS làm chủ 100%. |
-| **25** | `TaskTemplate` | `task_template` | Nhóm 4: Phân cấp Quy trình | **AIWS Native Core** | **Mục đích**: Tầng 4: **Catalog Mẫu Task Tác Nghiệp Core** (`T-Unl`, `T-Ho`, `T-Mv1`, `T-AGR`, `T-Pac`, `T-Mv3`) quy định Role, SLA phút, Chế độ 1P/2P.<br>**Quan hệ**: FK trỏ `profile_id`, `stage_id`, `role_id`.<br>**Vòng đời & Trigger**: Mẫu chuẩn để sinh Warehouse Task.<br>**Phân định**: AIWS làm chủ 100%. |
-| **26** | `TaskDependencyRule` | `task_dependency_rule` | Nhóm 4: Phân cấp Quy trình | **AIWS Native Core** | **Mục đích**: Quy tắc phụ thuộc Task (Mở khóa tuần tự `SEQUENTIAL` hoặc bẻ luồng `PARALLEL_FORK`).<br>**Quan hệ**: FK trỏ `template_id` và `prerequisite_template_id`.<br>**Vòng đời & Trigger**: Tra cứu tự động khi hoàn thành Task.<br>**Phân định**: AIWS làm chủ 100%. |
-| **27** | `WarehouseOrder` | `warehouse_order` | Nhóm 5: Lệnh & Task Engine | **AIWS Native Core** | **Mục đích**: **Lệnh Kho Trung Tâm AIWS**. Sinh ra từ `T-API1`; Thủ kho duyệt `confirmed_at` chuyển `APPROVED` ➔ **TRIGGER Task Engine sinh chuỗi Task**.<br>**Quan hệ**: FK trỏ `profile_id`, `warehouse_id`, `sloc_id`.<br>**Vòng đời & Trigger**: `WAIT_CONFIRM` $\rightarrow$ `APPROVED` $\rightarrow$ `IN_PROGRESS` $\rightarrow$ `COMPLETED`.<br>**Phân định**: AIWS làm chủ thực thi Lệnh kho. |
-| **28** | `WarehouseOrderItem` | `warehouse_order_item` | Nhóm 5: Lệnh & Task Engine | **AIWS Native Core** | **Mục đích**: Chi tiết các dòng hàng thuộc Lệnh kho, bóc tách Mã Cha/Con sau KCS & **nơi lưu giữ Số Lô (`batch_no`) chính thức được gán**.<br>**Quan hệ**: FK trỏ `order_id`, `material_id`.<br>**Vòng đời & Trigger**: `PENDING` $\rightarrow$ `UNLOADED` $\rightarrow$ `KCS_PASSED` $\rightarrow$ `PACKED` $\rightarrow$ `STORED`.<br>**Phân định**: AIWS làm chủ quản lý dòng hàng. |
-| **29** | `OrderExtensionInboundNcc` | `order_extension_inbound_ncc` | Nhóm 5: Lệnh & Task Engine | **AIWS Native Core** | **Mục đích**: Thuộc tính mở rộng chuyên biệt cho Lệnh Nhập NCC (MM.10A): Số hợp đồng SAP, mã NCC, Packing List.<br>**Quan hệ**: FK trỏ `order_id`.<br>**Vòng đời & Trigger**: Tạo cùng Lệnh kho MM.10A.<br>**Phân định**: AIWS lưu vết chứng từ nhập. |
-| **30** | `OrderExtensionInboundReturn` | `order_extension_inbound_return` | Nhóm 5: Lệnh & Task Engine | **AIWS Native Core** | **Mục đích**: Thuộc tính mở rộng chuyên biệt cho Lệnh Nhập Thu Hồi (MM.10B/C/D): Reservation PS, PM Order, WBS.<br>**Quan hệ**: FK trỏ `order_id`.<br>**Vòng đời & Trigger**: Tạo cùng Lệnh kho Thu hồi.<br>**Phân định**: AIWS lưu vết chứng từ thu hồi. |
-| **31** | `OrderExtensionOutbound` | `order_extension_outbound` | Nhóm 5: Lệnh & Task Engine | **AIWS Native Core** | **Mục đích**: Thuộc tính mở rộng chuyên biệt cho Lệnh Xuất Kho (OUT.01A/B): Đơn vị nhận, địa chỉ giao, chuyến xe TMS.<br>**Quan hệ**: FK trỏ `order_id`.<br>**Vòng đời & Trigger**: Tạo cùng Lệnh xuất kho.<br>**Phân định**: AIWS lưu vết xuất kho. |
-| **32** | `WarehouseTask` | `warehouse_task` | Nhóm 5: Lệnh & Task Engine | **AIWS Native Core** | **Mục đích**: **Task Tác Nghiệp Thực Tế ("Grab Cuốc Xe")**.<br>**Quan hệ**: FK trỏ `order_id`, `template_id`, `stage_id`.<br>**Vòng đời & Trigger**: `NEW` $\rightarrow$ `AVAILABLE` $\rightarrow$ `IN_PROGRESS` $\rightarrow$ `COMPLETED`.<br>**Phân định**: AIWS làm chủ 100% Grab Engine. |
-| **33** | `TaskAssignment` | `task_assignment` | Nhóm 5: Lệnh & Task Engine | **AIWS Native Core** | **Mục đích**: Phân công & nhận việc Grab-style (giao việc 1 người hoặc **Joint Task 2 người dỡ xe cùng làm**).<br>**Quan hệ**: FK trỏ `task_id`, `employee_id`, `role_id`.<br>**Vòng đời & Trigger**: `ASSIGNED` $\rightarrow$ `ACCEPTED` $\rightarrow$ `IN_PROGRESS` $\rightarrow$ `FINISHED`.<br>**Phân định**: AIWS làm chủ 100%. |
-| **34** | `TaskItemDetail` | `task_item_detail` | Nhóm 5: Lệnh & Task Engine | **AIWS Native Core** | **Mục đích**: Ghi nhận số lượng thực tế kiểm đếm/đóng gói/cất kệ & mã Serial/Lô thao tác trong từng Task.<br>**Quan hệ**: FK trỏ `task_id`, `order_item_id`.<br>**Vòng đời & Trigger**: Ghi nhận khi làm Task.<br>**Phân định**: AIWS làm chủ 100%. |
-| **35** | `TaskEvidence` | `task_evidence` | Nhóm 5: Lệnh & Task Engine | **AIWS Native Core** | **Mục đích**: Bằng chứng di động (Ảnh dỡ hàng hỏng, chữ ký điện tử, mã quét RFID/Barcode).<br>**Quan hệ**: FK trỏ `task_id`.<br>**Vòng đời & Trigger**: Đính kèm khi hoàn thành Task.<br>**Phân định**: AIWS làm chủ 100%. |
-| **36** | `HandlingUnit` | `handling_unit` | Nhóm 6: Đóng gói & RFID | **AIWS Native Core** | **Mục đích**: Kiện hàng đóng gói (Thùng carton/Pallet) & **gán mã chip RFID EPC (`rfid_epc_code`)** tại Task 6 `T-Pac`.<br>**Quan hệ**: FK trỏ `order_id`, `tool_id`, `current_bin_id`.<br>**Vòng đời & Trigger**: `PACKING` $\rightarrow$ `STAGED` $\rightarrow$ `STORED_IN_BIN` $\rightarrow$ `DISPATCHED`.<br>**Phân định**: AIWS làm chủ 100% RFID HU. |
-| **37** | `HandlingUnitItem` | `handling_unit_item` | Nhóm 6: Đóng gói & RFID | **AIWS Native Core** | **Mục đích**: Chi tiết danh mục SKU vật tư, số lượng và số Lô (`batch_no`) đóng trong kiện HU.<br>**Quan hệ**: FK trỏ `hu_id`, `material_id`.<br>**Vòng đời & Trigger**: Tạo khi đóng gói Task `T-Pac`.<br>**Phân định**: AIWS làm chủ 100%. |
-| **38** | `PackingProposal` | `packing_proposal` | Nhóm 6: Đóng gói & RFID | **AIWS Native Core** | **Mục đích**: Gợi ý đóng gói tự động AIWS (Task T-S10): Đề xuất số kiện, loại vỏ thùng chứa tối ưu.<br>**Quan hệ**: FK trỏ `order_id`.<br>**Vòng đời & Trigger**: Sinh tự động trước bước `T-Pac`.<br>**Phân định**: AIWS làm chủ thuật toán gợi ý. |
-| **39** | `StockQuant` | `stock_quant` | Nhóm 7: Tồn kho Lõi | **AIWS Native Core** | **Mục đích**: **SỔ CÁI TỒN KHO THỰC TẾ TỨC THỜI DUY NHẤT TOÀN HỆ THỐNG AIWS** theo 6 chiều: [Kho + SLoc + Bin + SKU + Batch + Status].<br>**Quan hệ**: FK trỏ `warehouse_id`, `sloc_id`, `bin_id`, `material_id`, `hu_id`.<br>**Vòng đời & Trigger**: Cập nhật tức thì từ giao dịch `stock_move` (`T-Mv3`, `T-Pac`, `T-Ldg`).<br>**Phân định**: **AIWS sở hữu 100% tồn kho vật lý real-time**. |
-| **40** | `StockMove` | `stock_move` | Nhóm 7: Tồn kho Lõi | **AIWS Native Core** | **Mục đích**: **SỔ NHẬT KÝ BIẾN ĐỘNG TỒN KHO CHI TIẾT (AUDIT TRAIL)** ghi nhận 100% dịch chuyển từ Bin nguồn tới Bin đích.<br>**Quan hệ**: FK trỏ `task_id`, `order_id`, `material_id`, `from_bin_id`, `to_bin_id`.<br>**Vòng đời & Trigger**: Ghi nhật ký bất biến mỗi khi có cất/chuyển/xuất hàng.<br>**Phân định**: AIWS làm chủ 100%. |
-| **41** | `GateSecurityEvent` | `gate_security_event` | Nhóm 8: Chứng từ & An ninh | **AIWS Native Core** | **Mục đích**: Ghi nhận sự kiện xe vào/ra cổng kho do Bảo vệ thực hiện (Task `T-Scr`) & thời gian nằm bến (Dwell time).<br>**Quan hệ**: FK trỏ `order_id`, `vehicle_id`, `driver_id`.<br>**Vòng đời & Trigger**: `CHECKED_IN` $\rightarrow$ `LOADING_UNLOADING` $\rightarrow$ `CHECKED_OUT`.<br>**Phân định**: AIWS làm chủ 100% an ninh cổng. |
-| **42** | `DeliveryScheduleSlot` | `delivery_schedule_slot` | Nhóm 8: Chứng từ & An ninh | **AIWS Native Core** | **Mục đích**: Đặt lịch hẹn giờ xe cập bến (Dock Slotting) tránh ùn tắc cổng kho.<br>**Quan hệ**: FK trỏ `order_id`, `dock_id`.<br>**Vòng đời & Trigger**: `BOOKED` $\rightarrow$ `CONFIRMED` $\rightarrow$ `COMPLETED`.<br>**Phân định**: AIWS làm chủ 100%. |
-| **43** | `DeliveryHandoverRecord` | `delivery_handover_record` | Nhóm 8: Chứng từ & An ninh | **AIWS Native Core** | **Mục đích**: Biên bản bàn giao (BBBG) điện tử lập tại Task 2 `T-Ho` & chữ ký cảm ứng di động/CA.<br>**Quan hệ**: FK trỏ `order_id`.<br>**Vòng đời & Trigger**: Lập & ký tại Task `T-Ho`.<br>**Phân định**: AIWS làm chủ 100% BBBG di động. |
-| **44** | `KcsInspectionResult` | `kcs_inspection_result` | Nhóm 8: Chứng từ & An ninh | AIWS Core DB (Ref SAP) | **Mục đích**: Tiếp nhận kết quả KCS từ SAP (`T-API5`) để gắn trạng thái tồn kho `PASSED_UU` (Đạt) hoặc `FAILED_BLOCKED` (Khóa lỗi).<br>**Quan hệ**: FK trỏ `order_id`.<br>**Vòng đời & Trigger**: Nhận tin `T-API5` ➔ Cập nhật `stock_quant`.<br>**Phân định**: SAP sở hữu kết quả KCS; AIWS tiếp nhận thực thi. |
-| **45** | `VofficeSigningDossier` | `voffice_signing_dossier` | Nhóm 8: Chứng từ & An ninh | AIWS Core DB (Ref V-Off) | **Mục đích**: Quản lý hồ sơ trình ký V-Office Phiếu nhập/xuất kho (`T-Sig`) & chữ ký số CA.<br>**Quan hệ**: FK trỏ `order_id`.<br>**Vòng đời & Trigger**: `DRAFT` $\rightarrow$ `SUBMITTED` $\rightarrow$ `APPROVED`.<br>**Phân định**: V-Office xử lý luồng duyệt; AIWS lưu mã giao dịch `voffice_trans_id`. |
-| **46** | `VehicleDispatchSchedule` | `vehicle_dispatch_schedule` | Nhóm 9: Vận tải TMS | **AIWS Native Core** | **Mục đích**: Lịch điều phối chuyến xe vận tải xuất kho TMS (Task `T-S2`/`T-VDA`/`T-TSA`).<br>**Quan hệ**: FK trỏ `partner_id`, `vehicle_id`, `driver_id`.<br>**Vòng đời & Trigger**: `PLANNED` $\rightarrow$ `APPROVED_VDA` $\rightarrow$ `ASSIGNED_TSA` $\rightarrow$ `IN_TRANSIT` $\rightarrow$ `COMPLETED`.<br>**Phân định**: AIWS làm chủ 100% TMS xuất kho. |
-| **47** | `DispatchRouteStop` | `dispatch_route_stop` | Nhóm 9: Vận tải TMS | **AIWS Native Core** | **Mục đích**: Danh sách các điểm dừng giao hàng theo thứ tự tuyến đường (`stop_sequence`).<br>**Quan hệ**: FK trỏ `schedule_id`, `order_id`.<br>**Vòng đời & Trigger**: Tạo cùng chuyến xe TMS.<br>**Phân định**: AIWS làm chủ 100%. |
-| **48** | `VehicleTrackingLog` | `vehicle_tracking_log` | Nhóm 9: Vận tải TMS | **AIWS Native Core** | **Mục đích**: Nhật ký tọa độ GPS định vị phương tiện theo thời gian thực (V-Tracking).<br>**Quan hệ**: FK trỏ `schedule_id`.<br>**Vòng đời & Trigger**: Ghi log GPS định kỳ từ thiết bị định vị.<br>**Phân định**: AIWS làm chủ 100%. |
-| **49** | `SapInboundStagingHeader` | `sap_inbound_staging_header` | Nhóm 10: Tích hợp Staging | AIWS Staging Table | **Mục đích**: **Bảng Staging Tạm tiếp nhận bản tin Header `T-API1` đẩy từ SAP** (SAP Inbound Delivery VL31N).<br>**Quan hệ**: Trỏ $1 \rightarrow N$ tới `sap_inbound_staging_item`.<br>**Vòng đời & Trigger**: `PENDING` $\rightarrow$ `PROCESSED` $\rightarrow$ `ERROR`.<br>**Phân định**: Bảng tạm AIWS tiếp nhận SAP. |
-| **50** | `SapInboundStagingItem` | `sap_inbound_staging_item` | Nhóm 10: Tích hợp Staging | AIWS Staging Table | **Mục đích**: Bảng Staging Tạm tiếp nhận chi tiết các dòng hàng & Packing List từ SAP.<br>**Quan hệ**: FK trỏ `staging_header_id`.<br>**Vòng đời & Trigger**: Nhận cùng tin `T-API1`.<br>**Phân định**: Bảng tạm AIWS tiếp nhận SAP. |
-| **51** | `SapIntegrationMessageLog` | `sap_integration_message_log` | Nhóm 10: Tích hợp Staging | AIWS Staging Table | **Mục đích**: Sổ nhật ký lưu vết thông điệp API truyền nhận 2 chiều giữa SAP và AIWS (`T-API1..5`).<br>**Quan hệ**: FK trỏ `order_id`.<br>**Vòng đời & Trigger**: Ghi log tự động khi có gọi API.<br>**Phân định**: AIWS lưu vết tích hợp. |
-| **52** | `SlaAlertLog` | `sla_alert_log` | Nhóm 10: SLA & Log | **AIWS Native Core** | **Mục đích**: Lưu vết các cảnh báo vi phạm SLA quá hạn Task (`T-S11` 90% SLA / `T-S12` timeout).<br>**Quan hệ**: FK trỏ `task_id`.<br>**Vòng đời & Trigger**: Kích hoạt tự động từ SLA Engine.<br>**Phân định**: AIWS làm chủ SLA Engine. |
-| **53** | `SystemAuditLog` | `system_audit_log` | Nhóm 10: SLA & Log | **AIWS Native Core** | **Mục đích**: Sổ nhật ký Audit Trail ghi lại mọi hành vi tác động thay đổi dữ liệu của người dùng hệ thống.<br>**Quan hệ**: FK trỏ `user_id`.<br>**Vòng đời & Trigger**: Ghi vết tự động ở mọi API mutating state.<br>**Phân định**: AIWS làm chủ Audit Trail. |
-| **54** | `OrderExtensionOutbound` | `order_extension_outbound` | Nhóm 11: Mở rộng Xuất MM.11 | **AIWS Native Core** | **Mục đích**: Mở rộng dữ liệu Lệnh Xuất kho bán hàng SD (MM.11F) & Xuất kho dùng chung (Sales Order `VA01`, Outbound Delivery `VL01N`, Billing `VF01`, Lý do hủy PGI `VL09`).<br>**Quan hệ**: FK UK trỏ `warehouse_order.order_id`, FK trỏ `partner.partner_id`.<br>**Vòng đời & Trigger**: Tạo cùng Lệnh xuất kho SD.<br>**Phân định**: AIWS làm chủ quản lý thông tin xuất kho. |
-| **55** | `OrderExtensionOutboundPS` | `order_extension_outbound_ps` | Nhóm 11: Mở rộng Xuất MM.11 | **AIWS Native Core** | **Mục đích**: Mở rộng Lệnh Xuất kho Dự án PS / WBS (MM.11C). Quản lý WBS Mua sắm, WBS Công trình, Kho Nhà thầu xây lắp, và **URL / Lịch sử Upload Excel Serial (`GI-API4`)**.<br>**Quan hệ**: FK UK trỏ `warehouse_order.order_id`, FK trỏ `partner.partner_id`, `physical_warehouse.warehouse_id`.<br>**Vòng đời & Trigger**: Tạo cùng Lệnh xuất kho Dự án WBS.<br>**Phân định**: AIWS lưu vết giao dịch WBS & Excel Upload. |
-| **56** | `OrderExtensionOutboundPM` | `order_extension_outbound_pm` | Nhóm 11: Mở rộng Xuất MM.11 | **AIWS Native Core** | **Mục đích**: Mở rộng Lệnh Xuất kho Trạm / Bảo trì PM (MM.11D). Quản lý PM Work Order, Mã trạm viễn thông, Kỹ thuật viên tiếp nhận và **Cờ ưu tiên ứng cứu khẩn cấp (`is_urgent_priority`)**.<br>**Quan hệ**: FK UK trỏ `warehouse_order.order_id`, FK trỏ `employee.employee_id`.<br>**Vòng đời & Trigger**: Tạo cùng Lệnh xuất trạm PM.<br>**Phân định**: AIWS ưu tiên điều phối Task xuất khẩn cấp. |
-| **57** | `OrderExtensionOutboundReturnSupplier` | `order_extension_outbound_return_supplier` | Nhóm 11: Mở rộng Xuất MM.11 | **AIWS Native Core** | **Mục đích**: Mở rộng Lệnh Xuất kho Trả hàng NCC (MM.11E). Quản lý Return PO (`ME21N`), Lịch sử lô KCS bị từ chối và Kho cách ly Blocked Stock.<br>**Quan hệ**: FK UK trỏ `warehouse_order.order_id`, FK trỏ `kcs_inspection_result.kcs_id`.<br>**Vòng đời & Trigger**: Tạo khi xuất trả hàng lỗi NCC.<br>**Phân định**: AIWS định vị xuất từ kho Blocked Stock. |
-| **58** | `OrderExtensionOutboundOther` | `order_extension_outbound_other` | Nhóm 11: Mở rộng Xuất MM.11 | **AIWS Native Core** | **Mục đích**: Mở rộng Lệnh Xuất kho Khác (MM.11G Z06/Z07/Z11). Quản lý loại xuất (`Z06_DISASTER`, `Z07_EMPLOYEE_LOSS`, `Z11_LENT_RETURN`), Mã Tường trình sự cố Non-SAP, Nhân viên bồi thường và NCC cho mượn.<br>**Quan hệ**: FK UK trỏ `warehouse_order.order_id`, FK trỏ `employee.employee_id`, `partner.partner_id`.<br>**Vòng đời & Trigger**: Tạo khi phát sinh xuất kho khác.<br>**Phân định**: AIWS lưu vết kịch bản xuất đặc thù. |
-| **59** | `SInvoiceETransitSlip` | `sinvoice_e_transit_slip` | Nhóm 11: Mở rộng Xuất MM.11 | AIWS Core DB (Ref S-Inv) | **Mục đích**: Bảng quản lý chứng từ **Phiếu xuất kho kiêm Vận chuyển nội bộ (PXKKVC)** điện tử từ hệ thống S-Invoice (`GI-API6`).<br>**Quan hệ**: FK trỏ `warehouse_order.order_id`.<br>**Vòng đời & Trigger**: `DRAFT` $\rightarrow$ `ISSUED` $\rightarrow$ `CANCELED`.<br>**Phân định**: S-Invoice cấp mã; AIWS lưu vết chứng từ vận chuyển. |
+| **1** | `ManagementUnit` | `management_unit` | Nhóm 1: Hạ tầng kho | **AIWS Native Core** | **Mục đích**: **Đơn vị Quản lý cấp cao** (Quản lý nhiều Plant/Chi nhánh). Là 1 trong 3 thực thể chính quyết định cấu hình quy trình.<br>**Quan hệ**: $1 \rightarrow N$ với `plant`, $1 \rightarrow N$ với `process_config`.<br>**Vòng đời & Trigger**: Tạo lập khi thiết lập cơ cấu tổ chức quản lý kho.<br>**Phân định**: AIWS làm chủ 100% quản lý tổ chức. |
+| **2** | `Plant` | `plant` | Nhóm 1: Hạ tầng kho | AIWS Core DB (Ref SAP) | **Mục đích**: Định danh Chi nhánh / Đơn vị thực thi trực thuộc Đơn vị quản lý theo cấu trúc SAP (VD: `VN01` Tập đoàn, `HN01` Chi nhánh Hà Nội).<br>**Quan hệ**: FK trỏ `mgmt_unit_id`; $1 \rightarrow N$ với `storage_location` và `physical_warehouse`.<br>**Vòng đời & Trigger**: Tạo lập khi cấu hình master data đơn vị, ít biến động.<br>**Phân định**: SAP sở hữu mã `sap_plant_code`; AIWS lưu làm trường ngoại tham chiếu để phân vùng dữ liệu. |
+| **3** | `StorageLocation` | `storage_location` | Nhóm 1: Hạ tầng kho | AIWS Core DB (Ref SAP) | **Mục đích**: Định danh Kho Logic hạch toán Kế toán SAP (SLoc `HN01`, `HN02`) để ghi nhận tồn kho kế toán trên SAP.<br>**Quan hệ**: FK trỏ `plant_id`; $N \rightarrow N$ với `physical_warehouse` qua `physical_warehouse_sloc_mapping`.<br>**Vòng đời & Trigger**: Khởi tạo từ danh mục SLoc SAP.<br>**Phân định**: SAP hạch toán tài chính theo SLoc; AIWS tham chiếu SLoc để định tuyến hạch toán kế toán cho Lệnh kho. |
+| **4** | `PhysicalWarehouse` | `physical_warehouse` | Nhóm 1: Hạ tầng kho | **AIWS Native Core** | **Mục đích**: **Bảng Core của AIWS** quản lý công trình Kho Vật Lý thực tế ngoài đời (Kho Hòa Lạc, Kho Đông Anh...) trực tiếp vận hành.<br>**Quan hệ**: FK trỏ `plant_id`; chứa $N$ `warehouse_zone`, $N$ `warehouse_dock`, $N$ `warehouse_order`.<br>**Vòng đời & Trigger**: Sinh khi thành lập công trình kho bãi mới.<br>**Phân định**: **AIWS làm chủ 100%** thực thi kho vật lý. |
+| **5** | `PhysicalWarehouseSlocMapping` | `physical_warehouse_sloc_mapping` | Nhóm 1: Hạ tầng kho | **AIWS Native Core** | **Mục đích**: Ánh xạ $N-N$ giữa Kho Vật Lý thực tế và Kho Logic SLoc kế toán SAP.<br>**Quan hệ**: FK trỏ `warehouse_id` và FK trỏ `sloc_id`.<br>**Vòng đời & Trigger**: Cấu hình khi thiết lập luồng hạch toán cho kho.<br>**Phân định**: AIWS quản lý để giải quyết bài toán 1 công trình kho chứa hàng thuộc nhiều SLoc kế toán khác nhau. |
+| **6** | `WarehouseZone` | `warehouse_zone` | Nhóm 1: Hạ tầng kho | **AIWS Native Core** | **Mục đích**: Phân chia mặt bằng kho thành các phân khu chức năng (`INBOUND_STAGING`, `PACKING`, `STORAGE_RACK`, `STORAGE_FLOOR`).<br>**Quan hệ**: FK trỏ `warehouse_id`; chứa $N$ `warehouse_rack`, $N$ `bin_location`.<br>**Vòng đời & Trigger**: Cấu hình trên sơ đồ 2D Canvas layout.<br>**Phân định**: AIWS làm chủ 100% không gian mặt bằng kho. |
+| **7** | `WarehouseRack` | `warehouse_rack` | Nhóm 1: Hạ tầng kho | **AIWS Native Core** | **Mục đích**: Quản lý cấu trúc dãy kệ chứa hàng đa tầng (Rack A1, Rack B2) gồm số tầng `num_levels` và số khoang `num_bays_per_level`.<br>**Quan hệ**: FK trỏ `zone_id`; chứa $N$ `bin_location`.<br>**Vòng đời & Trigger**: Sinh ra khi dựng sơ đồ kệ kho.<br>**Phân định**: AIWS làm chủ 100% quản lý dãy kệ. |
+| **8** | `BinLocation` | `bin_location` | Nhóm 1: Hạ tầng kho | **AIWS Native Core** | **Mục đích**: **Ô vị trí Putaway nhỏ nhất trong kho (`G01_KN1.1.1`)** để xe nâng cất/lấy hàng.<br>**Quan hệ**: FK trỏ `rack_id`/`zone_id`; trỏ $1 \rightarrow N$ tới `stock_quant`, `handling_unit`.<br>**Vòng đời & Trigger**: Cập nhật trạng thái `EMPTY` $\rightarrow$ `PARTIAL` $\rightarrow$ `FULL` $\rightarrow$ `LOCKED` tự động mỗi khi có cất/xuất hàng.<br>**Phân định**: AIWS làm chủ 100%. |
+| **9** | `StorageTool` | `storage_tool` | Nhóm 1: Hạ tầng kho | **AIWS Native Core** | **Mục đích**: Quản lý công cụ chứa hàng (Pallet gỗ/nhựa, Thùng khay nhựa, Thùng carton) & tải trọng max $kg$.<br>**Quan hệ**: Trỏ $1 \rightarrow N$ tới `handling_unit`.<br>**Vòng đời & Trigger**: Cấu hình danh mục công cụ.<br>**Phân định**: AIWS làm chủ 100% vỏ công cụ đóng gói. |
+| **10** | `WarehouseDock` | `warehouse_dock` | Nhóm 1: Hạ tầng kho | **AIWS Native Core** | **Mục đích**: Quản lý Cửa Dock tiếp nhận xe tải/container xuất nhập hàng.<br>**Quan hệ**: FK trỏ `warehouse_id`; liên kết $1 \rightarrow N$ với `delivery_schedule_slot`.<br>**Vòng đời & Trigger**: Cập nhật `AVAILABLE` $\rightarrow$ `OCCUPIED` $\rightarrow$ `RESERVED` theo lịch xe cập bến.<br>**Phân định**: AIWS làm chủ 100% slotting bến xe. |
+| **11** | `WarehouseAisle` | `warehouse_aisle` | Nhóm 1: Hạ tầng kho | **AIWS Native Core** | **Mục đích**: Quản lý lối đi giữa các dãy kệ phục vụ thuật toán tìm đường đi xe nâng (Pathfinding Route Optimization).<br>**Quan hệ**: FK trỏ `zone_id`.<br>**Vòng đời & Trigger**: Sinh khi vẽ bản đồ kho.<br>**Phân định**: AIWS làm chủ 100%. |
+| **12** | `MaterialMaster` | `material_master` | Nhóm 2: Vật tư & BOM | AIWS Core DB (Ref SAP) | **Mục đích**: Danh mục SKU vật tư AIWS (kích thước, trọng lượng, UOM) & **cờ `is_packing_required` bẻ luồng song song sau KCS T-API5**.<br>**Quan hệ**: Đệ quy $1 \rightarrow N$ (`parent_material_id`); trỏ tới `material_bom_structure`, `material_serial_registry`, `stock_quant`.<br>**Vòng đời & Trigger**: Đồng bộ từ Material Master SAP.<br>**Phân định**: SAP sở hữu mã master; AIWS bổ sung thuộc tính vận hành kho. |
+| **13** | `MaterialBomStructure` | `material_bom_structure` | Nhóm 2: Vật tư & BOM | **AIWS Native Core** | **Mục đích**: Định mức phân rã danh mục từ Mã Cha (`ZPAR`) thành các Mã Con theo Packing List.<br>**Quan hệ**: FK trỏ `parent_material_id` và `child_material_id`.<br>**Vòng đời & Trigger**: Tra cứu tự động khi SAP đẩy `T-API1` hoặc khi KCS `T-API5` bóc tách.<br>**Phân định**: AIWS làm chủ quy tắc phân rã tác nghiệp. |
+| **14** | `MaterialSerialRegistry` | `material_serial_registry` | Nhóm 2: Vật tư & BOM | **AIWS Native Core** | **Mục đích**: Sổ cái quản lý danh mục số Serial đích danh của thiết bị viễn thông (Router, Switch, Card...).<br>**Quan hệ**: FK trỏ `material_id`.<br>**Vòng đời & Trigger**: Tạo khi quét nhập kho Task `T-Ho`/`T-AGR`; cập nhật `IN_STOCK` $\rightarrow$ `ISSUED` $\rightarrow$ `DEFECTIVE_REPAIRED`.<br>**Phân định**: AIWS làm chủ quản lý Serial hiện trường. |
+| **15** | `Employee` | `employee` | Nhóm 3: Nhân sự & Đối tác | **AIWS Native Core** | **Mục đích**: Hồ sơ nhân sự kho nội bộ (Thủ kho, NV dỡ hàng, NV đóng gói, Lái xe nâng, Bảo vệ).<br>**Quan hệ**: FK trỏ `warehouse_id`; trỏ $1 \rightarrow N$ tới `employee_role`, `task_assignment`.<br>**Vòng đời & Trigger**: Khởi tạo khi tuyển dụng/phân công.<br>**Phân định**: AIWS làm chủ danh mục nhân sự kho. |
+| **16** | `UserAccount` | `user_account` | Nhóm 3: Nhân sự & Đối tác | **AIWS Native Core** | **Mục đích**: Quản lý tài khoản đăng nhập Web/App cho cả nhân viên nội bộ và đối tác bên ngoài.<br>**Quan hệ**: FK trỏ `employee_id` hoặc `partner_id`.<br>**Vòng đời & Trigger**: Tạo khi cấp quyền sử dụng hệ thống.<br>**Phân định**: AIWS làm chủ xác thực hệ thống. |
+| **17** | `Role` | `role` | Nhóm 3: Nhân sự & Đối tác | **AIWS Native Core** | **Mục đích**: **Danh mục Role cốt lõi của Grab-style Task Engine** (`ROLE_WAREHOUSE_MASTER`, `ROLE_WAREHOUSE_WORKER`, `ROLE_FORKLIFT_DRIVER`...).<br>**Quan hệ**: $N-N$ với `employee` qua `employee_role`; trỏ $1 \rightarrow N$ tới `task_template`.<br>**Vòng đời & Trigger**: Danh mục bất biến hệ thống.<br>**Phân định**: AIWS làm chủ mô hình giao việc. |
+| **18** | `EmployeeRole` | `employee_role` | Nhóm 3: Nhân sự & Đối tác | **AIWS Native Core** | **Mục đích**: Bảng gán đa vai trò cho nhân sự (VD: Thủ kho kiêm Nhân viên kiểm đếm).<br>**Quan hệ**: FK trỏ `employee_id` và `role_id`.<br>**Vòng đời & Trigger**: Cập nhật khi phân công kiêm nhiệm.<br>**Phân định**: AIWS làm chủ 100%. |
+| **19** | `RolePermission` | `role_permission` | Nhóm 3: Nhân sự & Đối tác | **AIWS Native Core** | **Mục đích**: Phân quyền truy cập chi tiết API endpoint và chức năng màn hình UI.<br>**Quan hệ**: FK trỏ `role_id`.<br>**Vòng đời & Trigger**: Cấu hình phân quyền hệ thống.<br>**Phân định**: AIWS làm chủ 100%. |
+| **20** | `Partner` | `partner` | Nhóm 3: Nhân sự & Đối tác | AIWS Core DB (Ref SAP) | **Mục đích**: Danh mục đối tác ngoài (Nhà cung cấp NCC, Hãng xe TSA, Khách hàng).<br>**Quan hệ**: Đồng bộ mã `sap_vendor_code` từ SAP.<br>**Vòng đời & Trigger**: Tạo khi phát sinh giao dịch.<br>**Phân định**: SAP quản lý mã master; AIWS tham chiếu đối soát. |
+| **21** | `Driver` | `driver` | Nhóm 3: Nhân sự & Đối tác | **AIWS Native Core** | **Mục đích**: Thông tin tài xế giao/nhận hàng & số CCCD đối soát an ninh cổng `T-Scr`.<br>**Quan hệ**: FK trỏ `partner_id`.<br>**Vòng đời & Trigger**: Đăng ký khi cập bến/đặt lịch.<br>**Phân định**: AIWS làm chủ quản lý tài xế bến. |
+| **22** | `Vehicle` | `vehicle` | Nhóm 3: Nhân sự & Đối tác | **AIWS Native Core** | **Mục đích**: Danh sách phương tiện vận tải (Biển số xe, loại xe, tải trọng max).<br>**Quan hệ**: FK trỏ `partner_id`.<br>**Vòng đời & Trigger**: Đăng ký khi vào cổng/gán chuyến xe TMS.<br>**Phân định**: AIWS làm chủ quản lý xe bến. |
+| **23** | `WorkflowDomain` | `workflow_domain` | Nhóm 4: Phân cấp & Cấu hình | **AIWS Native Core** | **Mục đích**: Tầng 1: Phân hệ luồng lớn (`INBOUND`, `OUTBOUND`, `TRANSFER`, `INVENTORY`).<br>**Quan hệ**: Trỏ $1 \rightarrow N$ tới `process_profile`, `process_reason`, `process_config`.<br>**Vòng đời & Trigger**: Khởi tạo danh mục quy trình chuẩn.<br>**Phân định**: AIWS làm chủ kiến trúc 4 tầng. |
+| **24** | `ProcessReason` | `process_reason` | Nhóm 4: Phân cấp & Cấu hình | **AIWS Native Core** | **Mục đích**: Danh mục Lý do Nhập/Xuất kho (PO Mua mới, Thu hồi PS, Thu hồi PM, Xuất Cost Center...). 1 trong 3 thực thể quyết định quy trình.<br>**Quan hệ**: FK trỏ `domain_id`; trỏ $1 \rightarrow N$ tới `process_config`.<br>**Vòng đời & Trigger**: Cấu hình theo danh mục lý do nghiệp vụ.<br>**Phân định**: AIWS làm chủ 100%. |
+| **25** | `ProcessConfig` | `process_config` | Nhóm 4: Phân cấp & Cấu hình | **AIWS Native Core** | **Mục đích**: **Bảng Cấu hình Quy trình Trung tâm** ánh xạ Bộ 3 [Đơn vị QL + Lý do + Loại quy trình] → Danh sách Task.<br>**Quan hệ**: FK trỏ `mgmt_unit_id`, `reason_id`, `domain_id`; trỏ $1 \rightarrow N$ tới `process_config_task`.<br>**Vòng đời & Trigger**: Admin cấu hình trên UI Cấu hình Quy trình.<br>**Phân định**: AIWS làm chủ 100%. |
+| **26** | `ProcessConfigTask` | `process_config_task` | Nhóm 4: Phân cấp & Cấu hình | **AIWS Native Core** | **Mục đích**: Ánh xạ Task Template được chọn vào Cấu hình Quy trình kèm thứ tự `task_order` và cờ `is_required`.<br>**Quan hệ**: FK trỏ `config_id`, `template_id`.<br>**Vòng đời & Trigger**: Sinh/cập nhật khi lưu cấu hình trên UI.<br>**Phân định**: AIWS làm chủ 100%. |
+| **27** | `ProcessProfile` | `process_profile` | Nhóm 4: Phân cấp & Cấu hình | **AIWS Native Core** | **Mục đích**: Tầng 2: Quy trình nghiệp vụ cụ thể (`MM.10A`, `MM.10B`, `OUT.01A`...).<br>**Quan hệ**: FK trỏ `domain_id`; trỏ $1 \rightarrow N$ tới `process_stage`.<br>**Vòng đời & Trigger**: Áp dụng khi sinh Warehouse Order.<br>**Phân định**: AIWS làm chủ 100%. |
+| **28** | `ProcessStage` | `process_stage` | Nhóm 4: Phân cấp & Cấu hình | **AIWS Native Core** | **Mục đích**: Tầng 3: Các Cụm Giai Đoạn (Stage) phục vụ tính toán progress Dashboard % ($20\% \rightarrow 100\%$).<br>**Quan hệ**: FK trỏ `profile_id`.<br>**Vòng đời & Trigger**: Tự động tính toán khi hoàn thành Task.<br>**Phân định**: AIWS làm chủ 100%. |
+| **29** | `TaskTemplate` | `task_template` | Nhóm 4: Phân cấp & Cấu hình | **AIWS Native Core** | **Mục đích**: Tầng 4: **Master Catalog Mẫu Task Tác Nghiệp Core độc lập** (`T-Unl`, `T-Ho`, `T-Mv1`, `T-AGR`, `T-Pac`, `T-Mv3`) quy định Role, SLA phút, Chế độ 1P/2P.<br>**Quan hệ**: FK trỏ `role_id`; trỏ $1 \rightarrow N$ tới `process_config_task`, `warehouse_task`.<br>**Vòng đời & Trigger**: Mẫu chuẩn để sinh Warehouse Task.<br>**Phân định**: AIWS làm chủ 100%. |
+| **30** | `TaskDependencyRule` | `task_dependency_rule` | Nhóm 4: Phân cấp & Cấu hình | **AIWS Native Core** | **Mục đích**: Quy tắc phụ thuộc Task (Mở khóa tuần tự `SEQUENTIAL` hoặc bẻ luồng `PARALLEL_FORK`).<br>**Quan hệ**: FK trỏ `template_id` và `prerequisite_template_id`.<br>**Vòng đời & Trigger**: Tra cứu tự động khi hoàn thành Task.<br>**Phân định**: AIWS làm chủ 100%. |
+| **31** | `WarehouseOrder` | `warehouse_order` | Nhóm 5: Lệnh & Task Engine | **AIWS Native Core** | **Mục đích**: **Lệnh Kho Trung Tâm AIWS**. Sinh ra từ `T-API1`; Thủ kho duyệt `confirmed_at` chuyển `APPROVED` ➔ **TRIGGER Task Engine sinh chuỗi Task**.<br>**Quan hệ**: FK trỏ `profile_id`, `warehouse_id`, `sloc_id`.<br>**Vòng đời & Trigger**: `WAIT_CONFIRM` $\rightarrow$ `APPROVED` $\rightarrow$ `IN_PROGRESS` $\rightarrow$ `COMPLETED`.<br>**Phân định**: AIWS làm chủ thực thi Lệnh kho. |
+| **32** | `WarehouseOrderItem` | `warehouse_order_item` | Nhóm 5: Lệnh & Task Engine | **AIWS Native Core** | **Mục đích**: Chi tiết các dòng hàng thuộc Lệnh kho, bóc tách Mã Cha/Con sau KCS & **nơi lưu giữ Số Lô (`batch_no`) chính thức được gán**.<br>**Quan hệ**: FK trỏ `order_id`, `material_id`.<br>**Vòng đời & Trigger**: `PENDING` $\rightarrow$ `UNLOADED` $\rightarrow$ `KCS_PASSED` $\rightarrow$ `PACKED` $\rightarrow$ `STORED`.<br>**Phân định**: AIWS làm chủ quản lý dòng hàng. |
+| **33** | `OrderExtensionInboundNcc` | `order_extension_inbound_ncc` | Nhóm 5: Lệnh & Task Engine | **AIWS Native Core** | **Mục đích**: Thuộc tính mở rộng chuyên biệt cho Lệnh Nhập NCC (MM.10A): Số hợp đồng SAP, mã NCC, Packing List.<br>**Quan hệ**: FK trỏ `order_id`.<br>**Vòng đời & Trigger**: Tạo cùng Lệnh kho MM.10A.<br>**Phân định**: AIWS lưu vết chứng từ nhập. |
+| **34** | `OrderExtensionInboundReturn` | `order_extension_inbound_return` | Nhóm 5: Lệnh & Task Engine | **AIWS Native Core** | **Mục đích**: Thuộc tính mở rộng chuyên biệt cho Lệnh Nhập Thu Hồi (MM.10B/C/D): Reservation PS, PM Order, WBS.<br>**Quan hệ**: FK trỏ `order_id`.<br>**Vòng đời & Trigger**: Tạo cùng Lệnh kho Thu hồi.<br>**Phân định**: AIWS lưu vết chứng từ thu hồi. |
+| **35** | `OrderExtensionOutbound` | `order_extension_outbound` | Nhóm 5: Lệnh & Task Engine | **AIWS Native Core** | **Mục đích**: Thuộc tính mở rộng chuyên biệt cho Lệnh Xuất Kho (OUT.01A/B): Đơn vị nhận, địa chỉ giao, chuyến xe TMS.<br>**Quan hệ**: FK trỏ `order_id`.<br>**Vòng đời & Trigger**: Tạo cùng Lệnh xuất kho.<br>**Phân định**: AIWS lưu vết xuất kho. |
+| **36** | `WarehouseTask` | `warehouse_task` | Nhóm 5: Lệnh & Task Engine | **AIWS Native Core** | **Mục đích**: **Task Tác Nghiệp Thực Tế ("Grab Cuốc Xe")**.<br>**Quan hệ**: FK trỏ `order_id`, `template_id`, `stage_id`.<br>**Vòng đời & Trigger**: `NEW` $\rightarrow$ `AVAILABLE` $\rightarrow$ `IN_PROGRESS` $\rightarrow$ `COMPLETED`.<br>**Phân định**: AIWS làm chủ 100% Grab Engine. |
+| **37** | `TaskAssignment` | `task_assignment` | Nhóm 5: Lệnh & Task Engine | **AIWS Native Core** | **Mục đích**: Phân công & nhận việc Grab-style (giao việc 1 người hoặc **Joint Task 2 người dỡ xe cùng làm**).<br>**Quan hệ**: FK trỏ `task_id`, `employee_id`, `role_id`.<br>**Vòng đời & Trigger**: `ASSIGNED` $\rightarrow$ `ACCEPTED` $\rightarrow$ `IN_PROGRESS` $\rightarrow$ `FINISHED`.<br>**Phân định**: AIWS làm chủ 100%. |
+| **38** | `TaskItemDetail` | `task_item_detail` | Nhóm 5: Lệnh & Task Engine | **AIWS Native Core** | **Mục đích**: Ghi nhận số lượng thực tế kiểm đếm/đóng gói/cất kệ & mã Serial/Lô thao tác trong từng Task.<br>**Quan hệ**: FK trỏ `task_id`, `order_item_id`.<br>**Vòng đời & Trigger**: Ghi nhận khi làm Task.<br>**Phân định**: AIWS làm chủ 100%. |
+| **39** | `TaskEvidence` | `task_evidence` | Nhóm 5: Lệnh & Task Engine | **AIWS Native Core** | **Mục đích**: Bằng chứng di động (Ảnh dỡ hàng hỏng, chữ ký điện tử, mã quét RFID/Barcode).<br>**Quan hệ**: FK trỏ `task_id`.<br>**Vòng đời & Trigger**: Đính kèm khi hoàn thành Task.<br>**Phân định**: AIWS làm chủ 100%. |
+| **40** | `HandlingUnit` | `handling_unit` | Nhóm 6: Đóng gói & RFID | **AIWS Native Core** | **Mục đích**: Kiện hàng đóng gói (Thùng carton/Pallet) & **gán mã chip RFID EPC (`rfid_epc_code`)** tại Task 6 `T-Pac`.<br>**Quan hệ**: FK trỏ `order_id`, `tool_id`, `current_bin_id`.<br>**Vòng đời & Trigger**: `PACKING` $\rightarrow$ `STAGED` $\rightarrow$ `STORED_IN_BIN` $\rightarrow$ `DISPATCHED`.<br>**Phân định**: AIWS làm chủ 100% RFID HU. |
+| **41** | `HandlingUnitItem` | `handling_unit_item` | Nhóm 6: Đóng gói & RFID | **AIWS Native Core** | **Mục đích**: Chi tiết danh mục SKU vật tư, số lượng và số Lô (`batch_no`) đóng trong kiện HU.<br>**Quan hệ**: FK trỏ `hu_id`, `material_id`.<br>**Vòng đời & Trigger**: Tạo khi đóng gói Task `T-Pac`.<br>**Phân định**: AIWS làm chủ 100%. |
+| **42** | `PackingProposal` | `packing_proposal` | Nhóm 6: Đóng gói & RFID | **AIWS Native Core** | **Mục đích**: Gợi ý đóng gói tự động AIWS (Task T-S10): Đề xuất số kiện, loại vỏ thùng chứa tối ưu.<br>**Quan hệ**: FK trỏ `order_id`.<br>**Vòng đời & Trigger**: Sinh tự động trước bước `T-Pac`.<br>**Phân định**: AIWS làm chủ thuật toán gợi ý. |
+| **43** | `StockQuant` | `stock_quant` | Nhóm 7: Tồn kho Lõi | **AIWS Native Core** | **Mục đích**: **SỔ CÁI TỒN KHO THỰC TẾ TỨC THỜI DUY NHẤT TOÀN HỆ THỐNG AIWS** theo 6 chiều: [Kho + SLoc + Bin + SKU + Batch + Status].<br>**Quan hệ**: FK trỏ `warehouse_id`, `sloc_id`, `bin_id`, `material_id`, `hu_id`.<br>**Vòng đời & Trigger**: Cập nhật tức thì từ giao dịch `stock_move` (`T-Mv3`, `T-Pac`, `T-Ldg`).<br>**Phân định**: **AIWS sở hữu 100% tồn kho vật lý real-time**. |
+| **44** | `StockMove` | `stock_move` | Nhóm 7: Tồn kho Lõi | **AIWS Native Core** | **Mục đích**: **SỔ NHẬT KÝ BIẾN ĐỘNG TỒN KHO CHI TIẾT (AUDIT TRAIL)** ghi nhận 100% dịch chuyển từ Bin nguồn tới Bin đích.<br>**Quan hệ**: FK trỏ `task_id`, `order_id`, `material_id`, `from_bin_id`, `to_bin_id`.<br>**Vòng đời & Trigger**: Ghi nhật ký bất biến mỗi khi có cất/chuyển/xuất hàng.<br>**Phân định**: AIWS làm chủ 100%. |
+| **45** | `GateSecurityEvent` | `gate_security_event` | Nhóm 8: Chứng từ & An ninh | **AIWS Native Core** | **Mục đích**: Ghi nhận sự kiện xe vào/ra cổng kho do Bảo vệ thực hiện (Task `T-Scr`) & thời gian nằm bến (Dwell time).<br>**Quan hệ**: FK trỏ `order_id`, `vehicle_id`, `driver_id`.<br>**Vòng đời & Trigger**: `CHECKED_IN` $\rightarrow$ `LOADING_UNLOADING` $\rightarrow$ `CHECKED_OUT`.<br>**Phân định**: AIWS làm chủ 100% an ninh cổng. |
+| **46** | `DeliveryScheduleSlot` | `delivery_schedule_slot` | Nhóm 8: Chứng từ & An ninh | **AIWS Native Core** | **Mục đích**: Đặt lịch hẹn giờ xe cập bến (Dock Slotting) tránh ùn tắc cổng kho.<br>**Quan hệ**: FK trỏ `order_id`, `dock_id`.<br>**Vòng đời & Trigger**: `BOOKED` $\rightarrow$ `CONFIRMED` $\rightarrow$ `COMPLETED`.<br>**Phân định**: AIWS làm chủ 100%. |
+| **47** | `DeliveryHandoverRecord` | `delivery_handover_record` | Nhóm 8: Chứng từ & An ninh | **AIWS Native Core** | **Mục đích**: Biên bản bàn giao (BBBG) điện tử lập tại Task 2 `T-Ho` & chữ ký cảm ứng di động/CA.<br>**Quan hệ**: FK trỏ `order_id`.<br>**Vòng đời & Trigger**: Lập & ký tại Task `T-Ho`.<br>**Phân định**: AIWS làm chủ 100% BBBG di động. |
+| **48** | `KcsInspectionResult` | `kcs_inspection_result` | Nhóm 8: Chứng từ & An ninh | AIWS Core DB (Ref SAP) | **Mục đích**: Tiếp nhận kết quả KCS từ SAP (`T-API5`) để gắn trạng thái tồn kho `PASSED_UU` (Đạt) hoặc `FAILED_BLOCKED` (Khóa lỗi).<br>**Quan hệ**: FK trỏ `order_id`.<br>**Vòng đời & Trigger**: Nhận tin `T-API5` ➔ Cập nhật `stock_quant`.<br>**Phân định**: SAP sở hữu kết quả KCS; AIWS tiếp nhận thực thi. |
+| **49** | `VofficeSigningDossier` | `voffice_signing_dossier` | Nhóm 8: Chứng từ & An ninh | AIWS Core DB (Ref V-Off) | **Mục đích**: Quản lý hồ sơ trình ký V-Office Phiếu nhập/xuất kho (`T-Sig`) & chữ ký số CA.<br>**Quan hệ**: FK trỏ `order_id`.<br>**Vòng đời & Trigger**: `DRAFT` $\rightarrow$ `SUBMITTED` $\rightarrow$ `APPROVED`.<br>**Phân định**: V-Office xử lý luồng duyệt; AIWS lưu mã giao dịch `voffice_trans_id`. |
+| **50** | `VehicleDispatchSchedule` | `vehicle_dispatch_schedule` | Nhóm 9: Vận tải TMS | **AIWS Native Core** | **Mục đích**: Lịch điều phối chuyến xe vận tải xuất kho TMS (Task `T-S2`/`T-VDA`/`T-TSA`).<br>**Quan hệ**: FK trỏ `partner_id`, `vehicle_id`, `driver_id`.<br>**Vòng đời & Trigger**: `PLANNED` $\rightarrow$ `APPROVED_VDA` $\rightarrow$ `ASSIGNED_TSA` $\rightarrow$ `IN_TRANSIT` $\rightarrow$ `COMPLETED`.<br>**Phân định**: AIWS làm chủ 100% TMS xuất kho. |
+| **51** | `DispatchRouteStop` | `dispatch_route_stop` | Nhóm 9: Vận tải TMS | **AIWS Native Core** | **Mục đích**: Danh sách các điểm dừng giao hàng theo thứ tự tuyến đường (`stop_sequence`).<br>**Quan hệ**: FK trỏ `schedule_id`, `order_id`.<br>**Vòng đời & Trigger**: Tạo cùng chuyến xe TMS.<br>**Phân định**: AIWS làm chủ 100%. |
+| **52** | `VehicleTrackingLog` | `vehicle_tracking_log` | Nhóm 9: Vận tải TMS | **AIWS Native Core** | **Mục đích**: Nhật ký tọa độ GPS định vị phương tiện theo thời gian thực (V-Tracking).<br>**Quan hệ**: FK trỏ `schedule_id`.<br>**Vòng đời & Trigger**: Ghi log GPS định kỳ từ thiết bị định vị.<br>**Phân định**: AIWS làm chủ 100%. |
+| **53** | `SapInboundStagingHeader` | `sap_inbound_staging_header` | Nhóm 10: Tích hợp Staging | AIWS Staging Table | **Mục đích**: **Bảng Staging Tạm tiếp nhận bản tin Header `T-API1` đẩy từ SAP** (SAP Inbound Delivery VL31N).<br>**Quan hệ**: Trỏ $1 \rightarrow N$ tới `sap_inbound_staging_item`.<br>**Vòng đời & Trigger**: `PENDING` $\rightarrow$ `PROCESSED` $\rightarrow$ `ERROR`.<br>**Phân định**: Bảng tạm AIWS tiếp nhận SAP. |
+| **54** | `SapInboundStagingItem` | `sap_inbound_staging_item` | Nhóm 10: Tích hợp Staging | AIWS Staging Table | **Mục đích**: Bảng Staging Tạm tiếp nhận chi tiết các dòng hàng & Packing List từ SAP.<br>**Quan hệ**: FK trỏ `staging_header_id`.<br>**Vòng đời & Trigger**: Nhận cùng tin `T-API1`.<br>**Phân định**: Bảng tạm AIWS tiếp nhận SAP. |
+| **55** | `SapIntegrationMessageLog` | `sap_integration_message_log` | Nhóm 10: Tích hợp Staging | AIWS Staging Table | **Mục đích**: Sổ nhật ký lưu vết thông điệp API truyền nhận 2 chiều giữa SAP và AIWS (`T-API1..5`).<br>**Quan hệ**: FK trỏ `order_id`.<br>**Vòng đời & Trigger**: Ghi log tự động khi có gọi API.<br>**Phân định**: AIWS lưu vết tích hợp. |
+| **56** | `SlaAlertLog` | `sla_alert_log` | Nhóm 10: SLA & Log | **AIWS Native Core** | **Mục đích**: Lưu vết các cảnh báo vi phạm SLA quá hạn Task (`T-S11` 90% SLA / `T-S12` timeout).<br>**Quan hệ**: FK trỏ `task_id`.<br>**Vòng đời & Trigger**: Kích hoạt tự động từ SLA Engine.<br>**Phân định**: AIWS làm chủ SLA Engine. |
+| **57** | `SystemAuditLog` | `system_audit_log` | Nhóm 10: SLA & Log | **AIWS Native Core** | **Mục đích**: Sổ nhật ký Audit Trail ghi lại mọi hành vi tác động thay đổi dữ liệu của người dùng hệ thống.<br>**Quan hệ**: FK trỏ `user_id`.<br>**Vòng đời & Trigger**: Ghi vết tự động ở mọi API mutating state.<br>**Phân định**: AIWS làm chủ Audit Trail. |
+| **58** | `OrderExtensionOutbound` | `order_extension_outbound` | Nhóm 11: Mở rộng Xuất MM.11 | **AIWS Native Core** | **Mục đích**: Mở rộng dữ liệu Lệnh Xuất kho bán hàng SD (MM.11F) & Xuất kho dùng chung (Sales Order `VA01`, Outbound Delivery `VL01N`, Billing `VF01`, Lý do hủy PGI `VL09`).<br>**Quan hệ**: FK UK trỏ `warehouse_order.order_id`, FK trỏ `partner.partner_id`.<br>**Vòng đời & Trigger**: Tạo cùng Lệnh xuất kho SD.<br>**Phân định**: AIWS làm chủ quản lý thông tin xuất kho. |
+| **59** | `OrderExtensionOutboundPS` | `order_extension_outbound_ps` | Nhóm 11: Mở rộng Xuất MM.11 | **AIWS Native Core** | **Mục đích**: Mở rộng Lệnh Xuất kho Dự án PS / WBS (MM.11C). Quản lý WBS Mua sắm, WBS Công trình, Kho Nhà thầu xây lắp, và **URL / Lịch sử Upload Excel Serial (`GI-API4`)**.<br>**Quan hệ**: FK UK trỏ `warehouse_order.order_id`, FK trỏ `partner.partner_id`, `physical_warehouse.warehouse_id`.<br>**Vòng đời & Trigger**: Tạo cùng Lệnh xuất kho Dự án WBS.<br>**Phân định**: AIWS lưu vết giao dịch WBS & Excel Upload. |
+| **60** | `OrderExtensionOutboundPM` | `order_extension_outbound_pm` | Nhóm 11: Mở rộng Xuất MM.11 | **AIWS Native Core** | **Mục đích**: Mở rộng Lệnh Xuất kho Trạm / Bảo trì PM (MM.11D). Quản lý PM Work Order, Mã trạm viễn thông, Kỹ thuật viên tiếp nhận và **Cờ ưu tiên ứng cứu khẩn cấp (`is_urgent_priority`)**.<br>**Quan hệ**: FK UK trỏ `warehouse_order.order_id`, FK trỏ `employee.employee_id`.<br>**Vòng đời & Trigger**: Tạo cùng Lệnh xuất trạm PM.<br>**Phân định**: AIWS ưu tiên điều phối Task xuất khẩn cấp. |
+| **61** | `OrderExtensionOutboundReturnSupplier` | `order_extension_outbound_return_supplier` | Nhóm 11: Mở rộng Xuất MM.11 | **AIWS Native Core** | **Mục đích**: Mở rộng Lệnh Xuất kho Trả hàng NCC (MM.11E). Quản lý Return PO (`ME21N`), Lịch sử lô KCS bị từ chối và Kho cách ly Blocked Stock.<br>**Quan hệ**: FK UK trỏ `warehouse_order.order_id`, FK trỏ `kcs_inspection_result.kcs_id`.<br>**Vòng đời & Trigger**: Tạo khi xuất trả hàng lỗi NCC.<br>**Phân định**: AIWS định vị xuất từ kho Blocked Stock. |
+| **62** | `OrderExtensionOutboundOther` | `order_extension_outbound_other` | Nhóm 11: Mở rộng Xuất MM.11 | **AIWS Native Core** | **Mục đích**: Mở rộng Lệnh Xuất kho Khác (MM.11G Z06/Z07/Z11). Quản lý loại xuất (`Z06_DISASTER`, `Z07_EMPLOYEE_LOSS`, `Z11_LENT_RETURN`), Mã Tường trình sự cố Non-SAP, Nhân viên bồi thường và NCC cho mượn.<br>**Quan hệ**: FK UK trỏ `warehouse_order.order_id`, FK trỏ `employee.employee_id`, `partner.partner_id`.<br>**Vòng đời & Trigger**: Tạo khi phát sinh xuất kho khác.<br>**Phân định**: AIWS lưu vết kịch bản xuất đặc thù. |
+| **63** | `SInvoiceETransitSlip` | `sinvoice_e_transit_slip` | Nhóm 11: Mở rộng Xuất MM.11 | AIWS Core DB (Ref S-Inv) | **Mục đích**: Bảng quản lý chứng từ **Phiếu xuất kho kiêm Vận chuyển nội bộ (PXKKVC)** điện tử từ hệ thống S-Invoice (`GI-API6`).<br>**Quan hệ**: FK trỏ `warehouse_order.order_id`.<br>**Vòng đời & Trigger**: `DRAFT` $\rightarrow$ `ISSUED` $\rightarrow$ `CANCELED`.<br>**Phân định**: S-Invoice cấp mã; AIWS lưu vết chứng từ vận chuyển. |
 
 ---
 
-# PHẦN 3: TỪ ĐIỂN DỮ LIỆU CHI TIẾT 59 THỰC THỂ AIWS (DATA DICTIONARY)
+# PHẦN 3: TỪ ĐIỂN DỮ LIỆU CHI TIẾT 63 THỰC THỂ AIWS (DATA DICTIONARY)
 
 ---
 
-## NHÓM 1: MASTER DATA HẠ TẦNG KHO VẬT LÝ & MẶT BẰNG (10 Thực thể)
+## NHÓM 1: MASTER DATA HẠ TẦNG KHO VẬT LÝ & TỔ CHỨC (11 Thực thể)
 
-### 1. `Plant` (Tên Bảng DB: `plant`)
-*Mô tả: Bảng quản lý danh mục Đơn vị / Chi nhánh cấp cao nhất theo cấu trúc quản trị Viettel (Tham chiếu SAP Plant).*
+### 1. `ManagementUnit` (Tên Bảng DB: `management_unit`)
+*Mô tả: Bảng quản lý danh mục Đơn vị Quản lý cấp cao trong hệ thống AIWS (Quản lý nhiều Plant/Chi nhánh). Là 1 trong 3 thực thể chính quyết định cấu hình quy trình.*
+
+| STT | Tên Cột (Column Name) | Kiểu Dữ Liệu (Data Type) | Ràng Buộc (Constraints) | Mô Tả & Quy Tắc Nghiệp Vụ (Description & Rules) |
+|---|---|---|---|---|
+| 1 | `mgmt_unit_id` | `UUID` | `PK, NOT NULL` | Định danh duy nhất Đơn vị quản lý trong hệ thống AIWS. |
+| 2 | `unit_code` | `VARCHAR(50)` | `UK, NOT NULL` | Mã Đơn vị quản lý (VD: `VTN`, `VTS`). |
+| 3 | `unit_name` | `VARCHAR(255)` | `NOT NULL` | Tên Đơn vị quản lý (VD: "Viettel Networks", "Viettel Solutions"). |
+| 4 | `description` | `TEXT` | `NULL` | Mô tả chi tiết đơn vị quản lý. |
+| 5 | `is_active` | `BOOLEAN` | `NOT NULL, DEFAULT true` | Trạng thái hoạt động của đơn vị. |
+| 6 | `created_at` | `TIMESTAMP` | `NOT NULL` | Thời điểm khởi tạo bản ghi dữ liệu. |
+
+---
+
+### 2. `Plant` (Tên Bảng DB: `plant`)
+*Mô tả: Bảng quản lý danh mục Chi nhánh / Đơn vị trực thuộc Đơn vị quản lý theo cấu trúc SAP (Tham chiếu SAP Plant).*
 
 | STT | Tên Cột (Column Name) | Kiểu Dữ Liệu (Data Type) | Ràng Buộc (Constraints) | Mô Tả & Quy Tắc Nghiệp Vụ (Description & Rules) |
 |---|---|---|---|---|
 | 1 | `plant_id` | `UUID` | `PK, NOT NULL` | Định danh duy nhất Plant trong hệ thống AIWS. |
-| 2 | `sap_plant_code` | `VARCHAR(10)` | `UK, NOT NULL` | Mã Plant tham chiếu từ SAP ERP (VD: `VN01`, `HN01`). |
-| 3 | `plant_name` | `VARCHAR(255)` | `NOT NULL` | Tên Chi nhánh / Đơn vị quản lý cấp cao. |
-| 4 | `created_at` | `TIMESTAMP` | `NOT NULL` | Thời điểm khởi tạo bản ghi dữ liệu. |
+| 2 | `mgmt_unit_id` | `UUID` | `FK, NOT NULL` | Trỏ tới `management_unit.mgmt_unit_id` — Thuộc Đơn vị quản lý nào. |
+| 3 | `sap_plant_code` | `VARCHAR(10)` | `UK, NOT NULL` | Mã Plant tham chiếu từ SAP ERP (VD: `VN01`, `HN01`). |
+| 4 | `plant_name` | `VARCHAR(255)` | `NOT NULL` | Tên Chi nhánh / Đơn vị thực thi. |
+| 5 | `created_at` | `TIMESTAMP` | `NOT NULL` | Thời điểm khởi tạo bản ghi dữ liệu. |
 
 ---
 
-### 2. `StorageLocation` (Tên Bảng DB: `storage_location`)
+### 3. `StorageLocation` (Tên Bảng DB: `storage_location`)
 *Mô tả: Bảng quản lý kho logic hạch toán Kế toán tài chính trên SAP ERP (Tham chiếu SAP SLoc).*
 
 | STT | Tên Cột (Column Name) | Kiểu Dữ Liệu (Data Type) | Ràng Buộc (Constraints) | Mô Tả & Quy Tắc Nghiệp Vụ (Description & Rules) |
@@ -1020,10 +1084,10 @@ erDiagram
 
 ---
 
-## NHÓM 4: PHÂN CẤP QUY TRÌNH 4 TẦNG & CATALOG TASK ENGINE (5 Thực thể)
+## NHÓM 4: PHÂN CẤP QUY TRÌNH & CẤU HÌNH TASK ENGINE (8 Thực thể)
 
-### 22. `WorkflowDomain` (Tên Bảng DB: `workflow_domain`)
-*Mô tả: Tầng 1 trong Kiến trúc Phân cấp Quy trình 4 Tầng — Phân hệ luồng lớn trong chuỗi cung ứng.*
+### 23. `WorkflowDomain` (Tên Bảng DB: `workflow_domain`)
+*Mô tả: Tầng 1 trong Kiến trúc Phân cấp Quy trình 4 Tầng — Phân hệ luồng lớn trong chuỗi cung ứng (Nhập kho, Xuất kho, Chuyển kho, Kiểm kê).*
 
 | STT | Tên Cột (Column Name) | Kiểu Dữ Liệu (Data Type) | Ràng Buộc (Constraints) | Mô Tả & Quy Tắc Nghiệp Vụ (Description & Rules) |
 |---|---|---|---|---|
@@ -1033,8 +1097,55 @@ erDiagram
 
 ---
 
-### 23. `ProcessProfile` (Tên Bảng DB: `process_profile`)
-*Mô tả: Tầng 2 trong Kiến trúc Phân cấp Quy trình 4 Tầng — Quy trình Nghiệp vụ Cụ thể.*
+### 24. `ProcessReason` (Tên Bảng DB: `process_reason`)
+*Mô tả: Danh mục Lý do Nhập/Xuất kho nghiệp vụ (PO Mua mới, Thu hồi PS, Thu hồi PM, Xuất Cost Center, Xuất dự án WBS...). Là 1 trong 3 thực thể chính quyết định cấu hình quy trình.*
+
+| STT | Tên Cột (Column Name) | Kiểu Dữ Liệu (Data Type) | Ràng Buộc (Constraints) | Mô Tả & Quy Tắc Nghiệp Vụ (Description & Rules) |
+|---|---|---|---|---|
+| 1 | `reason_id` | `UUID` | `PK, NOT NULL` | Định danh duy nhất lý do nhập/xuất. |
+| 2 | `domain_id` | `UUID` | `FK, NOT NULL` | Trỏ tới `workflow_domain.domain_id` — Thuộc phân hệ INBOUND hay OUTBOUND. |
+| 3 | `reason_code` | `VARCHAR(50)` | `UK, NOT NULL` | Mã lý do (`INB_PO_PURCHASE`, `INB_PS_RETURN`, `OUT_COST_CENTER`...). |
+| 4 | `reason_name` | `VARCHAR(255)` | `NOT NULL` | Tên hiển thị lý do nghiệp vụ tiếng Việt. |
+| 5 | `description` | `TEXT` | `NULL` | Mô tả chi tiết lý do nghiệp vụ. |
+| 6 | `is_active` | `BOOLEAN` | `NOT NULL, DEFAULT true` | Trạng thái hoạt động. |
+| 7 | `created_at` | `TIMESTAMP` | `NOT NULL` | Thời điểm khởi tạo bản ghi. |
+
+---
+
+### 25. `ProcessConfig` (Tên Bảng DB: `process_config`)
+*Mô tả: Bảng trung tâm Cấu hình Quy trình ánh xạ Bộ 3 điều kiện: [Đơn vị quản lý + Lý do nhập/xuất + Loại quy trình Nhập/Xuất] → Định nghĩa cấu hình quy trình.*
+
+| STT | Tên Cột (Column Name) | Kiểu Dữ Liệu (Data Type) | Ràng Buộc (Constraints) | Mô Tả & Quy Tắc Nghiệp Vụ (Description & Rules) |
+|---|---|---|---|---|
+| 1 | `config_id` | `UUID` | `PK, NOT NULL` | Định danh duy nhất cấu hình quy trình. |
+| 2 | `mgmt_unit_id` | `UUID` | `FK, NOT NULL` | Trỏ tới `management_unit.mgmt_unit_id` — Đơn vị quản lý áp dụng. |
+| 3 | `reason_id` | `UUID` | `FK, NOT NULL` | Trỏ tới `process_reason.reason_id` — Lý do nhập/xuất áp dụng. |
+| 4 | `domain_id` | `UUID` | `FK, NOT NULL` | Trỏ tới `workflow_domain.domain_id` — Phân hệ INBOUND hoặc OUTBOUND. |
+| 5 | `config_name` | `VARCHAR(255)` | `NOT NULL` | Tên cấu hình hiển thị (VD: "Quy trình Nhập mua mới NCC - VTN"). |
+| 6 | `is_active` | `BOOLEAN` | `NOT NULL, DEFAULT true` | Cờ trạng thái đang kích hoạt áp dụng. |
+| 7 | `created_at` | `TIMESTAMP` | `NOT NULL` | Thời điểm tạo cấu hình. |
+| 8 | `updated_at` | `TIMESTAMP` | `NOT NULL` | Thời điểm cập nhật cấu hình gần nhất. |
+| - | - | - | `UK(mgmt_unit_id, reason_id, domain_id)` | Ràng buộc duy nhất bộ 3 điều kiện. |
+
+---
+
+### 26. `ProcessConfigTask` (Tên Bảng DB: `process_config_task`)
+*Mô tả: Bảng ánh xạ chi tiết các Task Template được chọn vào cấu hình quy trình kèm thứ tự thực hiện và cờ bắt buộc.*
+
+| STT | Tên Cột (Column Name) | Kiểu Dữ Liệu (Data Type) | Ràng Buộc (Constraints) | Mô Tả & Quy Tắc Nghiệp Vụ (Description & Rules) |
+|---|---|---|---|---|
+| 1 | `config_task_id` | `UUID` | `PK, NOT NULL` | Định danh duy nhất bản ghi gán task vào cấu hình. |
+| 2 | `config_id` | `UUID` | `FK, NOT NULL` | Trỏ tới `process_config.config_id` — Thuộc cấu hình quy trình nào. |
+| 3 | `template_id` | `UUID` | `FK, NOT NULL` | Trỏ tới `task_template.template_id` — Task Template được chọn từ Master Catalog. |
+| 4 | `task_order` | `INT` | `NOT NULL` | Thứ tự thực hiện task trong chuỗi quy trình (1, 2, 3...). |
+| 5 | `is_required` | `BOOLEAN` | `NOT NULL, DEFAULT true` | Task bắt buộc thực hiện hay là bước tùy chọn. |
+| 6 | `created_at` | `TIMESTAMP` | `NOT NULL` | Thời điểm gán task vào cấu hình. |
+| - | - | - | `UK(config_id, template_id)` | Không được chọn trùng 1 task template trong 1 cấu hình. |
+
+---
+
+### 27. `ProcessProfile` (Tên Bảng DB: `process_profile`)
+*Mô tả: Tầng 2 trong Kiến trúc Phân cấp Quy trình 4 Tầng — Quy trình Nghiệp vụ Cụ thể (`MM.10A`, `MM.10B`, `MM.10C`, `OUT.01A`...).*
 
 | STT | Tên Cột (Column Name) | Kiểu Dữ Liệu (Data Type) | Ràng Buộc (Constraints) | Mô Tả & Quy Tắc Nghiệp Vụ (Description & Rules) |
 |---|---|---|---|---|
@@ -1047,7 +1158,7 @@ erDiagram
 
 ---
 
-### 24. `ProcessStage` (Tên Bảng DB: `process_stage`)
+### 28. `ProcessStage` (Tên Bảng DB: `process_stage`)
 *Mô tả: Tầng 3 — Cụm Giai Đoạn (Stage) phục vụ tính toán phần trăm đóng góp tiến độ thanh Dashboard.*
 
 | STT | Tên Cột (Column Name) | Kiểu Dữ Liệu (Data Type) | Ràng Buộc (Constraints) | Mô Tả & Quy Tắc Nghiệp Vụ (Description & Rules) |
@@ -1060,23 +1171,21 @@ erDiagram
 
 ---
 
-### 25. `TaskTemplate` (Tên Bảng DB: `task_template`)
-*Mô tả: Tầng 4 — Catalog Mẫu Task Tác Nghiệp Core quy định Role, SLA phút và Chế độ thực thi 1P/2P.*
+### 29. `TaskTemplate` (Tên Bảng DB: `task_template`)
+*Mô tả: Tầng 4 — Master Catalog Mẫu Task Tác Nghiệp Core độc lập toàn hệ thống (`T-Unl`, `T-Ho`, `T-Mv1`, `T-AGR`, `T-Pac`, `T-Mv3`...), quy định Role, SLA định mức và Chế độ thực thi 1P/2P.*
 
 | STT | Tên Cột (Column Name) | Kiểu Dữ Liệu (Data Type) | Ràng Buộc (Constraints) | Mô Tả & Quy Tắc Nghiệp Vụ (Description & Rules) |
 |---|---|---|---|---|
 | 1 | `template_id` | `UUID` | `PK, NOT NULL` | Định danh duy nhất mẫu Task. |
-| 2 | `profile_id` | `UUID` | `FK, NOT NULL` | Trỏ tới `process_profile.profile_id` — Thuộc Profile nào. |
-| 3 | `stage_id` | `UUID` | `FK, NOT NULL` | Trỏ tới `process_stage.stage_id` — Thuộc Stage nào. |
-| 4 | `role_id` | `UUID` | `FK, NOT NULL` | Trỏ tới `role.role_id` — Role chịu trách nhiệm thực hiện Task. |
-| 5 | `task_type_code` | `VARCHAR(50)` | `UK, NOT NULL` | Mã mẫu Task (`T-Unl`, `T-Ho`, `T-Mv1`, `T-AGR`, `T-Pac`, `T-Mv3`). |
-| 6 | `template_name` | `VARCHAR(255)` | `NOT NULL` | Tên công việc tác nghiệp thực tế. |
-| 7 | `default_sla_minutes` | `INT` | `NOT NULL, DEFAULT 60` | SLA định mức chuẩn của Task (phút). |
-| 8 | `execution_mode` | `VARCHAR(30)` | `NOT NULL, DEFAULT 'SINGLE_USER'` | Chế độ thực thi (`ENUM: SINGLE_USER, JOINT_USER_2P, AUTOMATIC_SYSTEM`). |
+| 2 | `role_id` | `UUID` | `FK, NOT NULL` | Trỏ tới `role.role_id` — Role chịu trách nhiệm thực hiện Task. |
+| 3 | `task_type_code` | `VARCHAR(50)` | `UK, NOT NULL` | Mã mẫu Task (`T-Unl`, `T-Ho`, `T-Mv1`, `T-AGR`, `T-Pac`, `T-Mv3`). |
+| 4 | `template_name` | `VARCHAR(255)` | `NOT NULL` | Tên công việc tác nghiệp thực tế. |
+| 5 | `default_sla_minutes` | `INT` | `NOT NULL, DEFAULT 60` | SLA định mức chuẩn của Task (phút). |
+| 6 | `execution_mode` | `VARCHAR(30)` | `NOT NULL, DEFAULT 'SINGLE_USER'` | Chế độ thực thi (`ENUM: SINGLE_USER, JOINT_USER_2P, AUTOMATIC_SYSTEM`). |
 
 ---
 
-### 26. `TaskDependencyRule` (Tên Bảng DB: `task_dependency_rule`)
+### 30. `TaskDependencyRule` (Tên Bảng DB: `task_dependency_rule`)
 *Mô tả: Quản lý quy tắc phụ thuộc giữa các Task (mở khóa tuần tự SEQUENTIAL hoặc bẻ luồng PARALLEL_FORK).*
 
 | STT | Tên Cột (Column Name) | Kiểu Dữ Liệu (Data Type) | Ràng Buộc (Constraints) | Mô Tả & Quy Tắc Nghiệp Vụ (Description & Rules) |
