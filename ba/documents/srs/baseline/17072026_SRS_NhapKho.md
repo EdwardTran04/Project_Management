@@ -323,6 +323,47 @@ Tài liệu gồm 05 phần: Giới thiệu; Tổng quan giải pháp; Thiết k
 | Đưa vào khu vực lưu trữ      |              2 | Danh sách hàng không cần đóng gói |
 | Đưa vào khu vực lưu trữ      |              2 | Danh sách hàng cần đóng gói       |
 
+#### Quy tắc Cấu hình và Tính toán SLA/KPI
+
+- **Căn cứ xác định khối lượng:** Hệ thống tính toán SLA căn cứ vào **Tổng khối lượng của toàn bộ Lệnh nhập kho** (`total_weight_kg = SUM(item.gross_weight_kg)` của Order đồng bộ từ SAP).
+- **Phân loại Task và Cơ chế tính:**
+  - **Nhóm Task tác nghiệp vật lý** (Dỡ hàng, Kiểm hàng, Chuyển bãi, Đóng gói, Cất hàng lưu trữ): Thời lượng định mức SLA được tính linh hoạt theo **Dải khối lượng cấu hình** (ví dụ: $[1, 500\text{ kg}) = 30\text{ phút}$; $[500, 1000\text{ kg}) = 60\text{ phút}$; $[1000, 3000\text{ kg}) = 120\text{ phút}$...).
+  - **Nhóm Task thủ tục & chứng từ** (Ký BBBG điện tử, Trình ký V-Office): Thời lượng định mức SLA được thiết lập **Cố định (Fixed Duration)** độc lập với khối lượng hàng hóa.
+- **Khung giờ làm việc & Lịch kho chuẩn (Working Calendar):**
+  - Khung giờ hành chính: Ca Sáng **`08:00 - 12:00`** (4.0 giờ) và Ca Chiều **`13:30 - 17:30`** (4.0 giờ) ➔ Tổng 8.0 giờ/ngày.
+  - Ngày làm việc: Từ **Thứ Hai đến Thứ Bảy** (Chủ Nhật và ngày lễ nghỉ).
+  - Buffer nghỉ ngơi: Cộng thêm **`5 phút`** đệm nghỉ sau mỗi Task hoàn thành để chuyển giao công việc.
+- **Công thức tính Deadline:**
+  - $Deadline_{\text{Task}} = \text{Bắt đầu Task} + SLA_{\text{Task}} + \text{Thời gian ngoài giờ hành chính / Nghỉ trưa / Nghỉ CN}$.
+  - $Deadline_{\text{Order}} = \text{Bắt đầu Lệnh} + \sum SLA_{\text{Task}} + \sum (\text{Buffer 5 phút}) + \text{Thời gian ngoài giờ làm việc}$.
+  - **2 trạng thái SLA:** `TRONG HẠN` ($\text{Hiện tại} \le Deadline$) và `QUÁ HẠN` ($\text{Hiện tại} > Deadline$).
+
+#### Quy tắc Nghiệp vụ Gia hạn SLA/KPI (`[T-Extend]`)
+
+- **Giới hạn số lần:** Cho phép gia hạn **tối đa 01 lần / Task**. Sau khi đã gia hạn 1 lần, nút gia hạn trên Task sẽ bị vô hiệu hóa.
+- **Thời điểm xin gia hạn:** Bắt buộc phải thực hiện **TRƯỚC KHI Task bị quá hạn** ($\text{Thời gian hiện tại} \le Deadline_{\text{Task}}$). Khi Task đã `QUÁ HẠN`, hệ thống chặn không cho gia hạn.
+- **Thời lượng gia hạn:** Tùy biến số phút/giờ theo nhu cầu thực tế, không giới hạn trần thời gian tối đa.
+- **Cơ chế duyệt:** **Không cần phê duyệt** (Auto-Approved). Hệ thống tự động ghi nhận ngay lập tức.
+- **Tác động tịnh tiến:**
+  - $Deadline_{\text{Task mới}} = Deadline_{\text{Task cũ}} + \text{Thời gian xin gia hạn}$.
+  - $Deadline_{\text{Order mới}} = Deadline_{\text{Order cũ}} + \text{Thời gian xin gia hạn của Task}$.
+  - Lưu vết lịch sử vào bảng `task_sla_extension_log`.
+
+#### Quy tắc Giao việc Tự động & Giao việc Song song (Auto-Dispatching)
+
+- **Điều kiện Giao việc Song song:** Kích hoạt khi thời gian hành chính còn lại trong ngày không đủ cho 1 người hoàn thành HOẶC theo ngưỡng thời lượng SLA của Task:
+  - $SLA \le 4\text{ giờ}$: Giao **1 người** phụ trách.
+  - $4\text{ giờ} < SLA \le 8\text{ giờ}$: Giao **2 người** làm việc song song ➔ $SLA_{\text{mới}} = SLA_{\text{gốc}} \times 70\%$.
+  - $SLA > 8\text{ giờ}$: Giao **3 người** làm việc song song ➔ $SLA_{\text{mới}} = SLA_{\text{gốc}} \times 45\%$.
+  - Trần số lượng: Không cấu hình quá 3 người / 1 Task.
+- **Hình thức thực thi:** Vẫn là **01 Task duy nhất**, gán đồng thời danh sách ID nhân viên phụ trách (`assignee_ids`). Cả 2 hoặc 3 người đều thấy task trên app, cùng thao tác và bất kỳ ai cũng có thể bấm hoàn thành khi xong.
+- **Điều kiện Xe nâng:** Hàng hóa có tổng khối lượng $> 1,000\text{ kg}$ (1 tấn) HOẶC gắn cờ **Quá khổ / Quá tải** ➔ Bắt buộc giao cho nhân viên có chứng chỉ/kỹ năng lái xe nâng (`has_forklift_license = TRUE`).
+- **Ma trận Ưu tiên Giao việc:**
+  1. `Loại Task`: Task Xuất kho (`OUTBOUND`) > Task Nhập kho (`INBOUND`).
+  2. `Mức độ khẩn cấp`: Deadline gần nhất (*Earliest Deadline First - EDF*).
+  3. `Tối ưu thời gian`: Giảm thiểu tối đa số phút vượt quá deadline (*Minimize Total Tardiness*).
+  4. `Nhân viên`: Nhân viên rảnh việc trước (*FIFO Idle Workers*).
+
 ############################### 2 Trường điều khiển
 
 | ***Loại trường***                              | ***Đặc điểm***                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
@@ -537,8 +578,8 @@ Quy trình nghiệp vụ từ khi SAP đồng bộ order về AIWS đến khi kh
 |          2 | Xác định flow nhập/xuất                         | Task Rule Engine xác định Order thuộc luồng nghiệp vụ nào, ví dụ nhập kho, xuất kho, nhập NCC, nhập chuyển kho, xuất có vận chuyển hoặc xuất khác. Việc xác định flow giúp hệ thống chọn đúng cấu hình task cần sinh.                       |
 |          3 | Đọc Task Template                               | Hệ thống đọc cấu hình Task Template tương ứng với flow nghiệp vụ đã xác định. Task Template quy định danh sách task cần thực hiện, thứ tự task, điều kiện sinh task và quan hệ phụ thuộc giữa các task.                                     |
 |          4 | Xác định task, thứ tự, dependency               | Task Rule Engine xác định các task cụ thể cần sinh cho Order, bao gồm task nào thực hiện trước, task nào thực hiện sau, task nào có thể thực hiện song song và task nào chỉ được thực hiện khi task trước đã hoàn thành.                    |
-|          5 | Đọc rule nhân sự, lịch làm việc, chức danh, KPI | Hệ thống đọc các rule phục vụ phân công task, gồm nhân sự thuộc kho, lịch làm việc/ca làm việc, chức danh, nhiệm vụ được phép thực hiện, năng lực xử lý task và chỉ tiêu KPI/SLA tương ứng.                                                 |
-|          6 | Tạo phương án lịch giao việc                    | Task Rule Engine căn cứ vào danh sách task, dependency, rule nhân sự và lịch làm việc để tạo phương án lịch giao việc. Phương án này gồm task cần giao, người được đề xuất thực hiện, thời gian dự kiến bắt đầu/kết thúc và mức độ ưu tiên. |
+|          5 | Đọc rule nhân sự, lịch làm việc, chức danh, KPI | Hệ thống đọc các rule phục vụ phân công task: nhân sự thuộc kho, lịch làm việc/ca trực (08:00-12:00, 13:30-17:30 Thứ 2-7), chức danh/vai trò, kỹ năng/chứng chỉ xe nâng (`has_forklift_license`), năng lực xử lý, và SLA định mức tính theo tổng khối lượng Lệnh. |
+|          6 | Tạo phương án lịch giao việc                    | Task Rule Engine tự động tính toán phương án giao việc tối ưu: <br>1. **Phân bổ song song:** Nếu thời gian trong ca không đủ hoặc theo ngưỡng SLA: $SLA \le 4\text{h}$ giao 1 người; $4\text{h} < SLA \le 8\text{h}$ giao 2 người ($SLA \times 70\%$); $SLA > 8\text{h}$ giao 3 người ($SLA \times 45\%$). Tối đa 3 người/task.<br>2. **Điều kiện xe nâng:** Hàng $> 1\text{ tấn}$ hoặc quá khổ/quá tải bắt buộc giao cho người có chứng chỉ xe nâng.<br>3. **Ma trận ưu tiên:** Ưu tiên Task Xuất > Task Nhập, Deadline gần nhất (EDF), giảm thiểu trễ hạn, và FIFO nhân viên rảnh trước. |
 |          7 | Trình phê duyệt lịch giao việc                  | Sau khi tạo phương án lịch giao việc, hệ thống chuyển phương án sang bước phê duyệt. Người có quyền phê duyệt trong sơ đồ là Giám đốc kho.                                                                                                  |
 |          8 | Giám đốc kho xem xét phương án                  | Giám đốc kho kiểm tra phương án lịch giao việc, bao gồm danh sách task, nhân sự được giao, thời gian thực hiện, tính hợp lý của lịch làm việc và khả năng đáp ứng KPI.                                                                      |
 |          9 | Kiểm tra phê duyệt                              | Hệ thống ghi nhận quyết định phê duyệt của Giám đốc kho. Có hai khả năng: Duyệt hoặc Không duyệt.                                                                                                                                           |
