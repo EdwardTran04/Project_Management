@@ -1743,7 +1743,7 @@ Nhóm chức năng Đóng gói hàng (Task 6 — `T-Pac`) phục vụ nhân sự
 *Giao diện được thiết kế theo cấu trúc Master-Detail Grid (Lưới dữ liệu kiện hàng) bao gồm các vùng hiển thị chính:*
 1. **Khối Header & Thông tin tóm tắt lệnh:** Nút Quay lại `[←]`, Tiêu đề `ĐÓNG GÓI & IN TEM`, Cụm nút tác vụ (`[Gia hạn KPI]`, `[✓ Hoàn thành]`, `[Lịch sử]`), và thanh thông tin tóm tắt (`Trạng thái`, `SLA / KPI`, `Order`, `Loại task`, `Tổng trọng lượng`, `Tổng thể tích`, `Tổng giá trị`, `Phụ trách`).
 2. **Khối Thẻ KPI (Summary Cards):** Thẻ "TỔNG SẢN PHẨM" (icon kiện đỏ, hiển thị tổng số lượng sản phẩm cần đóng) và Thẻ phân loại bao bì ("THÙNG GỖ", "THÙNG CARTON"...).
-3. **Khối Lưới dữ liệu Kiện hàng (Master Grid):** Tiêu đề lưới `LƯỚI DỮ LIỆU KIỆN HÀNG (X)`, cụm nút hành động (`[+ Thêm kiện hàng]`, `[Lưu kiện]`). Bảng Master hiển thị từng kiện hàng với các cột: Icon expand `v`, Mã kiện hàng, Mã RFID, Loại Carton (Dropdown), Chi tiết sản phẩm (Badges tóm tắt), Tổng SL serial, Nút in nhãn, Icon xóa kiện.
+3. **Khối Lưới dữ liệu Kiện hàng (Master Grid):** Tiêu đề lưới `LƯỚI DỮ LIỆU KIỆN HÀNG (X)`, cụm nút hành động (`[+ Thêm kiện hàng]`, `[Lưu kiện]`, `[📤 Import Excel]`, `[📥 Xuất Excel]`). Bảng Master hiển thị từng kiện hàng với các cột: Icon expand `v`, Mã kiện hàng, Mã RFID, Loại Carton (Dropdown), Chi tiết sản phẩm (Badges tóm tắt), Tổng SL serial, Nút in nhãn, Icon xóa kiện.
 4. **Khối Chi tiết vật tư bên trong kiện (Sub-grid khi expand):** Mở rộng dưới từng dòng kiện với tiêu đề "CHI TIẾT VẬT TƯ BÊN TRONG KIỆN: {Mã HU}", Tag nhãn "Chế độ đóng gói theo Serial (Quản lý SAP vs NSX)", danh sách các cột thuộc tính chi tiết của sản phẩm/serial và icon xóa từng sản phẩm.
 
 *(Tham chiếu ảnh thiết kế UI màn hình đính kèm: UI_DongGoi_InTem_MasterDetail.png)*
@@ -1774,6 +1774,8 @@ Nhóm chức năng Đóng gói hàng (Task 6 — `T-Pac`) phục vụ nhân sự
 | 17 | Tiêu đề Lưới dữ liệu | Label [100] | Output | "LƯỚI DỮ LIỆU KIỆN HÀNG ({Số lượng})" | Hiển thị tổng số lượng kiện hàng HU hiện có trong danh sách (VD: `LƯỚI DỮ LIỆU KIỆN HÀNG (1)`). |
 | 18 | Nút Thêm kiện hàng | Button | Input | "+ Thêm kiện hàng" | Click mở modal tạo kiện mới (tham chiếu chức năng 3.12.3). Bị disable khi đã bấm `Lưu kiện`. |
 | 19 | Nút Lưu kiện | Button Primary | Input | "Lưu kiện" | Chốt cấu trúc đóng gói và kích hoạt chế độ khóa (State Lock). Bị disable/chuyển thành badge xanh khi đã lưu. |
+| 19a | Nút Import Excel | Button Outline | Input | "📤 Import Excel" | Click mở modal import cấu trúc đóng gói từ file Excel (tham chiếu chức năng 3.12.7). Bị disable khi task đã bấm `Lưu kiện`. |
+| 19b | Nút Xuất Excel | Button Outline | Input | "📥 Xuất Excel" | Click xuất toàn bộ danh sách đóng gói các kiện hàng ra file Excel (tham chiếu chức năng 3.12.8). Bị disable khi task chưa có kiện hàng nào. |
 | 20 | Icon Mở rộng/Thu gọn | Icon Button | Input | Icon `v` / `>` | Click để mở rộng (expand) hoặc thu gọn bảng chi tiết sản phẩm nằm trong kiện tương ứng. |
 | 21 | Cột Mã kiện hàng | Label [50] | Output | "HU-220" | Mã định danh duy nhất của kiện hàng (`handling_unit.hu_code`). Hệ thống tự sinh theo quy tắc tăng dần. |
 | 22 | Cột Mã RFID | Label [100] | Output | Mã EPC hoặc "-" | Mã chip RFID gắn trên kiện hàng (`handling_unit.rfid_code`). Hiển thị "-" nếu kiện chưa được gán chip. |
@@ -2242,7 +2244,241 @@ flowchart TD
 
 #### 3.12.7. Import danh sách đóng gói
 
+##### 3.12.7.1. Thông tin chung
+
+| Mục | Nội dung |
+|---|---|
+| **Tên chức năng** | Import danh sách đóng gói [3.12.7] |
+| **Mục tiêu** | Cho phép nhân sự kho nhập khẩu nhanh toàn bộ cấu trúc đóng gói hàng hóa, vật tư và serial vào các kiện hàng (Handling Unit - HU) từ tệp tin bảng tính Excel (.xlsx) chuẩn hóa; tự động hóa việc phân bổ kiện hàng loạt cho các lô hàng lớn, giảm thiểu thao tác thủ công và xử lý chặt chẽ 3 kịch bản kiểm soát toàn vẹn dữ liệu đơn hàng (Đủ, Thừa, Thiếu). |
+| **Tác nhân** | Nhân viên đóng gói, Thủ kho, Quản lý kho hoặc nhân sự được phân quyền xử lý task đóng gói. |
+| **Điều kiện kích hoạt** | Người dùng nhấn nút `[📤 Import Excel]` trên thanh công cụ Lưới dữ liệu kiện hàng của Task Đóng gói khi task chưa bấm `Lưu kiện`.<br>Đường dẫn: Đăng nhập ➔ Phân hệ Nhập kho ➔ Danh sách task nhập kho ➔ Chọn Task loại "Đóng gói" ➔ Nhấn nút `[📤 Import Excel]`. |
+| **Điều kiện đầu vào** | • Task đóng gói thuộc Lệnh nhập kho hợp lệ, trạng thái task là `IN_PROGRESS`, chưa bấm `Lưu kiện` (`is_locked = false`).<br>• Lệnh nhập kho có danh sách hàng hóa/vật tư cần đóng gói (`order_item`, `order_item_serial`).<br>• Tệp tin tải lên có định dạng bảng tính `.xlsx` hoặc `.xls`, dung lượng không quá 10MB, đúng cấu trúc 7 cột chuẩn của hệ thống. |
+| **Điều kiện đầu ra** | Xử lý theo 3 kịch bản toàn vẹn dữ liệu:<br>• **TH1 (Khớp đủ dữ liệu - 100%):** Dữ liệu trong file khớp chính xác toàn bộ sản phẩm và serial của đơn hàng ➔ Hệ thống tạo mới các bản ghi kiện `handling_unit` và chi tiết `handling_unit_item`; cập nhật `Còn lại = 0` cho 100% mặt hàng; đóng modal; hiển thị Toast thông báo thành công màu xanh.<br>• **TH2 (Thừa dữ liệu / Sai lệch - CHẶN IMPORT):** Phát hiện bất kỳ sản phẩm/serial nào không thuộc đơn hàng, hoặc số lượng của bất kỳ sản phẩm nào trong file lớn hơn số lượng của đơn hàng (`SL_import > SL_order`), hoặc trùng lặp mã serial ➔ Hệ thống **CHẶN HOÀN TOÀN**, không cho phép import, không ghi bất kỳ dữ liệu nào vào CSDL; hiển thị bảng cảnh báo lỗi chi tiết chỉ rõ từng dòng/cột/sản phẩm vi phạm để người dùng chỉnh sửa.<br>• **TH3 (Thiếu dữ liệu - CHO PHÉP IMPORT + WARNING):** Toàn bộ sản phẩm/serial trong file đều hợp lệ thuộc đơn hàng nhưng tổng số lượng đóng gói nhỏ hơn số lượng cần đóng của đơn hàng (`SUM(SL_import) < SUM(SL_order)`) ➔ Hệ thống **VẪN CHO PHÉP IMPORT** tạo các kiện hàng vào CSDL; đồng thời hiển thị thông báo Cảnh báo màu vàng (Warning): *"Import thành công! Cảnh báo: Còn lại {n} sản phẩm chưa được đóng gói"*, bảo lưu số lượng hàng còn lại trên danh sách "Chưa đóng gói" để người dùng tiếp tục thao tác phân bổ sau. |
+| **Mô tả** | Cung cấp giao diện hộp thoại Modal "Import danh sách đóng gói" cho phép tải file mẫu Excel, chọn/kéo thả tệp tin dữ liệu đóng gói, thực thi kiểm tra tính hợp lệ nghiệp vụ tự động (validate số lượng, serial, loại thùng) và xác nhận ghi nhận cấu trúc đóng gói vào hệ thống theo 3 kịch bản xử lý Đủ - Thừa - Thiếu. |
+| **Đường dẫn** | Đăng nhập ➔ Phân hệ Nhập kho ➔ Danh sách task nhập kho ➔ Chọn Task loại "Đóng gói" ➔ Thanh công cụ Lưới Master Kiện hàng ➔ Nhấn nút `[📤 Import Excel]` |
+| **Phân quyền & miền dữ liệu** | • **Miền dữ liệu:** Nhân sự chỉ được xem và import danh sách đóng gói của các Lệnh nhập kho và Task thuộc phạm vi Kho (Plant / SLoc) được phân công phụ trách.<br>• **Xem:** `ROLE_WAREHOUSE_WORKER`, `ROLE_WAREHOUSE_MASTER`, `ROLE_WAREHOUSE_DIRECTOR` (xem danh sách kiện và nút Import).<br>• **Thêm:** N/A.<br>• **Import:** `ROLE_WAREHOUSE_WORKER`, `ROLE_WAREHOUSE_MASTER` (thực hiện tải file và import dữ liệu vào task khi chưa bấm Lưu kiện).<br>• **Sửa:** N/A.<br>• **Xóa:** N/A.<br>• **Tìm kiếm:** N/A.<br>• **Xuất:** `ROLE_WAREHOUSE_WORKER`, `ROLE_WAREHOUSE_MASTER`, `ROLE_WAREHOUSE_DIRECTOR` (tải file template mẫu Excel `Mau_import_danh_sach_dong_goi.xlsx`). |
+
+##### 3.12.7.2. Màn hình & Biểu mẫu file import
+
+1. **Giao diện Modal "Import danh sách đóng gói":**
+   Giao diện hộp thoại popup nổi giữa màn hình, kích thước rộng (~850px) với các khối chức năng:
+   - **Khối Tiêu đề Modal:** Tiêu đề "Import danh sách đóng gói" và icon đóng `[✕]`.
+   - **Khối Hướng dẫn & Tải file mẫu:** Nút `[📥 Tải file mẫu Excel (.xlsx)]` kèm dòng ghi chú: *"Vui lòng sử dụng đúng file mẫu tiêu chuẩn. Không thay đổi thứ tự và tên 7 cột trong tệp tin."*
+   - **Khối Upload file:** Vùng kéo thả file (Drag & Drop Zone) có icon upload đám mây, nút `[Chọn tệp]` (hỗ trợ `.xlsx`, `.xls`, tối đa 10MB). Khi đã chọn file, hiển thị thẻ thông tin file: Tên file, Dung lượng, trạng thái và nút xóa file `[✕]`.
+   - **Khối Tùy chọn xử lý kiện cũ (chỉ hiển thị khi task đã có ít nhất 1 kiện):**
+     + Radio 1: `Ghi đè (Xóa toàn bộ kiện hiện tại và thay thế bằng danh sách kiện trong file)` (Mặc định chọn).
+     + Radio 2: `Bổ sung (Bảo lưu các kiện hiện có, chỉ tạo thêm các kiện mới từ file)`.
+   - **Khối Kết quả kiểm tra dữ liệu (Validation Box - Hiển thị sau khi người dùng upload file hoặc bấm [Kiểm tra]):**
+     + **Trường hợp Đủ (100% khớp):** Alert Box nền xanh lá viền xanh đậm: *"✓ Dữ liệu hợp lệ 100%! Tổng cộng {total_items} sản phẩm/serial đã được phân bổ đầy đủ vào {total_hu} kiện hàng. Sẵn sàng import."*
+     + **Trường hợp Thiếu (Hợp lệ một phần):** Alert Box nền vàng viền cam: *"⚠️ Dữ liệu hợp lệ nhưng chưa đủ! Đã phân bổ {packed_items} / {total_order_items} sản phẩm vào {total_hu} kiện hàng. CÒN LẠI {remain_items} SẢN PHẨM CHƯA ĐÓNG GÓI. Hệ thống vẫn cho phép import số lượng này."* Kèm danh sách các mặt hàng chưa đóng hết.
+     + **Trường hợp Thừa / Sai lệch (Không hợp lệ):** Alert Box nền đỏ viền đỏ đậm: *"❌ Dữ liệu không hợp lệ! Phát hiện {error_count} dòng lỗi (có sản phẩm thừa vượt số lượng đơn hàng hoặc không thuộc đơn hàng). HỆ THỐNG KHÔNG CHO PHÉP IMPORT."* Kèm bảng chi tiết các dòng lỗi vi phạm: `Dòng Excel` | `Nhóm kiện` | `Mã sản phẩm` | `Serial` | `Số lượng` | `Chi tiết lỗi`.
+   - **Khối Footer Modal:** Nút `[Hủy]` (Outline), Nút `[Kiểm tra dữ liệu]` (Secondary) và Nút `[Xác nhận Import]` (Primary). Nút `[Xác nhận Import]` bị disable khi dữ liệu có lỗi thừa/sai lệch.
+
+2. **Quy cách cấu trúc file Excel mẫu import:**
+   File Excel mẫu gồm đúng 7 cột dữ liệu tương ứng với cấu trúc xuất dữ liệu (Export):
+
+| STT | Tên cột trong Excel | Bắt buộc | Kiểu dữ liệu | Quy tắc dữ liệu & Validate |
+|:---:|---|:---:|---|---|
+| 1 | **Nhóm kiện** | Có | Text | Mã kiện hàng Handling Unit (VD: `HU-001`, `HU-002`...). Các dòng có cùng mã `Nhóm kiện` sẽ được gom chung vào 1 kiện hàng. |
+| 2 | **Loại kiện** | Có | Text | Tên hoặc mã quy cách bao bì/loại thùng (VD: `CT5 - Thùng gỗ`, `C1 - Thùng carton`, `Pallet gỗ 1.2x1.0m`). Phải tồn tại và đang hoạt động trong danh mục `equipment`. |
+| 3 | **Mã sản phẩm** | Có | Text | Mã định danh SKU vật tư theo SAP (`product.product_code`, VD: `200000006`, `USB-C-1M`). Phải thuộc danh sách mặt hàng của đơn nhập kho. |
+| 4 | **Tên sản phẩm** | Không | Text | Tên sản phẩm/vật tư (phục vụ người dùng dễ nhìn, hệ thống tự động đối chiếu theo Mã sản phẩm). |
+| 5 | **Đơn vị tính** | Không | Text | Đơn vị tính của sản phẩm (phục vụ đối chiếu). |
+| 6 | **Số lượng** | Có | Number | Số lượng đóng vào kiện của dòng hàng. Bắt buộc là số nguyên dương `> 0`. Đối với hàng quản lý theo serial, bắt buộc bằng `1`. |
+| 7 | **Serial** | Điều kiện | Text | Bắt buộc đối với các mặt hàng có quản lý Serial trong đơn hàng (`order_item_serial.serial_number`). Với hàng non-serial, để trống hoặc điền `-`. Mỗi serial chỉ được xuất hiện duy nhất 1 lần trong toàn bộ file. |
+
+##### 3.12.7.3. Mô tả chi tiết các thành phần
+
+| STT | Tên | Kiểu dữ liệu [Độ dài] | Input/Output | Giá trị khởi tạo | Mô tả (Mapping với CSDL nếu có) |
+|:---:|---|---|:---:|---|---|
+| **I** | **Cụm điều khiển kích hoạt trên Master Grid** | | | | |
+| 1 | Nút Import Excel | Button Outline | Input | "📤 Import Excel" | Nút bấm trên thanh công cụ Lưới dữ liệu kiện hàng. Bị disable khi task đã bấm `Lưu kiện`. Click mở Modal "Import danh sách đóng gói". |
+| **II** | **Khối Header & Hướng dẫn Modal** | | | | |
+| 2 | Tiêu đề Modal | Label [100] | Output | "Import danh sách đóng gói" | Tiêu đề cố định của modal. |
+| 3 | Nút Đóng Modal | Icon Button | Input | Icon `[✕]` | Click để đóng modal, hủy bỏ dữ liệu đang kiểm tra và quay về màn hình chính. |
+| 4 | Nút Tải file mẫu | Button Link | Input | "📥 Tải file mẫu Excel (.xlsx)" | Click để tải tệp tin mẫu chuẩn `Mau_import_danh_sach_dong_goi.xlsx` chứa 7 cột dữ liệu và các dòng hướng dẫn. |
+| **III** | **Khối Upload & Tùy chọn xử lý** | | | | |
+| 5 | Vùng kéo thả Upload | Dropzone File | Input | Rỗng | Khu vực nhận file kéo thả hoặc click chọn file từ máy trạm. Giới hạn định dạng `.xlsx`, `.xls`; dung lượng tối đa `10MB`. |
+| 6 | Thông tin file đã chọn | File Info Card | Output | Tên file & Dung lượng | Hiển thị tên tệp tin, kích thước (KB/MB) kèm icon trạng thái và nút icon thùng rác `[🗑️]` để xóa bỏ tệp chọn lại. |
+| 7 | Tùy chọn Xử lý kiện cũ | Radio Group | Input | "Ghi đè" | • **Điều kiện hiển thị:** Chỉ xuất hiện khi task hiện tại đã có ít nhất 1 kiện hàng (`COUNT(handling_unit) > 0`).<br>• Gồm 2 lựa chọn: (1) `Ghi đè (Xóa kiện cũ)` - xóa các kiện cũ để tạo mới theo file; (2) `Bổ sung` - giữ nguyên kiện cũ, chỉ tạo thêm các kiện từ file. |
+| **IV** | **Khối Kết quả kiểm tra & Cảnh báo (Validation Box)** | | | | |
+| 8 | Banner Trạng thái kiểm tra | Alert Banner | Output | Ẩn khi chưa chọn file | Khung hiển thị tóm tắt kết quả phân tích file theo 3 trạng thái:<br>• **Xanh lá (Đủ 100%):** Hợp lệ hoàn toàn, sẵn sàng lưu.<br>• **Vàng (Thiếu dữ liệu):** Cảnh báo còn lại `{n}` sản phẩm chưa đóng gói, nút Xác nhận Import vẫn enable.<br>• **Đỏ (Thừa/Sai dữ liệu):** Báo lỗi vi phạm, nút Xác nhận Import bị khóa (disabled). |
+| 9 | Bảng Danh sách dòng lỗi | Grid Error List | Output | Ẩn khi không có lỗi | Bảng chi tiết xuất hiện khi rơi vào **TH2 (Thừa/Sai dữ liệu)**. Hiển thị các cột: `Dòng`, `Nhóm kiện`, `Mã sản phẩm`, `Serial`, `Số lượng`, `Lý do vi phạm`. Hỗ trợ phân trang khi danh sách lỗi nhiều. |
+| 10 | Danh sách Mặt hàng chưa đóng | Summary List | Output | Ẩn khi đủ 100% | Khung danh sách hiển thị khi rơi vào **TH3 (Thiếu dữ liệu)**. Liệt kê cụ thể: Tên mặt hàng, Mã SKU, Số lượng đã đóng trong file, Số lượng còn lại chưa đóng trong đơn hàng. |
+| **V** | **Khối Nút tác vụ chân Modal (Footer)** | | | | |
+| 11 | Nút Hủy | Button Outline | Input | "Hủy" | Click đóng modal, hủy bỏ mọi thao tác import, giữ nguyên dữ liệu kiện hiện tại. |
+| 12 | Nút Kiểm tra dữ liệu | Button Secondary | Input | "Kiểm tra dữ liệu" | Click để kích hoạt gọi API parse file và validate nghiệp vụ trước khi quyết định lưu. Tự động chạy khi người dùng chọn file xong. |
+| 13 | Nút Xác nhận Import | Button Primary | Input | "Xác nhận Import" | Click để xác nhận ghi nhận cấu trúc đóng gói từ file vào CSDL.<br>• **Trạng thái:** Bị disable khi chưa chọn file, khi đang kiểm tra hoặc khi file rơi vào **TH2 (Thừa/Sai dữ liệu)**. Ở trạng thái enable khi rơi vào **TH1 (Đủ)** hoặc **TH3 (Thiếu)**.<br>• **Hành động:** Gọi API lưu dữ liệu, đóng modal, refresh Master-Detail Grid và hiển thị thông báo kết quả. |
+
+##### 3.12.7.4. Luồng nghiệp vụ
+
+```mermaid
+flowchart TD
+    Start["User nhấn nút '📤 Import Excel' trên Lưới Master Kiện hàng"] --> CheckLock{"Task đã bấm 'Lưu kiện'?"}
+    CheckLock -->|Đã lưu| ErrLock["Khóa nút / Báo lỗi: Cấu trúc kiện đã khóa, không thể import"]
+    CheckLock -->|Chưa lưu| OpenModal["Hiển thị Modal 'Import danh sách đóng gói'"]
+    
+    OpenModal --> SelectFile["User chọn/kéo thả tệp tin Excel (.xlsx)"]
+    SelectFile --> CheckFileExt{"Định dạng .xlsx/.xls & Dung lượng <= 10MB?"}
+    CheckFileExt -->|Không hợp lệ| ToastErrFile["Báo lỗi: Tệp tin không đúng định dạng hoặc vượt quá 10MB"]
+    
+    CheckFileExt -->|Hợp lệ| CallValidateAPI["Frontend gửi file lên Backend: POST /api/v1/warehouse-inbound/packing/validate-import"]
+    CallValidateAPI --> ParseExcel["Hệ thống đọc dữ liệu 7 cột trong sheet đầu tiên"]
+    ParseExcel --> CheckColumns{"Cấu trúc 7 cột chuẩn?"}
+    CheckColumns -->|Sai cấu trúc cột| ShowErrColumns["Hiển thị lỗi: Cấu trúc cột trong file không khớp với mẫu tiêu chuẩn"]
+    
+    CheckColumns -->|Đúng cấu trúc| BusinessValidate["Đối chiếu dữ liệu với Đơn hàng: Mã SP, Serial, Số lượng, Loại thùng"]
+    
+    BusinessValidate --> BranchValidate{"Kết quả so khớp dữ liệu với Đơn hàng?"}
+    
+    %% Nhánh 2: THỪA / SAI DỮ LIỆU
+    BranchValidate -->|TH2: Phát hiện dữ liệu Thừa hoặc Sai lệch| CaseSurplus["Xác định lỗi vi phạm: SP ngoài đơn hàng, SL import > SL đơn hàng, Serial trùng..."]
+    CaseSurplus --> RenderErrUI["Hiển thị Box Lỗi ĐỎ + Bảng chi tiết dòng vi phạm: KHÓA nút 'Xác nhận Import' (Disable)"]
+    RenderErrUI --> EndErr["Dừng xử lý, User tải file về sửa lại"]
+    
+    %% Nhánh 1: ĐỦ DỮ LIỆU 100%
+    BranchValidate -->|TH1: Khớp đủ 100% dữ liệu đơn hàng| CaseExact["Xác thực: 100% SP và Serial khớp đúng đơn hàng, không thừa, không thiếu"]
+    CaseExact --> RenderExactUI["Hiển thị Box XANH LÁ: 'Dữ liệu hợp lệ 100%' -> ENABLE nút 'Xác nhận Import'"]
+    
+    %% Nhánh 3: THIẾU DỮ LIỆU
+    BranchValidate -->|TH3: Dữ liệu hợp lệ nhưng Thiếu số lượng| CaseLack["Xác thực: SP/Serial trong file hợp lệ, nhưng SUM(SL_import) < SUM(SL_order)"]
+    CaseLack --> RenderLackUI["Hiển thị Box VÀNG: 'Cảnh báo còn n sản phẩm chưa đóng gói' -> VẪN ENABLE nút 'Xác nhận Import'"]
+    
+    %% Thao tác Xác nhận Import cho TH1 và TH3
+    RenderExactUI --> ClickSubmit{"User nhấn nút 'Xác nhận Import'?"}
+    RenderLackUI --> ClickSubmit
+    
+    ClickSubmit -->|Hủy/Đóng| CloseModal["Đóng modal, không lưu thay đổi"]
+    ClickSubmit -->|Bấm Xác nhận| CheckOption{"Tùy chọn xử lý kiện cũ?"}
+    
+    CheckOption -->|Ghi đè| DeleteOldHU["Xóa mềm handling_unit và handling_unit_item cũ của task"]
+    CheckOption -->|Bổ sung| KeepOldHU["Bảo lưu kiện cũ, tính số thứ tự HU tiếp theo"]
+    
+    DeleteOldHU --> PersistData["INSERT handling_unit (theo từng nhóm kiện) và INSERT handling_unit_item"]
+    KeepOldHU --> PersistData
+    
+    PersistData --> AuditLog["Ghi nhật ký thao tác vào task_history"]
+    
+    AuditLog --> BranchFeedback{"Kịch bản kết thúc?"}
+    BranchFeedback -->|Từ TH1: Đủ 100%| FeedbackExact["Đóng modal, Toast XANH LÁ: 'Import thành công toàn bộ {total} sản phẩm vào {count} kiện hàng'"]
+    BranchFeedback -->|Từ TH3: Thiếu hàng| FeedbackLack["Đóng modal, Popup/Toast VÀNG: 'Import thành công! Cảnh báo: Còn lại {n} sản phẩm chưa được đóng gói'"]
+    
+    FeedbackExact --> RefreshGrid["Cập nhật Master-Detail Grid, cập nhật Thẻ KPI, cập nhật SL còn lại"]
+    FeedbackLack --> RefreshGrid
+    RefreshGrid --> Finish["Hoàn tất thao tác Import"]
+```
+
+| Bước | Tác nhân | Hành động | Kết quả / Phản ứng hệ thống |
+|:---:|---|---|---|
+| **1** | Người dùng | Nhấn nút `[📤 Import Excel]` trên thanh công cụ Lưới dữ liệu kiện hàng. | • **Kiểm tra trạng thái khóa:** Hệ thống kiểm tra cờ `is_locked` của task đóng gói. Nếu task đã bấm `Lưu kiện`, nút bị khóa (disabled); nếu can thiệp trái phép, hệ thống từ chối: *"Cấu trúc kiện đã được khóa, không thể import danh sách"*. <br>• Nếu hợp lệ, hệ thống mở Modal "Import danh sách đóng gói". |
+| **2** | Người dùng | Lựa chọn tệp tin Excel từ máy trạm (kéo thả hoặc nhấn `Chọn tệp`) và chọn tùy chọn xử lý kiện cũ (nếu có). | • Frontend kiểm tra định dạng file (`.xlsx`, `.xls`) và dung lượng (`<= 10MB`). Nếu sai, hiển thị Toast lỗi ngay tại client.<br>• Nếu hợp lệ, hiển thị Card thông tin tệp tin đã chọn kèm thanh tiến trình tải lên. |
+| **3** | Hệ thống (Backend) | Tiếp nhận file, phân tích cú pháp (parse) và thực thi kiểm tra nghiệp vụ toàn diện. | • **Kiểm tra cấu trúc file:** Đọc sheet đầu tiên của workbook, kiểm tra sự tồn tại của đúng 7 cột: `Nhóm kiện`, `Loại kiện`, `Mã sản phẩm`, `Tên sản phẩm`, `Đơn vị tính`, `Số lượng`, `Serial`. Nếu thiếu cột hoặc sai thứ tự ➔ Báo lỗi `INVALID_TEMPLATE_STRUCTURE`.<br>• **Kiểm tra danh mục loại kiện:** Kiểm tra từng giá trị tại cột `Loại kiện` xem có khớp với danh mục vỏ bao bì `equipment.package_type_code` / `name` đang hoạt động không.<br>• **Đối chiếu với dữ liệu Đơn hàng (`order_item`, `order_item_serial`):** Hệ thống gom nhóm và so sánh chi tiết: (a) Mã sản phẩm có trong đơn hàng không; (b) Số Serial có thuộc đơn hàng không và có bị trùng lặp trong file không; (c) So sánh tổng số lượng import từng mặt hàng với số lượng trong đơn hàng. |
+| **4** | Hệ thống | Phân loại kịch bản kiểm tra và phản hồi giao diện Modal theo 3 trường hợp: | • **Kịch bản 1: THỪA / SAI DỮ LIỆU (Chặn Import - Lỗi vi phạm):**<br>  - *Điều kiện:* Có ít nhất 1 mã sản phẩm hoặc 1 serial không thuộc đơn hàng; HOẶC tổng số lượng của bất kỳ mặt hàng nào trong file vượt quá số lượng đơn hàng (`SL_import > SL_order`); HOẶC 1 serial xuất hiện ở nhiều hơn 1 dòng.<br>  - *Phản ứng:* **CHẶN HOÀN TOÀN việc import**. Khóa nút `[Xác nhận Import]` (chuyển sang trạng thái disabled). Hiển thị Alert Box màu đỏ cảnh báo: *"Không thể import dữ liệu do phát hiện dữ liệu thừa/không hợp lệ so với Đơn hàng"*. Hiển thị Bảng danh sách lỗi chi tiết từng dòng vi phạm (VD: *Dòng 4: Mã SP 200000999 không thuộc đơn hàng*; *Dòng 8: Sản phẩm 200000006 import 15 Cái vượt quá số lượng đơn hàng 10 Cái (thừa 5 Cái)*; *Dòng 12: Serial 60043720503-252 bị trùng lặp với Dòng 5*).<br>• **Kịch bản 2: ĐỦ DỮ LIỆU 100% (Hợp lệ hoàn toàn):**<br>  - *Điều kiện:* Toàn bộ mã sản phẩm, serial đều thuộc đơn hàng; số lượng của từng mặt hàng và tổng số lượng khớp chính xác 100% với đơn hàng (`SL_import = SL_order`); không có sản phẩm nào bị bỏ sót.<br>  - *Phản ứng:* Kích hoạt enable nút `[Xác nhận Import]`. Hiển thị Alert Box màu xanh lá: *"✓ Dữ liệu hợp lệ 100%! Tổng cộng {total} sản phẩm/serial đã khớp đầy đủ với đơn hàng và được phân bổ vào {count_hu} kiện hàng. Sẵn sàng import."*<br>• **Kịch bản 3: THIẾU DỮ LIỆU (Cho phép Import + Cảnh báo):**<br>  - *Điều kiện:* Toàn bộ sản phẩm và serial trong file đều hợp lệ thuộc đơn hàng (`SL_import <= SL_order`), KHÔNG có dòng nào vi phạm; NHƯNG tổng số lượng sản phẩm trong file nhỏ hơn tổng số lượng cần đóng của đơn hàng (`SUM(SL_import) < SUM(SL_order)`).<br>  - *Phản ứng:* **VẪN CHO PHÉP IMPORT**. Kích hoạt enable nút `[Xác nhận Import]`. Hiển thị Alert Box cảnh báo màu vàng: *"⚠️ Dữ liệu hợp lệ nhưng chưa đóng gói hết! Đã phân bổ {packed_count} / {total_order} sản phẩm vào {count_hu} kiện. CÒN LẠI {remain_count} SẢN PHẨM CHƯA ĐƯỢC ĐÓNG GÓI. Hệ thống vẫn cho phép import số lượng này."* Đồng thời hiển thị danh sách tóm tắt các mặt hàng còn thiếu số lượng để người dùng nắm rõ. |
+| **5** | Người dùng | Xem kết quả kiểm tra và đưa ra quyết định thao tác:<br>• Nếu rơi vào **TH2 (Thừa/Sai):** Người dùng bấm `[Hủy]`, chỉnh sửa lại file Excel và upload lại.<br>• Nếu rơi vào **TH1 (Đủ)** hoặc **TH3 (Thiếu):** Người dùng kiểm tra tóm tắt và bấm nút `[Xác nhận Import]`. | • Nếu người dùng bấm `[Hủy]` hoặc nút `[✕]`: Hệ thống đóng modal, hủy bỏ toàn bộ dữ liệu tạm, giữ nguyên cấu trúc kiện hiện tại.<br>• Nếu người dùng bấm `[Xác nhận Import]`: Hệ thống chuyển sang **Bước 6**. |
+| **6** | Hệ thống | Thực hiện ghi nhận dữ liệu vào CSDL trong một Transaction an toàn. | • **Xử lý kiện cũ (nếu có):** Nếu người dùng chọn `Ghi đè`, hệ thống thực hiện xóa mềm toàn bộ các bản ghi kiện cũ của task trong bảng `handling_unit` và `handling_unit_item`. Nếu chọn `Bổ sung`, hệ thống bảo lưu các kiện cũ và tự động tăng số thứ tự mã HU tiếp theo.<br>• **Ghi CSDL bảng Handling Unit:** Duyệt danh sách các `Nhóm kiện` phân biệt trong file, sinh mã HU theo thứ tự (hoặc lấy theo mã trong file nếu hợp lệ), tính toán tổng số lượng (`total_item_count`), thể tích lọt lòng và tỷ lệ lấp đầy theo loại thùng tương ứng; thực hiện INSERT vào bảng `handling_unit`.<br>• **Ghi CSDL bảng Handling Unit Item:** Duyệt các dòng chi tiết của từng kiện, thực hiện INSERT vào bảng `handling_unit_item` (và `handling_unit_item_serial` đối với hàng có serial).<br>• **Cập nhật số lượng còn lại:** Cập nhật lại số lượng `Còn lại` của từng mặt hàng trong đơn hàng: `Còn lại = SL_don_hang - SL_da_dong`. Đối với TH1, `Còn lại = 0` cho toàn bộ mặt hàng; đối với TH3, các mặt hàng thiếu vẫn giữ số lượng còn lại `> 0`.<br>• **Ghi Audit Log:** Ghi nhận bản ghi lịch sử vào bảng `task_history`: *"Import cấu trúc đóng gói từ file {file_name}: tạo mới {total_hu} kiện, phân bổ {packed_count} sản phẩm/serial. Kết quả: {Đủ 100% / Còn thiếu {remain_count} sản phẩm}"*. |
+| **7** | Hệ thống | Cập nhật giao diện và gửi phản hồi cho người dùng tương ứng với từng kịch bản. | • Đóng modal "Import danh sách đóng gói".<br>• **Phản hồi thông báo:**<br>  - *Nếu là TH1 (Đủ 100%):* Hiển thị Toast thông báo thành công màu xanh lá: *"Import thành công toàn bộ {total} sản phẩm vào {total_hu} kiện hàng!"*.<br>  - *Nếu là TH3 (Thiếu hàng):* Hiển thị Popup cảnh báo màu vàng (Warning Alert): *"Import thành công {packed_count} sản phẩm vào {total_hu} kiện hàng. CẢNH BÁO: Còn lại {remain_count} sản phẩm chưa được đóng gói! Vui lòng tiếp tục đóng gói thủ công qua nút '+ Thêm kiện hàng' hoặc import bổ sung trước khi bấm 'Lưu kiện' và 'Hoàn thành task'."*.<br>• **Cập nhật màn hình chính:**<br>  - Cập nhật Lưới Master Kiện hàng (`handling_unit`): Hiển thị toàn bộ các kiện hàng vừa import kèm badges tóm tắt sản phẩm.<br>  - Cập nhật Thẻ KPI tổng quan: Số lượng thùng gỗ/carton tăng tương ứng; thẻ "TỔNG SẢN PHẨM" cập nhật tiến độ (VD: `82 / 82 sản phẩm` đối với TH1; `60 / 82 sản phẩm (còn 22)` đối với TH3).<br>  - Cập nhật bảng dữ liệu hàng chưa đóng gói trong các popup thêm kiện/thêm hàng: Chỉ hiển thị các mặt hàng và serial còn lại (đối với TH3). |
+
 #### 3.12.8. Export danh sách đóng gói
+
+##### 3.12.8.1. Thông tin chung
+
+| Mục | Nội dung |
+|---|---|
+| **Tên chức năng** | Export danh sách đóng gói [3.12.8] |
+| **Mục tiêu** | Cho phép nhân sự kho xuất toàn bộ dữ liệu cấu trúc kiện hàng (Handling Unit - HU) cùng danh sách chi tiết các mặt hàng, serial đã phân bổ bên trong từng kiện ra file bảng tính Excel (.xlsx); hỗ trợ lưu trữ biên bản đóng gói, in ấn kiểm đếm thực tế và cung cấp dữ liệu phục vụ dán tem kiện hoặc bàn giao vận chuyển. |
+| **Tác nhân** | Nhân viên đóng gói, Thủ kho, Điều phối viên kho, Quản lý kho hoặc nhân sự được phân quyền xử lý task đóng gói. |
+| **Điều kiện kích hoạt** | Người dùng nhấn nút `[📥 Xuất Excel]` trên thanh công cụ Lưới dữ liệu kiện hàng của Task Đóng gói.<br>Đường dẫn: Đăng nhập ➔ Phân hệ Nhập kho ➔ Danh sách task nhập kho ➔ Chọn Task loại "Đóng gói" ➔ Nhấn nút `[📥 Xuất Excel]`. |
+| **Điều kiện đầu vào** | • Task đóng gói thuộc Lệnh nhập kho hợp lệ, trạng thái task là `IN_PROGRESS` hoặc `COMPLETED`.<br>• Đã có ít nhất một kiện hàng (Handling Unit) được tạo trong task (`COUNT(handling_unit) > 0`) và có chứa sản phẩm bên trong (`total_item_count > 0`). |
+| **Điều kiện đầu ra** | • **Thành công:** Hệ thống kết xuất và tự động tải về (download) tệp tin bảng tính Excel dạng `.xlsx` chứa danh sách chi tiết đóng gói theo đúng mẫu định dạng chuẩn gồm 7 cột dữ liệu; ghi nhận bản ghi nhật ký thao tác (Audit Log) vào bảng `task_history`.<br>• **Ngoại lệ:** Nếu danh sách chưa có kiện hàng nào hoặc các kiện đều rỗng không có sản phẩm ➔ Hệ thống hiển thị Toast thông báo cảnh báo: *"Chưa có dữ liệu đóng gói để xuất file Excel"*. |
+| **Mô tả** | Chức năng truy vấn toàn bộ dữ liệu kiện hàng và sản phẩm/serial thuộc task đóng gói hiện tại, kết xuất dữ liệu theo mẫu biểu Excel chuẩn hóa gồm 7 cột thông tin nghiệp vụ: Nhóm kiện, Loại kiện, Mã sản phẩm, Tên sản phẩm, Đơn vị tính, Số lượng, Serial. File được tải trực tiếp về máy trạm của người dùng. |
+| **Đường dẫn** | Đăng nhập ➔ Phân hệ Nhập kho ➔ Danh sách task nhập kho ➔ Chọn Task loại "Đóng gói" ➔ Thanh công cụ Lưới dữ liệu kiện hàng ➔ Nhấn nút `[📥 Xuất Excel]` |
+| **Phân quyền & miền dữ liệu** | • **Miền dữ liệu:** Nhân sự chỉ được xem và xuất file danh sách đóng gói của các Lệnh nhập kho và Task thuộc phạm vi Kho (Plant / SLoc) được phân công phụ trách.<br>• **Xem:** `ROLE_WAREHOUSE_WORKER`, `ROLE_WAREHOUSE_MASTER`, `ROLE_WAREHOUSE_DIRECTOR` (xem danh sách kiện và nút xuất Excel).<br>• **Thêm:** N/A.<br>• **Import:** N/A (thực hiện tại chức năng 3.12.7).<br>• **Sửa:** N/A.<br>• **Xóa:** N/A.<br>• **Tìm kiếm:** N/A.<br>• **Xuất:** `ROLE_WAREHOUSE_WORKER`, `ROLE_WAREHOUSE_MASTER`, `ROLE_WAREHOUSE_DIRECTOR` (thực hiện tải file Excel danh sách đóng gói). |
+
+##### 3.12.8.2. Màn hình & Biểu mẫu file xuất
+
+1. **Vị trí điều khiển trên giao diện:**
+   - Nút `[📥 Xuất Excel]` (Button Outline) được bố trí trên thanh công cụ Lưới dữ liệu kiện hàng (Master Grid), nằm cạnh cụm nút `[+ Thêm kiện hàng]` và `[Lưu kiện]`.
+   - Nút luôn ở trạng thái sẵn sàng (enable) khi đã có ít nhất 1 kiện hàng có sản phẩm trong task (kể cả khi chưa hoặc đã bấm `Lưu kiện`).
+
+2. **Quy cách biểu mẫu file Excel xuất ra:**
+   - **Tên file tải về:** `Danh_sach_dong_goi_{order_code}_{yyyyMMdd_HHmmss}.xlsx` (VD: `Danh_sach_dong_goi_INB-2026-149_20260909_183500.xlsx`).
+   - **Tên Sheet:** `Danh sách đóng gói`
+   - **Dòng tiêu đề báo cáo (Header Info):**
+     + Dòng 1: Tên đơn vị / Phân hệ: `KHO THÔNG MINH - PHÂN HỆ QUẢN LÝ NHẬP KHO` (Chữ in hoa, in đậm).
+     + Dòng 2: Tiêu đề bảng tính: `DANH SÁCH CHI TIẾT ĐÓNG GÓI HÀNG HÓA VÀO KIỆN` (Chữ in hoa, in đậm, font size 14, căn giữa).
+     + Dòng 3: `Lệnh nhập: {order_code}   |   Mã Task: {task_code}   |   Thời gian xuất: {dd/MM/yyyy HH:mm:ss}   |   Người xuất: {full_name}`
+     + Dòng 4: (Dòng rỗng cách dòng).
+     + Dòng 5: Hàng tiêu đề các cột dữ liệu (Header Row): nền màu xám nhạt (`#F2F2F2`), chữ in đậm, căn giữa, kẻ viền ô (Thin border).
+   - **Cấu trúc 7 cột dữ liệu trong file Excel:**
+
+| STT | Tên cột trong Excel | Kiểu dữ liệu | Căn lề | Độ rộng cột | Mô tả & Nguồn dữ liệu |
+|:---:|---|---|:---:|:---:|---|
+| 1 | **Nhóm kiện** | Text | Căn giữa | 16 | Mã định danh kiện hàng Handling Unit (`handling_unit.hu_code`, VD: `HU-001`, `HU-002`). Hiển thị trên từng dòng chi tiết để thuận tiện lọc (AutoFilter) hoặc xử lý dữ liệu. |
+| 2 | **Loại kiện** | Text | Căn giữa | 20 | Tên quy cách bao bì thùng/kiện (`equipment.name` / `handling_unit.package_type_code`, VD: `CT5 - Thùng gỗ`, `C1 - Thùng carton`, `Pallet gỗ 1.2x1.0m`). |
+| 3 | **Mã sản phẩm** | Text | Căn giữa | 18 | Mã SKU hàng hóa vật tư theo SAP (`product.product_code`, VD: `200000006`, `USB-C-1M`). Định dạng Text trong Excel để không bị cắt mất các chữ số `0` ở đầu mã. |
+| 4 | **Tên sản phẩm** | Text | Căn trái | 35 | Tên quy chuẩn đầy đủ của sản phẩm/vật tư (`product.product_name`, VD: `Anten 5G Massive MIMO 32T32R`, `Cáp sạc USB-C 1M`). |
+| 5 | **Đơn vị tính** | Text | Căn giữa | 14 | Đơn vị tính cơ sở của hàng hóa (`product.uom`, VD: `Bộ`, `Cái`, `Cuộn`). |
+| 6 | **Số lượng** | Number | Căn phải | 14 | Số lượng đóng gói thực tế của dòng hàng (`handling_unit_item.quantity`). Đối với hàng quản lý theo Serial, mỗi dòng xuất giá trị cố định `1`. Định dạng số nguyên (`#,##0`). |
+| 7 | **Serial** | Text | Căn giữa | 25 | Số Serial định danh duy nhất của sản phẩm (`order_item_serial.serial_number` / `handling_unit_item_serial.serial_no`, VD: `60043720503-252`). Đối với phụ kiện/vật tư tiêu hao gom theo số lượng không có serial, hiển thị dấu gạch ngang `-`. |
+
+3. **Bảng mẫu hiển thị dữ liệu minh họa trong file Excel:**
+
+| Nhóm kiện | Loại kiện | Mã sản phẩm | Tên sản phẩm | Đơn vị tính | Số lượng | Serial |
+|---|---|---|---|---|:---:|---|
+| HU-001 | CT5 - Thùng gỗ | 200000006 | Anten 5G Massive MIMO 32T32R | Bộ | 1 | 60043720503-252 |
+| HU-001 | CT5 - Thùng gỗ | 200000006 | Anten 5G Massive MIMO 32T32R | Bộ | 1 | 60043720503-253 |
+| HU-001 | CT5 - Thùng gỗ | USB-C-1M | Cáp sạc USB-C 1M | Cái | 50 | - |
+| HU-002 | C1 - Thùng carton | 20000107 | Bulông M12x60 | Bộ | 100 | - |
+| HU-002 | C1 - Thùng carton | BBU-6648 | Khối xử lý băng gốc BBU-6648 | Bộ | 1 | 60045417038-001 |
+
+##### 3.12.8.3. Mô tả chi tiết các thành phần
+
+| STT | Tên | Kiểu dữ liệu [Độ dài] | Input/Output | Giá trị khởi tạo | Mô tả (Mapping với CSDL nếu có) |
+|:---:|---|---|:---:|---|---|
+| **I** | **Cụm điều khiển kích hoạt trên Master Grid** | | | | |
+| 1 | Nút Xuất Excel | Button Outline | Input | "📥 Xuất Excel" | Nút tác vụ đặt trên thanh công cụ Lưới dữ liệu kiện hàng. <br>• **Trạng thái:** Disable khi task chưa có kiện hàng nào (`COUNT(handling_unit) = 0`). Enable khi có ít nhất 1 kiện hàng trong task.<br>• **Hành động:** Khi click, hệ thống kiểm tra dữ liệu và gọi API export để sinh file Excel trả về cho trình duyệt người dùng. |
+| **II** | **Cấu trúc dữ liệu trong tệp tin Excel (.xlsx)** | | | | |
+| 2 | Nhóm kiện | Text [50] | Output | Mã HU | Cột thứ 1 trong file Excel. Ánh xạ từ `handling_unit.hu_code` (VD: `HU-001`, `HU-002`). Hiển thị lặp lại trên từng dòng chi tiết của kiện để người dùng thuận tiện lọc (AutoFilter) hoặc lập bảng PivotTable trong Excel. |
+| 3 | Loại kiện | Text [100] | Output | Tên quy cách kiện | Cột thứ 2 trong file Excel. Lấy từ tên danh mục vỏ bao bì `equipment.name` tương ứng với `handling_unit.package_type_code` (VD: `CT5 - Thùng gỗ`, `C1 - Thùng carton`, `Pallet gỗ 1.2x1.0m`). |
+| 4 | Mã sản phẩm | Text [50] | Output | Mã SKU | Cột thứ 3 trong file Excel. Mã định danh SKU sản phẩm theo chuẩn SAP (`product.product_code`). Định dạng kiểu Text trong Excel để không bị mất các ký tự số 0 ở đầu mã. |
+| 5 | Tên sản phẩm | Text [255] | Output | Tên sản phẩm | Cột thứ 4 trong file Excel. Tên quy chuẩn đầy đủ của hàng hóa vật tư (`product.product_name`). |
+| 6 | Đơn vị tính | Text [20] | Output | ĐVT | Cột thứ 5 trong file Excel. Đơn vị tính cơ sở của vật tư (`product.uom`, VD: `Cái`, `Bộ`, `Cuộn`, `Mét`). |
+| 7 | Số lượng | Number [10] | Output | 1, 50... | Cột thứ 6 trong file Excel. Số lượng thực tế của sản phẩm được đóng trong kiện (`handling_unit_item.quantity`). Đối với hàng quản lý theo serial, mỗi dòng có `Số lượng = 1`. Định dạng số nguyên (`NumberFormat = "#,##0"`). |
+| 8 | Serial | Text [100] | Output | Số Serial hoặc "-" | Cột thứ 7 trong file Excel. Số Serial định danh cá thể của sản phẩm (`handling_unit_item_serial.serial_no` hoặc `order_item_serial.serial_number`). Với hàng hóa phụ kiện gom theo số lượng không quản lý theo số serial đơn lẻ, hiển thị ký tự `-`. |
+
+##### 3.12.8.4. Luồng nghiệp vụ
+
+```mermaid
+flowchart TD
+    Start["User nhấn nút '📥 Xuất Excel' trên Lưới Master Kiện hàng"] --> CheckCount{"Task có kiện hàng nào chưa?"}
+    CheckCount -->|Chưa có kiện nào| ShowToastEmpty["Hiển thị Toast cảnh báo: Chưa có dữ liệu đóng gói để xuất file Excel"]
+    CheckCount -->|Có ít nhất 1 kiện| CallAPI["Frontend gọi API: GET /api/v1/warehouse-inbound/packing/{taskId}/export-excel"]
+    
+    CallAPI --> CheckAuth{"Kiểm tra quyền và phạm vi Kho (Plant/SLoc)"}
+    CheckAuth -->|Không có quyền| ErrAuth["Trả mã 403 Forbidden: Người dùng không có quyền xuất dữ liệu kho này"]
+    CheckAuth -->|Hợp lệ| QueryDB["Truy vấn CSDL: handling_unit, handling_unit_item, product, equipment, order_item_serial"]
+    
+    QueryDB --> CheckItems{"Tổng số sản phẩm đóng gói > 0?"}
+    CheckItems -->|Toàn bộ kiện rỗng| ToastNoItem["Hiển thị Toast: Các kiện hàng hiện tại chưa có sản phẩm bên trong"]
+    CheckItems -->|Có dữ liệu| TransformData["Chuẩn hóa & Sắp xếp dữ liệu: hu_code ASC, product_code ASC, serial_number ASC"]
+    
+    TransformData --> GenExcel["Khởi tạo Workbook Excel (.xlsx): Ghi Tiêu đề báo cáo, Header 7 cột, Viền ô, Căn lề, AutoFilter"]
+    GenExcel --> StreamFile["Kết xuất Binary Streaming (MIME: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet)"]
+    StreamFile --> AuditLog["Ghi nhật ký thao tác vào task_history"]
+    AuditLog --> BrowserDL["Trình duyệt kích hoạt tải tệp: Danh_sach_dong_goi_{order_code}_{timestamp}.xlsx"]
+    BrowserDL --> ShowToastSuccess["Hiển thị Toast: Xuất danh sách đóng gói thành công!"]
+    ShowToastSuccess --> Finish["Hoàn tất tác vụ xuất Excel"]
+```
+
+| Bước | Tác nhân | Hành động | Kết quả / Phản ứng hệ thống |
+|:---:|---|---|---|
+| **1** | Người dùng | Nhấn nút `[📥 Xuất Excel]` trên thanh công cụ Lưới dữ liệu kiện hàng. | • **Kiểm tra trạng thái dữ liệu:** Hệ thống kiểm tra số lượng kiện hàng hiện có của task (`COUNT(handling_unit)`).<br>• **TH1 (Chưa có kiện nào):** Hiển thị Toast cảnh báo màu vàng: *"Chưa có dữ liệu đóng gói để xuất file Excel"*, không thực hiện gọi API.<br>• **TH2 (Đã có ít nhất 1 kiện):** Kích hoạt biểu tượng xoay spinner trên nút `[Xuất Excel]` và chuyển sang **Bước 2**. |
+| **2** | Hệ thống (Frontend) | Gửi yêu cầu kết xuất file về Server. | Gửi HTTP GET Request kèm Bearer Token xác thực:<br>`GET /api/v1/warehouse-inbound/packing/{taskId}/export-excel` |
+| **3** | Hệ thống (Backend) | Kiểm tra phân quyền và truy vấn CSDL. | • **Kiểm tra phân quyền:** Xác thực người dùng có quyền `ROLE_WAREHOUSE_WORKER`, `ROLE_WAREHOUSE_MASTER` hoặc `ROLE_WAREHOUSE_DIRECTOR` và thuộc phạm vi Kho (`Plant / SLoc`) của Lệnh nhập kho.<br>• **Truy vấn CSDL:**<br>  - Truy vấn danh sách kiện hàng từ bảng `handling_unit` theo `task_id` (`deleted = false`).<br>  - Truy vấn chi tiết các mặt hàng đóng gói từ `handling_unit_item`, kết hợp JOIN với bảng `product` để lấy `product_code`, `product_name`, `uom` và JOIN với bảng `equipment` để lấy tên loại thùng/bao bì.<br>  - LEFT JOIN với bảng `handling_unit_item_serial` / `order_item_serial` để lấy thông tin số Serial từng cá thể sản phẩm.<br>• Nếu tất cả các kiện đều rỗng (`COUNT(handling_unit_item) = 0`): Trả về mã lỗi `NO_PACKED_ITEMS_FOUND` và hiển thị cảnh báo cho người dùng. |
+| **4** | Hệ thống (Backend) | Chuẩn hóa dữ liệu và định dạng dòng xuất. | • **Bung dòng theo Serial:**<br>  - Đối với các mặt hàng có quản lý Serial: Mỗi serial được tách thành 1 dòng riêng biệt với `Số lượng = 1`, cột `Serial` hiển thị mã serial tương ứng.<br>  - Đối với các mặt hàng phụ kiện gom số lượng không quản lý Serial: Gom theo từng mã sản phẩm trong cùng một kiện, cột `Số lượng` hiển thị tổng số lượng đóng, cột `Serial` hiển thị ký tự `-`.<br>• **Sắp xếp dữ liệu:** Ưu tiên sắp xếp theo `handling_unit.hu_code ASC` ➔ `product.product_code ASC` ➔ `serial_number ASC`. |
+| **5** | Hệ thống (Backend) | Tạo Workbook Excel và định dạng giao diện bảng tính. | • Khởi tạo workbook Excel mới (thư viện Apache POI / EPPlus).<br>• Tạo sheet mang tên `Danh sách đóng gói`.<br>• Ghi khối tiêu đề báo cáo: Tên đơn vị, Tên biểu mẫu, Mã Lệnh nhập kho, Mã Task, Thời gian xuất, Người xuất.<br>• Ghi hàng tiêu đề cột (Dòng 5) gồm đúng 7 cột nghiệp vụ: `Nhóm kiện`, `Loại kiện`, `Mã sản phẩm`, `Tên sản phẩm`, `Đơn vị tính`, `Số lượng`, `Serial`. Thiết lập style: Font Aptos/Calibri in đậm, nền xám nhạt `#F2F2F2`, viền ô mỏng (Thin border), bật chế độ AutoFilter trên toàn dải cột.<br>• Ghi dữ liệu từng dòng vào bảng và áp dụng format:<br>  - Căn giữa: Cột `Nhóm kiện`, `Loại kiện`, `Mã sản phẩm`, `Đơn vị tính`, `Serial`.<br>  - Căn trái: Cột `Tên sản phẩm`.<br>  - Căn phải và định dạng số nguyên `#,##0`: Cột `Số lượng`.<br>• Kích hoạt tính năng tự động co giãn độ rộng cột (Auto-fit column width) để dữ liệu hiển thị rõ ràng, không bị tràn ô hoặc hiển thị `###`. |
+| **6** | Hệ thống (Backend) | Ghi Audit Log và truyền luồng tệp tin về Client. | • Ghi nhận bản ghi lịch sử vào bảng `task_history`: *"Người dùng {full_name} xuất file Excel danh sách đóng gói cho Task {task_code} (gồm {total_hu} kiện, {total_items} sản phẩm)"*.<br>• Thiết lập Header phản hồi HTTP:<br>  - `Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet`<br>  - `Content-Disposition: attachment; filename="Danh_sach_dong_goi_{order_code}_{yyyyMMdd_HHmmss}.xlsx"`<br>• Truyền dữ liệu binary stream về Client. |
+| **7** | Trình duyệt / Client | Tiếp nhận luồng dữ liệu và hoàn tất. | • Trình duyệt tự động mở hộp thoại lưu tệp hoặc tải trực tiếp về thư mục Downloads của người dùng.<br>• Tắt icon xoay loading trên nút `[📥 Xuất Excel]`.<br>• Hiển thị Toast thông báo màu xanh góc trên bên phải màn hình: *"Xuất danh sách đóng gói thành công!"*. |
 
 #### 3.12.9. In tem
 
