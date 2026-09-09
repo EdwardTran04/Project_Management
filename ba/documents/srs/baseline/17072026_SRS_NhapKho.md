@@ -1917,11 +1917,328 @@ flowchart TD
 
 #### 3.12.3. Thêm kiện hàng
 
+##### 3.12.3.1. Thông tin chung
+
+| Mục | Nội dung |
+|---|---|
+| **Tên chức năng** | Thêm kiện hàng [3.12.3] |
+| **Mục tiêu** | Cho phép nhân sự kho chủ động tạo mới một kiện hàng (Handling Unit - HU) thủ công, lựa chọn quy cách vỏ thùng/bao bì carton phù hợp và phân bổ hàng hóa, vật tư, serial chưa đóng gói vào kiện mới; hỗ trợ linh hoạt bổ sung hoặc cơ cấu lại kiện hàng sau khi chạy thuật toán gợi ý tự động hoặc đóng gói thủ công hoàn toàn. |
+| **Tác nhân** | Nhân viên đóng gói, Thủ kho, Quản lý kho hoặc nhân sự được phân quyền xử lý task đóng gói. |
+| **Điều kiện kích hoạt** | Người dùng nhấn nút `[+ Thêm kiện hàng]` trên thanh công cụ Lưới dữ liệu kiện hàng của Task Đóng gói (khi task chưa kích hoạt trạng thái khóa `Lưu kiện`).<br>Đường dẫn: Đăng nhập ➔ Phân hệ Nhập kho ➔ Danh sách task nhập kho ➔ Chọn Task loại "Đóng gói" ➔ Nhấn nút `[+ Thêm kiện hàng]`. |
+| **Điều kiện đầu vào** | • Task đóng gói thuộc Lệnh nhập kho hợp lệ, trạng thái task là `IN_PROGRESS`, chưa bấm `Lưu kiện`.<br>• Còn ít nhất 1 mặt hàng hoặc serial của đơn nhập kho chưa được đóng vào kiện (`Số lượng còn lại > 0`).<br>• Danh mục bao bì/thùng chứa (`equipment` / `package_type`) có ít nhất một loại thùng đang ở trạng thái hoạt động (`is_active = true`). |
+| **Điều kiện đầu ra** | • **Thành công:** Tạo mới 1 bản ghi kiện hàng trong bảng `handling_unit` với mã kiện tự sinh tăng dần dạng `HU-%03d` (VD: `HU-002`), mapping các sản phẩm/serial đã chọn vào bảng `handling_unit_item`; tính toán lại tổng số lượng, thể tích sử dụng, tỷ lệ lấp đầy của kiện; trừ số lượng tồn chưa đóng gói; cập nhật số lượng thùng trên các thẻ KPI; đóng modal và hiển thị kiện mới lên Master Grid.<br>• **Ngoại lệ:** Nếu chưa chọn Loại Carton, chưa nhập số lượng đóng kiện của bất kỳ mặt hàng nào hoặc nhập số lượng vượt quá số lượng còn lại ➔ Hệ thống chặn ghi nhận và hiển thị thông báo lỗi tương ứng. |
+| **Mô tả** | Chức năng cung cấp giao diện popup "Thêm kiện hàng mới" giúp nhân viên đóng gói chọn loại bao bì thùng/carton, tìm kiếm/lọc hoặc quét nhanh mã Serial, nhập số lượng đóng gói cho từng mặt hàng vật tư chưa đóng gói và xác nhận tạo kiện mới đưa vào danh sách quản lý. |
+| **Đường dẫn** | Đăng nhập ➔ Phân hệ Nhập kho ➔ Danh sách task nhập kho ➔ Chọn Task loại "Đóng gói" (hoặc từ Chi tiết Lệnh nhập kho ➔ Tab Task ➔ Chọn Task Đóng gói) ➔ Nhấn nút `[+ Thêm kiện hàng]` |
+| **Phân quyền & miền dữ liệu** | • **Miền dữ liệu:** Nhân sự chỉ được xem và thao tác trên các Lệnh nhập kho và Task thuộc phạm vi Kho (Plant / SLoc) được phân công phụ trách.<br>• **Xem:** `ROLE_WAREHOUSE_WORKER`, `ROLE_WAREHOUSE_MASTER`, `ROLE_WAREHOUSE_DIRECTOR` (xem danh sách hàng hóa chưa đóng gói, danh mục loại thùng).<br>• **Thêm:** `ROLE_WAREHOUSE_WORKER`, `ROLE_WAREHOUSE_MASTER` (mở popup, tạo kiện hàng mới, phân bổ sản phẩm vào kiện khi chưa bấm Lưu kiện).<br>• **Import:** N/A (thực hiện tại chức năng 3.12.7).<br>• **Sửa:** N/A (chức năng tạo mới kiện; sửa kiện đã tạo thực hiện tại Master Grid khi chưa Lưu kiện).<br>• **Xóa:** N/A.<br>• **Tìm kiếm:** `ROLE_WAREHOUSE_WORKER`, `ROLE_WAREHOUSE_MASTER`, `ROLE_WAREHOUSE_DIRECTOR` (tìm kiếm theo mã/tên vật tư hoặc quét mã serial trong popup).<br>• **Xuất:** N/A. |
+
+##### 3.12.3.2. Màn hình
+
+Giao diện được thiết kế dưới dạng hộp thoại Popup/Modal nổi ở giữa màn hình (Center Modal), kích thước rộng vừa phải (~900px) với các khu vực chức năng chính:
+1. **Khối Header Modal:** Tiêu đề "Thêm kiện hàng mới" (chữ đậm) và nút icon đóng `[✕]` ở góc trên bên phải.
+2. **Khối Thiết lập kiện & Quét nhanh Serial:** 
+   - Dropdown "Loại Carton *" (bắt buộc, kèm dấu sao đỏ, có danh sách chọn các loại thùng như: CT5 - Thùng gỗ, C1 - Carton...).
+   - Textbox "Serial" kèm nút bấm `[Quét]` màu xanh để quét mã serial nhanh bằng đầu đọc barcode/2D hoặc nhập tay.
+3. **Khối Lưới dữ liệu Hàng hóa vật tư (Chưa đóng gói):**
+   - Tiêu đề danh sách: "DANH SÁCH HÀNG HÓA VẬT TƯ (CHƯA ĐÓNG GÓI)".
+   - Ô tìm kiếm nhanh với placeholder: "Tìm kiếm mã / tên hàng hóa vật tư" và icon kính lúp.
+   - Bảng danh sách vật tư hiển thị các cột: STT, Mã vật tư, Tên vật tư, Serial, Còn lại, SL đóng kiện (ô nhập số). Bảng có thanh cuộn dọc (Scrollbar) khi danh sách dài.
+   - Thanh phân trang phía dưới: Dropdown chọn số bản ghi/trang (mặc định 10) và cụm nút di chuyển trang (`<<`, `<`, `1`, `>`, `>>`).
+4. **Khối Footer Modal:** Nút `[Hủy]` (Button Outline) và nút `[Xác nhận]` (Button Primary).
+
+*(Tham chiếu ảnh thiết kế UI màn hình đính kèm: Popup "Thêm kiện hàng mới")*
+
+##### 3.12.3.3. Mô tả chi tiết các thành phần
+
+| STT | Tên | Kiểu dữ liệu [Độ dài] | Input/Output | Giá trị khởi tạo | Mô tả (Mapping với CSDL nếu có) |
+|:---:|---|---|:---:|---|---|
+| **I** | **Khối Header & Điều hướng Modal** | | | | |
+| 1 | Tiêu đề Modal | Label [100] | Output | "Thêm kiện hàng mới" | Tiêu đề cố định của modal tạo mới kiện hàng. |
+| 2 | Nút Đóng Modal | Icon Button | Input | Icon `[✕]` | Click để đóng modal "Thêm kiện hàng mới", hủy bỏ các thao tác đang nhập và quay về màn hình chính. |
+| **II** | **Khối Thiết lập kiện & Quét nhanh Serial** | | | | |
+| 3 | Nhãn Loại Carton | Label [50] | Output | "Loại Carton *" | Nhãn trường thông tin bắt buộc, có dấu hoa thị đỏ `*`. |
+| 4 | Dropdown Loại Carton | Dropdown Select [50] | Input | Bản ghi đầu tiên trong danh mục (VD: "CT5 - Thùng gỗ") | Bắt buộc chọn. Nguồn dữ liệu lấy từ bảng bao bì thùng `equipment` / `package_type` thỏa mãn `is_active = true`, sắp xếp theo `code ASC`. Lưu vào `handling_unit.package_type_code`. Validate: Không được để trống; nếu người dùng chưa chọn loại thùng khi nhấn Xác nhận, hệ thống hiển thị thông báo lỗi inline: *"Vui lòng chọn loại bao bì/thùng carton"*. |
+| 5 | Nhãn Serial | Label [50] | Output | "Serial" | Nhãn ô nhập/quét mã serial. |
+| 6 | Ô nhập Serial | Textbox [100] | Input | NULL | Placeholder "Serial". Cho phép người dùng nhập tay số serial hoặc nhận dữ liệu từ máy quét mã vạch/RFID. Trim khoảng trắng 2 đầu. |
+| 7 | Nút Quét | Button Primary | Input | "Quét" | Click hoặc nhấn phím `Enter` tại ô nhập Serial để thực hiện quét: Hệ thống tìm kiếm số serial trong danh sách hàng hóa chưa đóng gói của order. <br>• **TH1: Tìm thấy serial hợp lệ và Còn lại = 1:** Tự động cuộn màn hình (scroll) tới dòng tương ứng trên lưới, highlight dòng màu vàng nhạt trong 2 giây, tự động cập nhật giá trị `SL đóng kiện = 1`, xóa trắng ô nhập Serial để sẵn sàng quét mã tiếp theo.<br>• **TH2: Serial đã có SL đóng kiện = 1:** Hiển thị Toast cảnh báo: *"Mã serial này đã được chọn đưa vào kiện"*; xóa trắng ô nhập Serial.<br>• **TH3: Serial không tồn tại hoặc đã được đóng vào kiện khác:** Hiển thị Toast lỗi: *"Số serial không tồn tại hoặc đã được đóng gói"*; focus lại ô Serial. |
+| **III** | **Khối Lưới dữ liệu Hàng hóa vật tư (Chưa đóng gói)** | | | | |
+| 8 | Tiêu đề Lưới | Label [100] | Output | "DANH SÁCH HÀNG HÓA VẬT TƯ (CHƯA ĐÓNG GÓI)" | Tiêu đề khối bảng dữ liệu các mặt hàng chưa đóng gói. |
+| 9 | Ô tìm kiếm hàng hóa | Textbox Search [255] | Input | NULL | Placeholder "Tìm kiếm mã / tên hàng hóa vật tư", có icon kính lúp. Tìm kiếm so khớp Like (contains), không phân biệt hoa/thường, tự động trim khoảng trắng 2 đầu; tìm đồng thời theo mã vật tư (`product.product_code`) và tên vật tư (`product.product_name`). Khi xóa trắng ô tìm kiếm, bảng tự động hiển thị lại toàn bộ danh sách chưa đóng gói. |
+| 10 | Cột STT | Label [5] | Output | 1, 2, 3... | Số thứ tự tăng dần của các dòng hiển thị trên trang hiện tại. |
+| 11 | Cột Mã vật tư | Label [50] | Output | Mã SKU | Mã định danh vật tư hàng hóa theo chuẩn SAP (`product.product_code`, VD: `200000006`, `20000107`). |
+| 12 | Cột Tên vật tư | Label [255] | Output | Tên vật tư | Tên quy chuẩn của vật tư hàng hóa (`product.product_name`, VD: `Bolt_M12x60(Bulông M12x60)`, `Cable Tie_4.6x200mm(Cable Tie_4.6x200mm)`). |
+| 13 | Cột Serial | Label [100] | Output | Số Serial hoặc "-" | Số Serial duy nhất của từng sản phẩm vật lý (`order_item_serial.serial_number`, VD: `60043720503-252`). Đối với các mặt hàng phụ kiện/vật tư tiêu hao gom theo số lượng không quản lý theo số serial đơn lẻ, hiển thị ký hiệu gạch ngang `-`. |
+| 14 | Cột Còn lại | Number Label [10] | Output | Số lượng tồn chưa đóng | Số lượng sản phẩm/serial thực tế của dòng hàng đó chưa được đóng vào bất kỳ kiện hàng nào trong task hiện tại. Công thức tính: `order_item.quantity - SUM(handling_unit_item.quantity)`. Format số nguyên. |
+| 15 | Cột SL đóng kiện | Spinbox / Number Input [10] | Input | 0 | Số lượng sản phẩm/serial mà người dùng muốn phân bổ vào kiện hàng mới này. Giá trị khởi tạo mặc định bằng `0`. Quy tắc validate và hành vi:<br>• Cho phép nhập số nguyên hoặc sử dụng nút tăng/giảm trên control.<br>• Ràng buộc: `0 <= SL đóng kiện <= Còn lại`.<br>• Nếu người dùng nhập số âm hoặc ký tự chữ: Hệ thống tự động gán về `0`.<br>• Nếu người dùng nhập giá trị lớn hơn giá trị tại cột `Còn lại`: Hệ thống tự động điều chỉnh về giá trị tối đa của cột `Còn lại` và hiển thị Toast thông báo: *"Số lượng đóng kiện không được vượt quá số lượng còn lại ({Còn lại})"*.<br>• Đối với các dòng vật tư có quản lý theo số Serial đơn lẻ (`Serial != '-'): Giá trị chỉ được phép nhận là `0` hoặc `1`. Khi người dùng nhập số > 1, hệ thống tự động đưa về `1`.<br>• Dữ liệu nhập được lưu tạm thời vào state danh sách chọn của popup. |
+| 16 | Thanh cuộn dọc | Scrollbar | Output | Tự động hiển thị | Thanh cuộn dọc của khung bảng dữ liệu, tự động xuất hiện khi tổng số dòng hàng vượt quá chiều cao hiển thị của bảng (~350px), giúp người dùng dễ dàng duyệt danh sách. |
+| 17 | Dropdown Số dòng/trang | Dropdown Select [5] | Input | "10" | Cho phép chọn số lượng dòng hiển thị trên một trang: `10`, `20`, `50`, `100` dòng/trang. Tham chiếu quy chuẩn Common `[TCCT_TKCT]`. |
+| 18 | Cụm nút Phân trang | Pagination Control | Input | Trang 1 | Gồm các nút điều hướng: về trang đầu `<<`, trang trước `<`, trang số hiện tại `1`, trang kế tiếp `>`, về trang cuối `>>`. Tham chiếu quy chuẩn Common `[TCCT_TKCT]`. |
+| **IV** | **Khối Nút tác vụ chân Modal (Footer)** | | | | |
+| 19 | Nút Hủy | Button Outline | Input | "Hủy" | Click để đóng modal "Thêm kiện hàng mới", không thực hiện lưu trữ hay thay đổi dữ liệu, giữ nguyên cấu trúc kiện hiện tại trên màn hình chính. |
+| 20 | Nút Xác nhận | Button Primary | Input | "Xác nhận" | Click để xác nhận tạo kiện mới và phân bổ hàng hóa đã chọn vào kiện. <br>• **Trạng thái:** Nút ở trạng thái disabled khi tổng số lượng hàng hóa chọn đóng kiện (`SUM(SL đóng kiện) = 0`). Chuyển sang trạng thái enable khi có ít nhất 1 dòng có `SL đóng kiện > 0`.<br>• **Hành động:** Khi click, hệ thống validate toàn bộ form: kiểm tra đã chọn Loại Carton chưa, kiểm tra tổng số lượng hàng đóng > 0. Nếu hợp lệ: Tự động sinh mã HU mới, INSERT vào bảng `handling_unit` và `handling_unit_item`, tính toán thể tích/tỷ lệ lấp đầy, cập nhật lại thẻ KPI, render kiện mới lên Master Grid và đóng modal. |
+
+##### 3.12.3.4. Luồng nghiệp vụ
+
+```mermaid
+flowchart TD
+    Start["User nhấn nút '+ Thêm kiện hàng'"] --> CheckLock{"Task đã bấm 'Lưu kiện'?"}
+    CheckLock -->|Đã lưu| ErrLock["Nút bị khóa / Hiển thị cảnh báo: Cấu trúc kiện đã khóa, không thể thêm kiện mới"]
+    CheckLock -->|Chưa lưu| QueryData["Hệ thống truy vấn CSDL: Danh mục Loại thùng và Hàng hóa chưa đóng gói"]
+    
+    QueryData --> CheckRemain{"Còn hàng hóa chưa đóng gói?"}
+    CheckRemain -->|Hết hàng| ShowToastEmpty["Hiển thị Toast: Toàn bộ hàng hóa đã được đóng gói, không thể tạo thêm kiện"]
+    CheckRemain -->|Còn hàng| OpenModal["Render Modal 'Thêm kiện hàng mới' - Loại carton mặc định, SL đóng kiện = 0"]
+    
+    OpenModal --> UserAction{"User thao tác trên Modal?"}
+    
+    UserAction -->|Thay đổi Loại Carton| ChangeCarton["Cập nhật loại bao bì trong state"]
+    UserAction -->|Tìm kiếm từ khóa| FilterList["Lọc danh sách theo mã hoặc tên vật tư"]
+    
+    UserAction -->|Quét Serial| ScanSerial["User nhập mã Serial và nhấn 'Quét'"]
+    ScanSerial --> CheckSerial{"Serial có trong danh sách chưa đóng gói?"}
+    CheckSerial -->|Không có hoặc đã đóng| ToastErrSerial["Hiển thị Toast: Số serial không tồn tại hoặc đã được đóng gói"]
+    CheckSerial -->|Hợp lệ| HighlightRow["Scroll tới dòng, highlight vàng, gán SL đóng kiện = 1, xóa trắng ô Serial"]
+    
+    UserAction -->|Nhập thủ công SL đóng kiện| InputQty["User nhập SL đóng kiện cho từng dòng vật tư"]
+    InputQty --> ValQty{"SL nhập nhỏ hơn hoặc bằng Còn lại?"}
+    ValQty -->|Vượt quá| AutoCorrect["Tự động gán về bằng Còn lại và báo lỗi"]
+    ValQty -->|Hợp lệ| UpdateState["Cập nhật SL đóng kiện vào state"]
+    
+    UserAction -->|Bấm nút Hủy hoặc nút Đóng| CloseCancel["Đóng modal, hủy bỏ mọi thay đổi tạm thời"]
+    
+    UserAction -->|Bấm nút Xác nhận| ValSubmit{"Validate toàn form"}
+    ValSubmit -->|Chưa chọn loại carton| ErrCarton["Hiển thị lỗi: Vui lòng chọn loại thùng carton"]
+    ValSubmit -->|Tổng SL đóng kiện bằng 0| ErrNoItems["Hiển thị lỗi: Vui lòng chọn ít nhất 1 sản phẩm để đóng kiện"]
+    ValSubmit -->|Hợp lệ| CheckCapacity{"Kiểm tra tải trọng và thể tích thùng"}
+    
+    CheckCapacity -->|Vượt tải trọng khuyến nghị| ConfirmOverload["Hiển thị Popup cảnh báo quá tải: Tiếp tục hay Hủy?"]
+    ConfirmOverload -->|Hủy| OpenModal
+    ConfirmOverload -->|Tiếp tục| GenHU["Hệ thống sinh mã kiện HU tiếp theo"]
+    CheckCapacity -->|Hợp lệ| GenHU
+    
+    GenHU --> DBInsert["INSERT handling_unit và INSERT handling_unit_item"]
+    DBInsert --> AuditLog["Ghi log thao tác vào task_history"]
+    AuditLog --> RefreshUI["Đóng modal, cập nhật Thẻ KPI, hiển thị kiện mới trên Master Grid, Toast thành công"]
+    RefreshUI --> Finish["Hoàn tất thêm kiện hàng"]
+```
+
+| Bước | Tác nhân | Hành động | Kết quả / Phản ứng hệ thống |
+|:---:|---|---|---|
+| **1** | Người dùng | Nhấn nút `[+ Thêm kiện hàng]` trên thanh công cụ Lưới dữ liệu kiện hàng của Task Đóng gói. | • **Kiểm tra trạng thái khóa:** Hệ thống kiểm tra cờ `is_locked` của task đóng gói. Nếu task đã bấm `Lưu kiện`, nút bị khóa (disabled); nếu có request can thiệp trái phép, hệ thống từ chối và báo lỗi: *"Cấu trúc kiện đã được khóa, không thể thêm kiện mới"*. <br>• **Kiểm tra số lượng còn lại:** Hệ thống kiểm tra tổng số lượng hàng chưa đóng gói `SUM(Còn lại)`. Nếu tất cả hàng đã đóng gói hết (`SUM(Còn lại) = 0`), hiển thị Toast thông báo: *"Toàn bộ hàng hóa vật tư đã được đóng gói đầy đủ"*, không mở modal.<br>• Nếu hợp lệ, hệ thống chuyển sang **Bước 2**. |
+| **2** | Hệ thống | Truy vấn CSDL và khởi tạo giao diện Modal "Thêm kiện hàng mới". | • **Truy vấn danh mục thùng:** Lấy danh sách bao bì từ bảng `equipment` / `package_type` (`is_active = true`), sắp xếp theo mã code.<br>• **Truy vấn hàng hóa chưa đóng gói:** Truy vấn các bảng `order_item`, `order_item_serial`, trừ đi các sản phẩm/serial đã nằm trong `handling_unit_item` của task này. Tính toán số lượng `Còn lại` cho từng dòng.<br>• **Render Modal:** Hiển thị popup giữa màn hình, Dropdown Loại Carton mặc định chọn loại đầu tiên trong danh mục (VD: `CT5 - Thùng gỗ`), ô Serial rỗng, bảng danh sách vật tư chưa đóng gói được load với giá trị `SL đóng kiện = 0` cho toàn bộ các dòng; nút `[Xác nhận]` ở trạng thái disabled. |
+| **3** | Người dùng | Lựa chọn Loại Carton từ Dropdown (nếu muốn thay đổi loại thùng mặc định). | Hệ thống ghi nhận mã loại thùng mới (`package_type_code`) vào state của popup, cập nhật lại thông số thể tích và tải trọng tối đa của vỏ thùng để phục vụ kiểm tra giới hạn vật lý. |
+| **4** | Người dùng | Thực hiện phân bổ hàng hóa vào kiện (sử dụng 1 trong 2 cách hoặc kết hợp cả 2):<br>• **Cách 1: Quét mã Serial nhanh**<br>• **Cách 2: Tìm kiếm & Nhập số lượng thủ công** | • **Đối với Cách 1 (Quét Serial):** Người dùng nhập mã Serial vào ô `Serial` và bấm `[Quét]` (hoặc quét barcode thiết bị tự bắn phím Enter):<br>  - *TH1 (Serial hợp lệ):* Hệ thống định vị dòng serial tương ứng trong bảng, tự động cuộn (scroll) tới dòng đó, highlight nền màu vàng nhạt trong 2 giây, tự động đặt `SL đóng kiện = 1`, xóa trắng ô nhập Serial và kích hoạt enable nút `[Xác nhận]`.<br>  - *TH2 (Serial đã được chọn đóng kiện trước đó):* Hiển thị Toast cảnh báo: *"Mã serial này đã được chọn đưa vào kiện"*; xóa trắng ô Serial.<br>  - *TH3 (Serial không tồn tại hoặc đã thuộc kiện khác):* Hiển thị Toast lỗi: *"Số serial không tồn tại hoặc đã được đóng gói"*; focus lại ô Serial.<br>• **Đối với Cách 2 (Tìm kiếm & Nhập số lượng):** Người dùng nhập từ khóa vào ô tìm kiếm để lọc nhanh mặt hàng theo mã hoặc tên vật tư. Sau đó nhập số lượng mong muốn vào ô `SL đóng kiện`:<br>  - Hệ thống validate: `0 <= SL đóng kiện <= Còn lại`.<br>  - Nếu nhập vượt quá `Còn lại`: Tự động ép về bằng giá trị `Còn lại` và hiển thị Toast: *"Số lượng đóng kiện không được vượt quá số lượng còn lại ({Còn lại})"*/<br>  - Nếu là dòng có quản lý Serial đơn lẻ: Hệ thống chỉ cho phép nhập `0` hoặc `1`.<br>  - Khi tổng số lượng đóng kiện `SUM(SL đóng kiện) > 0`, hệ thống tự động chuyển nút `[Xác nhận]` sang trạng thái enable. |
+| **5** | Người dùng | Nhấn nút `[Hủy]` hoặc icon `[✕]` trên góc phải modal. | Hệ thống đóng modal "Thêm kiện hàng mới", xóa toàn bộ dữ liệu đang chọn dở trong bộ nhớ tạm, giữ nguyên cấu trúc các kiện hiện có và quay về màn hình chính. |
+| **6** | Người dùng | Nhấn nút `[Xác nhận]` trên chân Modal. | Hệ thống thực hiện kiểm tra nghiệp vụ toàn diện trước khi lưu:<br>1. **Validate Loại Carton:** Kiểm tra trường `Loại Carton` có giá trị hay không. Nếu rỗng, hiển thị lỗi: *"Vui lòng chọn loại bao bì/thùng carton"*. <br>2. **Validate số lượng:** Kiểm tra tổng số lượng hàng hóa được chọn đóng kiện (`SUM(SL đóng kiện)`). Nếu bằng 0, hiển thị lỗi: *"Vui lòng chọn ít nhất một sản phẩm/serial để đóng kiện"*. <br>3. **Kiểm tra tải trọng/thể tích:** Tính tổng trọng lượng và thể tích của các mặt hàng được chọn so với tải trọng tối đa (`max_weight`) và thể tích lọt lòng (`volume`) của loại thùng đã chọn. Nếu vượt quá giới hạn khuyến nghị của nhà sản xuất bao bì, hệ thống hiển thị Popup xác nhận cảnh báo: *"Tổng trọng lượng hàng ({weight} kg) vượt quá tải trọng định mức của thùng ({max_weight} kg). Bạn có chắc chắn muốn tiếp tục đóng gói vào thùng này không?"*. Nếu người dùng bấm `Hủy`, giữ nguyên popup để điều chỉnh; nếu bấm `Tiếp tục`, chuyển sang **Bước 7**. |
+| **7** | Hệ thống | Thực hiện tạo mới kiện hàng và ghi nhận dữ liệu vào CSDL. | • **Sinh mã định danh kiện hàng:** Truy vấn mã HU lớn nhất hiện có trong task đóng gói của lệnh nhập hiện tại (theo mẫu `HU-%03d`), tự động tăng số thứ tự lên 1 để sinh mã mới (VD: `HU-001` ➔ sinh `HU-002`).<br>• **Ghi CSDL bảng Handling Unit:** Thực hiện INSERT vào bảng `handling_unit` các thông tin: `hu_code`, `package_type_code`, `warehouse_order_id`, `task_id`, `total_item_count = SUM(SL đóng)`, `used_volume_m3`, `fill_rate_percent`, `is_locked = false`, `created_by`, `created_at`.<br>• **Ghi CSDL bảng Handling Unit Item:** Duyệt danh sách các dòng có `SL đóng kiện > 0`, thực hiện INSERT vào bảng `handling_unit_item` các bản ghi: `hu_id`, `order_item_id`, `serial_id` (nếu có), `product_code`, `quantity`.<br>• **Ghi Audit Log:** Ghi nhận bản ghi lịch sử vào bảng `task_history`: *"Tạo thủ công kiện hàng mới {hu_code}, loại thùng {package_type_code}, gồm {total_item_count} sản phẩm/serial"*. |
+| **8** | Hệ thống | Cập nhật giao diện và phản hồi cho người dùng. | • Đóng modal "Thêm kiện hàng mới".<br>• Hiển thị Toast thông báo thành công: *"Tạo kiện hàng {hu_code} thành công!"*.<br>• Cập nhật số lượng trên các Thẻ KPI tổng quan (tăng số lượng loại thùng tương ứng: Thùng gỗ / Thùng carton).<br>• Thêm kiện mới `HU-%03d` vào Lưới dữ liệu Master Kiện hàng (`handling_unit`), tự động mở rộng (expand) bảng Sub-grid chi tiết của kiện vừa tạo để người dùng kiểm tra ngay danh sách sản phẩm bên trong.<br>• Các nút tác vụ trên Master Grid (`+ Thêm kiện hàng`, `Lưu kiện`, icon xóa kiện, icon xóa sản phẩm) tiếp tục ở trạng thái sẵn sàng để người dùng điều chỉnh tiếp trước khi bấm `Lưu kiện`. |
+
 #### 3.12.4. Thêm hàng hóa, vật tư vào kiện
+
+##### 3.12.4.1. Thông tin chung
+
+| Mục | Nội dung |
+|---|---|
+| **Tên chức năng** | Thêm hàng hóa, vật tư vào kiện [3.12.4] |
+| **Mục tiêu** | Cho phép nhân sự kho bổ sung thêm các sản phẩm, vật tư, serial chưa đóng gói vào một kiện hàng (Handling Unit - HU) cụ thể đã có trong danh sách; hỗ trợ điều chỉnh linh hoạt, gom hàng hoặc tái cấu trúc phân bổ hàng hóa giữa các thùng chứa trước khi chốt lưu kiện. |
+| **Tác nhân** | Nhân viên đóng gói, Thủ kho, Quản lý kho hoặc nhân sự được phân quyền xử lý task đóng gói. |
+| **Điều kiện kích hoạt** | Người dùng nhấn nút `[+ Thêm hàng vào kiện]` trên thanh tiêu đề của bảng Sub-grid chi tiết kiện hàng (hoặc icon `[+]` tại dòng kiện hàng trên Lưới Master) khi task chưa kích hoạt chế độ khóa `Lưu kiện`.<br>Đường dẫn: Đăng nhập ➔ Phân hệ Nhập kho ➔ Danh sách task nhập kho ➔ Chọn Task loại "Đóng gói" ➔ Mở rộng dòng kiện hàng (click icon `v`) ➔ Nhấn nút `[+ Thêm hàng vào kiện]`. |
+| **Điều kiện đầu vào** | • Task đóng gói thuộc Lệnh nhập kho hợp lệ, trạng thái task là `IN_PROGRESS`, chưa bấm `Lưu kiện`.<br>• Kiện hàng đích (`handling_unit`) tồn tại hợp lệ và chưa bị khóa.<br>• Còn ít nhất 1 mặt hàng hoặc serial của đơn nhập kho chưa được đóng vào kiện (`Số lượng còn lại > 0`). |
+| **Điều kiện đầu ra** | • **Thành công:** Tạo mới các bản ghi hàng hóa bổ sung vào bảng `handling_unit_item` gắn với `hu_id` của kiện đích; cập nhật tổng số lượng (`total_item_count`), tính toán lại thể tích sử dụng (`used_volume_m3`) và tỷ lệ lấp đầy (`fill_rate_percent`) của kiện đích trong bảng `handling_unit`; trừ số lượng tồn chưa đóng gói của đơn hàng; cập nhật lại bảng Sub-grid chi tiết và badges tóm tắt trên Master Grid; đóng modal.<br>• **Ngoại lệ:** Nếu chưa nhập số lượng thêm của bất kỳ mặt hàng nào hoặc nhập số lượng vượt quá số lượng còn lại ➔ Hệ thống chặn ghi nhận và hiển thị thông báo lỗi tương ứng. |
+| **Mô tả** | Cung cấp giao diện popup "Thêm hàng hóa, vật tư vào kiện: {Mã HU}" hiển thị thông số tóm tắt của kiện đích (Mã kiện, Quy cách thùng, Thể tích, Sức chứa), ô quét mã Serial nhanh, danh sách hàng hóa/vật tư chưa đóng gói để người dùng tra cứu, nhập số lượng cần bổ sung và xác nhận cập nhật vào kiện đích. |
+| **Đường dẫn** | Đăng nhập ➔ Phân hệ Nhập kho ➔ Danh sách task nhập kho ➔ Chọn Task loại "Đóng gói" ➔ Mở rộng dòng kiện hàng đích (icon `v`) ➔ Nhấn nút `[+ Thêm hàng vào kiện]` |
+| **Phân quyền & miền dữ liệu** | • **Miền dữ liệu:** Nhân sự chỉ được xem và thao tác trên các Lệnh nhập kho và Task thuộc phạm vi Kho (Plant / SLoc) được phân công phụ trách.<br>• **Xem:** `ROLE_WAREHOUSE_WORKER`, `ROLE_WAREHOUSE_MASTER`, `ROLE_WAREHOUSE_DIRECTOR` (xem thông tin kiện, danh sách hàng hóa chưa đóng gói).<br>• **Thêm:** `ROLE_WAREHOUSE_WORKER`, `ROLE_WAREHOUSE_MASTER` (bổ sung sản phẩm/serial vào kiện khi chưa bấm Lưu kiện).<br>• **Import:** N/A (thực hiện tại chức năng 3.12.7).<br>• **Sửa:** N/A.<br>• **Xóa:** N/A (thao tác tại chức năng 3.12.6).<br>• **Tìm kiếm:** `ROLE_WAREHOUSE_WORKER`, `ROLE_WAREHOUSE_MASTER`, `ROLE_WAREHOUSE_DIRECTOR` (tìm kiếm theo mã/tên vật tư hoặc quét mã serial trong popup).<br>• **Xuất:** N/A. |
+
+##### 3.12.4.2. Màn hình
+
+Giao diện được thiết kế dưới dạng hộp thoại Popup/Modal nổi ở giữa màn hình (Center Modal), kích thước rộng (~900px) với các khu vực chức năng chính:
+1. **Khối Header Modal:** Tiêu đề "Thêm hàng hóa, vật tư vào kiện: {Mã HU}" (VD: `Thêm hàng hóa, vật tư vào kiện: HU-001`), hiển thị kèm nhãn loại thùng hiện tại (VD: `CT5 - Thùng gỗ`), và nút icon đóng `[✕]` ở góc trên bên phải.
+2. **Khối Thông tin tóm tắt kiện đích & Quét nhanh Serial:** 
+   - Thẻ tóm tắt thông số kiện: Mã kiện (`hu_code`), Quy cách thùng bao bì, Số lượng sản phẩm hiện tại, Thể tích đã dùng / Thể tích tối đa của thùng.
+   - Textbox "Serial" kèm nút bấm `[Quét]` màu xanh để quét nhanh mã serial cần bổ sung vào kiện đích bằng máy quét barcode/2D hoặc nhập tay.
+3. **Khối Lưới dữ liệu Hàng hóa vật tư (Chưa đóng gói):**
+   - Tiêu đề danh sách: "DANH SÁCH HÀNG HÓA VẬT TƯ (CHƯA ĐÓNG GÓI)".
+   - Ô tìm kiếm nhanh với placeholder: "Tìm kiếm mã / tên hàng hóa vật tư" và icon kính lúp.
+   - Bảng danh sách vật tư hiển thị các cột: STT, Mã vật tư, Tên vật tư, Serial, Còn lại, SL thêm vào kiện (ô nhập số/spinbox). Bảng có thanh cuộn dọc (Scrollbar) khi danh sách dài.
+   - Thanh phân trang phía dưới: Dropdown chọn số bản ghi/trang (mặc định 10) và cụm nút di chuyển trang (`<<`, `<`, `1`, `>`, `>>`).
+4. **Khối Footer Modal:** Nút `[Hủy]` (Button Outline) và nút `[Xác nhận]` (Button Primary).
+
+*(Tham chiếu thiết kế UI Popup: UI_ThemHangVaoKien_Modal.png)*
+
+##### 3.12.4.3. Mô tả chi tiết các thành phần
+
+| STT | Tên | Kiểu dữ liệu [Độ dài] | Input/Output | Giá trị khởi tạo | Mô tả (Mapping với CSDL nếu có) |
+|:---:|---|---|:---:|---|---|
+| **I** | **Khối Header & Điều hướng Modal** | | | | |
+| 1 | Tiêu đề Modal | Label [150] | Output | "Thêm hàng hóa, vật tư vào kiện: {Mã HU}" | Tiêu đề modal hiển thị kèm mã kiện hàng đích đang được thao tác (`handling_unit.hu_code`, VD: `HU-001`). |
+| 2 | Nút Đóng Modal | Icon Button | Input | Icon `[✕]` | Click để đóng modal "Thêm hàng hóa vào kiện", hủy bỏ các thao tác đang nhập và quay về màn hình chính. |
+| **II** | **Khối Thông tin kiện đích & Quét nhanh Serial** | | | | |
+| 3 | Card Thông tin kiện | Summary Card | Output | Tóm tắt kiện hàng | Hiển thị tóm tắt thông số kiện hàng đích: Mã kiện (`handling_unit.hu_code`), Tên quy cách bao bì (`equipment.name`), Số lượng đang chứa (`handling_unit.total_item_count`), Tỷ lệ lấp đầy hiện tại (`handling_unit.fill_rate_percent`) và Thể tích tối đa (`equipment.volume`). Read-only. |
+| 4 | Nhãn Serial | Label [50] | Output | "Serial" | Nhãn ô nhập/quét mã serial. |
+| 5 | Ô nhập Serial | Textbox [100] | Input | NULL | Placeholder "Serial". Cho phép người dùng nhập tay số serial hoặc nhận dữ liệu từ máy quét mã vạch/RFID. Trim khoảng trắng 2 đầu. |
+| 6 | Nút Quét | Button Primary | Input | "Quét" | Click hoặc nhấn phím `Enter` tại ô nhập Serial để thực hiện quét: Hệ thống tìm kiếm số serial trong danh sách hàng hóa chưa đóng gói của order. <br>• **TH1: Tìm thấy serial hợp lệ và Còn lại = 1:** Tự động cuộn màn hình (scroll) tới dòng tương ứng trên lưới, highlight dòng màu vàng nhạt trong 2 giây, tự động cập nhật giá trị `SL thêm vào kiện = 1`, xóa trắng ô nhập Serial để sẵn sàng quét mã tiếp theo.<br>• **TH2: Serial đã có SL thêm vào kiện = 1:** Hiển thị Toast cảnh báo: *"Mã serial này đã được chọn thêm vào kiện"*; xóa trắng ô nhập Serial.<br>• **TH3: Serial không tồn tại hoặc đã được đóng vào kiện khác:** Hiển thị Toast lỗi: *"Số serial không tồn tại hoặc đã được đóng gói"*; focus lại ô Serial. |
+| **III** | **Khối Lưới dữ liệu Hàng hóa vật tư (Chưa đóng gói)** | | | | |
+| 7 | Tiêu đề Lưới | Label [100] | Output | "DANH SÁCH HÀNG HÓA VẬT TƯ (CHƯA ĐÓNG GÓI)" | Tiêu đề khối bảng dữ liệu các mặt hàng chưa đóng gói. |
+| 8 | Ô tìm kiếm hàng hóa | Textbox Search [255] | Input | NULL | Placeholder "Tìm kiếm mã / tên hàng hóa vật tư", có icon kính lúp. Tìm kiếm so khớp Like (contains), không phân biệt hoa/thường, tự động trim khoảng trắng 2 đầu; tìm đồng thời theo mã vật tư (`product.product_code`) và tên vật tư (`product.product_name`). Khi xóa trắng ô tìm kiếm, bảng tự động hiển thị lại toàn bộ danh sách chưa đóng gói. |
+| 9 | Cột STT | Label [5] | Output | 1, 2, 3... | Số thứ tự tăng dần của các dòng hiển thị trên trang hiện tại. |
+| 10 | Cột Mã vật tư | Label [50] | Output | Mã SKU | Mã định danh vật tư hàng hóa theo chuẩn SAP (`product.product_code`, VD: `200000006`, `20000107`). |
+| 11 | Cột Tên vật tư | Label [255] | Output | Tên vật tư | Tên quy chuẩn của vật tư hàng hóa (`product.product_name`, VD: `Bolt_M12x60(Bulông M12x60)`, `Cable Tie_4.6x200mm(Cable Tie_4.6x200mm)`). |
+| 12 | Cột Serial | Label [100] | Output | Số Serial hoặc "-" | Số Serial duy nhất của từng sản phẩm vật lý (`order_item_serial.serial_number`, VD: `60043720503-252`). Đối với các mặt hàng phụ kiện/vật tư tiêu hao gom theo số lượng không quản lý theo số serial đơn lẻ, hiển thị ký hiệu gạch ngang `-`. |
+| 13 | Cột Còn lại | Number Label [10] | Output | Số lượng tồn chưa đóng | Số lượng sản phẩm/serial thực tế của dòng hàng đó chưa được đóng vào bất kỳ kiện hàng nào trong task hiện tại. Công thức tính: `order_item.quantity - SUM(handling_unit_item.quantity)`. Format số nguyên. |
+| 14 | Cột SL thêm vào kiện | Spinbox / Number Input [10] | Input | 0 | Số lượng sản phẩm/serial mà người dùng muốn bổ sung vào kiện hàng đích này. Giá trị khởi tạo mặc định bằng `0`. Quy tắc validate và hành vi:<br>• Cho phép nhập số nguyên hoặc sử dụng nút tăng/giảm trên control.<br>• Ràng buộc: `0 <= SL thêm vào kiện <= Còn lại`.<br>• Nếu người dùng nhập số âm hoặc ký tự chữ: Hệ thống tự động gán về `0`.<br>• Nếu người dùng nhập giá trị lớn hơn giá trị tại cột `Còn lại`: Hệ thống tự động điều chỉnh về giá trị tối đa của cột `Còn lại` và hiển thị Toast thông báo: *"Số lượng thêm vào kiện không được vượt quá số lượng còn lại ({Còn lại})"*.<br>• Đối với các dòng vật tư có quản lý theo số Serial đơn lẻ (`Serial != '-'): Giá trị chỉ được phép nhận là `0` hoặc `1`. Khi người dùng nhập số > 1, hệ thống tự động đưa về `1`.<br>• Dữ liệu nhập được lưu tạm thời vào state danh sách chọn của popup. |
+| 15 | Thanh cuộn dọc | Scrollbar | Output | Tự động hiển thị | Thanh cuộn dọc của khung bảng dữ liệu, tự động xuất hiện khi tổng số dòng hàng vượt quá chiều cao hiển thị của bảng (~350px), giúp người dùng dễ dàng duyệt danh sách. |
+| 16 | Dropdown Số dòng/trang | Dropdown Select [5] | Input | "10" | Cho phép chọn số lượng dòng hiển thị trên một trang: `10`, `20`, `50`, `100` dòng/trang. Tham chiếu quy chuẩn Common `[TCCT_TKCT]`. |
+| 17 | Cụm nút Phân trang | Pagination Control | Input | Trang 1 | Gồm các nút điều hướng: về trang đầu `<<`, trang trước `<`, trang số hiện tại `1`, trang kế tiếp `>`, về trang cuối `>>`. Tham chiếu quy chuẩn Common `[TCCT_TKCT]`. |
+| **IV** | **Khối Nút tác vụ chân Modal (Footer)** | | | | |
+| 18 | Nút Hủy | Button Outline | Input | "Hủy" | Click để đóng modal "Thêm hàng hóa vào kiện", không thực hiện lưu trữ hay thay đổi dữ liệu, giữ nguyên hiện trạng của kiện trên màn hình chính. |
+| 19 | Nút Xác nhận | Button Primary | Input | "Xác nhận" | Click để xác nhận bổ sung hàng hóa đã chọn vào kiện đích. <br>• **Trạng thái:** Nút ở trạng thái disabled khi tổng số lượng hàng hóa chọn bổ sung (`SUM(SL thêm vào kiện) = 0`). Chuyển sang trạng thái enable khi có ít nhất 1 dòng có `SL thêm vào kiện > 0`.<br>• **Hành động:** Khi click, hệ thống validate toàn bộ form: kiểm tra tổng số lượng hàng thêm > 0, tính toán tải trọng/thể tích bổ sung so với giới hạn của vỏ thùng. Nếu hợp lệ: Thực hiện INSERT vào bảng `handling_unit_item`, UPDATE lại các trường tổng của kiện trong bảng `handling_unit`, cập nhật lại thẻ KPI, refresh bảng Sub-grid chi tiết và đóng modal. |
+
+##### 3.12.4.4. Luồng nghiệp vụ
+
+```mermaid
+flowchart TD
+    Start["User nhấn nút '+ Thêm hàng vào kiện' tại kiện HU đích"] --> CheckLock{"Task đã bấm 'Lưu kiện'?"}
+    CheckLock -->|Đã lưu| ErrLock["Nút bị khóa / Hiển thị cảnh báo: Cấu trúc kiện đã khóa, không thể thêm hàng"]
+    CheckLock -->|Chưa lưu| QueryData["Hệ thống truy vấn CSDL: Thông tin kiện đích và Danh sách hàng chưa đóng gói"]
+    
+    QueryData --> CheckRemain{"Còn hàng hóa chưa đóng gói?"}
+    CheckRemain -->|Hết hàng| ShowToastEmpty["Hiển thị Toast: Toàn bộ hàng hóa đã được đóng gói đầy đủ"]
+    CheckRemain -->|Còn hàng| OpenModal["Render Modal 'Thêm hàng hóa, vật tư vào kiện' - SL thêm = 0"]
+    
+    OpenModal --> UserAction{"User thao tác trên Modal?"}
+    
+    UserAction -->|Tìm kiếm từ khóa| FilterList["Lọc danh sách theo mã hoặc tên vật tư"]
+    
+    UserAction -->|Quét Serial| ScanSerial["User nhập mã Serial và nhấn 'Quét'"]
+    ScanSerial --> CheckSerial{"Serial có trong danh sách chưa đóng gói?"}
+    CheckSerial -->|Không có hoặc đã đóng| ToastErrSerial["Hiển thị Toast: Số serial không tồn tại hoặc đã được đóng gói"]
+    CheckSerial -->|Hợp lệ| HighlightRow["Scroll tới dòng, highlight vàng, gán SL thêm = 1, xóa trắng ô Serial"]
+    
+    UserAction -->|Nhập thủ công SL thêm| InputQty["User nhập SL thêm vào kiện cho từng dòng vật tư"]
+    InputQty --> ValQty{"SL nhập nhỏ hơn hoặc bằng Còn lại?"}
+    ValQty -->|Vượt quá| AutoCorrect["Tự động gán về bằng Còn lại và báo lỗi"]
+    ValQty -->|Hợp lệ| UpdateState["Cập nhật SL thêm vào state"]
+    
+    UserAction -->|Bấm nút Hủy hoặc nút Đóng| CloseCancel["Đóng modal, hủy bỏ mọi thay đổi tạm thời"]
+    
+    UserAction -->|Bấm nút Xác nhận| ValSubmit{"Validate toàn form"}
+    ValSubmit -->|Tổng SL thêm bằng 0| ErrNoItems["Hiển thị lỗi: Vui lòng chọn ít nhất 1 sản phẩm để thêm vào kiện"]
+    ValSubmit -->|Hợp lệ| CheckCapacity{"Kiểm tra sức chứa: Thể tích và tải trọng sau khi thêm"}
+    
+    CheckCapacity -->|Vượt tải trọng khuyến nghị của thùng| ConfirmOverload["Hiển thị Popup cảnh báo quá tải: Tiếp tục hay Hủy?"]
+    ConfirmOverload -->|Hủy| OpenModal
+    ConfirmOverload -->|Tiếp tục| DBProcess["Xử lý cập nhật CSDL"]
+    CheckCapacity -->|Hợp lệ| DBProcess
+    
+    DBProcess --> InsertItems["INSERT handling_unit_item với hu_id của kiện đích"]
+    InsertItems --> UpdateHU["UPDATE handling_unit: total_item_count, used_volume_m3, fill_rate_percent"]
+    UpdateHU --> AuditLog["Ghi log thao tác vào task_history"]
+    AuditLog --> RefreshUI["Đóng modal, cập nhật Sub-grid và Badges Master Grid, Toast thành công"]
+    RefreshUI --> Finish["Hoàn tất thêm hàng hóa vào kiện"]
+```
+
+| Bước | Tác nhân | Hành động | Kết quả / Phản ứng hệ thống |
+|:---:|---|---|---|
+| **1** | Người dùng | Nhấn nút `[+ Thêm hàng vào kiện]` trên tiêu đề bảng Sub-grid của kiện đích (hoặc icon `[+]` tại dòng kiện hàng trên Lưới Master). | • **Kiểm tra trạng thái khóa:** Hệ thống kiểm tra cờ `is_locked` của task đóng gói. Nếu task đã bấm `Lưu kiện`, các nút thêm bị khóa (disabled); nếu có thao tác can thiệp trái phép, hệ thống từ chối và thông báo: *"Cấu trúc kiện đã được khóa, không thể thêm hàng hóa"*. <br>• **Kiểm tra số lượng còn lại:** Hệ thống kiểm tra tổng số lượng hàng chưa đóng gói `SUM(Còn lại)`. Nếu tất cả hàng đã đóng gói hết (`SUM(Còn lại) = 0`), hiển thị Toast thông báo: *"Toàn bộ hàng hóa vật tư của đơn hàng đã được đóng gói đầy đủ"*, không mở modal.<br>• Nếu hợp lệ, hệ thống chuyển sang **Bước 2**. |
+| **2** | Hệ thống | Truy vấn CSDL và khởi tạo giao diện Modal "Thêm hàng hóa, vật tư vào kiện: {Mã HU}". | • **Truy vấn kiện đích:** Lấy thông tin kiện từ bảng `handling_unit` và loại thùng tương ứng từ bảng `equipment` theo `hu_id` (mã kiện, loại bao bì, thể tích hữu dụng, tải trọng định mức, số lượng hàng hiện tại).<br>• **Truy vấn hàng hóa chưa đóng gói:** Truy vấn các bảng `order_item`, `order_item_serial`, loại trừ các sản phẩm/serial đã nằm trong `handling_unit_item` của task này. Tính toán số lượng `Còn lại` cho từng dòng.<br>• **Render Modal:** Hiển thị popup giữa màn hình, tiêu đề hiển thị mã kiện đích, card thông tin tóm tắt kiện, ô Serial rỗng, bảng danh sách vật tư chưa đóng gói được load với giá trị `SL thêm vào kiện = 0` cho toàn bộ các dòng; nút `[Xác nhận]` ở trạng thái disabled. |
+| **3** | Người dùng | Thực hiện chọn hàng hóa cần bổ sung vào kiện (sử dụng 1 trong 2 cách hoặc kết hợp cả 2):<br>• **Cách 1: Quét mã Serial nhanh**<br>• **Cách 2: Tìm kiếm & Nhập số lượng thủ công** | • **Đối với Cách 1 (Quét Serial):** Người dùng nhập mã Serial vào ô `Serial` và bấm `[Quét]` (hoặc quét barcode thiết bị tự bắn phím Enter):<br>  - *TH1 (Serial hợp lệ):* Hệ thống định vị dòng serial tương ứng trong bảng, tự động cuộn (scroll) tới dòng đó, highlight nền màu vàng nhạt trong 2 giây, tự động đặt `SL thêm vào kiện = 1`, xóa trắng ô nhập Serial và kích hoạt enable nút `[Xác nhận]`.<br>  - *TH2 (Serial đã được chọn thêm trước đó):* Hiển thị Toast cảnh báo: *"Mã serial này đã được chọn thêm vào kiện"*; xóa trắng ô Serial.<br>  - *TH3 (Serial không tồn tại hoặc đã thuộc kiện khác):* Hiển thị Toast lỗi: *"Số serial không tồn tại hoặc đã được đóng gói"*; focus lại ô Serial.<br>• **Đối với Cách 2 (Tìm kiếm & Nhập số lượng):** Người dùng nhập từ khóa vào ô tìm kiếm để lọc nhanh mặt hàng theo mã hoặc tên vật tư. Sau đó nhập số lượng mong muốn vào ô `SL thêm vào kiện`:<br>  - Hệ thống validate: `0 <= SL thêm vào kiện <= Còn lại`.<br>  - Nếu nhập vượt quá `Còn lại`: Tự động ép về bằng giá trị `Còn lại` và hiển thị Toast: *"Số lượng thêm vào kiện không được vượt quá số lượng còn lại ({Còn lại})"*/<br>  - Nếu là dòng có quản lý Serial đơn lẻ: Hệ thống chỉ cho phép nhập `0` hoặc `1`.<br>  - Khi tổng số lượng thêm `SUM(SL thêm vào kiện) > 0`, hệ thống tự động chuyển nút `[Xác nhận]` sang trạng thái enable. |
+| **4** | Người dùng | Nhấn nút `[Hủy]` hoặc icon `[✕]` trên góc phải modal. | Hệ thống đóng modal "Thêm hàng hóa vào kiện", xóa toàn bộ dữ liệu đang chọn dở trong bộ nhớ tạm, giữ nguyên cấu trúc kiện đích và quay về màn hình chính. |
+| **5** | Người dùng | Nhấn nút `[Xác nhận]` trên chân Modal. | Hệ thống thực hiện kiểm tra nghiệp vụ toàn diện trước khi lưu:<br>1. **Validate số lượng:** Kiểm tra tổng số lượng hàng hóa được chọn thêm (`SUM(SL thêm vào kiện)`). Nếu bằng 0, hiển thị lỗi: *"Vui lòng chọn ít nhất một sản phẩm/serial để thêm vào kiện"*. <br>2. **Kiểm tra tải trọng/thể tích tích lũy:** Tính tổng trọng lượng và thể tích của kiện sau khi cộng thêm số hàng mới (`Tổng trọng lượng mới = Trọng lượng cũ + Trọng lượng hàng thêm`, `Tổng thể tích mới = Thể tích cũ + Thể tích hàng thêm`). So sánh với tải trọng tối đa (`equipment.max_weight`) và thể tích lọt lòng (`equipment.volume`) của thùng kiện đích. Nếu vượt quá giới hạn khuyến nghị, hệ thống hiển thị Popup cảnh báo xác nhận: *"Tổng trọng lượng kiện sau khi thêm ({new_weight} kg) sẽ vượt quá tải trọng định mức của thùng ({max_weight} kg). Bạn có chắc chắn muốn tiếp tục đóng thêm vào kiện này không?"*. Nếu người dùng bấm `Hủy`, giữ nguyên popup để điều chỉnh; nếu bấm `Tiếp tục`, chuyển sang **Bước 6**. |
+| **6** | Hệ thống | Thực hiện ghi nhận dữ liệu bổ sung vào CSDL. | • **Ghi CSDL bảng Handling Unit Item:** Duyệt danh sách các dòng có `SL thêm vào kiện > 0`, thực hiện INSERT vào bảng `handling_unit_item` các bản ghi mới: `hu_id` (ID kiện đích), `order_item_id`, `serial_id` (nếu có), `product_code`, `quantity`.<br>• **Cập nhật CSDL bảng Handling Unit:** Thực hiện UPDATE bản ghi kiện đích trong bảng `handling_unit`: `total_item_count = total_item_count + SUM(SL thêm)`, tính toán lại `used_volume_m3` và `fill_rate_percent` mới, `updated_by`, `updated_at`.<br>• **Ghi Audit Log:** Ghi nhận bản ghi lịch sử vào bảng `task_history`: *"Bổ sung {total_added} sản phẩm/serial vào kiện hàng {hu_code}"*. |
+| **7** | Hệ thống | Cập nhật giao diện và phản hồi cho người dùng. | • Đóng modal "Thêm hàng hóa vào kiện".<br>• Hiển thị Toast thông báo thành công: *"Đã bổ sung thành công hàng hóa vào kiện {hu_code}!"*.<br>• Refresh bảng Sub-grid chi tiết của kiện đích: Hiển thị bổ sung ngay các dòng sản phẩm vừa thêm vào danh sách vật tư bên trong kiện.<br>• Cập nhật khối Badges tóm tắt sản phẩm và cột `Tổng SL` tại dòng kiện đích trên Lưới Master.<br>• Cập nhật lại số lượng hàng hóa còn lại trong kho tạm của Task đóng gói. |
 
 #### 3.12.5. Xóa kiện hàng
 
 #### 3.12.6. Xóa hàng hóa, vật tư khỏi kiện
+
+##### 3.12.6.1. Thông tin chung
+
+| Mục | Nội dung |
+|---|---|
+| **Tên chức năng** | Xóa hàng hóa, vật tư khỏi kiện [3.12.6] |
+| **Mục tiêu** | Cho phép nhân sự kho loại bỏ một hoặc nhiều sản phẩm, vật tư, serial ra khỏi kiện hàng (Handling Unit - HU) đã đóng gói khi phát hiện phân bổ nhầm, đổi ý đóng gói hoặc cần chuyển hàng hóa sang kiện khác trước khi chốt lưu kiện. Hàng hóa sau khi xóa sẽ tự động được hoàn trả lại danh sách "Chưa đóng gói" để sẵn sàng phân bổ lại. |
+| **Tác nhân** | Nhân viên đóng gói, Thủ kho, Quản lý kho hoặc nhân sự được phân quyền xử lý task đóng gói. |
+| **Điều kiện kích hoạt** | Người dùng nhấn vào icon thùng rác đỏ `[🗑️]` tại dòng sản phẩm/serial tương ứng trên bảng Sub-grid chi tiết của một kiện hàng (khi task chưa kích hoạt chế độ khóa `Lưu kiện`).<br>Đường dẫn: Đăng nhập ➔ Phân hệ Nhập kho ➔ Danh sách task nhập kho ➔ Chọn Task loại "Đóng gói" ➔ Click icon `[v]` mở rộng dòng kiện hàng tương ứng ➔ Tại bảng chi tiết sản phẩm, nhấn icon `[🗑️]` tại dòng cần xóa. |
+| **Điều kiện đầu vào** | • Task đóng gói thuộc Lệnh nhập kho hợp lệ, trạng thái task là `IN_PROGRESS`, chưa bấm `Lưu kiện` (`is_locked = false`).<br>• Kiện hàng mục tiêu (`handling_unit`) tồn tại hợp lệ và chưa bị khóa trạng thái.<br>• Bản ghi sản phẩm/serial cần xóa tồn tại trong bảng `handling_unit_item` và chưa bị xóa mềm trước đó (`deleted = false`). |
+| **Điều kiện đầu ra** | • **Thành công:** Cập nhật xóa mềm (`deleted = true`) bản ghi trong bảng `handling_unit_item` (và `handling_unit_item_serial` nếu có); cập nhật giảm tổng số lượng (`total_item_count`), tính toán lại thể tích sử dụng (`used_volume_m3`) và tỷ lệ lấp đầy (`fill_rate_percent`) của kiện trong bảng `handling_unit`; hoàn trả số lượng về danh sách hàng hóa chưa đóng gói (`Còn lại` tăng lên tương ứng); cập nhật lại bảng Sub-grid chi tiết và badges tóm tắt trên Master Grid; đóng modal xác nhận.<br>• **Ngoại lệ:** Nếu task đã bấm `Lưu kiện` ➔ Icon xóa bị khóa (disabled) hoặc hệ thống từ chối yêu cầu xóa và hiển thị cảnh báo lỗi cấu trúc kiện đã khóa. |
+| **Mô tả** | Chức năng cung cấp hộp thoại xác nhận khi người dùng thao tác xóa sản phẩm khỏi kiện. Sau khi xác nhận, sản phẩm được tách khỏi kiện hàng, cập nhật lại thông số thể tích/tỷ trọng của kiện và hoàn trả số lượng về kho hàng chưa đóng gói để phục vụ phân bổ lại. |
+| **Đường dẫn** | Đăng nhập ➔ Phân hệ Nhập kho ➔ Danh sách task nhập kho ➔ Chọn Task loại "Đóng gói" ➔ Mở rộng dòng kiện hàng (icon `v`) ➔ Nhấn icon `[🗑️]` tại dòng sản phẩm cần xóa |
+| **Phân quyền & miền dữ liệu** | • **Miền dữ liệu:** Nhân sự chỉ được xem và thao tác trên các Lệnh nhập kho và Task thuộc phạm vi Kho (Plant / SLoc) được phân công phụ trách.<br>• **Xem:** `ROLE_WAREHOUSE_WORKER`, `ROLE_WAREHOUSE_MASTER`, `ROLE_WAREHOUSE_DIRECTOR` (xem danh sách sản phẩm trong kiện).<br>• **Thêm:** N/A.<br>• **Import:** N/A.<br>• **Sửa:** N/A.<br>• **Xóa:** `ROLE_WAREHOUSE_WORKER`, `ROLE_WAREHOUSE_MASTER` (thực hiện xóa sản phẩm/serial khỏi kiện khi chưa bấm Lưu kiện).<br>• **Tìm kiếm:** N/A.<br>• **Xuất:** N/A. |
+
+##### 3.12.6.2. Màn hình
+
+Giao diện được thiết kế dưới dạng hộp thoại cảnh báo xác nhận (Confirmation Dialog / Popup) xuất hiện giữa màn hình với kích thước nhỏ gọn (~480px):
+1. **Khối Tiêu đề Modal:** Tiêu đề "Xác nhận xóa sản phẩm khỏi kiện" kèm icon cảnh báo màu cam/đỏ `⚠️` và nút icon đóng `[✕]`.
+2. **Khối Nội dung thông điệp cảnh báo:** 
+   - Đoạn văn bản cảnh báo rõ ràng: *"Bạn có chắc chắn muốn xóa sản phẩm sau ra khỏi kiện **{Mã HU}** không?"*
+   - Khung thẻ tóm tắt sản phẩm bị xóa (Card info):
+     + **Tên vật tư:** Hiển thị tên đầy đủ của vật tư hàng hóa.
+     + **Mã vật tư:** Mã SKU theo SAP.
+     + **Serial:** Số Serial vật lý (nếu là hàng quản lý theo serial) hoặc hiển thị `-` (nếu là hàng non-serial).
+     + **Số lượng rút:** Đối với hàng non-serial có số lượng > 1, hiển thị ô nhập số lượng muốn rút ra khỏi kiện (`Số lượng rút: [__] / {SL hiện tại}`). Đối với hàng quản lý serial, hiển thị cố định `1 Cái/Bộ`.
+   - Dòng ghi chú nhỏ: *"Lưu ý: Sản phẩm sau khi xóa sẽ được hoàn trả về danh sách hàng hóa chưa đóng gói để phân bổ lại."*
+3. **Khối Nút tác vụ chân Modal (Footer):**
+   - Nút `[Hủy]` (Button Outline / Secondary).
+   - Nút `[Xác nhận xóa]` (Button Danger màu đỏ).
+
+*(Tham chiếu thiết kế UI Popup: UI_XoaSanPhamKhoiKien_Modal.png)*
+
+##### 3.12.6.3. Mô tả chi tiết các thành phần
+
+| STT | Tên | Kiểu dữ liệu [Độ dài] | Input/Output | Giá trị khởi tạo | Mô tả (Mapping với CSDL nếu có) |
+|:---:|---|---|:---:|---|---|
+| **I** | **Điều khiển kích hoạt trên Bảng Sub-grid** | | | | |
+| 1 | Icon Xóa sản phẩm | Icon Button | Input | Icon thùng rác đỏ `[🗑️]` | Nằm ở cột cuối cùng trên từng dòng sản phẩm của bảng Sub-grid chi tiết kiện hàng. Bị disable/ẩn khi task đã bấm `Lưu kiện`. Click mở Popup "Xác nhận xóa sản phẩm khỏi kiện". |
+| **II** | **Khối Tiêu đề & Cảnh báo Modal** | | | | |
+| 2 | Tiêu đề Modal | Label [100] | Output | "Xác nhận xóa sản phẩm khỏi kiện" | Tiêu đề hộp thoại xác nhận. |
+| 3 | Nút Đóng Modal | Icon Button | Input | Icon `[✕]` | Click để đóng popup xác nhận, hủy bỏ thao tác xóa và quay về màn hình chính. |
+| 4 | Icon Cảnh báo | Icon | Output | Icon `⚠️` màu cam đỏ | Biểu tượng cảnh báo hành động xóa dữ liệu khỏi kiện. |
+| 5 | Nhãn Thông báo chính | Label [255] | Output | "Bạn có chắc chắn muốn xóa sản phẩm sau ra khỏi kiện {Mã HU} không?" | Hiển thị chuỗi thông điệp kèm mã định danh kiện hàng đang thao tác (`handling_unit.hu_code`, VD: `HU-001`). |
+| **III** | **Khối Chi tiết thông tin sản phẩm bị xóa** | | | | |
+| 6 | Thẻ Tóm tắt sản phẩm | Summary Card | Output | Tóm tắt sản phẩm | Khung hiển thị thông tin chi tiết của dòng sản phẩm được chọn để xóa. |
+| 7 | Tên vật tư | Label [255] | Output | Tên vật tư | Tên quy chuẩn của hàng hóa vật tư (`product.product_name`). |
+| 8 | Mã vật tư | Label [50] | Output | Mã SKU | Mã định danh hàng hóa vật tư (`product.product_code`). |
+| 9 | Số Serial | Label [100] | Output | Số Serial hoặc "-" | Số Serial của sản phẩm (`handling_unit_item_serial.serial_no`). Nếu là hàng non-serial hiển thị `-`. |
+| 10 | Ô nhập Số lượng rút | Spinbox / Number Input [10] | Input | SL hiện tại | • **Hiển thị theo điều kiện:** Chỉ hiển thị cho phép nhập khi dòng hàng là vật tư gom số lượng (`Serial == '-'` và `quantity > 1`). Mặc định bằng toàn bộ số lượng đang có của dòng hàng.<br>• **Validate:** Phải là số nguyên dương, ràng buộc: `1 <= SL rút <= quantity`. Nếu nhập vượt quá, tự động gán về giá trị tối đa `quantity`.<br>• Đối với hàng quản lý theo Serial đơn lẻ: Trường này cố định hiển thị Label `1` (không cho sửa). |
+| 11 | Nhãn Ghi chú hoàn trả | Label [255] | Output | "Sản phẩm sau khi xóa sẽ được hoàn trả về danh sách chưa đóng gói." | Dòng lưu ý hướng dẫn cho người dùng về việc phục hồi hàng hóa chưa đóng. |
+| **IV** | **Khối Nút tác vụ chân Modal (Footer)** | | | | |
+| 12 | Nút Hủy | Button Outline | Input | "Hủy" | Click để đóng popup xác nhận, không thực hiện xóa, giữ nguyên sản phẩm trong kiện. |
+| 13 | Nút Xác nhận xóa | Button Danger | Input | "Xác nhận xóa" | Nút màu đỏ nổi bật. Click để xác nhận thực hiện xóa: Gọi API xóa/giảm số lượng trong `handling_unit_item`, cập nhật lại `handling_unit`, hoàn trả số lượng chưa đóng gói, đóng modal, refresh Sub-grid và hiển thị Toast thành công. |
+
+##### 3.12.6.4. Luồng nghiệp vụ
+
+```mermaid
+flowchart TD
+    Start["User click icon thùng rác tại dòng sản phẩm trong Sub-grid"] --> CheckLock{"Task đã bấm 'Lưu kiện'?"}
+    CheckLock -->|Đã lưu| ErrLock["Khóa nút / Báo lỗi: Cấu trúc kiện đã khóa, không thể xóa sản phẩm"]
+    CheckLock -->|Chưa lưu| OpenModal["Hiển thị Modal xác nhận xóa sản phẩm khỏi kiện"]
+    
+    OpenModal --> UserAction{"User chọn thao tác trên Modal?"}
+    UserAction -->|Bấm nút Hủy hoặc [X]| CancelClose["Đóng modal, giữ nguyên sản phẩm trong kiện"]
+    
+    UserAction -->|Bấm nút Xác nhận xóa| CheckType{"Loại hàng hóa?"}
+    
+    CheckType -->|Hàng Serial hoặc Rút hết SL| SoftDeleteItem["Xóa mềm handling_unit_item và handling_unit_item_serial: deleted = true"]
+    CheckType -->|Hàng non-serial rút bớt một phần| UpdateQtyItem["UPDATE handling_unit_item: quantity = quantity - SL_rut"]
+    
+    SoftDeleteItem --> RecalcHU["Tính lại total_item_count, used_volume_m3, fill_rate_percent của kiện"]
+    UpdateQtyItem --> RecalcHU
+    
+    RecalcHU --> UpdateHUDB["UPDATE vo_warehouse_vtit.handling_unit"]
+    UpdateHUDB --> RestoreUnpacked["Hoàn trả số lượng vào danh sách chưa đóng gói: Còn lại tăng lên"]
+    RestoreUnpacked --> AuditLog["Ghi log thao tác vào history_action_log / task_history"]
+    AuditLog --> RefreshUI["Đóng modal, reload Sub-grid, cập nhật Badges Master Grid, Toast thành công"]
+    RefreshUI --> Finish["Hoàn tất xóa sản phẩm khỏi kiện"]
+```
+
+| Bước | Tác nhân | Hành động | Kết quả / Phản ứng hệ thống |
+|:---:|---|---|---|
+| **1** | Người dùng | Nhấn vào icon thùng rác đỏ `[🗑️]` tại dòng sản phẩm/serial cần xóa trên bảng Sub-grid chi tiết của một kiện hàng. | • **Kiểm tra trạng thái khóa:** Hệ thống kiểm tra cờ `is_locked` của task đóng gói (hoặc trạng thái `handling_unit.status`). Nếu task đã bấm `Lưu kiện`, icon bị khóa; nếu có request can thiệp trái phép, hệ thống từ chối và báo lỗi: *"Cấu trúc kiện đã được khóa, không thể xóa sản phẩm"*. <br>• Nếu hợp lệ, hệ thống chuyển sang **Bước 2**. |
+| **2** | Hệ thống | Khởi tạo và hiển thị Popup "Xác nhận xóa sản phẩm khỏi kiện". | • Lấy thông tin chi tiết của dòng sản phẩm được chọn từ `handling_unit_item`, `order_product_component` và `handling_unit_item_serial`.<br>• Hiển thị modal xác nhận với các thông số: Tên vật tư, Mã SKU, Số Serial, Số lượng hiện tại và Mã kiện đích.<br>• Đối với hàng non-serial gom số lượng: Hiển thị ô nhập `Số lượng rút` (mặc định bằng toàn bộ số lượng dòng). Đối với hàng serial: Hiển thị số lượng cố định `1`. |
+| **3** | Người dùng | Xem xét thông tin cảnh báo và lựa chọn hành động:<br>• Nhấn `[Hủy]` hoặc nút icon `[✕]`.<br>• Hoặc nhấn nút `[Xác nhận xóa]`. | • **Nếu nhấn [Hủy] hoặc [✕]:** Hệ thống đóng popup ngay lập tức, không thực hiện bất kỳ thay đổi nào vào CSDL, giữ nguyên toàn bộ sản phẩm trong kiện.<br>• **Nếu nhấn [Xác nhận xóa]:** Hệ thống chuyển sang **Bước 4**. |
+| **4** | Hệ thống | Thực hiện cập nhật CSDL loại bỏ sản phẩm trong một Transaction an toàn. | • **TH1 (Dòng hàng quản lý theo Serial hoặc rút toàn bộ số lượng của dòng):**<br>  - Cập nhật xóa mềm bản ghi chi tiết hàng trong kiện: `UPDATE vo_warehouse_vtit.handling_unit_item SET deleted = true, modified_user_id = :userId, modified_date = NOW() WHERE id = :itemId`.<br>  - Cập nhật xóa mềm bản ghi serial tương ứng (nếu có): `UPDATE vo_warehouse_vtit.handling_unit_item_serial SET deleted = true, modified_user_id = :userId, modified_date = NOW() WHERE handling_unit_item_id = :itemId`.<br>• **TH2 (Dòng hàng phụ kiện non-serial rút bớt một phần số lượng `SL_rut < quantity`):**<br>  - Cập nhật giảm số lượng của dòng hàng trong kiện: `UPDATE vo_warehouse_vtit.handling_unit_item SET quantity = quantity - :SL_rut, modified_user_id = :userId, modified_date = NOW() WHERE id = :itemId`. |
+| **5** | Hệ thống | Tính toán lại thông số kiện hàng và cập nhật bảng `handling_unit`. | • **Tính toán lại tổng số lượng:** Truy vấn lại tổng số lượng sản phẩm thực tế còn lại trong kiện: `new_total = SUM(quantity)` từ `handling_unit_item` với `hu_id = :huId AND deleted = false`.<br>• **Tính toán lại thể tích & tải trọng:** Tính lại tổng thể tích thực tế `used_volume_m3` và tỷ lệ lấp đầy thể tích `fill_rate_percent` của kiện so với dung tích vỏ thùng `equipment.volume`.<br>• **Cập nhật CSDL bảng Handling Unit:** Thực hiện UPDATE: `UPDATE vo_warehouse_vtit.handling_unit SET total_item_count = :new_total, used_volume_m3 = :new_volume, fill_rate_percent = :new_fill_rate, modified_user_id = :userId, modified_date = NOW() WHERE id = :huId`.<br>*(Lưu ý: Nếu sau khi xóa, `new_total = 0`, kiện hàng chuyển thành kiện rỗng; hệ thống vẫn bảo lưu kiện rỗng này để người dùng có thể thêm sản phẩm khác vào hoặc thực hiện xóa hẳn kiện tại chức năng 3.12.5)*. |
+| **6** | Hệ thống | Hoàn trả số lượng hàng vào kho chưa đóng gói và ghi Audit Log. | • **Hoàn trả số lượng:** Tăng số lượng `Còn lại` của mặt hàng tương ứng trong đơn hàng lên đúng bằng số lượng vừa xóa (`Còn lại mới = Còn lại cũ + Số lượng vừa rút`), giúp sản phẩm xuất hiện trở lại trên danh sách "Chưa đóng gói" khi mở các popup thêm kiện hoặc thêm hàng.<br>• **Ghi Audit Log:** Ghi nhận bản ghi lịch sử vào bảng `task_history` / `history_action_log`: *"Xóa sản phẩm {product_code} (Serial: {serial_no}, Số lượng: {removed_qty}) khỏi kiện {hu_code}"*. |
+| **7** | Hệ thống | Cập nhật giao diện màn hình và phản hồi cho người dùng. | • Đóng popup xác nhận xóa.<br>• Hiển thị Toast thông báo thành công: *"Đã xóa sản phẩm khỏi kiện {hu_code} thành công!"*.<br>• Cập nhật bảng Sub-grid chi tiết của kiện: Dòng sản phẩm bị xóa biến mất khỏi bảng (hoặc số lượng giảm tương ứng).<br>• Cập nhật khối Badges tóm tắt sản phẩm và cột `Tổng SL` tại dòng kiện hàng tương ứng trên Master Grid.<br>• Cập nhật số liệu trên Thẻ KPI tổng quan của task (số lượng sản phẩm đã đóng giảm đi, số lượng sản phẩm chưa đóng tăng lên). |
 
 #### 3.12.7. Import danh sách đóng gói
 
