@@ -35,10 +35,31 @@
 
 Tổ chức: **3.X** (nhóm chức năng) → **3.X.Y** (chức năng con). Mỗi 3.X.Y đủ 4 mục:
 
-**3.X.Y.1. Thông tin chung** — 3 nội dung:
-- *Mô tả:* chức năng cho phép đối tượng nào làm gì.
-- *Đường dẫn:* các bước truy cập menu từ đăng nhập tới màn hình chức năng. VD "Đăng nhập → menu A → button B".
-- *Phân quyền & miền dữ liệu:* từng role được làm gì; làm rõ logic miền dữ liệu (đơn vị nào thấy/thao tác dữ liệu nào). Liệt kê RIÊNG từng action: Xem, Thêm, Import, Sửa, Xóa, Tìm kiếm, Xuất.
+**3.X.Y.1. Thông tin chung** — Trình bày dưới dạng Bảng 2 cột (`| Mục | Nội dung |`) gồm đầy đủ các trường thông tin sau:
+
+| Mục | Yêu cầu nội dung |
+|---|---|
+| **Tên chức năng** | Tên chức năng cụ thể kèm mã định danh [Mã_CN]. |
+| **Mục tiêu** | Mục tiêu nghiệp vụ của chức năng, giải quyết bài toán gì cho hệ thống/vận hành, mô tả chức năng cho phép đối tượng nào làm gì. |
+| **Tác nhân** | Danh sách các đối tượng người dùng (User Role) hoặc hệ thống liên quan trực tiếp đến chức năng. |
+| **Điều kiện kích hoạt** | Sự kiện, trạng thái của quy trình, lệnh, hoặc task làm phát sinh/kích hoạt chức năng này kèm các bước truy cập menu từ khi đăng nhập tới màn hình chức năng. VD: "Đăng nhập → Menu A → Button B". |
+| **Điều kiện đầu vào** | Trạng thái dữ liệu tiền đề, các task phụ thuộc đã hoàn thành, danh sách dữ liệu/cấu hình cần có trước khi thực hiện. |
+| **Điều kiện đầu ra** | Kết quả nghiệp vụ sau khi hoàn thành: dữ liệu được ghi nhận/cập nhật vào CSDL, trạng thái task/lệnh, mở task tiếp theo, trừ tồn/in tem; và xử lý ngoại lệ (chuyển Có phát sinh/Chờ xử lý) nếu có lỗi. |
+| **Phân quyền & miền dữ liệu** | • **Logic miền dữ liệu:** Làm rõ đơn vị/kho/chi nhánh nào được thấy và thao tác trên phạm vi dữ liệu nào.<br>• **Phân quyền chi tiết (Liệt kê RIÊNG từng action):**<br>- **Xem:** Role nào được xem dữ liệu gì, phạm vi miền dữ liệu nào.<br>- **Thêm:** Role nào được tạo mới, dữ liệu sinh ra gắn với đơn vị nào.<br>- **Import:** Role nào được import file dữ liệu, định dạng file.<br>- **Sửa:** Role nào được sửa, trong điều kiện/trạng thái nào.<br>- **Xóa:** Role nào được xóa, điều kiện ràng buộc để được xóa.<br>- **Tìm kiếm:** Role nào được tìm kiếm/tra cứu, tiêu chí tìm kiếm theo miền dữ liệu.<br>- **Xuất:** Role nào được xuất dữ liệu ra file Excel/PDF. |
+
+*Ví dụ bảng mẫu cho mục 3.X.Y.1. Thông tin chung:*
+
+| Mục | Nội dung |
+|---|---|
+| **Tên chức năng** | Đóng gói hàng |
+| **Mục tiêu** | Cho phép nhân sự kho thực hiện đóng gói hàng hóa theo quy cách được hệ thống tự động đề xuất, mapping hàng hóa vào HU/thùng/pallet, sinh hoặc scan mã tem RFID, in tem RFID và hoàn thành task đóng gói. |
+| **Tác nhân** | Nhân viên đóng gói, Thủ kho, Điều phối viên kho, Quản lý kho hoặc người dùng được phân quyền xử lý task đóng gói. |
+| **Điều kiện kích hoạt** | Task được sinh sau khi lệnh nhập được xác nhận xử lý và hệ thống xác định có hàng cần đóng gói theo cấu hình hàng hóa. Nếu hàng không cần đóng gói, task có thể tự hoàn thành/không áp dụng theo cấu hình. |
+| **Điều kiện đầu vào** | Lệnh nhập hợp lệ; task tiền đề đã hoàn thành; có danh sách hàng cần đóng gói; hàng hóa có cấu hình đóng gói gồm kích thước, trọng lượng, quy cách đóng gói, loại HU/thùng/pallet; có mã RFID hoặc cơ chế sinh/scan RFID nếu bắt buộc. |
+| **Điều kiện đầu ra** | Hàng được mapping vào HU/thùng/pallet hợp lệ; RFID hợp lệ nếu bắt buộc; tem được in nếu quy trình yêu cầu; tồn vật tư đóng gói được trừ nếu có sử dụng; task chuyển Hoàn thành và mở task Đưa vào lưu trữ/Putaway. Nếu thiếu cấu hình, RFID lỗi, không đủ HU/vật tư hoặc in tem lỗi thì task chuyển Có phát sinh/Chờ xử lý. |
+| **Mô tả** | Cho phép nhân viên kho theo dõi thông tin task đóng gói, thực hiện phân loại, mapping sản phẩm/serial vào kiện HU, in tem dán và chốt cấu trúc kiện. |
+| **Đường dẫn** | Đăng nhập → Phân hệ Nhập kho → Danh sách task nhập kho → Chọn Task loại "Đóng gói" |
+| **Phân quyền & miền dữ liệu** | • **Miền dữ liệu:** Nhân sự chỉ xem và thao tác trên các Lệnh nhập kho và Task thuộc phạm vi Kho (Plant / SLoc) được phân công phụ trách.<br>• **Xem:** `ROLE_WAREHOUSE_WORKER`, `ROLE_WAREHOUSE_MASTER`, `ROLE_WAREHOUSE_DIRECTOR` (xem danh sách kiện, chi tiết vật tư, tóm tắt task).<br>• **Thêm:** `ROLE_WAREHOUSE_WORKER`, `ROLE_WAREHOUSE_MASTER` (tạo kiện hàng mới, thêm sản phẩm vào kiện).<br>• **Import:** `ROLE_WAREHOUSE_WORKER`, `ROLE_WAREHOUSE_MASTER` (import file danh sách serial và kiện đóng gói).<br>• **Sửa:** `ROLE_WAREHOUSE_WORKER`, `ROLE_WAREHOUSE_MASTER` (sửa loại thùng, thay đổi phân bổ serial khi chưa bấm Lưu kiện).<br>• **Xóa:** `ROLE_WAREHOUSE_WORKER`, `ROLE_WAREHOUSE_MASTER` (xóa kiện, xóa sản phẩm khỏi kiện khi chưa bấm Lưu kiện).<br>• **Tìm kiếm:** Toàn bộ user có quyền Xem được tra cứu theo mã HU, Serial, Mã vật tư.<br>• **Xuất:** `ROLE_WAREHOUSE_WORKER`, `ROLE_WAREHOUSE_MASTER` (xuất file excel cấu trúc đóng gói). |
 
 **3.X.Y.2. Màn hình** — link Figma trỏ đúng frame; ảnh giao diện (hoặc `[CẦN BỔ SUNG: ảnh / link Figma]`); template biểu mẫu nếu là Export/Import.
 

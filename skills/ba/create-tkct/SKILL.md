@@ -47,17 +47,26 @@ Chi tiết chuẩn hoá từng phần: `rules/rules_tkct.md` (đọc khi cần p
 
 - **Phần 1 — Giới thiệu:** mục đích, phạm vi, đối tượng sử dụng; thuật ngữ (liệt kê 100% từ viết tắt); tài liệu tham khảo; mô tả 6 phần.
 - **Phần 2 — Tổng quan giải pháp:** sơ đồ phân cấp chức năng (Mermaid) + mô hình giao tiếp hệ thống ngoài (mỗi kết nối: *gọi gì → nhận gì → xử lý tiếp*).
-- **Phần 3 — Thiết kế chi tiết:** lặp 3.X (nhóm) → 3.X.Y (chức năng); mỗi chức năng đủ 4 mục (chi tiết dưới).
+- **Phần 3 — Thiết kế chi tiết:** lặp **3.X** (nhóm chức năng) → **3.X.Y** (chức năng con); mỗi chức năng con 3.X.Y bắt buộc gồm đủ 4 mục: 3.X.Y.1 (Thông tin chung), 3.X.Y.2 (Màn hình), 3.X.Y.3 (Mô tả chi tiết các thành phần), 3.X.Y.4 (Luồng nghiệp vụ).
 - **Phần 4 — Thiết kế dùng chung:** bảng 4 cột, tham chiếu Common `[TCCT_TKCT]`.
 - **Phần 5 — Quản trị dữ liệu:** CDE / Bảo mật / Chất lượng / Siêu dữ liệu / Lưu trữ (lấy từ BM.01 §4.12 nếu có).
 - **Phần 6 — Phụ lục:** quy trình, BM.03, phân quyền, API danh mục, Danh sách chức năng (3 cột, nhóm số La Mã).
 
-**Phần 3 — 4 mục con bắt buộc:**
+**Phần 3 — 4 mục con bắt buộc cho mỗi chức năng 3.X.Y:**
 
-① *Thông tin chung* — bảng 5 dòng: Tên chức năng | Đường dẫn (các bước truy cập menu) | Phân quyền (từng role làm gì) | Miền dữ liệu (đơn vị nào thấy/thao tác dữ liệu nào) | Mô tả.
-② *Màn hình* — link Figma trỏ đúng frame + ảnh; chưa có → `skill: create-wireframe`.
-③ *Bảng 6 cột thành phần* (header dưới) → đọc `references/component-spec-rules.md`.
-④ *Luồng nghiệp vụ* — sơ đồ vẽ bằng `skill: create-activity-diagram` (xuất `.drawio`, có badge ĐỌC/LƯU) + bảng 4 cột; mọi nhánh TH1/TH2 ghi rõ điều kiện + kết quả trong cột "Kết quả".
+- **3.X.Y.1. Thông tin chung** — bảng 2 cột (`| Mục | Nội dung |`) với 9 trường bắt buộc:
+  1. *Tên chức năng* [Mã_CN]
+  2. *Mục tiêu* (mục tiêu nghiệp vụ cần đạt)
+  3. *Tác nhân* (các user role hoặc hệ thống tham gia)
+  4. *Điều kiện kích hoạt* (sự kiện/trạng thái làm xuất hiện/sinh task)
+  5. *Điều kiện đầu vào* (dữ liệu/tiền đề cần có trước khi thực hiện)
+  6. *Điều kiện đầu ra* (kết quả CSDL, trạng thái, task kế tiếp, xử lý ngoại lệ)
+  7. *Mô tả* (chức năng cho phép đối tượng nào làm gì)
+  8. *Đường dẫn* (các bước truy cập menu từ đăng nhập: "Đăng nhập → Menu A → Button B")
+  9. *Phân quyền & miền dữ liệu* (logic miền dữ liệu theo đơn vị/kho + liệt kê RIÊNG từng action: Xem, Thêm, Import, Sửa, Xóa, Tìm kiếm, Xuất).
+- **3.X.Y.2. Màn hình** — link Figma trỏ đúng frame + ảnh giao diện; chưa có → `skill: create-wireframe`.
+- **3.X.Y.3. Mô tả chi tiết các thành phần** — bảng 6 cột thành phần (header dưới) → đọc `templates/component-spec-rules.md`.
+- **3.X.Y.4. Luồng nghiệp vụ** — sơ đồ Mermaid flowchart / activity diagram (xuất `.drawio`, có badge ĐỌC/LƯU) + bảng luồng 4 cột; mô tả đủ mọi nhánh TH1/TH2/ngoại lệ.
 
 **Header bảng cố định** (không đổi):
 

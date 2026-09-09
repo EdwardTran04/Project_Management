@@ -8,20 +8,24 @@ Hai chức năng mẫu (chắt lọc từ dự án thật, hệ Dự bị độn
 
 ## 3.1.1. [CN_01] Xem danh sách công dân nam
 
-### ① Thông tin chung
+### 3.1.1.1. Thông tin chung
 
 | Mục | Nội dung |
-|-----|----------|
-| Tên chức năng | Xem danh sách công dân nam [CN_01] |
-| Đường dẫn | Đăng nhập → Dự bị động viên → Quản lý công dân trong độ tuổi phục vụ → Quản lý công dân nam |
-| Phân quyền | Xem: cán bộ quân lực cấp đơn vị. Xuất Excel: cán bộ cấp Trung đoàn trở lên |
-| Miền dữ liệu | User thuộc đơn vị nào chỉ thấy công dân thuộc đơn vị đó và đơn vị con (theo `force_structure`) |
-| Mô tả | Cho phép tra cứu, tìm kiếm danh sách công dân nam trong độ tuổi phục vụ ngạch dự bị |
+|---|---|
+| **Tên chức năng** | Xem danh sách công dân nam [CN_01] |
+| **Mục tiêu** | Cho phép cán bộ quân lực tra cứu, rà soát danh sách công dân nam trong độ tuổi sẵn sàng nhập ngũ/dự bị động viên để quản lý nguồn nhân lực quốc phòng. |
+| **Tác nhân** | Cán bộ quân lực cấp đơn vị, Cán bộ cấp Trung đoàn, Quản trị viên hệ thống. |
+| **Điều kiện kích hoạt** | Cán bộ đăng nhập vào hệ thống và chọn menu Quản lý công dân trong độ tuổi phục vụ. |
+| **Điều kiện đầu vào** | Tài khoản có quyền truy cập chức năng; CSDL đã đồng bộ thông tin công dân và cơ cấu đơn vị (`force_structure`). |
+| **Điều kiện đầu ra** | Hiển thị danh sách công dân kèm các chức năng lọc, tìm kiếm, xuất file; ghi nhận audit log tra cứu. |
+| **Mô tả** | Cho phép tra cứu, tìm kiếm danh sách công dân nam trong độ tuổi phục vụ ngạch dự bị theo phạm vi đơn vị quản lý. |
+| **Đường dẫn** | Đăng nhập → Dự bị động viên → Quản lý công dân trong độ tuổi phục vụ → Quản lý công dân nam |
+| **Phân quyền & miền dữ liệu** | • **Miền dữ liệu:** User thuộc đơn vị nào chỉ thấy và thao tác công dân thuộc đơn vị đó và các đơn vị trực thuộc (theo cây đơn vị `force_structure`).<br>• **Xem:** Cán bộ quân lực cấp đơn vị, Cán bộ cấp Trung đoàn trở lên.<br>• **Thêm:** N/A (chức năng xem danh sách).<br>• **Import:** N/A.<br>• **Sửa:** N/A.<br>• **Xóa:** N/A.<br>• **Tìm kiếm:** Toàn bộ user có quyền Xem được tìm kiếm theo họ tên, số CCCD.<br>• **Xuất:** Cán bộ cấp Trung đoàn trở lên (xuất danh sách ra file Excel). |
 
-### ② Màn hình
+### 3.1.1.2. Màn hình
 `[CẦN BỔ SUNG: link Figma frame "DS công dân nam"]`
 
-### ③ Mô tả chi tiết các thành phần
+### 3.1.1.3. Mô tả chi tiết các thành phần
 
 | STT | Tên | Kiểu [Độ dài] | Input/Output | Giá trị khởi tạo | Mô tả (Mapping CSDL) |
 |-----|-----|---------------|--------------|------------------|----------------------|
@@ -35,7 +39,7 @@ Hai chức năng mẫu (chắt lọc từ dự án thật, hệ Dự bị độn
 | 8 | Button Thêm mới | Button | Input | N/A | Click → mở màn Thêm mới hồ sơ (tham chiếu chức năng CN_03). Chỉ hiện khi user có quyền Thêm |
 | 9 | Button Nhập Excel | Button | Input | N/A | Click → popup nhập file (tham chiếu chức năng Import) |
 
-### ④ Luồng nghiệp vụ
+### 3.1.1.4. Luồng nghiệp vụ
 
 ```mermaid
 flowchart TD
@@ -57,20 +61,24 @@ flowchart TD
 
 ## 3.1.3. [CN_03] Thêm mới hồ sơ công dân nam
 
-### ① Thông tin chung
+### 3.1.3.1. Thông tin chung
 
 | Mục | Nội dung |
-|-----|----------|
-| Tên chức năng | Thêm mới hồ sơ công dân nam [CN_03] |
-| Đường dẫn | … → Quản lý công dân nam → Thêm mới hồ sơ công dân nam |
-| Phân quyền | Thêm: cán bộ quân lực cấp đơn vị |
-| Miền dữ liệu | Bản ghi tạo mới gắn đơn vị của user |
-| Mô tả | Cho phép thêm mới hồ sơ công dân nam trong độ tuổi phục vụ (đủ 18–45 tuổi) |
+|---|---|
+| **Tên chức năng** | Thêm mới hồ sơ công dân nam [CN_03] |
+| **Mục tiêu** | Ghi nhận hồ sơ công dân nam mới đủ tuổi hoặc chuyển đến địa bàn vào diện quản lý dự bị động viên của đơn vị. |
+| **Tác nhân** | Cán bộ quân lực cấp đơn vị. |
+| **Điều kiện kích hoạt** | Cán bộ bấm button "Thêm mới" từ màn hình Danh sách công dân nam [CN_01]. |
+| **Điều kiện đầu vào** | Đã hoàn thành tải danh mục dùng chung (Dân tộc, Quốc tịch, Tôn giáo); có thông tin cá nhân/CCCD của công dân. |
+| **Điều kiện đầu ra** | Bản ghi công dân được lưu vào CSDL (`reservists`) gắn với đơn vị của user; thông báo thành công và chuyển hướng về danh sách. Nếu trùng CCCD hoặc lỗi validate thì báo lỗi inline tại form. |
+| **Mô tả** | Cho phép thêm mới hồ sơ công dân nam trong độ tuổi phục vụ (đủ 18–45 tuổi). |
+| **Đường dẫn** | Đăng nhập → Dự bị động viên → Quản lý công dân trong độ tuổi phục vụ → Quản lý công dân nam → Button "+ Thêm mới" |
+| **Phân quyền & miền dữ liệu** | • **Miền dữ liệu:** Bản ghi tạo mới tự động gắn với mã đơn vị của user đang đăng nhập (`force_structure`).<br>• **Xem:** N/A (form thêm mới).<br>• **Thêm:** Cán bộ quân lực cấp đơn vị (được tạo mới hồ sơ).<br>• **Import:** N/A.<br>• **Sửa:** N/A.<br>• **Xóa:** N/A.<br>• **Tìm kiếm:** N/A.<br>• **Xuất:** N/A. |
 
-### ② Màn hình
+### 3.1.3.2. Màn hình
 `[CẦN BỔ SUNG: link Figma frame "Thêm mới hồ sơ"]`
 
-### ③ Mô tả chi tiết các thành phần (trích các kiểu tiêu biểu)
+### 3.1.3.3. Mô tả chi tiết các thành phần (trích các kiểu tiêu biểu)
 
 | STT | Tên | Kiểu [Độ dài] | Input/Output | Giá trị khởi tạo | Mô tả (Mapping CSDL) |
 |-----|-----|---------------|--------------|------------------|----------------------|
@@ -84,7 +92,7 @@ flowchart TD
 | 8 | Button Lưu | Button | Input | N/A | Enable khi mọi trường bắt buộc hợp lệ. Click → validate toàn form → INSERT `reservists` (gắn đơn vị user, `is_deleted = 0`) + ghi log thao tác. Thành công → thông báo + quay danh sách |
 | 9 | Button Hủy | Button | Input | N/A | Đóng màn, không lưu |
 
-### ④ Luồng nghiệp vụ
+### 3.1.3.4. Luồng nghiệp vụ
 
 ```mermaid
 flowchart TD

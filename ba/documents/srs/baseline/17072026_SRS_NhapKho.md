@@ -1681,32 +1681,23 @@ Hình 1. Màn hình Danh sách task nhập kho
 
 Nhóm chức năng Đóng gói hàng (Task 6 — `T-Pac`) phục vụ nhân sự kho thực hiện phân loại, đóng gói các sản phẩm/serial đã qua kiểm định KCS vào các kiện hàng (Handling Unit - HU) tiêu chuẩn, in tem nhãn dán barcode/RFID và chốt cấu trúc kiện để sẵn sàng cho khâu cất kệ (Putaway).
 
-**Danh sách chức năng trong nhóm:**
-- **3.12.1. Xem màn đóng gói (Xem danh sách kiện đóng gói)**
-- **3.12.2. Sinh kiện tự động**
-- **3.12.3. Thêm kiện hàng**
-- **3.12.4. Thêm hàng hóa, vật tư vào kiện**
-- **3.12.5. Xóa kiện hàng**
-- **3.12.6. Xóa hàng hóa, vật tư khỏi kiện**
-- **3.12.7. Import danh sách đóng gói**
-- **3.12.8. Export danh sách đóng gói**
-- **3.12.9. In tem**
+#### 3.12.1. Xem danh sách kiện hàng đóng gói
 
----
-
-#### 3.12.1. Xem màn đóng gói (Xem danh sách kiện đóng gói)
-
-##### ① Thông tin chung
+##### 3.12.1.1. Thông tin chung
 
 | Mục | Nội dung |
 |---|---|
-| **Tên chức năng** | Xem màn đóng gói (Xem danh sách kiện đóng gói) [3.12.1] |
-| **Đường dẫn** | Phân hệ Nhập kho ➔ Danh sách task nhập kho ➔ Chọn Task loại "Đóng gói" (hoặc từ Chi tiết Lệnh nhập kho `INB-xxxxx` ➔ Tab Task ➔ Click Task Đóng gói) |
-| **Phân quyền** | • `ROLE_WAREHOUSE_WORKER` (Nhân viên kho): Xem danh sách kiện, xem chi tiết vật tư trong kiện, tra cứu serial, xem thông tin tóm tắt và thực hiện các thao tác đóng gói.<br>• `ROLE_WAREHOUSE_MASTER` (Thủ kho): Toàn quyền xem, theo dõi tiến độ, xem lịch sử thao tác, gia hạn KPI.<br>• `ROLE_WAREHOUSE_DIRECTOR` (Giám đốc kho): Xem báo cáo tiến độ và KPI/SLA. |
-| **Miền dữ liệu** | Nhân sự chỉ xem và thao tác trên các Lệnh nhập kho và Task thuộc phạm vi Kho (Plant / SLoc) mà mình được phân công phụ trách. |
+| **Tên chức năng** | Xem danh sách kiện hàng đóng gói [3.12.1] |
+| **Mục tiêu** | Cho phép nhân sự kho theo dõi thông tin tổng quan Task đóng gói, tra cứu tiến độ, cấu trúc kiện hàng (HU) và danh sách chi tiết từng sản phẩm/serial đã đóng gói. |
+| **Tác nhân** | Nhân viên đóng gói, Thủ kho, Điều phối viên kho, Quản lý kho hoặc người dùng được phân quyền xử lý task đóng gói. |
+| **Điều kiện kích hoạt** | Task đóng gói được sinh sau khi lệnh nhập được xác nhận xử lý và hệ thống xác định có hàng cần đóng gói; người dùng mở Task đóng gói từ danh sách task hoặc chi tiết lệnh nhập. |
+| **Điều kiện đầu vào** | Lệnh nhập hợp lệ; task tiền đề đã hoàn thành; có danh sách hàng cần đóng gói; hàng hóa có cấu hình đóng gói (kích thước, trọng lượng, quy cách đóng gói, loại HU/thùng/pallet). |
+| **Điều kiện đầu ra** | Hiển thị đầy đủ thông tin tóm tắt task, thẻ KPI số lượng, lưới Master kiện hàng và bảng Sub-grid chi tiết vật tư/serial trong kiện; cho phép thực hiện các thao tác tiếp theo tùy trạng thái khóa (Lưu kiện). |
 | **Mô tả** | Cho phép người dùng xem thông tin tổng quan của Task đóng gói (Trạng thái, SLA, Trọng lượng, Thể tích, Giá trị, Nhân sự phụ trách), theo dõi thống kê số lượng sản phẩm/thùng và tra cứu danh sách các kiện hàng đã đóng theo cấu trúc phân cấp Master-Detail (cấp Kiện hàng HU và cấp Chi tiết từng dòng sản phẩm/serial bên trong kiện). |
+| **Đường dẫn** | Đăng nhập ➔ Phân hệ Nhập kho ➔ Danh sách task nhập kho ➔ Chọn Task loại "Đóng gói" (hoặc từ Chi tiết Lệnh nhập kho `INB-xxxxx` ➔ Tab Task ➔ Click Task Đóng gói) |
+| **Phân quyền & miền dữ liệu** | • **Miền dữ liệu:** Nhân sự chỉ xem và thao tác trên các Lệnh nhập kho và Task thuộc phạm vi Kho (Plant / SLoc) mà mình được phân công phụ trách.<br>• **Xem:** `ROLE_WAREHOUSE_WORKER`, `ROLE_WAREHOUSE_MASTER`, `ROLE_WAREHOUSE_DIRECTOR` (xem danh sách kiện, chi tiết vật tư/serial trong kiện, thông tin KPI và tóm tắt task).<br>• **Thêm:** N/A (thao tác tại chức năng 3.12.3 và 3.12.4).<br>• **Import:** N/A (thao tác tại chức năng 3.12.7).<br>• **Sửa:** `ROLE_WAREHOUSE_WORKER`, `ROLE_WAREHOUSE_MASTER` (sửa loại thùng khi chưa bấm Lưu kiện).<br>• **Xóa:** N/A (thao tác tại chức năng 3.12.5 và 3.12.6).<br>• **Tìm kiếm:** Toàn bộ user có quyền Xem được tra cứu theo mã HU, Serial, Mã vật tư.<br>• **Xuất:** N/A (thao tác tại chức năng 3.12.8). |
 
-##### ② Màn hình
+##### 3.12.1.2. Màn hình
 
 *Giao diện được thiết kế theo cấu trúc Master-Detail Grid (Lưới dữ liệu kiện hàng) bao gồm các vùng hiển thị chính:*
 1. **Khối Header & Thông tin tóm tắt lệnh:** Nút Quay lại `[←]`, Tiêu đề `ĐÓNG GÓI & IN TEM`, Cụm nút tác vụ (`[Gia hạn KPI]`, `[✓ Hoàn thành]`, `[Lịch sử]`), và thanh thông tin tóm tắt (`Trạng thái`, `SLA / KPI`, `Order`, `Loại task`, `Tổng trọng lượng`, `Tổng thể tích`, `Tổng giá trị`, `Phụ trách`).
@@ -1716,7 +1707,7 @@ Nhóm chức năng Đóng gói hàng (Task 6 — `T-Pac`) phục vụ nhân sự
 
 *(Tham chiếu ảnh thiết kế UI màn hình đính kèm: UI_DongGoi_InTem_MasterDetail.png)*
 
-##### ③ Mô tả chi tiết các thành phần
+##### 3.12.1.3. Mô tả chi tiết các thành phần
 
 | STT | Tên | Kiểu dữ liệu [Độ dài] | Input/Output | Giá trị khởi tạo | Mô tả (Mapping với CSDL nếu có) |
 |:---:|---|---|:---:|---|---|
@@ -1771,7 +1762,7 @@ Nhóm chức năng Đóng gói hàng (Task 6 — `T-Pac`) phục vụ nhân sự
 | 45 | Cột Trọng lượng | Number Label [10,2] | Output | "2.2" | Trọng lượng đơn vị của sản phẩm tính theo kilogram (`product.unit_weight`). |
 | 46 | Icon Xóa sản phẩm | Icon Button | Input | Icon thùng rác đỏ | Click mở popup xác nhận xóa sản phẩm khỏi kiện (tham chiếu chức năng 3.12.6). Bị disable khi đã bấm `Lưu kiện`. |
 
-##### ④ Luồng nghiệp vụ
+##### 3.12.1.4. Luồng nghiệp vụ
 
 ```mermaid
 flowchart TD
@@ -1794,8 +1785,114 @@ flowchart TD
 | **3** | Người dùng | Click vào biểu tượng icon `v` tại dòng kiện hàng (VD: `HU-220`). | Hệ thống thực hiện truy vấn các bảng `handling_unit_item`, `order_item` và `order_item_serial` theo `hu_id` của kiện đó; mở rộng (expand) dòng và hiển thị bảng Sub-grid chi tiết danh sách từng serial, đơn giá, dự án, kích thước và trọng lượng của các sản phẩm nằm trong thùng. |
 | **4** | Người dùng | Click lại vào biểu tượng icon `>` tại dòng kiện hàng. | Hệ thống thu gọn dòng Sub-grid chi tiết, trở về trạng thái chỉ hiển thị dòng Master tóm tắt của kiện hàng. |
 
+#### 3.12.2. Sinh kiện tự động
+
+##### 3.12.2.1. Thông tin chung
+
+| Mục | Nội dung |
+|---|---|
+| **Tên chức năng** | Sinh kiện tự động [3.12.2] |
+| **Mục tiêu** | Tự động tính toán, phân bổ và đề xuất phương án đóng gói tối ưu cho toàn bộ sản phẩm/serial của đơn nhập kho vào các kiện hàng (Handling Unit - HU) tiêu chuẩn theo thuật toán xếp kiện đa chiều (`DetailedPackingService`), giúp tiết kiệm tối đa số lượng vỏ thùng/pallet, đảm bảo giới hạn vật lý 3 chiều (Dài, Rộng, Cao) và tận dụng không gian hữu dụng với hệ số lấp đầy 90%. Chức năng cho phép nhân sự kho thực hiện tự động phân bổ hàng hóa vào thùng chứa mà không cần tính toán thủ công, tối ưu hóa chi phí bao bì và rút ngắn thời gian thao tác đóng gói. |
+| **Tác nhân** | Nhân viên đóng gói, Thủ kho, Điều phối viên kho, Quản lý kho hoặc hệ thống tự động (Background Service khi khởi tạo Task đóng gói). |
+| **Điều kiện kích hoạt** | • Người dùng nhấn nút `[⚡ Sinh kiện tự động]` trên thanh công cụ Lưới dữ liệu kiện hàng của màn hình Đóng gói (khi chưa bấm `Lưu kiện`).<br>• Hoặc hệ thống tự động kích hoạt lần đầu khi Task đóng gói chuyển sang trạng thái `IN_PROGRESS` mà danh sách kiện hiện đang rỗng.<br>• Đường dẫn truy cập: Đăng nhập ➔ Phân hệ Nhập kho ➔ Danh sách task nhập kho ➔ Chọn Task loại "Đóng gói" ➔ Nhấn nút `[⚡ Sinh kiện tự động]`. |
+| **Điều kiện đầu vào** | • Task đóng gói thuộc Lệnh nhập kho hợp lệ, trạng thái task là `IN_PROGRESS`, chưa kích hoạt khóa dữ liệu (`Lưu kiện`).<br>• Danh sách hàng hóa cần đóng gói (`order_product_component` / `order_item_serial`) có đầy đủ kích thước vật lý 3 chiều (Dài, Rộng, Cao tính theo mét), thể tích `volume > 0` và số lượng `quantity > 0`.<br>• Danh mục bao bì/thùng chứa (`equipment` / `package_type`) có cấu hình kích thước (Dài, Rộng, Cao tính theo mét), thể tích `volume > 0` và đang ở trạng thái hoạt động (`is_active = true`). |
+| **Điều kiện đầu ra** | • **Thành công:** Tạo tự động các bản ghi kiện hàng (`handling_unit`) định danh duy nhất theo định dạng `HU-%03d` (`HU-001`, `HU-002`...), mapping danh sách sản phẩm/serial vào từng kiện (`handling_unit_item`), tính toán tổng thể tích sử dụng (`usedVolumeMm3`), tỷ lệ lấp đầy (`fillRatePercent`), sinh câu thông báo đề xuất (`recommendationMessage`), câu căn cứ (`basisMessage`), cập nhật số lượng thùng trên các thẻ KPI và hiển thị trực tiếp lên Master-Detail Grid.<br>• **Ngoại lệ:** Nếu có sản phẩm vượt quá kích thước vật lý của mọi loại thùng trong danh mục hoặc dữ liệu kích thước bị rỗng/âm ➔ Hệ thống ném ngoại lệ `NO_SUITABLE_HU` hoặc `INVALID_PACKING_REQUEST`, hiển thị thông báo lỗi trên UI và giữ nguyên trạng thái dữ liệu hiện tại, không làm gián đoạn task. |
+| **Phân quyền & miền dữ liệu** | • **Miền dữ liệu:** Nhân sự chỉ được xem và thao tác sinh kiện trên các Lệnh nhập kho và Task thuộc phạm vi Kho (Plant / SLoc) được phân công phụ trách.<br>• **Xem:** `ROLE_WAREHOUSE_WORKER`, `ROLE_WAREHOUSE_MASTER`, `ROLE_WAREHOUSE_DIRECTOR` (xem kết quả đề xuất, thông báo căn cứ, danh sách kiện sinh ra).<br>• **Thêm:** `ROLE_WAREHOUSE_WORKER`, `ROLE_WAREHOUSE_MASTER` (kích hoạt thuật toán sinh kiện tự động ghi nhận các kiện HU mới vào CSDL).<br>• **Import:** N/A.<br>• **Sửa:** `ROLE_WAREHOUSE_WORKER`, `ROLE_WAREHOUSE_MASTER` (sau khi sinh tự động, người dùng vẫn có toàn quyền sửa loại thùng hoặc hoán đổi sản phẩm giữa các kiện khi chưa bấm Lưu kiện).<br>• **Xóa:** `ROLE_WAREHOUSE_WORKER`, `ROLE_WAREHOUSE_MASTER` (được phép xóa kiện hoặc xóa sản phẩm khỏi kiện đã sinh tự động nếu muốn phân bổ lại).<br>• **Tìm kiếm:** N/A.<br>• **Xuất:** N/A. |
+
+##### 3.12.2.2. Mô tả chi tiết các thành phần
+
+| STT | Tên | Kiểu dữ liệu [Độ dài] | Input/Output | Giá trị khởi tạo | Mô tả (Mapping với CSDL nếu có) |
+|:---:|---|---|:---:|---|---|
+| **I** | **Cụm điều khiển kích hoạt trên màn hình chính** | | | | |
+| 1 | Nút Sinh kiện tự động | Button Outline Primary | Input | "⚡ Sinh kiện tự động" | Click để kích hoạt thuật toán sinh kiện. Bị ẩn/disable khi task đã bấm `Lưu kiện` hoặc task đã ở trạng thái `COMPLETED`. |
+| 2 | Banner Thông báo đề xuất | Alert Banner [1000] | Output | Rỗng (Ẩn khi chưa chạy) | Hiển thị chuỗi `recommendationMessage` từ API (VD: *"Hệ thống đề xuất: cần 1 thùng (TN4×1) — HU-001 (TN4): USB-C-1M (50 cái), ANT-5G-32T (6 cái), BBU-6648 (9 cái), RRU-3952 (17 cái)."*). |
+| 3 | Nhãn Căn cứ đề xuất | Label [255] | Output | Rỗng (Ẩn khi chưa chạy) | Hiển thị chuỗi `basisMessage` cố định: *"Căn cứ: kích thước, trọng lượng, số lượng, quy cách đóng gói và loại Kiện phù hợp."*. |
+| **II** | **Modal Xác nhận sinh lại kiện (Popup)** | | | | |
+| 4 | Tiêu đề Modal | Label [100] | Output | "Xác nhận sinh kiện tự động" | Tiêu đề hộp thoại xác nhận khi đã có kiện cũ. |
+| 5 | Nội dung cảnh báo | Label [500] | Output | Thông điệp cảnh báo ghi đè | Cảnh báo việc chạy lại sẽ reset các kiện hàng hiện tại: *"Danh sách đang có {COUNT} kiện hàng. Thao tác này sẽ phân bổ lại toàn bộ sản phẩm. Bạn có chắc chắn muốn tiếp tục?"*. |
+| 6 | Nút Hủy | Button Outline | Input | "Hủy" | Đóng modal, không thực hiện sinh kiện, giữ nguyên cấu trúc kiện hiện tại. |
+| 7 | Nút Xác nhận sinh kiện | Button Danger / Primary | Input | "Xác nhận sinh kiện" | Xác nhận xóa các kiện tạm cũ và gọi API `DetailedPackingService.recommend()` để tạo phương án mới. |
+| **III** | **Dữ liệu sinh tự động trên Master Grid (Mapping CSDL)** | | | | |
+| 8 | Mã kiện hàng | Label [50] | Output | "HU-001", "HU-002"... | Định danh kiện hàng tự sinh tăng dần (`handling_unit.hu_code`) theo định dạng `HU-%03d`. |
+| 9 | Loại thùng / bao bì | Dropdown Select | Output | Mã loại thùng tốt nhất | Quy cách loại thùng tối ưu do thuật toán chọn (`handling_unit.package_type_code` mapping từ `equipment.code`, VD: `TN4 - Thùng gỗ`, `C1 - Carton`). |
+| 10 | Chi tiết sản phẩm | Badges List | Output | Danh sách Badges | Các badge tóm tắt sản phẩm đóng trong kiện: `{Mã SKU} ({Số lượng} {ĐVT})`. |
+| 11 | Tổng SL serial | Label [50] | Output | "X serial" | Tổng số lượng serial thực tế được xếp vào kiện (`handling_unit.total_item_count`). |
+| 12 | Tỷ lệ lấp đầy | Number Label [5,2] | Output | "92,45%" | Tỷ lệ lấp đầy thể tích thực tế của kiện (`handling_unit.fill_rate_percent`), làm tròn 2 chữ số thập phân. |
+| 13 | Thể tích sử dụng | Number Label [12,2] | Output | "0,85 m³" | Tổng thể tích thực của toàn bộ hàng hóa trong kiện tính theo m³ (`handling_unit.used_volume_m3`). |
+
+##### 3.12.2.3. Luồng nghiệp vụ
+
+```mermaid
+flowchart TD
+    Start(["User nhấn nút 'Sinh kiện tự động'"]) --> CheckLock{"Đã bấm 'Lưu kiện'?"}
+    CheckLock -->|Đã lưu| EndLock["Disable nút, báo lỗi: Cấu trúc kiện đã khóa"]
+    CheckLock -->|Chưa lưu| CheckExist{"Task đã có kiện hàng cũ?"}
+    
+    CheckExist -->|Đã có kiện| OpenModal["Hiển thị Modal cảnh báo xóa hoặc ghi đè kiện cũ"]
+    OpenModal --> UserConfirm{"User chọn hành động?"}
+    UserConfirm -->|Hủy| Cancel["Đóng modal, giữ nguyên hiện trạng"]
+    UserConfirm -->|Xác nhận| CallAlgo["Gọi thuật toán DetailedPackingService"]
+    CheckExist -->|Chưa có kiện| CallAlgo
+
+    subgraph ALGORITHM ["Thuật toán DetailedPackingService (Java)"]
+        CallAlgo --> ValInputs["Validate dữ liệu: products và equipments > 0, kích thước > 0"]
+        ValInputs -->|Lỗi validate| ErrInput["Ném BusinessException INVALID_PACKING_REQUEST"]
+        ValInputs -->|Hợp lệ| ConvertMm["Quy đổi kích thước m sang mm, tính VolumeMm3"]
+        ConvertMm --> Expand["Expand products: Mỗi physical unit idComponent là 1 item"]
+        Expand --> SortItems["Sắp xếp danh sách unpacked giảm dần theo thể tích"]
+        
+        SortItems --> LoopUnpacked{"unpacked rỗng?"}
+        LoopUnpacked -->|Chưa rỗng| IterateEq["Duyệt danh sách equipments khả dụng"]
+        
+        IterateEq --> Simulate["simulatePacking: Thể tích hữu dụng 90%, kiểm tra canPhysicallyFit"]
+        Simulate --> CalcScore["Chấm điểm Score: Ưu tiên thùng vừa khít nếu xếp hết, hoặc tỷ lệ lấp đầy cao nhất"]
+        
+        CalcScore --> SelectBest["selectBestCandidate: Chọn thùng có Score cao nhất"]
+        SelectBest --> FitCheck{"Tìm được thùng phù hợp?"}
+        FitCheck -->|Không| ErrNoFit["Ném BusinessException NO_SUITABLE_HU"]
+        FitCheck -->|Có| CreateHU["Tạo PackedEquipmentUnit, sinh mã nhãn HU-%03d"]
+        CreateHU --> MoveItems["Đưa items vào kiện, loại khỏi danh sách unpacked"]
+        MoveItems --> LoopUnpacked
+        
+        LoopUnpacked -->|Rỗng| BuildSummary["Tổng hợp EquipmentUsageSummary và persistPlans"]
+    end
+
+    BuildSummary --> PersistDB["Xóa kiện cũ nếu có -> INSERT handling_unit và handling_unit_item"]
+    PersistDB --> RenderUI["Render Banner đề xuất và danh sách kiện lên Master-Detail Grid"]
+    RenderUI --> Finish(["Hoàn tất sinh kiện tự động"])
+    
+    ErrInput --> ShowToastErr["Hiển thị Toast lỗi: Dữ liệu kích thước hàng hóa không hợp lệ"]
+    ErrNoFit --> ShowToastNoFit["Hiển thị Toast lỗi: Sản phẩm quá khổ, không vừa bất kỳ thùng nào"]
+```
+
+| Bước | Tác nhân | Hành động | Kết quả / Phản ứng hệ thống |
+|:---:|---|---|---|
+| **1** | Người dùng | Nhấn nút `[⚡ Sinh kiện tự động]` trên thanh công cụ Lưới dữ liệu kiện hàng. | Hệ thống kiểm tra trạng thái Task đóng gói:<br>• Nếu task đã bấm `Lưu kiện` ➔ Nút bị khóa, hệ thống không cho phép thao tác.<br>• Nếu task chưa có kiện hàng nào ➔ Chuyển ngay sang **Bước 3**.<br>• Nếu task đã có ít nhất 1 kiện hàng ➔ Chuyển sang **Bước 2**. |
+| **2** | Hệ thống | Hiển thị Modal "Xác nhận sinh kiện tự động". | • Hiển thị thông báo cảnh báo: *"Danh sách hiện tại đang có {COUNT} kiện hàng. Việc sinh kiện tự động sẽ xóa các kiện hiện tại để phân bổ lại từ đầu."*<br>• Nếu người dùng bấm `[Hủy]` ➔ Hệ thống đóng modal, hủy bỏ thao tác và giữ nguyên các kiện hiện có.<br>• Nếu người dùng bấm `[Xác nhận sinh kiện]` ➔ Hệ thống đóng modal và chuyển sang **Bước 3**. |
+| **3** | Hệ thống | Tập hợp dữ liệu đầu vào và chuyển đổi đơn vị. | • **Truy vấn CSDL:** Lấy danh sách sản phẩm/serial cần đóng gói của đơn hàng (`order_product_component` / `order_item_serial`) gồm: `idComponent`, `productCode`, `length`, `width`, `height`, `quantity`. Lấy danh sách bao bì thùng khả dụng (`equipment`) gồm: `id`, `code`, `length`, `width`, `height`.<br>• **Validate dữ liệu:** Kiểm tra danh sách không rỗng, kích thước và số lượng phải lớn hơn 0. Nếu vi phạm, ném lỗi `INVALID_PACKING_REQUEST` và dừng xử lý.<br>• **Quy đổi đơn vị:** Chuyển đổi toàn bộ kích thước từ mét sang milimet (`mm = m × 1000`) để đảm bảo độ chính xác tính toán số nguyên; tính thể tích `VolumeMm3 = L × W × H`.<br>• **Bung đơn vị vật lý (Expand):** Chuyển từng `idComponent` thành 1 đối tượng `PackingUnitItem` đơn lẻ (đảm bảo 1 sản phẩm vật lý chỉ nằm trong đúng 1 kiện, không bung số lượng ảo).<br>• **Sắp xếp:** Sắp xếp danh sách `unpacked` theo thứ tự thể tích giảm dần (`VolumeMm3 DESC`) để ưu tiên xếp các mặt hàng có kích thước lớn trước. |
+| **4** | Hệ thống | Thực thi vòng lặp thuật toán xếp kiện tối ưu (`calculateOptimalPacking`). | Hệ thống lặp qua danh sách `unpacked` cho đến khi toàn bộ sản phẩm được đóng gói:<br>1. **Thử nghiệm xếp kiện (`simulatePacking`):** Thử xếp danh sách hàng vào từng loại thùng trong danh mục. Thể tích hữu dụng thực tế của mỗi thùng được khống chế ở mức 90% (`usableVolume = VolumeMm3 × 0.90`). Hàng chỉ được đưa vào thùng nếu thỏa mãn đồng thời: (a) Kích thước 3 chiều lọt lòng vật lý `equipment.canPhysicallyFit(L, W, H)` và (b) Tổng thể tích hàng không vượt quá thể tích hữu dụng 90%.<br>2. **Chấm điểm ứng viên (`calculateScore`):**<br>   - *TH1 (Đóng hết toàn bộ hàng còn lại vào 1 thùng):* `Score = 10.0 + (1.0 / equipment.VolumeMm3)`. Thùng vừa vặn nhất (thể tích nhỏ nhất mà chứa hết) sẽ đạt điểm cao nhất.<br>   - *TH2 (Chỉ đóng được một phần hàng):* `Score = Tổng thể tích hàng / Thể tích thùng`. Thùng đạt tỷ lệ lấp đầy thể tích cao nhất sẽ có điểm cao nhất.<br>3. **Lựa chọn ứng viên tối ưu (`selectBestCandidate`):** Chọn loại thùng có `Score` cao nhất. Nếu món hàng đầu tiên không thể lọt vừa bất kỳ loại thùng nào trong danh mục, hệ thống ném ngoại lệ `NO_SUITABLE_HU` (sản phẩm quá khổ).<br>4. **Đóng gói và gán nhãn:** Tạo đối tượng `PackedEquipmentUnit`, tự động sinh mã nhãn theo định dạng `HU-%03d` (HU-001, HU-002...), đưa các items được chọn vào kiện và xóa khỏi danh sách `unpacked`. |
+| **5** | Hệ thống | Ghi nhận CSDL (`persistPlans`) và cập nhật giao diện. | • **Ghi CSDL:** Nếu trước đó có kiện tạm, hệ thống xóa dữ liệu chi tiết cũ; sau đó thực hiện INSERT vào bảng `handling_unit` (mã HU, loại thùng, thể tích sử dụng, tỷ lệ lấp đầy) và `handling_unit_item` (mapping `componentId` / `serial` vào `hu_id`).<br>• **Xây dựng thông điệp:** Sinh chuỗi `recommendationMessage` (tổng số thùng cần dùng, số lượng từng loại thùng, danh sách sản phẩm chi tiết trong từng HU) và chuỗi `basisMessage` ("Căn cứ: kích thước, trọng lượng, số lượng, quy cách đóng gói và loại Kiện phù hợp.").<br>• **Hiển thị giao diện:** Hiển thị banner đề xuất màu xanh, cập nhật lại số lượng trên các thẻ KPI ("THÙNG GỖ", "THÙNG CARTON"...), render toàn bộ danh sách kiện hàng lên Master Grid ở trạng thái thu gọn và sẵn sàng để người dùng xem chi tiết hoặc in tem. |
+
+
+#### 3.12.3. Thêm kiện hàng
+
+#### 3.12.4. Thêm hàng hóa, vật tư vào kiện
+
+#### 3.12.5. Xóa kiện hàng
+
+#### 3.12.6. Xóa hàng hóa, vật tư khỏi kiện
+
+#### 3.12.7. Import danh sách đóng gói
+
+#### 3.12.8. Export danh sách đóng gói
+
+#### 3.12.9. In tem
+
 ---
-#### 3.12.1. Thông tin chung
+
+### 3.13. Cập nhật tiến độ thực hiện task – Đưa vào lưu trữ (Putaway)
+
+#### 3.13.1. Thông tin chung
 
 | **Tên chức năng**       | Putaway                                                                                                                                                                                                               |
 |-------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -1805,7 +1902,7 @@ flowchart TD
 | **Điều kiện đầu vào**   | Order nhập có danh sách HU/hàng cần lưu trữ; khu vực lưu trữ có cấu hình vị trí/bin; task có người phụ trách hoặc người dùng có quyền nhận/xử lý task.                                                                |
 | **Điều kiện đầu ra**    | HU/hàng được ghi nhận vị trí lưu trữ thực tế; các phát sinh vị trí được ghi nhận nếu có; task chuyển trạng thái hoàn thành khi toàn bộ HU bắt buộc đã được xử lý hợp lệ.                                              |
 
-#### 3.12.2. Luồng nghiệp vụ
+#### 3.13.2. Luồng nghiệp vụ
 
 - Người dùng mở task Đưa vào lưu trữ từ danh sách task hoặc chi tiết order.
 - Hệ thống hiển thị thông tin tổng quan task gồm trạng thái, SLA/KPI, order, loại task, khu vực và người phụ trách.
@@ -1825,13 +1922,13 @@ flowchart TD
 - Nếu SAP yêu cầu nhận thông tin vị trí lưu trữ, AIWS đồng bộ kết quả putaway sang SAP theo API cấu hình.
 - Mọi thao tác scan, xác nhận đặt, báo lỗi vị trí, hoàn thành putaway phải ghi Transaction, Timeline và Lịch sử.
 
-#### 3.12.3. Màn hình
+#### 3.13.3. Màn hình
 
 <!-- image -->
 
 <!-- image -->
 
-#### 3.12.4. Mô tả thành phần
+#### 3.13.4. Mô tả thành phần
 
 | **STT**   | **Tên trường**                                                                                                                                                                                                                                                                                                                                  | **Loại điều khiển**   | **Bắt buộc**   | **Mô tả chi tiết**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | **Mapping DB**   |
 |-----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------|
